@@ -123,21 +123,6 @@ public class MainController {
 			//result = "administrator";
 			response.setHeader("Content-Location","administrator");
 		} else {
-		
-			/*if(queryUser.fetchPendingByUsername(username))
-			{
-				response.setHeader("Content-Location","user/?status=pending");
-			} else {
-				// validate the user if it exists in db 
-				// if the user exists the redirect him to his index page
-				// else forbid access
-				if(queryUser.user_validator(username, password)){
-					response.setHeader("Content-Location","user/"+username);
-				} else {
-					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				}
-				
-			}*/
 			
 			int status = userServices.Login(username,password);
 			if(status==0)
