@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="auctionbay">
+		<class>com.ted.auctionbay.entities.users.User</class>
+		<class>com.ted.auctionbay.entities.users.Address</class>
+		<class>com.ted.auctionbay.entities.users.Bidderrating</class>
+		<class>com.ted.auctionbay.entities.users.BidderratingPK</class>
+		<class>com.ted.auctionbay.entities.users.Pendinguser</class>
+		<class>com.ted.auctionbay.entities.users.Registereduser</class>
+		<class>com.ted.auctionbay.entities.users.RegistereduserBidsinAuction</class>
+		<class>com.ted.auctionbay.entities.users.RegistereduserBidsinAuctionPK</class>
+		<class>com.ted.auctionbay.entities.users.Sellerrating</class>
+		<class>com.ted.auctionbay.entities.users.SellerratingPK</class>
+		<class>com.ted.auctionbay.entities.items.Category</class>
+		<class>com.ted.auctionbay.entities.items.Item</class>
+		<class>com.ted.auctionbay.entities.items.ItemHasCategory</class>
+		<class>com.ted.auctionbay.entities.items.ItemHasCategoryPK</class>
+		<class>com.ted.auctionbay.entities.users.messages.Mailbox</class>
+		<class>com.ted.auctionbay.entities.users.messages.MailboxPK</class>
+		<class>com.ted.auctionbay.entities.users.messages.Message</class>
+		<class>com.ted.auctionbay.entities.auctions.Auction</class>
+		<class>com.ted.auctionbay.entities.auctions.Auctionhistory</class>
+		
+	
+	<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3307/auctionbay"/>
+			<property name="javax.persistence.jdbc.user" value="auctionbay"/>
+			<property name="javax.persistence.jdbc.password" value="auctionbay"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+	</properties>
+	
+	</persistence-unit>
+</persistence>
