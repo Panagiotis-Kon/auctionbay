@@ -29,6 +29,7 @@
 	<!-- Services' beans -->
 	<beans:bean id="userServices" class="com.ted.auctionbay.services.UserServicesImpl"/>
 	
+	<beans:bean id="auctionServices" class="com.ted.auctionbay.services.AuctionServicesImpl"/>
 	
 	  <mvc:interceptors>
 	    <beans:bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">

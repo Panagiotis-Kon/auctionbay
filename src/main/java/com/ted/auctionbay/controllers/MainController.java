@@ -24,6 +24,7 @@ import com.ted.auctionbay.dao.QueryItem;
 import com.ted.auctionbay.dao.QueryUser;
 import com.ted.auctionbay.dao.QueryCategory;
 import com.ted.auctionbay.entities.items.Category;
+import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.UserServices;
 import com.ted.auctionbay.services.UserServicesImpl;
 
@@ -41,7 +42,7 @@ public class MainController {
 	UserServices userServices;
 	
 	@Autowired
-	QueryCategory queryCategory;
+	AuctionServices auctionServices;
 	
 	//@Autowired
 	//QueryUser queryUser;
@@ -68,43 +69,6 @@ public class MainController {
 		
 		return "/pages/auctions.html";
 	}
-	
-	/*
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public void login( @RequestParam("username") String username,
-            								@RequestParam("password") String password,
-            								HttpServletRequest request,
-            								HttpServletResponse response) {
-		
-		
-		
-		if(username.equals("admin") && password.equals("admin")){
-			response.setStatus(HttpServletResponse.SC_OK); //Status code 200
-			log_status = "admin";
-			response.setHeader("Content-Location","administrator");
-		} else {
-		
-			if(QueryUser.fetchPendingByUsername(username))
-			{
-				System.out.println("The user is pending");
-				response.setHeader("Content-Location","user/?status=pending");
-			} else {
-				// validate the user if it exists in db 
-				// if the user exists the redirect him to his index page
-				// else forbid access
-				if(QueryUser.user_validator(username, password)){
-					System.out.println("user entered");
-					response.setHeader("Content-Location","users/"+username);
-				} else {
-					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				}
-				
-			}
-			
-		}
-		
-	}
-	*/
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -193,28 +157,7 @@ public class MainController {
 		}		
 	}
 	
-	@RequestMapping(value = "/categories",method = RequestMethod.GET)
-	@ResponseBody
-	public String getCategories(){
-		
-		JSONObject data = new JSONObject();
-		JSONArray jarray = new JSONArray();
-		List<Category> categoryList = queryCategory.getCategories();
-		
-		for(Category c : categoryList){
-			//jarray.put(c.getCategoryID());
-			//jarray.put(c.getName());
-			System.out.println("ID: " + c.getCategoryID() + " Name: " + c.getName());
-		}
-		/*try {
-			data.put("categories", jarray);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}*/
-		System.out.println("getCategories ends");
-		return "ok";
-		//return data.toString();
-	}
+
 	
 	
 	@RequestMapping(value = "/logout")

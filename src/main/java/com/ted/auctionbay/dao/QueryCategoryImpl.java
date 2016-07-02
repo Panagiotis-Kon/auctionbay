@@ -12,7 +12,7 @@ public class QueryCategoryImpl implements QueryCategory{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category> getCategories(){
+	public List<Category> getAllCategories(){
 		
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT * FROM Category", Category.class);
