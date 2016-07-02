@@ -24,6 +24,11 @@ public class UserServicesImpl implements UserServices{
 	//private int AddressID = queryUser.getAddressMaxID()+1;
 	private static int AddressID;
 
+	public static void setAddressID(int addressID) {
+		AddressID = addressID;
+	}
+
+
 	@Override
 	public void getAddressID(){
 		AddressID = queryUser.getAddressMaxID()+1;

@@ -142,7 +142,7 @@ public class MainController {
 	}
 	
 	
-	@Autowired
+	
 	@RequestMapping(value = "/signup",method = RequestMethod.POST)
 	@ResponseBody
 	public void signup(@RequestParam("json") String params,
@@ -179,8 +179,8 @@ public class MainController {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			else{
 				
-				UserServicesImpl us = new UserServicesImpl();
-				us.userRegistration(username, password, firstname,
+				//UserServicesImpl us = new UserServicesImpl();
+				userServices.userRegistration(username, password, firstname,
 						lastname, email, trn, phonenumber, city, street, region, zipcode);
 
 				response.setStatus(HttpServletResponse.SC_OK);
