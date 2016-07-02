@@ -22,7 +22,6 @@ public interface QueryUser {
 	
 	public int getAddressMaxID();
 	
-	@SuppressWarnings("unchecked")
 	public List<Registereduser> getGroupsOfUsers(int startpage, int pagesize);
 	
 	public int registeredNumber();

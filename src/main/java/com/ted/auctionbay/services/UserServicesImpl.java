@@ -1,7 +1,10 @@
 package com.ted.auctionbay.services;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +105,32 @@ public class UserServicesImpl implements UserServices{
 	@Override
 	public boolean userExists(String username){
 		return queryUser.userExists(username);
+	}
+	
+	@Override
+	public void accept_user(String username) {
+		queryUser.accept_user(username);		
+	}
+	
+	@Override
+	public int count_registered() {
+		return queryUser.count_registered();
+		
+	}
+	
+	@Override
+	public int count_pending() {
+		return queryUser.count_pending();
+	}
+	
+	@Override
+	public List<Pendinguser>  getPendingUsers(){		
+		return queryUser.getPendingUsers();
+	}
+	
+	@Override
+	public List<Registereduser> getGroupsOfUsers(int startpage, int pagesize){
+		return queryUser.getGroupsOfUsers(startpage, pagesize);
 	}
 	
 }

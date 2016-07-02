@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
+import com.ted.auctionbay.services.UserServices;
 import com.ted.auctionbay.dao.QueryUser;
 
 @Controller
@@ -27,7 +28,7 @@ import com.ted.auctionbay.dao.QueryUser;
 public class AdminController {
 
 	@Autowired
-	QueryUser queryUser;
+	UserServices userServices;
 	
 	static int registeredUsersNumber = 0;
 	static int pendingUsersNumber=0;
@@ -43,8 +44,8 @@ public class AdminController {
 	
 			JSONObject answer = new JSONObject();
 			try {
-				registeredUsersNumber = queryUser.count_registered();
-				pendingUsersNumber = queryUser.count_pending();
+				registeredUsersNumber = userServices.count_registered();
+				pendingUsersNumber = userServices.count_pending();
 				answer.put("registered_users",registeredUsersNumber);
 				answer.put("pending_users",pendingUsersNumber);
 			} catch (JSONException e) {
@@ -60,7 +61,7 @@ public class AdminController {
 			throws IOException, ServletException{
 	
 		System.out.println("accepting");
-		queryUser.accept_user(username);
+		userServices.accept_user(username);
 		//response.setStatus(HttpServletResponse.SC_OK);
 		System.out.println("accepted");
 		return "accepted";
@@ -84,7 +85,7 @@ public class AdminController {
 
 		JSONArray answer = new JSONArray();
 		JSONObject data = new JSONObject();
-		List<Pendinguser> pending_users = queryUser.getPendingUsers();
+		List<Pendinguser> pending_users = userServices.getPendingUsers();
 		
 		for(Pendinguser p : pending_users){
 			JSONArray puser_info = new JSONArray();
@@ -130,7 +131,7 @@ public class AdminController {
 		else
 			pageNumber = start%pagesize;
 		
-		List<Registereduser> regUsers = queryUser.getGroupsOfUsers(start, pagesize);
+		List<Registereduser> regUsers = userServices.getGroupsOfUsers(start, pagesize);
 		if(regUsers == null)
 			return null;
 
