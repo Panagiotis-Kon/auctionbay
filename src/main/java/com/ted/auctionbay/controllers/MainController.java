@@ -142,6 +142,7 @@ public class MainController {
 	}
 	
 	
+	@Autowired
 	@RequestMapping(value = "/signup",method = RequestMethod.POST)
 	@ResponseBody
 	public void signup(@RequestParam("json") String params,
@@ -167,8 +168,12 @@ public class MainController {
 			region = jobj.getString("region").toString();
 			zipcode = jobj.getString("zipcode").toString();
 			
+			System.out.println("JSONObject ok");
+			
 			/*query returns true if user exists*/
-			boolean userExists = new UserServicesImpl().userExists(username);
+			boolean userExists = userServices.userExists(username);
+			
+			System.out.println("Get responce from userExists : "+userExists);
 			
 			if( userExists )
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);

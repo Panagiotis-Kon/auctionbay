@@ -27,6 +27,9 @@ public class QueryUserImpl implements QueryUser{
 		Query query = em.createNativeQuery("SELECT Username FROM User WHERE Username =?");
 		query.setParameter(1, username); 
 		boolean res = !query.getResultList().isEmpty(); //then user exists already
+		//Query query = em.createNativeQuery("SELECT EXISTS (SELECT Username FROM User WHERE Username =?)");
+		//query.setParameter(1, username); 
+		//boolean res = (boolean) query.getResultList().get(0); //then user exists already
 		System.out.println("user exist: " + res);
 		return res;
 	}

@@ -36,7 +36,7 @@ public class UserServicesImpl implements UserServices{
 			String city, String street, String region, String zipcode){
 		
 		System.out.println("UserRegistration starts");
-		
+		getAddressID();
 		Address address = new Address();
 		address.setAddressID(AddressID);
 		address.setCity(city);
