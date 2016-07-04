@@ -51,22 +51,22 @@ public class AuctionsController {
 	@ResponseBody
 	public String getCategories(){
 		
-		JSONObject data = new JSONObject();
-		JSONArray jarray = new JSONArray();
-		List<Category> categoryList = auctionServices.getAllCategories();
 		
-		for(Category c : categoryList){
-			jarray.put(c.getCategoryID());
-			jarray.put(c.getName());
-			System.out.println("ID: " + c.getCategoryID() + " Name: " + c.getName());
+		JSONArray jarray = new JSONArray();
+		List<Object[]> categoryList = auctionServices.getAllCategories();
+		for(Object[] obj : categoryList){
+			JSONObject data = new JSONObject();
+			try {
+				data.put("category", obj[0]);
+				data.put("numOfItems",obj[1]);
+				jarray.put(data);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
-		/*try {
-			data.put("categories", jarray);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}*/
+	
 		System.out.println("getCategories ends");
-		return "ok";
+		return jarray.toString();
 		//return data.toString();
 	}
 	

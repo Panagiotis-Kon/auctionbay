@@ -53,10 +53,7 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public List<Category> getAllCategories() {
-		
-		List<Category> categoryList = queryCategory.getAllCategories(); 
-		
+	public List<Object[]> getAllCategories() { 
 		
 		return queryCategory.getAllCategories();
 	}
