@@ -36,7 +36,7 @@
 
 .panel {
     margin-bottom: 20px;
-    background-color: #fff;
+    background-color: #FFFACD;
    /*  border: 1px solid transparent; */
     border-radius: 4px;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
@@ -111,8 +111,11 @@
     vertical-align: bottom;
 }
 
-iteme-no-photo-thumbnail img {
-    padding-top: 50px;
+.item-no-photo-thumbnail img {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    width: 140px;
+    height: 140px;
 }
 
 .item-no-photo-thumbnail {
@@ -125,3 +128,10 @@ iteme-no-photo-thumbnail img {
     text-align: center;
     width: 150px;
 }
+
+
+/*#auctions-paginator {
+	margin: 0 auto;
+	float: none;
+   	
+}*/

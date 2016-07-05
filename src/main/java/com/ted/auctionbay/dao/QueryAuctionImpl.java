@@ -35,7 +35,7 @@ public class QueryAuctionImpl implements QueryAuction{
 	@Override
 	public int getNumOfBids(int auction_id) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createQuery("SELECT count(rba.AuctionID) FROM registereduser_bidsin_auction rba"
+		Query query = em.createNativeQuery("SELECT count(rba.AuctionID) FROM registereduser_bidsin_auction rba"
 				+" WHERE rba.AuctionID LIKE ?1 GROUP BY rba.AuctionID");
 		query.setParameter(1, auction_id).getFirstResult();
 		List<?> list = query.getResultList();

@@ -9,8 +9,10 @@
 <!--theme-style-->
 
 <link href="https://localhost:8443/auctionbay/resources/css/custom/header.css" rel="stylesheet" type="text/css" media="all" />
-<link href="https://localhost:8443/auctionbay/resources/css/custom/style.css" rel="stylesheet" type="text/css" media="all" />	
+<link href="https://localhost:8443/auctionbay/resources/css/custom/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="https://localhost:8443/auctionbay/resources/css/custom/modules/items_listing.css" rel="stylesheet" type="text/css" media="all" />	
 <link href="https://localhost:8443/auctionbay/resources/css/custom/footer.css" rel="stylesheet" type="text/css" media="all" />
+
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <script type="application/x-javascript"> 
@@ -121,12 +123,16 @@ addEventListener("load", function()
 			</div>
 			
 			<div id="available-auctions" class="col-xs-12 col-md-9">
-				<div class="alert alert-success" id="no_auctions" > 
+				<div class="alert alert-warning" id="no_auctions" style="display:none;"> 
 					<strong>No auctions available!</strong> 
 				</div>
+				
+			</div>
+			<div class="row">
+    			<div id="auctions-paginator" class="col-md-6 col-md-offset-9"></div>
 			</div>
 			
-			<div id="auctions-paginator" ></div>
+			
 			<div id="category-paginator" ></div>
 		
 

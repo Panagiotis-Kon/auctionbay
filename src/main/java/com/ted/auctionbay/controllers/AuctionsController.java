@@ -20,7 +20,7 @@ import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.timeutils.TimeUtilities;
 
 @Controller
-@RequestMapping("*/auctions")
+@RequestMapping("/auctions")
 public class AuctionsController {
 
 	@Autowired
@@ -34,7 +34,7 @@ public class AuctionsController {
 	}
 	
 	
-	@RequestMapping(value = "/view-auctions/*",method = RequestMethod.GET)
+	@RequestMapping(value = "/view-auctions",method = RequestMethod.GET)
 	@ResponseBody
 	public String getAuctions(@RequestParam("start") String start,
 			@RequestParam("size") String size){
@@ -64,6 +64,7 @@ public class AuctionsController {
 				answer.put(j);
 			}
 		}
+		System.out.println("Auctions: " + answer.toString());
 		return answer.toString();
 	}
 	
