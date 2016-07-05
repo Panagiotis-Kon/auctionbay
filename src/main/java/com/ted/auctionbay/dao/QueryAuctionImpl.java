@@ -15,7 +15,7 @@ public class QueryAuctionImpl implements QueryAuction{
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		
 		Query query = em.createNativeQuery("SELECT count(*) FROM auction");
-		int num = query.getFirstResult();
+		int num = Integer.parseInt(query.getResultList().get(0).toString());
 	
 		return num;
 	}
@@ -30,6 +30,19 @@ public class QueryAuctionImpl implements QueryAuction{
 		
 		return query.getResultList();
 		
+	}
+
+	@Override
+	public int getNumOfBids(int auction_id) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createQuery("SELECT count(rba.AuctionID) FROM registereduser_bidsin_auction rba"
+				+" WHERE rba.AuctionID LIKE ?1 GROUP BY rba.AuctionID");
+		query.setParameter(1, auction_id).getFirstResult();
+		List<?> list = query.getResultList();
+		if(!list.isEmpty()){
+			return Integer.parseInt(list.get(0).toString());
+		}
+		return -1;
 	}
 
 }

@@ -28,15 +28,17 @@ public class AuctionsController {
 	
 	
 	@RequestMapping(value = "/template-module",method = RequestMethod.GET)
-	public String getAuctions(){
+	public String getAuctionsModule(){
+		System.out.println("get auctions module");
 		return "/pages/modules/ItemsListing.html";
 	}
 	
 	
-	@RequestMapping(value = "view-auctions",method = RequestMethod.GET)
+	@RequestMapping(value = "/view-auctions/*",method = RequestMethod.GET)
 	@ResponseBody
 	public String getAuctions(@RequestParam("start") String start,
 			@RequestParam("size") String size){
+		System.out.println("...... Get auctions Controller ......");
 		int startpage = Integer.parseInt(start);
 		int endpage = Integer.parseInt(size);
 		
@@ -68,6 +70,7 @@ public class AuctionsController {
 	@RequestMapping(value = "/numberOfAuctions", method = RequestMethod.GET)
 	@ResponseBody
 	public String getNumberOfAuctions(){
+		System.out.println("...... Number of Auctions Controller ......");
 		JSONObject numObject = new JSONObject();
 		int num = auctionServices.numOfAuctions();
 		try {
@@ -77,6 +80,7 @@ public class AuctionsController {
 			System.out.println("..... getNumberOfAuctions .....");
 			e.printStackTrace();
 		}
+		System.out.println("num: " + numObject.toString());
 		return numObject.toString();
 	}
 	

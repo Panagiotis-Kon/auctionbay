@@ -16,8 +16,8 @@ public class QueryCategoryImpl implements QueryCategory{
 		
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		//Query query = em.createNativeQuery("SELECT * FROM Category", Category.class);
-		Query query = em.createNativeQuery("SELECT c.name,COUNT(*) FROM Category c, Product_has_Category phc "
-				+ "where c.categoryID = phc.categoryID GROUP by c.categoryID");
+		Query query = em.createNativeQuery("SELECT c.name,COUNT(*) FROM category c, item_has_category ihc "
+				+ "where c.categoryID = ihc.categoryID GROUP by c.categoryID");
 		List<Object[]> categoryList = query.getResultList();
 		
 		return categoryList;

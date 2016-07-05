@@ -39,8 +39,8 @@ public class AuctionServicesImpl implements AuctionServices{
 
 	@Override
 	public int getNumOfBids(int auction_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return queryAuction.getNumOfBids(auction_id);
 	}
 
 	@Override
