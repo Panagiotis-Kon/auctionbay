@@ -23,7 +23,7 @@ $(document).ready(function(){
 		// it is registered user, call userModulesInit()
 		var patharray = window.location.pathname.split( '/' );
 		var username = patharray[2];
-		
+		console.log("username: " + username);
 		//username = "alex";
 		userModulesInit(username);
 	}

@@ -12,8 +12,10 @@ $(document).ready(function(){
 	var urlpath = window.location.href;
 	console.log(window.location.pathname);
 	document.getElementById('categoryList').style.display = 'block';
+	
 	total_pages = getNumOfAuctions()
 	console.log("total_pages: " + total_pages)
+	initPaging();
 	initListeners();
 	
 	
@@ -31,13 +33,44 @@ $(document).ready(function(){
 		var patharray = window.location.pathname.split( '/' );
 		var username = patharray[2];
 		
-		username = "alex";
+		//username = "alex";
 		userModulesInit(username);
 	}
 	//getCategories();
 	
 });
 
+
+function initPaging(){
+    $('#auctions-paginator').bootpag({
+        total: total_pages/10
+    }).on("page", function(event, num){
+        $(".content").html("Page " + num); // or some ajax content loading...
+        var size=10;
+        var start = (num-1)*size;
+        // ... after content load -> change total to 10
+        $(this).bootpag({total: total_pages/10, maxVisible: 5});
+        var template_module = getTemplateModule();
+        getAuctions(start,size,template_module);
+     
+    });
+    
+    $('#category-paginator').bootpag({
+        total: 10
+    }).on("page", function(event, num){
+        $(".content").html("Page " + num); // or some ajax content loading...
+        var size=10;
+        var start = (num-1)*size;
+       
+        // ... after content load -> change total to 10
+        $(this).bootpag({total: 10, maxVisible: 5});
+        
+        getAuctionsByCategory(start,size,category);
+     
+    });
+	
+	
+}
 
 function initListeners(){
 	
@@ -53,6 +86,20 @@ function defaultModulesInit() {
 	
 }
 
+function getAuctions(start,size,template_module){
+	console.log("getting auctions");
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		url  : "/auctionbay/auctions/view-auctions",
+		success : function(auctions) {
+			console.log("moving on formatting the page")
+			return template;
+		}	
+	}); 
+	
+}
+
 function getTemplateModule(){
 	console.log("getting template module ");
 	$.ajax({
@@ -64,6 +111,11 @@ function getTemplateModule(){
 		}	
 	}); 	
 }
+
+function formatPage(){
+	
+}
+
 
 function updateTemplateModule(template){
 	$.ajax({
@@ -90,9 +142,7 @@ function getNumOfAuctions(){
 		dataType:'json',
 		url  : "/auctionbay/auctions/number",
 		success : function(data) {
-			$.each(data, function(k, v) {
-				
-			});
+			return data;
 		}	
 	}); 	
 	

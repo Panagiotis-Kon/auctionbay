@@ -1,5 +1,6 @@
 package com.ted.auctionbay.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.services.AuctionServices;
+import com.ted.auctionbay.timeutils.TimeUtilities;
 
 @Controller
 @RequestMapping("*/auctions")
@@ -24,27 +27,57 @@ public class AuctionsController {
 	AuctionServices auctionServices;
 	
 	
+	@RequestMapping(value = "/template-module",method = RequestMethod.GET)
+	public String getAuctions(){
+		return "/pages/modules/ItemsListing.html";
+	}
 	
-	@RequestMapping(value = "",method = RequestMethod.GET)
+	
+	@RequestMapping(value = "view-auctions",method = RequestMethod.GET)
 	@ResponseBody
-	public String getAuctions(@RequestParam("startPos") String startPos,
-			@RequestParam("pageSize") String pageSize){
-		return "/pages/index.html";
+	public String getAuctions(@RequestParam("start") String start,
+			@RequestParam("size") String size){
+		int startpage = Integer.parseInt(start);
+		int endpage = Integer.parseInt(size);
+		
+		List<Auction> auctions_list = auctionServices.getAuctions(startpage, endpage);
+		
+		JSONArray answer = new JSONArray();
+		for(Auction a: auctions_list){
+			JSONObject j = new JSONObject();
+			
+			String timeDiff = TimeUtilities.timeDiff(new Date(),a.getEndTime());
+			if(timeDiff != null ) {
+				try {
+					j.put("name", a.getTitle());
+					j.put("id", a.getItemID());
+					j.put("seller",a.getSeller());
+					j.put("expires",timeDiff);
+					j.put("firstBid", a.getFirstBid());
+					j.put("numberOfBids",auctionServices.getNumOfBids(a.getAuctionID()));
+				}catch(JSONException e){
+					System.out.println("....... get auctions json error .....");
+				}
+				
+				answer.put(j);
+			}
+		}
+		return answer.toString();
 	}
 	
 	@RequestMapping(value = "/numberOfAuctions", method = RequestMethod.GET)
 	@ResponseBody
 	public String getNumberOfAuctions(){
-		JSONObject answer = new JSONObject();
-		int num;
-		/*try {
-			num = AuctionQueries.AuctionsNumber();
-			answer.put("products",auctionNumber);
-			answer.put("auctions",auctionNumber);
+		JSONObject numObject = new JSONObject();
+		int num = auctionServices.numOfAuctions();
+		try {
+			numObject.put("auctionsNum", num);
 		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			System.out.println("..... getNumberOfAuctions .....");
 			e.printStackTrace();
-		}*/
-		return answer.toString();
+		}
+		return numObject.toString();
 	}
 	
 	@RequestMapping(value = "/categories",method = RequestMethod.GET)

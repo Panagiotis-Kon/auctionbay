@@ -7,7 +7,7 @@ import com.ted.auctionbay.entities.items.Category;
 
 public interface AuctionServices {
 
-	public List<Auction> getAuctions();
+	public List<Auction> getAuctions(int startpage, int endpage);
 	public List<Object[]> getAllCategories();
 	public int numOfAuctions();
 	public Auction getDetails();

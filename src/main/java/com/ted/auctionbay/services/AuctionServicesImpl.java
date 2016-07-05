@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ted.auctionbay.dao.QueryAuction;
 import com.ted.auctionbay.dao.QueryCategory;
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.items.Category;
@@ -15,17 +16,19 @@ public class AuctionServicesImpl implements AuctionServices{
 	@Autowired
 	QueryCategory queryCategory;
 	
+	@Autowired
+	QueryAuction queryAuction;
 	
 	@Override
-	public List<Auction> getAuctions() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Auction> getAuctions(int startpage,int endpage) {
+		
+		return queryAuction.getAuctions(startpage, endpage);
 	}
 
 	@Override
 	public int numOfAuctions() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return queryAuction.numOfAuctions();
 	}
 
 	@Override
