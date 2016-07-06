@@ -54,6 +54,7 @@ public class AuctionsController {
 					j.put("name", a.getTitle());
 					j.put("id", a.getItemID());
 					j.put("seller",a.getSeller());
+				
 					j.put("expires",timeDiff);
 					j.put("firstBid", a.getFirstBid());
 					j.put("numberOfBids",auctionServices.getNumOfBids(a.getAuctionID()));
@@ -67,6 +68,46 @@ public class AuctionsController {
 		System.out.println("Auctions: " + answer.toString());
 		return answer.toString();
 	}
+	
+	
+	@RequestMapping(value = "/view-auctions-byCategory",method = RequestMethod.GET)
+	@ResponseBody
+	public String getAuctionsByCategory(@RequestParam("start") String start,
+			@RequestParam("size") String size, @RequestParam("category") String category){
+		System.out.println("...... Get auctions By category Controller ......");
+		int startpage = Integer.parseInt(start);
+		int endpage = Integer.parseInt(size);
+		System.out.println("category: " + category);
+		List<Auction> auctions_list = auctionServices.getAuctionsByCategory(startpage, endpage, category);
+		if(auctions_list.isEmpty()){
+			System.out.println("empty list");
+		}
+		JSONArray answer = new JSONArray();
+		for(Auction a: auctions_list){
+			JSONObject j = new JSONObject();
+			
+			String timeDiff = TimeUtilities.timeDiff(new Date(),a.getEndTime());
+			if(timeDiff != null ) {
+				try {
+					j.put("name", a.getTitle());
+					j.put("id", a.getItemID());
+					j.put("seller",a.getSeller());
+				
+					j.put("expires",timeDiff);
+					j.put("firstBid", a.getFirstBid());
+					j.put("numberOfBids",auctionServices.getNumOfBids(a.getAuctionID()));
+				}catch(JSONException e){
+					System.out.println("....... get auctions json error .....");
+				}
+				
+				answer.put(j);
+			}
+		}
+		System.out.println("Auctions By Category: " + answer.toString());
+		return answer.toString();
+	}
+	
+	
 	
 	@RequestMapping(value = "/numberOfAuctions", method = RequestMethod.GET)
 	@ResponseBody

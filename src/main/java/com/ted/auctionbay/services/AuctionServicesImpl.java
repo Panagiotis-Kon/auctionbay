@@ -50,9 +50,9 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public List<Auction> getAuctionByCategory(int start, int end, String Category) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Auction> getAuctionsByCategory(int start, int end, String Category) {
+		
+		return queryAuction.getAuctionsByCategory(start,end,Category);
 	}
 
 	@Override

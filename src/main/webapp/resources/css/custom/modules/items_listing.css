@@ -118,6 +118,13 @@
     height: 140px;
 }
 
+.item-no-photo-thumbnail-xs img {
+	padding-top: 10px;
+    padding-bottom: 5px;
+    width: 60px;
+    height: 60px;
+}
+
 .item-no-photo-thumbnail {
     background: #ebebeb;
     border: 1px solid #ccc;

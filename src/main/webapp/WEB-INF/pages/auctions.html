@@ -50,9 +50,9 @@ addEventListener("load", function()
      							 <!--  <a class="navbar-brand" href="#">Auctionbay</a>-->
     						</div>
     						<ul class="nav navbar-nav">
-      						<li class="active"><a href="#" class="index-link">Home</a></li>
+      						<li><a href="#" class="index-link">Home</a></li>
       						
-      						<li><a href="#" class="auctions-link">Auctions</a></li>
+      						<li class="active" id="auctions1" style="display:block;"><a href="#" class="view-auctions-ref">Auctions</a></li>
       						<li><a href="#" class="contact-link">Contact</a></li>
       						
     						</ul>
@@ -112,14 +112,18 @@ addEventListener("load", function()
       				<div class="panel-body">
       				</div>
    				</div>
-   				<div class="panel panel-default hidden-xs hidden-sm">
-					<div class="panel-heading">Categories</div>
-						<ul id="categoryList" class="scrollable-menu nav nav-pills nav-stacked" role="menu">
+   				<div class="panel panel-success hidden-xs hidden-sm">
+					<div class="panel-heading text-center"><h4>Categories</h4></div>
+						<ul id="categories-module" class="scrollable-menu nav nav-pills nav-stacked" role="menu">
 							<li><a id="showall" href="ShowAll" style="vertical-align: bottom;">Show All<span class='badge pull-right'>-</span></a></li>
 						</ul>
 				</div>
    				
 			
+			</div>
+			
+			<div id="category-indicator" class="col-xs-12 col-md-9 alert alert-warning" style="display:none;">
+				<h4 id="text" style="text-align:center;color:green;"></h4>
 			</div>
 			
 			<div id="available-auctions" class="col-xs-12 col-md-9">
@@ -133,7 +137,7 @@ addEventListener("load", function()
 			</div>
 			
 			
-			<div id="category-paginator" ></div>
+			<div id="auctions-byCategory-paginator" class="col-md-6 col-md-offset-9"></div>
 		
 
 		</div> <!-- Main row -->

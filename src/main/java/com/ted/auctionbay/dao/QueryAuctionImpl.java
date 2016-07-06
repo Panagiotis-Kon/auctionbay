@@ -24,7 +24,7 @@ public class QueryAuctionImpl implements QueryAuction{
 	@Override
 	public List<Auction> getAuctions(int startpage, int endpage) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createQuery("SELECT a FROM Auction a");
+		Query query = em.createNativeQuery("SELECT * FROM Auction",Auction.class);
 		query.setFirstResult(startpage);
 		query.setMaxResults(endpage);
 		
@@ -43,6 +43,22 @@ public class QueryAuctionImpl implements QueryAuction{
 			return Integer.parseInt(list.get(0).toString());
 		}
 		return -1;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Auction> getAuctionsByCategory(int startpage, int endpage, String category) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
+				+ "FROM auction a,category c,item_has_category ihc, item i"
+				+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
+				+ " and c.Name = ?1",Auction.class) ;
+		
+		query.setParameter(1, category);
+		query.setFirstResult(startpage);
+		query.setMaxResults(endpage);
+		
+		return query.getResultList();
 	}
 
 }

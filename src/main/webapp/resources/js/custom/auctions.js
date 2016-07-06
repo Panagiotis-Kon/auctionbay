@@ -1,9 +1,11 @@
 
 var total_pages = 10;
+var category = "";
 $(document).ready(function(){
 	
 	console.log("base url: " + baseURL);
 	total_pages = getNumOfAuctions();
+	getCategories();
 	
 	/*
 	 * Check first the url. 
@@ -14,17 +16,15 @@ $(document).ready(function(){
 	var user="user";
 	var urlpath = window.location.href;
 	console.log(window.location.pathname);
-	document.getElementById('categoryList').style.display = 'block';
-	
-	
-	
+	document.getElementById('categories-module').style.display = 'block';
+
 	
 	if(urlpath.indexOf(user) == -1){
 		/* if not found then it return -1 
 		 then it is a guest 
 		 call default modules */
 		console.log("the url DOES NOT contains the user")
-		//defaultModulesInit();
+		defaultModulesInit();
 		
 		
 	} else {
@@ -37,9 +37,11 @@ $(document).ready(function(){
 	}
 	
 	
+	initListeners();
 	
-	
-	
+	function defaultModulesInit(){
+		document.getElementById('default-right-col').style.display = 'block';
+	}
 	
 	function userModulesInit(username){
 		
@@ -62,137 +64,145 @@ $(document).ready(function(){
 	}
 
 
-	function getNumOfAuctions(){
-		console.log("getting number of auctions ");
-		$.ajax({
-			type : "GET",
-			dataType:'json',
-			url  : baseURL + "/auctions/numberOfAuctions",
-			success : function(data){
-				total_pages = data.auctionsNum;
-				initPaging(total_pages);
-			}
-				
-		}); 	
-		
-	}
-	
-	function initPaging(total_pages){
-		console.log("initPaging")
-		console.log("total_pages: " + total_pages/10)
-		
-		var size=10;
-        
-	    $('#auctions-paginator').bootpag({
-	        total: (total_pages/10),
-	        maxVisible: 5
-	    }).on("page", function(event, num){
-	        
-	        var start = (num-1)*size;
-	        // ... after content load -> change total to 10
-	        $(this).bootpag({total: total_pages/10, maxVisible: 5});
-	        console.log("hiiiii");
-	        getTemplateModule(start,size);
-	        
-	     
-	    });
-		getTemplateModule(0,size);
-	    /*$('#category-paginator').bootpag({
-	        total: 10
-	    }).on("page", function(event, num){
-	        $(".content").html("Page " + num); // or some ajax content loading...
-	        var size=10;
-	        var start = (num-1)*size;
-	       
-	        // ... after content load -> change total to 10
-	        $(this).bootpag({total: 10, maxVisible: 5});
-	        
-	        getAuctionsByCategory(start,size,category);
-	     
-	    });*/
-		
-		
-	}
-
-	function initListeners(){
-		
-		
-		
-	}
-
-	/*function defaultModulesInit() {
-		
-		
-		var template = getTemplateModule();
-		
-		
-	}*/
-
-
-
-	function getTemplateModule(start,size){
-		console.log("getting template module ");
-		$.get( baseURL + "/auctions/template-module", function( template_module ) {
-			getAuctions(start,size,template_module);
-		});
-		/*$.ajax({
-			type : "GET",
-			dataType:'json',
-			url  : baseURL + "/auctions/template-module",
-			success : function(template_module) {
-				console.log("here...")
-				getAuctions(start,size,template_module);
-			}	
-		});*/ 	
-	}
-	
-	
-
-	function customFormatPage(){
-		
-	}
-
-	function defaultFormatPage(){}
-
-
-	function updateTemplateModule(template){
-		$.ajax({
-			type : "GET",
-			dataType:'json',
-			url  : baseURL + "/auctions/*?" + $.param({startPos:startPos,pageSize:pageSize}),
-			success : function(data) {
-				if(data.length == 0){
-					
-				} else {
-					for(var i=0;i<data.length;i++){}
-				}
-			}	
-		});
-	}
-
-	function updateByCategory(){}
-
-
-
-
-	
-
-	
-	
-	
-	
-	
 	
 });
 
 
-function getAuctions(start,size,template_module){
+function initListeners(){
+	
+	console.log("Listeners Init");
+	
+	$("#categories-module").on('click', 'li', function(e) {
+        e.preventDefault();
+        
+        category = $(this).find('a').attr("href");
+        $('#auctions-paginator').css("display","none");
+		$('#auctions-ByCategory-paginator').css("display","block");
+		$('#category-indicator').css("display","block");
+		$('#category-indicator h4').empty();
+		$('#category-indicator h4').append("Results for Category: " + decodeURIComponent(category));
+        console.log(decodeURIComponent(category))
+        
+        var end=10;
+         $('#auctions-byCategory-paginator').bootpag({
+        total: 10
+         }).on("page", function(event, num){
+        
+        console.log("category paging event!!!!!")
+        var start = (num-1)*end;
+       
+        // ... after content load -> change total to 10
+        $(this).bootpag({total: 10});
+        $('html, body').animate({scrollTop : 0},800);
+        getTemplateModule(start,end,decodeURIComponent(category));
+     
+         });
+        getTemplateModule(0,10,decodeURIComponent(category));
+    });
+	
+	
+	
+	
+}
+
+
+function getNumOfAuctions(){
+	console.log("getting number of auctions ");
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		url  : baseURL + "/auctions/numberOfAuctions",
+		success : function(data){
+			total_pages = data.auctionsNum;
+			initPaging(total_pages);
+		}
+			
+	}); 	
+	
+}
+
+function initPaging(total_pages){
+	console.log("initPaging")
+	console.log("total_pages: " + total_pages/10)
+	
+	var end=10;
+    
+    $('#auctions-paginator').bootpag({
+        total: (total_pages/10),
+        maxVisible: 5
+    }).on("page", function(event, num){
+        
+        var start = (num-1)*end;
+        // ... after content load -> change total to 10
+        $(this).bootpag({total: total_pages/10, maxVisible: 5});
+       
+        $('html, body').animate({scrollTop : 0},800);
+        
+        getTemplateModule(start,end,category);
+        
+     
+    });
+	getTemplateModule(0,end,category);
+	
+   
+	
+	
+}
+
+function getTemplateModule(start,end,category){
+	console.log("getting template module ");
+	$.get( baseURL + "/auctions/template-module", function( template_module ) {
+		if(category == ""){
+			getAuctions(start,end,template_module);
+		} else {
+			getAuctionsByCategory(start,end,template_module,category)
+		}
+		
+	});
+	 	
+}
+
+function getAuctionsByCategory(start,end,template_module,category){
+	console.log("Auctions by Category with category: " + category);
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		url  : baseURL + "/auctions/view-auctions-byCategory/",
+		data :{start:start,size:end,category:category},
+		success : function(auctions) {
+			$("#available-auctions").empty();
+			console.log("moving on formatting the page")
+			if(auctions.length == 0){
+				$('#no_auctions').css("display","block");
+			}else {
+				$('#no_auctions').css("display","none");
+				
+				for(var i=0;i<auctions.length;i++){
+					var panel = $("<div>" + template_module + "</div>");
+					panel.find("#seller-name small").text("Seller: "+ auctions[i].seller);
+					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
+					panel.find('.item-listing-title a').text(auctions[i].name);
+					
+					panel.find("#elapseTime small").text(auctions[i].expires+"remaining");
+					panel.find("#firstBid").text("$"+parseFloat(auctions[i].firstBid).toFixed(2));
+					panel.find("#numberOfbids").text(auctions[i].numberOfBids + "     " + "Bids");
+					html = panel.html();
+					$("#available-auctions").append(html);
+					
+				}
+			}
+		}	
+	}); 
+}
+
+
+function getAuctions(start,end,template_module){
 	console.log("getting auctions");
 	$.ajax({
 		type : "GET",
 		dataType:'json',
 		url  : baseURL + "/auctions/view-auctions/",
-		data :{start:start,size:size},
+		data :{start:start,size:end},
 		success : function(auctions) {
 			$("#available-auctions").empty();
 			console.log("moving on formatting the page")
@@ -204,10 +214,10 @@ function getAuctions(start,size,template_module){
 				for(var i=0;i<auctions.length;i++){
 					var tree = $("<div>" + template_module + "</div>");
 					tree.find("#seller-name small").text("Seller: "+ auctions[i].seller);
-					tree.find('.item-listing-title a').attr('href',window.location.href + '/product/'+auctions[i].id + "/"+auctions[i].name);
+					tree.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
 					tree.find('.item-listing-title a').text(auctions[i].name);
 					
-					tree.find("#remainingTime small").text(auctions[i].expires+"remaining");
+					tree.find("#elapseTime small").text(auctions[i].expires+"remaining");
 					tree.find("#firstBid").text("$"+parseFloat(auctions[i].firstBid).toFixed(2));
 					tree.find("#numberOfbids").text(auctions[i].numberOfBids + "     " + "Bids");
 					html = tree.html();
@@ -217,7 +227,7 @@ function getAuctions(start,size,template_module){
 			}
 		}	
 	}); 
-	
+	console.log("Leaving Get Auctions...");
 }
 
 
@@ -228,11 +238,50 @@ function getCategories(){
 	$.ajax({
 		type : "GET",
 		dataType:'json',
-		url  : baseURL + "/categories",
+		url  : baseURL + "/auctions/categories",
 		success : function(data) {
-			console.log(data);
+			
+			if(data.length == 0){
+				var html =  "<li><a>No available categories</a></li>";
+				$("#categories-modules").append(html);
+			} else {
+				for(var i = 0; i < data.length; i++) {			
+					var html =  "<li>" +
+									"<a href="+ encodeURIComponent(data[i].category) + ">" +
+									data[i].category +
+										"<span class='badge pull-right'>"+
+											data[i].numOfItems+ 
+										" </span>" +
+									"</a>" +
+								"</li>";
+					$("#categories-module").append(html);
+				}
+			}
 			
 		}	
-	}); 	
+	}); 
+	//encodeURIComponent(data[i].category)
+	console.log("getting the categories ended");
 }
 
+function updateTemplateModule(template){
+	console.log("updating template module");
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		url  : baseURL + "/auctions/*?" + $.param({startPos:startPos,pageSize:pageSize}),
+		success : function(data) {
+			if(data.length == 0){
+				
+			} else {
+				for(var i=0;i<data.length;i++){}
+			}
+		}	
+	});
+}
+
+function updateByCategory(){}
+
+function customFormatPage(){}
+
+function defaultFormatPage(){}

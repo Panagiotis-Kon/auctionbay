@@ -55,7 +55,11 @@
 }
 
 
-
+#categories-module.scrollable-menu {
+    height: auto;
+    max-height: 250px;
+    overflow-x: hidden;
+}
 
 /* Default Skin */
 .wmuSliderPagination {

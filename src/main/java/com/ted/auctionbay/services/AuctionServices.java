@@ -13,6 +13,6 @@ public interface AuctionServices {
 	public Auction getDetails();
 	public int getNumOfBids(int auction_id);
 	public float getHighestBid(int auction_id);
-	public List<Auction> getAuctionByCategory(int start, int end, String Category);
+	public List<Auction> getAuctionsByCategory(int start, int end, String Category);
 	
 }
