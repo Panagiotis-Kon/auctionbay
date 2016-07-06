@@ -17,7 +17,9 @@ $(document).ready(function(){
 	$("a.view-auctions-ref").on("click",function(event){
 
 		event.preventDefault();
-		window.location = baseURL+"/auctions";
+		console.log("window.location.href: " + window.location.href)
+		console.log("baseURL: " + baseURL)
+		window.location = window.location.href+"/auctions";
     	
    });
 	
@@ -52,7 +54,9 @@ $(document).ready(function(){
 	$('a.view-auctions-panel-link').click(function(event){
 		
 		event.preventDefault();
-		window.location = baseURL+"/auctions";
+		console.log("window.location.href: " + window.location.href)
+		console.log("baseURL: " + baseURL)
+		window.location = window.location.href+"/auctions";
 		
 	});
 	

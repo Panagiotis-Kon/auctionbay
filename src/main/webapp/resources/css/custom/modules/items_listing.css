@@ -37,7 +37,7 @@
 .panel {
     margin-bottom: 20px;
     background-color: #FFFACD;
-   /*  border: 1px solid transparent; */
+  
     border-radius: 4px;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
@@ -69,7 +69,9 @@
 }
 
 .item-listingtype-pos {
-    position: absolute;
+    //position: absolute;
+    float:left;
+    font-size:14px;
     right: 1px;
     top: 1px;
 }
@@ -136,9 +138,8 @@
     width: 150px;
 }
 
+.item-listing-seller{
+	text-align:center;
+}
 
-/*#auctions-paginator {
-	margin: 0 auto;
-	float: none;
-   	
-}*/
+

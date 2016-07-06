@@ -22,6 +22,11 @@ public class UserController {
 		return "/pages/index.html";
 	}
 	
+	@RequestMapping(value = {"/{username}/auctions"})
+	public static String auctionsRedirection() {
+		
+		return "/pages/auctions.html";
+	}
 	/*
 	@RequestMapping(value = "",method = RequestMethod.GET)
 	public String access_index(@PathVariable String username){

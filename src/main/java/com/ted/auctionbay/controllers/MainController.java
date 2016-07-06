@@ -64,11 +64,7 @@ public class MainController {
 		return "/pages/login.html";
 	}
 	
-	@RequestMapping(value = {"/auctions"})
-	public static String auctionsRedirection() {
-		
-		return "/pages/auctions.html";
-	}
+	
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
