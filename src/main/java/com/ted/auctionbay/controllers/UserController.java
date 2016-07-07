@@ -27,6 +27,12 @@ public class UserController {
 		
 		return "/pages/auctions.html";
 	}
+	
+	@RequestMapping(value = {"/{username}/create-auction"})
+	public static String createAuctionRedirection() {
+		
+		return "/pages/user/create_auction.html";
+	}
 	/*
 	@RequestMapping(value = "",method = RequestMethod.GET)
 	public String access_index(@PathVariable String username){

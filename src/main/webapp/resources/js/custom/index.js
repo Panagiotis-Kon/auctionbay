@@ -22,7 +22,7 @@ $(document).ready(function(){
 	} else {
 		// it is registered user, call userModulesInit()
 		var patharray = window.location.pathname.split( '/' );
-		var username = patharray[2];
+		var username = patharray[3];
 		console.log("username: " + username);
 		//username = "alex";
 		userModulesInit(username);
@@ -35,7 +35,8 @@ $(document).ready(function(){
 function defaultModulesInit(){
 	
 	document.getElementById('default-right-col').style.display = 'block';
-	
+	$('#create-auction-panel').css("display","none");
+	$('#manage-auction-panel').css("display","none");
 	console.log("default-right-col showed");
 	
 }
@@ -58,15 +59,20 @@ function userModulesInit(username){
 	$('#main-info-header').removeClass("col-lg-12");
 	$('#main-info-header').addClass("col-md-10");
 	
-	$('#va-panel').removeClass("col-lg-3 col-md-6");
+	/*$('#va-panel').removeClass("col-lg-3 col-md-6");
 	$('#va-panel').addClass("col-xs-3 col-xs-offset-2");
 	
+	$('#create-auction-panel').removeClass("col-lg-3 col-md-6");
+	$('#create-auction-panel').addClass("col-xs-3 col-xs-offset-2");*/
+	
+	$('#create-auction-panel').css("display","block");
+	$('#manage-auction-panel').css("display","block");
 	/* It might not be needed*/
 	$('#b').removeClass("col-lg-3 col-md-6");
 	$('#b').addClass("col-xs-3");
 	/**/
 	
-	$('#create-auction-panel').css({"display":"block"});
+	
 	
 	console.log("class added");
 	

@@ -45,7 +45,7 @@ addEventListener("load", function()
   						<div class="container-fluid">
     						<div class="navbar-header">
     							<div class="logo">
-									<a href="#index" class="index-link"><img style="height:40px;margin-bottom:3px;" src="resources/images/auction-logo.png" alt=" " /></a>
+									<a href="#index" class="index-link"><img style="height:40px;margin-bottom:3px;" src="https://localhost:8443/auctionbay/resources/images/auction-logo.png" alt=" " /></a>
 								</div>
      							 <!--  <a class="navbar-brand" href="#">Auctionbay</a>-->
     						</div>
@@ -53,6 +53,12 @@ addEventListener("load", function()
       						<li><a href="#" class="index-link">Home</a></li>
       						
       						<li class="active" id="auctions1" style="display:block;"><a href="#" class="view-auctions-ref">Auctions</a></li>
+      						<li id="auctions2" style="display:none;"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Auctions <span class="caret"></span></a>
+      							<ul class="dropdown-menu">
+      								<li><a href="#" class="view-auctions-ref" >View Auctions</a></li>
+      								<li><a href="#" class="create-auction-ref">Create Auction</a></li>
+      							</ul>			
+      						</li>
       						<li><a href="#" class="contact-link">Contact</a></li>
       						
     						</ul>
@@ -86,7 +92,7 @@ addEventListener("load", function()
             							<li><a href="#">My Auctions</a></li>
             							<li><a href="#">My Messages</a></li>
             							<li role="separator" class="divider"></li>
-            							<li><a href="#">
+            							<li><a href="#" class="log-out">
             							<span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
           							</ul>
         						</li>
@@ -115,7 +121,7 @@ addEventListener("load", function()
    				<div class="panel panel-success hidden-xs hidden-sm">
 					<div class="panel-heading text-center"><h4>Categories</h4></div>
 						<ul id="categories-module" class="scrollable-menu nav nav-pills nav-stacked" role="menu">
-							<li><a id="showall" href="ShowAll" style="vertical-align: bottom;">Show All<span class='badge pull-right'>-</span></a></li>
+							<li><a class="all-categories" href="all-categories" style="vertical-align: bottom;">All Categories<span class='label label-warning pull-right'>-</span></a></li>
 						</ul>
 				</div>
    				

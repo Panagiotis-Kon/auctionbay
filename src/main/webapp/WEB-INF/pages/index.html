@@ -42,7 +42,7 @@ addEventListener("load", function()
   						<div class="container-fluid">
     						<div class="navbar-header">
     							<div class="logo">
-									<a href="#index" class="index-link"><img style="height:40px;margin-bottom:3px;" src="resources/images/auction-logo.png" alt=" " /></a>
+									<a href="#index" class="index-link"><img style="height:40px;margin-bottom:3px;" src="https://localhost:8443/auctionbay/resources/images/auction-logo.png" alt=" " /></a>
 								</div>
      							 <!--  <a class="navbar-brand" href="#">Auctionbay</a>-->
     						</div>
@@ -97,7 +97,7 @@ addEventListener("load", function()
             							<li><a href="#">My Auctions</a></li>
             							<li><a href="#">My Messages</a></li>
             							<li role="separator" class="divider"></li>
-            							<li><a href="#">
+            							<li><a href="#" class="log-out">
             							<span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
           							</ul>
         						</li>
@@ -188,8 +188,28 @@ addEventListener("load", function()
                    </div>
 				</div>
 			</div>
-			
-			<div class="col-lg-3 col-md-3" id="b">
+			<div id="create-auction-panel" class="col-lg-3 col-md-6">
+            	<div class="panel panel-orange">
+                	<a href="" class="create-panel-link">
+                    	<div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-pencil fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Create Auctions</div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+       				<div class="panel-footer">
+                    	<a href="#"><span class="pull-right"><i class="fa fa-share"></i></span> </a>
+                        <div class="clearfix"></div>
+                   	</div>
+				</div>
+            </div>
+			<div class="col-lg-3 col-md-3" id="contact">
             	<div class="panel panel-blue">
                     <a href="#" class="contact-panel-link">
                     	<div class="panel-heading">
@@ -213,17 +233,17 @@ addEventListener("load", function()
                     </div>
             </div>
             
-        
-			<div id="create-auction-panel" class="col-lg-3 col-md-6">
+        	
+			<div id="manage-auction-panel" class="col-lg-3 col-md-6">
             	<div class="panel panel-orange">
-                	<a href="" id="contact-panel-link">
+                	<a href="" id="manage-panel-link">
                     	<div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
                                     <i class="fa fa-pencil fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">Create Auction</div>
+                                    <div class="huge">Manage Auctions</div>
                                     
                                 </div>
                             </div>
@@ -235,6 +255,7 @@ addEventListener("load", function()
                    	</div>
 				</div>
             </div>
+           
 		
 		</div>
 		

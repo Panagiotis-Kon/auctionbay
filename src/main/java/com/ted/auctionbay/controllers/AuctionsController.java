@@ -20,7 +20,7 @@ import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.timeutils.TimeUtilities;
 
 @Controller
-@RequestMapping("/auctions")
+@RequestMapping(value={"/auctions", "/user/{username}/auctions"})
 public class AuctionsController {
 
 	@Autowired
@@ -146,7 +146,6 @@ public class AuctionsController {
 	
 		System.out.println("getCategories ends");
 		return jarray.toString();
-		//return data.toString();
 	}
 	
 }

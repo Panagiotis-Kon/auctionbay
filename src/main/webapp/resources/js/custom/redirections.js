@@ -6,6 +6,8 @@ $(document).ready(function(){
 	baseURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
 	//baseURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1] + "/auctionbay";
 	 
+
+	
 	$("a.login-link").on("click",function(event){
     	
 		console.log("login btn");
@@ -19,7 +21,13 @@ $(document).ready(function(){
 		event.preventDefault();
 		console.log("window.location.href: " + window.location.href)
 		console.log("baseURL: " + baseURL)
-		window.location = window.location.href+"/auctions";
+		var location = window.location.href;
+		var lastChar = location.substr(location.length - 1);
+		if(lastChar == "/"){
+			window.location = window.location.href+"auctions";
+		} else {
+			window.location = window.location.href+"/auctions";
+		}
     	
    });
 	
@@ -34,9 +42,12 @@ $(document).ready(function(){
 	$("a.index-link").click(function(event){
 		console.log("home btn");
 		event.preventDefault();
-		document.location.href=baseURL;
-		//window.location.replace("https://localhost:8443/auctionbay/");
-		
+		var result = checkUser();
+		if(result == 0){
+			document.location.href=baseURL;
+		} else {
+			window.location = window.location.href; 
+		}
 	});
 	
 	$("a.login-panel-link").click(function(event){
@@ -56,9 +67,43 @@ $(document).ready(function(){
 		event.preventDefault();
 		console.log("window.location.href: " + window.location.href)
 		console.log("baseURL: " + baseURL)
-		window.location = window.location.href+"/auctions";
+		var location = window.location.href;
+		var lastChar = location.substr(location.length - 1);
+		if(lastChar == "/"){
+			window.location = window.location.href+"auctions";
+		} else {
+			window.location = window.location.href+"/auctions";
+		}
+			
 		
 	});
 	
+	$('a.create-panel-link').click(function(event){
+		event.preventDefault();
+		window.location = window.location.href+"/create-auction";
+		
+	});
+	
+	
+	$('a.log-out').click(function(event){
+		event.preventDefault();
+		window.location = baseURL;
+	})
+	
+	function checkUser(){
+		var user="user";
+		var urlpath = window.location.href;
+
+		if(urlpath.indexOf(user) == -1){
+			/* if not found then it return -1 
+			 then it is a guest 
+			 call default modules */
+			console.log("the url DOES NOT contains the user")
+			return 0;
+		} else {
+			// it is registered user, call userModulesInit()
+			return 1;
+		}
+	}
 	
 });

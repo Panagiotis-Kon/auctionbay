@@ -57,7 +57,10 @@ function initListeners(){
         getTemplateModule(0,10,decodeURIComponent(category));
     });
 	
-	
+	$('a.all-categories')click(function(event){
+		event.preventDefault();
+		window.location = window.location.href;
+	});
 	
 	
 }
@@ -69,7 +72,7 @@ function getNumOfAuctions(){
 		type : "GET",
 		dataType:'json',
 		//url  : baseURL + "/auctions/numberOfAuctions",
-		url  : "/auctionbay/*/auctions/numberOfAuctions",
+		url  : window.location.href + "/numberOfAuctions",
 		success : function(data){
 			total_pages = data.auctionsNum;
 			initPaging(total_pages);
@@ -109,7 +112,7 @@ function initPaging(total_pages){
 
 function getTemplateModule(start,end,category){
 	console.log("getting template module ");
-	$.get( "/auctionbay/*/auctions/template-module", function( template_module ) {
+	$.get( window.location.href + "/template-module", function( template_module ) {
 		if(category == ""){
 			getAuctions(start,end,template_module);
 		} else {
@@ -126,7 +129,7 @@ function getAuctionsByCategory(start,end,template_module,category){
 		type : "GET",
 		dataType:'json',
 		//url  : baseURL + "/auctions/view-auctions-byCategory/",
-		url  : "/auctionbay/*/auctions/view-auctions-byCategory/",
+		url  : window.location.href + "/view-auctions-byCategory",
 		data :{start:start,size:end,category:category},
 		success : function(auctions) {
 			$("#available-auctions").empty();
@@ -162,7 +165,7 @@ function getAuctions(start,end,template_module){
 		type : "GET",
 		dataType:'json',
 		//url  : baseURL + "/auctions/view-auctions/",
-		url  :"/auctionbay/*/auctions/view-auctions/",
+		url  :window.location.href + "/view-auctions",
 		data :{start:start,size:end},
 		success : function(auctions) {
 			$("#available-auctions").empty();
@@ -201,7 +204,7 @@ function getCategories(){
 		type : "GET",
 		dataType:'json',
 		//url  : baseURL + "/auctions/categories",
-		url  : "/auctionbay/*/auctions/categories",
+		url  : window.location.href + "/categories",
 		success : function(data) {
 			
 			if(data.length == 0){
@@ -209,10 +212,10 @@ function getCategories(){
 				$("#categories-modules").append(html);
 			} else {
 				for(var i = 0; i < data.length; i++) {			
-					var html =  "<li>" +
-									"<a href="+ encodeURIComponent(data[i].category) + ">" +
+					var html =  "<li style=\"word-break:break-all;\">" +
+									"<a href="+ encodeURIComponent(data[i].category) + " style=\"white-space:normal;\">" +
 									data[i].category +
-										"<span class='badge pull-right'>"+
+										"<span class='label label-warning pull-right'>"+
 											data[i].numOfItems+ 
 										" </span>" +
 									"</a>" +
@@ -251,7 +254,7 @@ function checkforUser(){
 	} else {
 		// it is registered user, call userModulesInit()
 		var patharray = window.location.pathname.split( '/' );
-		var username = patharray[2];
+		var username = patharray[3];
 		console.log("username: " + username);
 		//username = "alex";
 		userModulesInit(username);
@@ -279,7 +282,7 @@ function userModulesInit(username){
 	var btn_text = document.getElementById('username');
 	btn_text.innerHTML = username + " <span class=\"caret\"></span>";
 	
-	document.getElementById('login-panel').style.display = 'none';
+	
 	document.getElementById('sidebar').style.display = 'block';
 
 	
