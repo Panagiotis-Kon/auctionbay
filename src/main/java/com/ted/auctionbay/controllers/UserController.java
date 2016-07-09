@@ -28,10 +28,10 @@ public class UserController {
 		return "/pages/auctions.html";
 	}
 	
-	@RequestMapping(value = {"/{username}/create-auction"})
+	@RequestMapping(value = {"/{username}/manage-auctions"})
 	public static String createAuctionRedirection() {
 		
-		return "/pages/user/create_auction.html";
+		return "/pages/user/manage_auctions.html";
 	}
 	/*
 	@RequestMapping(value = "",method = RequestMethod.GET)

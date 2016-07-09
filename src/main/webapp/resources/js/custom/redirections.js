@@ -78,9 +78,9 @@ $(document).ready(function(){
 		
 	});
 	
-	$('a.create-panel-link').click(function(event){
+	$('a.manage-panel-link').click(function(event){
 		event.preventDefault();
-		window.location = window.location.href+"/create-auction";
+		window.location = window.location.href+"/manage-auctions";
 		
 	});
 	
