@@ -1,6 +1,9 @@
 $(document).ready(function (){
 	
+	
+	
 	getCategoryList();
+	
 	$("#mapTab").on('shown.bs.tab', function() {
 
 	  	console.log("resizing map...")
@@ -12,7 +15,9 @@ $(document).ready(function (){
         geocodeAddress(geocoder, map, country);
 	});
 	
-	
+	$("#category_list").multiselect({
+		selectedList: 4
+	});
 });
 var map;
 var geocoder;
@@ -62,6 +67,7 @@ function geocodeAddress(geocoder, resultsMap, country) {
 function getCategoryList(){
 	/* Make ajax call to receive the categories from the db */
 	console.log("getting the categories");
+
 	$.ajax({
 		type : "GET",
 		dataType:'json',
@@ -79,7 +85,10 @@ function getCategoryList(){
 					var option = $('<option value="'+data[i].category+'">');
 					option.text(category);
 					$("#category_list").append(option);
+					
+					
 				}
+				$("#category_list").multiselect("refresh");
 			}
 			
 		}	
