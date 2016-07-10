@@ -54,7 +54,7 @@ public class AuctionsController {
 					j.put("name", a.getTitle());
 					j.put("id", a.getItemID());
 					j.put("seller",a.getSeller());
-				
+					//j.put("category", a.getItemID)
 					j.put("expires",timeDiff);
 					j.put("firstBid", a.getFirstBid());
 					j.put("numberOfBids",auctionServices.getNumOfBids(a.getAuctionID()));

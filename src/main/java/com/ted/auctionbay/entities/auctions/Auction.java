@@ -2,6 +2,9 @@ package com.ted.auctionbay.entities.auctions;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.ted.auctionbay.entities.items.Item;
+
 import java.util.Date;
 
 
@@ -25,6 +28,19 @@ public class Auction implements Serializable {
 	private float firstBid;
 
 	private int itemID;
+
+	//bi-directional many-to-one association to Product
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="ItemID")
+	private Item item;
+	
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
 
 	private String seller;
 

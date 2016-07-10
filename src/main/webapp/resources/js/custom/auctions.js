@@ -182,6 +182,7 @@ function getAuctions(start,end,template_module){
 					panel.find('.item-listing-title a').text(auctions[i].name);
 					
 					panel.find("#elapseTime h4").text(auctions[i].expires+"remaining");
+					//panel.find("#category-listing h4").text(auctions[i].expires+"remaining");
 					panel.find("#firstBid").text("$"+parseFloat(auctions[i].firstBid).toFixed(2));
 					panel.find("#numberOfbids").text(auctions[i].numberOfBids + "     " + "Bids");
 					html = panel.html();

@@ -13,7 +13,6 @@ public class QueryAuctionImpl implements QueryAuction{
 	@Override
 	public int numOfAuctions() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		
 		Query query = em.createNativeQuery("SELECT count(*) FROM auction");
 		int num = Integer.parseInt(query.getResultList().get(0).toString());
 	
@@ -24,7 +23,12 @@ public class QueryAuctionImpl implements QueryAuction{
 	@Override
 	public List<Auction> getAuctions(int startpage, int endpage) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
+		/*String sql = "SELECT a.AuctionID, a.ItemID, a.Seller, a.Title, a.BuyPrice, a.FirstBid, a.StartTime, a.EndTime, c.Name"+ 
+				" FROM auction a, aitem_has_category ihc, category c" +
+				" WHERE a.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID";
+		*/
 		Query query = em.createNativeQuery("SELECT * FROM Auction",Auction.class);
+		//Query query = em.createNativeQuery(sql,Auction.class);
 		query.setFirstResult(startpage);
 		query.setMaxResults(endpage);
 		
