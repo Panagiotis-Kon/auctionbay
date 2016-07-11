@@ -2,6 +2,7 @@ package com.ted.auctionbay.services;
 
 import java.util.List;
 
+import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
 
@@ -26,4 +27,9 @@ public interface UserServices {
 	public List<Pendinguser>  getPendingUsers();
 	
 	public List<Registereduser> getGroupsOfUsers(int startpage, int pagesize);
+	
+	public int count_user_auctions(String username);
+	
+	public List<Auction> get_user_auctions(String username);
+	
 }

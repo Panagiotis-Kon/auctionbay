@@ -1,0 +1,13 @@
+ td.edit-control:before {
+    font-family: FontAwesome;
+    content: "\f055";
+    cursor: pointer;
+}  
+
+ td.delete-control:before {
+    font-family: FontAwesome;
+    content: "\f055";
+    cursor: pointer;
+}  
+
+th.dt-center, td.dt-center { text-align: center; }

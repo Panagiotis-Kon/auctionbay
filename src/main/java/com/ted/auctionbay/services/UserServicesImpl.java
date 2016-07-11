@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Address;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
@@ -131,6 +132,20 @@ public class UserServicesImpl implements UserServices{
 	@Override
 	public List<Registereduser> getGroupsOfUsers(int startpage, int pagesize){
 		return queryUser.getGroupsOfUsers(startpage, pagesize);
+	}
+
+
+	@Override
+	public int count_user_auctions(String username) {
+		
+		return queryUser.count_user_auctions(username);
+	}
+
+
+	@Override
+	public List<Auction> get_user_auctions(String username) {
+		
+		return queryUser.get_user_auctions(username);
 	}
 	
 }

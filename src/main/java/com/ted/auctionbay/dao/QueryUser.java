@@ -2,6 +2,7 @@ package com.ted.auctionbay.dao;
 
 import java.util.List;
 
+import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
 import com.ted.auctionbay.entities.users.User;
@@ -29,5 +30,9 @@ public interface QueryUser {
 	public void accept_user(String username);
 	
 	public int registerUser(User ruser);
+	
+	public int count_user_auctions(String username);
+	
+	public List<Auction> get_user_auctions(String username);
 	
 }

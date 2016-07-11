@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
 import com.ted.auctionbay.entities.users.User;
@@ -165,6 +166,27 @@ public class QueryUserImpl implements QueryUser{
 		}
 		return 0;
 	}
+
+	@Override
+	public int count_user_auctions(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT count(*) FROM auction WHERE Seller=?");
+		query.setParameter(1, username);
+		return Integer.parseInt(query.getResultList().get(0).toString());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Auction> get_user_auctions(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM auction WHERE Seller=?",Auction.class);
+		
+		query.setParameter(1, username);
+		
+		return query.getResultList();
+	}
+	
+	
 	
 	
 }

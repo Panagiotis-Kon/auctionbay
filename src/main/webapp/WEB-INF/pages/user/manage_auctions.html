@@ -12,9 +12,10 @@
 <link href="https://localhost:8443/auctionbay/resources/css/custom/style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/jquery/jquery.multiselect.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"/>
 <link href="https://localhost:8443/auctionbay/resources/css/custom/modules/items_listing.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/jquery/prettify.css" rel="stylesheet" type="text/css" media="all" />	
-<link href="https://localhost:8443/auctionbay/resources/css/custom/users/create_auction.css" rel="stylesheet" type="text/css" media="all" />
+<link href="https://localhost:8443/auctionbay/resources/css/custom/users/manage_auction.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/custom/footer.css" rel="stylesheet" type="text/css" media="all" />
 
 <!--//theme-style-->
@@ -28,16 +29,22 @@
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/jquery-1.12.3.min.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/jquery.bootpag.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
 
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/jquery-ui.js" type="text/javascript"></script>		
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/jquery.multiselect.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/prettify.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/external/countries2.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/redirections.js" type="text/javascript"></script>
+
+
+
 <script src="https://localhost:8443/auctionbay/resources/js/custom/user/manage_auctions.js" type="text/javascript"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBlKBVky_UnMTgOzkHGYbKnqksn5I5LQw&callback=initGoogleMap" async defer></script>
 <!--script-->
+
+
 </head>
 <body onload="prettyPrint();"> 
 	<!--header-->
@@ -115,8 +122,8 @@
 	<div class="container">
 		<div class="row">
 		<ul class="nav nav-tabs">
-			<li class="active"><a id="mapTab" data-toggle="tab" href="#create">Create Auction</a></li>
-  			<li><a data-toggle="tab" href="#modify">Modify Auction</a></li>
+			<li class="active"><a id="create-tab" data-toggle="tab" href="#create">Create Auction</a></li>
+  			<li><a id="modify-tab" data-toggle="tab" href="#modify">Modify or Delete Auction</a></li>
   			
 		</ul>
 
@@ -270,12 +277,46 @@
     			<div class="well">
   					<h3 class="text-center">Modify or Delete your Auctions</h3>
   				</div>
+  				<div class="col-sm-12">
+  					<div id="user-auctions" class="panel panel-default" style="display:none">
+	       				<div class="panel-heading text-center">
+		        			<h5 id="auctions-number" style="font-weight:bold;"></h5>
+		        			
+		    			</div>
+		    			<div class="panel-body">
+		    				<table id="user-auctions-grid" class="display" style="width:100%;"></table>
+						</div>
+	   				</div> 
+  				</div>
+  				
+  				
+  				
   			</div>	
 		</div>
 		</div>
 		<div class="row"></div>
 		
-		
+		<!-- Modal -->
+		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  			<div class="modal-dialog" role="dialog">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          					<span aria-hidden="true">&times;</span>
+        				</button>
+        				<h4 class="modal-title" id="deleteLabel">Delete Auction</h4>
+      				</div>
+      				<div class="modal-body">
+     				Are you sure that you want to delete auction: <h5 id="auction-name"></h5>
+      				</div>
+      				<div class="modal-footer">
+        				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        				<button type="button" class="btn btn-danger">Delete</button>
+      				</div>
+    			</div>
+  			</div>
+		</div>
+
 	</div> <!-- Main container Ends -->
 	
 		<br><br>

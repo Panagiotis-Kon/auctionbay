@@ -57,7 +57,7 @@ function initListeners(){
         getTemplateModule(0,10,decodeURIComponent(category));
     });
 	
-	$('a.all-categories')click(function(event){
+	$('a.all-categories').click(function(event){
 		event.preventDefault();
 		window.location = window.location.href;
 	});
