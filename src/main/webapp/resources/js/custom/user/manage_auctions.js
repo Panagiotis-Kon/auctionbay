@@ -1,6 +1,6 @@
 $(document).ready(function (){
 	
-	
+	/*test test*/
 	
 	getCategoryList();
 	countUserAuctions()
