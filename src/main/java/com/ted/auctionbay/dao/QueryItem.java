@@ -7,10 +7,16 @@ import com.ted.auctionbay.entities.items.Item;
 
 public interface QueryItem {
 	
-	List<Item> getItems();
+	public List<Item> getItems();
 	
 	public List<Double> getCoordinates(int ItemID);
 
-	List<Category> getCategories(int ItemID);
+	public List<Category> getCategories(int ItemID);
+	
+	public int getNumberofItems();
+	
+	public Item getDetails(int ItemID);
+	
+	public String getLocation(int ItemID);
 
 }

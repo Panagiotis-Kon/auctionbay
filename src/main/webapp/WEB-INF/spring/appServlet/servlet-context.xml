@@ -31,6 +31,8 @@
 	
 	<beans:bean id="auctionServices" class="com.ted.auctionbay.services.AuctionServicesImpl"/>
 	
+	<beans:bean id="itemServices" class="com.ted.auctionbay.services.ItemServicesImpl"/>
+	
 	  <mvc:interceptors>
 	    <beans:bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
 	        <beans:property name="cacheSeconds" value="0" />

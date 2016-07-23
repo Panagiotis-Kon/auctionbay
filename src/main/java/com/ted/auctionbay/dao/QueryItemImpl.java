@@ -45,12 +45,32 @@ public class QueryItemImpl implements QueryItem {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public String getLocation(int ItemID){
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query q = em.createNativeQuery("SELECT Location FROM item WHERE ItemID=?",Item.class);
 		q.setParameter(0, ItemID);
 		List<Item> Set = q.getResultList();
 		return Set.get(0).getLocation();
+	}
+
+	@Override
+	public int getNumberofItems() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query q = em.createNativeQuery("SELECT COUNT(ItemID) FROM item",Item.class);
+		List<Item> Set = q.getResultList();
+		int count = Integer.parseInt(Set.get(0).toString());
+		return count;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Item getDetails(int ItemID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query q = em.createNativeQuery("SELECT * FROM item WHERE ItemID=?",Item.class);
+		q.setParameter(0, ItemID);
+		List<Item> Set = q.getResultList();
+		return Set.get(0);
 	}
 	
 }
