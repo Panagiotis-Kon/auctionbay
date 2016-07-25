@@ -62,6 +62,10 @@ function initListeners(){
 		window.location = window.location.href;
 	});
 	
+	$('.item-listing-title a').click(function(event){
+		event.preventDefault();
+		console.log("you clicked the item and location: "+window.location.href);
+	});
 	
 }
 

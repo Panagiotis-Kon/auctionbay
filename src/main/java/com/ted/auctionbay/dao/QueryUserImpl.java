@@ -25,7 +25,7 @@ public class QueryUserImpl implements QueryUser{
 	@Override
 	public boolean userExists(String username) {	
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT Username FROM User WHERE Username =?");
+		Query query = em.createNativeQuery("SELECT Username FROM user WHERE Username =?");
 		query.setParameter(1, username); 
 		boolean res = !query.getResultList().isEmpty(); //then user exists already
 		//Query query = em.createNativeQuery("SELECT EXISTS (SELECT Username FROM User WHERE Username =?)");
@@ -40,7 +40,7 @@ public class QueryUserImpl implements QueryUser{
 		
 		boolean result = false;
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT Username FROM Pendinguser WHERE Username =?");
+		Query query = em.createNativeQuery("SELECT Username FROM pendinguser WHERE Username =?");
 		query.setParameter(1, username); 
 		result = !query.getResultList().isEmpty(); //then the user is pending 		
 		return result;
@@ -69,7 +69,7 @@ public class QueryUserImpl implements QueryUser{
 	@Override
 	public boolean user_validator(String username, String password){
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query q = em.createNativeQuery("SELECT Username,Password FROM User WHERE Username =? AND Password=?");
+		Query q = em.createNativeQuery("SELECT Username,Password FROM user WHERE Username =? AND Password=?");
 		q.setParameter(1,username);
 		q.setParameter(2, password);
 		if(!q.getResultList().isEmpty()){

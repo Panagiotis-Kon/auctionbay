@@ -27,7 +27,7 @@ public class QueryAuctionImpl implements QueryAuction{
 				" FROM auction a, aitem_has_category ihc, category c" +
 				" WHERE a.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID";
 		*/
-		Query query = em.createNativeQuery("SELECT * FROM Auction",Auction.class);
+		Query query = em.createNativeQuery("SELECT * FROM auction",Auction.class);
 		//Query query = em.createNativeQuery(sql,Auction.class);
 		query.setFirstResult(startpage);
 		query.setMaxResults(endpage);
