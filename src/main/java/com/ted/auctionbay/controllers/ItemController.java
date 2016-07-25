@@ -19,7 +19,7 @@ import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.timeutils.TimeUtilities;
 
 @Controller
-@RequestMapping(value={"/{item_id}", "/user/{username}/{item_id}"})
+@RequestMapping(value={"/auctions/item/{item_id}", "/user/{username}/auctions/item/{item_id}"})
 public class ItemController {
 
 	@Autowired

@@ -70,6 +70,12 @@ public class MainController {
 		return "/pages/auctions.html";
 	}
 	
+	@RequestMapping(value = {"/auctions/item"})
+	public static String itemRedirection() {
+		
+		return "/pages/item.html";
+	}
+	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	

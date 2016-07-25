@@ -1,8 +1,6 @@
 package com.ted.auctionbay.controllers;
 
 
-
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +43,12 @@ public class UserController {
 	public static String auctionsRedirection() {
 		
 		return "/pages/auctions.html";
+	}
+	
+	@RequestMapping(value = {"/{username}/auctions/item"})
+	public static String itemRedirection() {
+		
+		return "/pages/item.html";
 	}
 	
 	@RequestMapping(value = {"/{username}/manage-auctions"})
