@@ -15,10 +15,8 @@ public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="CategoryID")
 	private int categoryID;
-	
-	@Column(name="Name")
+
 	private String name;
 
 	//bi-directional many-to-many association to Item

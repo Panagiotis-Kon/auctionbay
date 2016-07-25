@@ -12,8 +12,9 @@ import javax.persistence.*;
 @NamedQuery(name="Auctionhistory.findAll", query="SELECT a FROM Auctionhistory a")
 public class Auctionhistory implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private int itemID;
+	
 	@Id
 	private String username;
 

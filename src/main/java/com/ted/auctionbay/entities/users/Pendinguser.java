@@ -9,14 +9,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQueries({
-	@NamedQuery(name="Pendinguser.findAll", 
-				query="SELECT p FROM Pendinguser p"),
-    @NamedQuery(name="Pendinguser.findUser",
-                query="SELECT u FROM Pendinguser u WHERE u.username LIKE :username"),
-    @NamedQuery(name="Pendinguser.delete",
-    			query="DELETE FROM Pendinguser p WHERE p.username LIKE :username"),
-})
+@NamedQuery(name="Pendinguser.findAll", query="SELECT p FROM Pendinguser p")
 public class Pendinguser implements Serializable {
 	private static final long serialVersionUID = 1L;
 

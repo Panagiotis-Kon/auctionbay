@@ -21,16 +21,16 @@ public class Message implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreated;
 
-	private String fromUsername;
+	private String fromUser;
 
-	private int isRead;
+	private byte isRead;
 
 	@Lob
 	private String messageText;
 
 	private String subject;
 
-	private String toUsername;
+	private String toUser;
 
 	//bi-directional many-to-one association to Mailbox
 	@OneToMany(mappedBy="message")
@@ -55,19 +55,19 @@ public class Message implements Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	public String getFromUsername() {
-		return this.fromUsername;
+	public String getFromUser() {
+		return this.fromUser;
 	}
 
-	public void setFromUsername(String fromUsername) {
-		this.fromUsername = fromUsername;
+	public void setFromUser(String fromUser) {
+		this.fromUser = fromUser;
 	}
 
-	public int getIsRead() {
+	public byte getIsRead() {
 		return this.isRead;
 	}
 
-	public void setIsRead(int isRead) {
+	public void setIsRead(byte isRead) {
 		this.isRead = isRead;
 	}
 
@@ -87,12 +87,12 @@ public class Message implements Serializable {
 		this.subject = subject;
 	}
 
-	public String getToUsername() {
-		return this.toUsername;
+	public String getToUser() {
+		return this.toUser;
 	}
 
-	public void setToUsername(String toUsername) {
-		this.toUsername = toUsername;
+	public void setToUser(String toUser) {
+		this.toUser = toUser;
 	}
 
 	public List<Mailbox> getMailboxs() {

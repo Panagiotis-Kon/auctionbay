@@ -62,9 +62,10 @@ function initListeners(){
 		window.location = window.location.href;
 	});
 	
-	$('.item-listing-title a').click(function(event){
+	$("#auction-title").click(function(event){
 		event.preventDefault();
-		console.log("you clicked the item and location: "+window.location.href);
+		alert("you clicked me")
+		//console.log("you clicked the item and location: "+window.location.href);
 	});
 	
 }
@@ -147,6 +148,7 @@ function getAuctionsByCategory(start,end,template_module,category){
 					var panel = $("<div>" + template_module + "</div>");
 					panel.find('.item-listing-seller label').text(auctions[i].seller);
 					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
+					//panel.find('.item-id').text(auctions[i].id);
 					panel.find('.item-listing-title a').text(auctions[i].name);
 					
 					panel.find("#elapseTime h4").text(auctions[i].expires+"remaining");

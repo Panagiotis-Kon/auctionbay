@@ -15,21 +15,22 @@ public class User implements Serializable {
 
 	@Id
 	private String username;
-	
+
+	private int bidderRating;
+
 	@Column(name="Email")
 	private String email;
 
-	
 	private String firstName;
 
-	
 	private String lastname;
 
-	
 	private String password;
-
+	
 	@Column(name="PhoneNumber")
 	private String phoneNumber;
+
+	private int sellerRating;
 
 	@Column(name="TRN")
 	private String trn;
@@ -56,6 +57,14 @@ public class User implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public int getBidderRating() {
+		return this.bidderRating;
+	}
+
+	public void setBidderRating(int bidderRating) {
+		this.bidderRating = bidderRating;
 	}
 
 	public String getEmail() {
@@ -96,6 +105,14 @@ public class User implements Serializable {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public int getSellerRating() {
+		return this.sellerRating;
+	}
+
+	public void setSellerRating(int sellerRating) {
+		this.sellerRating = sellerRating;
 	}
 
 	public String getTrn() {

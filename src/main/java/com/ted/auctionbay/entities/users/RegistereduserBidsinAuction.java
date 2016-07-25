@@ -18,7 +18,7 @@ public class RegistereduserBidsinAuction implements Serializable {
 	@EmbeddedId
 	private RegistereduserBidsinAuctionPK id;
 
-	private float bid;
+	private float bidPrice;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date bidTime;
@@ -39,12 +39,12 @@ public class RegistereduserBidsinAuction implements Serializable {
 		this.id = id;
 	}
 
-	public float getBid() {
-		return this.bid;
+	public float getBidPrice() {
+		return this.bidPrice;
 	}
 
-	public void setBid(float bid) {
-		this.bid = bid;
+	public void setBidPrice(float bidPrice) {
+		this.bidPrice = bidPrice;
 	}
 
 	public Date getBidTime() {
