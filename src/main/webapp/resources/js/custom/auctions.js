@@ -1,6 +1,8 @@
-
+/***** GLOBAL VARIABLES *****/
 var total_pages = 10;
 var category = "";
+
+
 $(document).ready(function(){
 	
 	console.log("base url: " + baseURL);
@@ -9,13 +11,12 @@ $(document).ready(function(){
 	getCategories();
 	
 	
-
-	
 });
 
 
 function initListeners(){
 	
+	/*** Initializing Listeners after loading the contents of the page ***/
 	console.log("Listeners Init");
 	
 	$("#categories-module").on('click', 'li', function(e) {
@@ -72,6 +73,9 @@ function initListeners(){
 
 
 function getNumOfAuctions(){
+	/*** Ajax call for retrieving the number of auction 
+	 * in order to create the pagination ***/
+	
 	console.log("getting number of auctions ");
 	$.ajax({
 		type : "GET",
@@ -88,6 +92,10 @@ function getNumOfAuctions(){
 }
 
 function initPaging(total_pages){
+	
+	/**
+	 *  Making the pagination using bootpag library
+	 */
 	console.log("initPaging")
 	console.log("total_pages: " + total_pages/10)
 	
@@ -116,11 +124,21 @@ function initPaging(total_pages){
 }
 
 function getTemplateModule(start,end,category){
+	
+	/**
+	 * Ajax call for retrieving the main module for the page.
+	 * This is done because the auctions are presented in bootstrap panels.
+	 * So we need to call the same div content several times
+	 */
+	
 	console.log("getting template module ");
+	
 	$.get( window.location.href + "/template-module", function( template_module ) {
 		if(category == ""){
+			// getting auctions for all the categories
 			getAuctions(start,end,template_module);
 		} else {
+			// getting auctions by category
 			getAuctionsByCategory(start,end,template_module,category)
 		}
 		
@@ -143,7 +161,8 @@ function getAuctionsByCategory(start,end,template_module,category){
 				$('#no_auctions').css("display","block");
 			}else {
 				$('#no_auctions').css("display","none");
-				
+				// here for every auction we want to create different panels
+				// hence every auction is stored in a panel
 				for(var i=0;i<auctions.length;i++){
 					var panel = $("<div id=\"item-lists-module\">" + template_module + "</div>");
 					panel.find('.item-listing-seller label').text(auctions[i].seller);

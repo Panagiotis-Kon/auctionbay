@@ -13,6 +13,7 @@
 <link href="https://localhost:8443/auctionbay/resources/css/jquery/jquery.multiselect.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"/>
+<link href="https://localhost:8443/auctionbay/resources/css/bootstrap/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/custom/modules/items_listing.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/jquery/prettify.css" rel="stylesheet" type="text/css" media="all" />	
 <link href="https://localhost:8443/auctionbay/resources/css/custom/users/manage_auction.css" rel="stylesheet" type="text/css" media="all" />
@@ -34,6 +35,8 @@
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/jquery-ui.js" type="text/javascript"></script>		
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/jquery.multiselect.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/prettify.js" type="text/javascript"></script>
+<script src="https://localhost:8443/auctionbay/resources/js/bootstrap/moment.js" type="text/javascript"></script>
+<script src="https://localhost:8443/auctionbay/resources/js/bootstrap/bootstrap-datetimepicker.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/external/countries2.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/redirections.js" type="text/javascript"></script>
 
@@ -134,7 +137,7 @@
   					<h3 class="text-center">Create your desired Auction, in a few steps</h3>
   				</div>
     			
-    			<div class="col-xs-12">
+    			<div class="col-sm-12">
 					<form>
 					<div class="row">
 					<div class="col-md-6">
@@ -178,8 +181,8 @@
   										</div>
 									</div>
 			                		<div class="form-group">
-			                			<label class="col-sm-4 control-label" for="new-category" id="add-cat-label">New Category <button type="button" onClick="return addCategoryInput();" class="btn btn-default btn-xs" aria-label="Left Align"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></label> 
-			                    		<label class="col-sm-4 control-label" for="new-category" id="remove-cat-label" style="display:none;">New Category <button type="button" onClick="return removeCategoryInput();" class="btn btn-default btn-xs" aria-label="Left Align"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button></label> 
+			                			<label class="col-sm-4 control-label" for="new-category" id="add-cat-label">New Category <button type="button" onClick="return addCategoryInput(0);" class="btn btn-default btn-xs" aria-label="Left Align"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></label> 
+			                    		<label class="col-sm-4 control-label" for="new-category" id="remove-cat-label" style="display:none;">New Category <button type="button" onClick="return removeCategoryInput(0);" class="btn btn-default btn-xs" aria-label="Left Align"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button></label> 
 			                    		<div class="col-sm-6">
 			                    			<input class="form-control" id="new-category" style="display:none;" maxlength="80" placeholder="Add a New Category" name="New Category" type="text"/>
 			                    		</div>
@@ -219,7 +222,7 @@
 		        			</div>
 		        			<div class="panel-body">
 		        				<div class="form-horizontal">
-		                			 <div class="form-group">
+		                			 <!--  <div class="form-group">
   										<label class="col-sm-3 control-label" for="Duration">Duration</label>
 		                  				<div class="col-sm-9">
 		                      				<select class="form-control" id="Duration" name="Duration">
@@ -231,13 +234,19 @@
 												<option value="other">Other</option>
 											</select>
 		                  				</div>	
-									</div>
-			                		<div class="form-group">
-			                			<label class="col-sm-3 control-label" for="location">Duration</label> 
-			                    		<div class="col-sm-9">
-			                    			
-			                    		</div>
-			                		</div>
+									</div> -->
+									<div class='form-group row'>
+                  						<label for="datetimepicker" class="col-sm-2 form-control-label">Select Duration:</label>
+                    					<div class='col-sm-6 input-group date' id='datetimepicker'>
+                      						<input type='text' id="datetime-field" class="form-control" />
+                      							<span class="input-group-addon">
+                        						<span class="glyphicon glyphicon-calendar"></span>
+                      							</span>
+                      
+                    					</div>
+                  
+                					</div>
+			                		
 			        			</div>
 		         			</div>
 		         		</div>
@@ -286,7 +295,19 @@
 		    			<div class="panel-body">
 		    				<table id="user-auctions-grid" class="display" style="width:100%;"></table>
 						</div>
-	   				</div> 
+	   				</div>
+	   				<div id="edit-area" style="display:none;">
+	   					<div class="row">
+	   						<button type="button" id="toAuctions-button" class="btn btn-default btn-lg pull-left">
+  								<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back to auctions
+							</button>
+	   					
+	   					</div>
+						<div id="auction-edit">
+							
+						</div>
+	   				</div>
+	   				 
   				</div>
   				
   				
@@ -300,14 +321,14 @@
 		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
   			<div class="modal-dialog" role="dialog">
     			<div class="modal-content">
-      				<div class="modal-header">
+      				<div class="modal-header" style="background-color:#c9302c;">
         				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
           					<span aria-hidden="true">&times;</span>
         				</button>
-        				<h4 class="modal-title" id="deleteLabel">Delete Auction</h4>
+        				<h4 class="modal-title" id="deleteLabel" style="color:#fff;">Delete Auction</h4>
       				</div>
       				<div class="modal-body">
-     				Are you sure that you want to delete auction: <h5 id="auction-name"></h5>
+     				Are you sure that you want to delete auction: <h5 id="auction-name-modal"></h5>
       				</div>
       				<div class="modal-footer">
         				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

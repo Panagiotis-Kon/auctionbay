@@ -1,0 +1,140 @@
+<div style="margin-bottom:2%;"></div>
+<form>
+					<div class="row">
+					<div class="col-md-6">
+						<div class="panel panel-default">
+		        			<div class="panel-heading">
+		        				<h5><span class="badge">1</span> Main Auction Fields</h5>
+		        			</div>
+		        			<div class="panel-body">
+		        				<div class="form-horizontal">
+		                			<div class="form-group">
+		                   				<label class="col-sm-3 control-label" for="Title">Name</label>
+		                       			<div class="col-sm-9">
+		                        			<input class="form-control" id="auction-name" maxlength="80" name="Name" type="text" value="" />
+		                        		</div>
+		                    		</div>
+			                		<div class="form-group">
+			                			<label class="col-sm-3 control-label" for="Description">Description</label>
+			                    		<div class="col-sm-9">
+			                    			<textarea id="auction-description" name="Description" class="form-control"></textarea>
+			                    		</div>
+			                		</div>
+			        			</div>
+		         			</div>
+		         		</div>
+		         		</div>
+		         		
+		         		<div class="col-md-6">
+		         		<div class="panel panel-default">
+		        			<div class="panel-heading">
+		        				<h5><span class="badge">2</span> Category Fields</h5>
+		        			</div>
+		        			<div class="panel-body">
+		        				<div class="form-horizontal">
+		        					<div id="current-cat">
+		        					
+		        					<div class="form-group">
+		        						<label class="col-sm-3 control-label" for="current-category">Category: </label>
+		        						<h5 class="col-sm-6" id="current-category"></h5>
+		        						<button type="button" class="btn btn-primary" id="change-cat-btn">Change</button>
+		        					</div>
+		        					</div>
+		        					<div id="change-cat" style="display:none;">
+		                			 <div class="form-group">
+  										<label class="col-sm-3 control-label" for="category_list">Choose Category</label>
+  										<div class="col-sm-9">
+  											<label class="label-danger" style="display:none;" id="no-categories">No Categories Available</label>
+  											<div class="col-md-4 col-sm-3">
+  											<select multiple="multiple" id="category_list" class="form-control"></select>
+  											</div>
+  										</div>
+									</div>
+			                		<div class="form-group">
+			                			<label class="col-sm-4 control-label" for="new-category" id="add-cat-label">New Category <button type="button" onClick="return addCategoryInput(1);" class="btn btn-default btn-xs" aria-label="Left Align"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></label> 
+			                    		<label class="col-sm-4 control-label" for="new-category" id="remove-cat-label" style="display:none;">New Category <button type="button" onClick="return removeCategoryInput(1);" class="btn btn-default btn-xs" aria-label="Left Align"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button></label> 
+			                    		<div class="col-sm-6">
+			                    			<input class="form-control" id="new-category" style="display:none;" maxlength="80" placeholder="Add a New Category" name="New Category" type="text"/>
+			                    		</div>
+			                		</div>
+			                		</div>
+			        			</div>
+		         			</div>
+		         		</div>
+		         		</div>
+		         		</div>
+		         		
+		         		<div class="panel panel-default">
+		        			<div class="panel-heading">
+		        				<h5><span class="badge">3</span> Location Fields</h5>
+		        			</div>
+		        			<div class="panel-body">
+		        				<div class="form-horizontal">
+		                			 <div class="form-group">
+  										<label class="col-sm-3 control-label" for="country">Select Country</label>
+  										<div class="col-sm-9">
+  											<select class="form control" id="country2" name ="country2"></select>
+  										</div>
+  										
+									</div>
+			                		<div class="form-group">
+			                			<label class="col-sm-3 control-label" for="location">Location</label> 
+			                    		<div class="col-sm-9">
+			                    			<div id="googleMap"  style="width:500px;height:380px;"></div>
+			                    		</div>
+			                		</div>
+			        			</div>
+		         			</div>
+		         		</div>
+		         		
+		         		<div class="panel panel-default">
+		        			<div class="panel-heading">
+		        				<h5><span class="badge">4</span> Duration-Time Fields</h5>
+		        			</div>
+		        			<div class="panel-body">
+		        				<div class="form-horizontal">
+		                			 
+									<div class='form-group row'>
+                  						<label for="datetimepicker" class="col-sm-2 form-control-label">Select Duration:</label>
+                    					<div class='col-sm-6 input-group date' id='datetimepicker'>
+                      						<input type='text' id="datetime-field" class="form-control" />
+                      							<span class="input-group-addon">
+                        						<span class="glyphicon glyphicon-calendar"></span>
+                      							</span>
+                      
+                    					</div>
+                  
+                					</div>
+			                		
+			        			</div>
+		         			</div>
+		         		</div>
+		         		
+		         		<div class="panel panel-default">
+		        			<div class="panel-heading">
+		        				<h5><span class="badge">5</span> Pricing Fields</h5>
+		        			</div>
+		        			<div class="panel-body">
+		        				<div class="form-horizontal">
+		                			 <div class="form-group">
+  										<label class="col-sm-3 control-label" for="buy-price">Buy Price</label>
+  										<div class="col-sm-6">
+  											<div class='input-group'><input id="buy-price" class="form-control" name="buy-price" type="text" value="" /><span class='input-group-addon'>$</span></div>
+  										</div>
+  										
+									</div>
+			                		<div class="form-group">
+			                			<label class="col-sm-3 control-label" for="first-bid">First Bid</label> 
+			                    		<div class="col-sm-6">
+			                    			<div class='input-group'><input id="first-bid" class="form-control" name="first-bid" type="text" value="" /><span class='input-group-addon'>$</span></div>
+			                    		</div>
+			                		</div>
+			        			</div>
+		         			</div>
+		         		</div>
+		         		
+		         		<div class="well">
+		              		<input type="button" class="btn btn-primary btn-lg pull-right" id="create-auction"  value="Create" />
+		              		<input type="button" class="btn btn-default" id="reset"  value="Reset" />
+		              	</div>
+					</form>

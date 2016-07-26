@@ -24,6 +24,14 @@ var user_auctions;
 
 function initListeners() {
 	
+	
+	var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+    $('#datetimepicker').datetimepicker({
+        minDate: now
+    });
+	
+	
 	$("#create-tab").on('shown.bs.tab', function() {
 
 	  	console.log("resizing map...")
@@ -50,15 +58,48 @@ function initListeners() {
 		var row = user_auctions.row(tr);
 		
 		var id = row.data()[0];
+		$('#user-auctions').hide();
+		
+		editAuctionModule();
         console.log("auction_id: " + id);
         
        
     } );
 	
+	$('#user-auctions-grid tbody').on('click', 'button.delete-button', function () {
+		
+		var tr = $(this).parents('tr');
+		var row = user_auctions.row(tr);
+		
+		var id = row.data()[0];
+		var name = row.data()[2];
+		$("#auction-name-modal").html("<strong>" + name + " ?</strong>");
+		$('#deleteModal').modal('show');
+        console.log("auction_id: " + id);
+        
+       
+    } );
+	
+	$('#toAuctions-button').click(function(){
+		$('#edit-area').hide();
+		user_auctions.destroy();
+		getUserAuctions();
+		
+	});
 	
 	
 	
 	
+	
+}
+
+function editAuctionModule() {
+	$.get( window.location.href + "/edit-module", function( edit_module ) {
+		var panel = $("<div id=\"edit-form\">" + edit_module + "</div>");
+		var html = panel.html();
+		$("#auction-edit").append(html);
+		$('#edit-area').show();
+	});
 }
 
 
@@ -103,6 +144,7 @@ function countUserAuctions() {
 
 function getUserAuctions() {
 	
+	console.log("get user auctions....");
 	var username = getUser();
 	user_auctions = $('#user-auctions-grid').DataTable( {
 		"processing": true,
@@ -125,7 +167,7 @@ function getUserAuctions() {
 	                "orderable":      false,
 	                "data":           null,
 	                "defaultContent": '<button type=\"button\" id=\"edit-button\" class=\"btn btn-primary btn-sm edit-button\">Edit</button>'+
-	                '&nbsp<button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-sm delete-button\" data-toggle=\"modal\" data-target=\"#deleteModal\">Delete</button>'
+	                '&nbsp<button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-sm delete-button\">Delete</button>'
 	            }
 	        ],
 	        "columnDefs": [
@@ -143,6 +185,8 @@ function getUserAuctions() {
 	          ]             
 	
     	});
+	$('#user-auctions').show();
+	console.log("ENDING get user auctions....");
 }
 
 
@@ -221,19 +265,43 @@ function getCategoryList(){
 	console.log("getting the categories ended");
 }
 
-
-function addCategoryInput(){
-	console.log("you clicked")
-	$('#new-category').css("display","block");
-	$('#add-cat-label').css("display","none");
-	$('#remove-cat-label').css("display","block");
+function getAuctionCategory(auction_id) {
+	
+	
 }
 
-function removeCategoryInput(){
+
+function addCategoryInput(option){
+	console.log("you clicked")
+	/**
+	 * option 0 : for the create tab
+	 * option 1 : for the edit tab 
+	 */
+	if(option == 0) {
+		//console.log("option: " + option)
+		$('#new-category').css("display","block");
+		$('#add-cat-label').css("display","none");
+		$('#remove-cat-label').css("display","block");
+	} else {
+		
+	}
+	
+}
+
+function removeCategoryInput(option){
 	console.log("removing category input");
-	$('#new-category').css("display","none");
-	$('#remove-cat-label').css("display","none");
-	$('#add-cat-label').css("display","block");
+	/**
+	 * option 0 : for the create tab
+	 * option 1 : for the edit tab 
+	 */
+	if(option == 0) {
+		$('#new-category').css("display","none");
+		$('#remove-cat-label').css("display","none");
+		$('#add-cat-label').css("display","block");
+	} else {
+		
+	}
+	
 }
 
 

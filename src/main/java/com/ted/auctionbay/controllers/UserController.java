@@ -52,9 +52,15 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = {"/{username}/manage-auctions"})
-	public static String createAuctionRedirection() {
+	public static String manageAuctionsRedirection() {
 		
 		return "/pages/user/manage_auctions.html";
+	}
+	
+	@RequestMapping(value = {"/{username}/manage-auctions/edit-module"})
+	public static String editAuctionModule() {
+		
+		return "/pages/modules/auctionEditModule.html";
 	}
 	/*
 	@RequestMapping(value = "",method = RequestMethod.GET)
