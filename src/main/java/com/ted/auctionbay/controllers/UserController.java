@@ -45,7 +45,7 @@ public class UserController {
 		return "/pages/auctions.html";
 	}
 	
-	@RequestMapping(value = {"/{username}/auctions/item"})
+	@RequestMapping(value = {"/{username}/auctions/item/{item_id}"})
 	public static String itemRedirection() {
 		
 		return "/pages/item.html";

@@ -25,11 +25,19 @@ public class ItemController {
 	@Autowired
 	ItemServices itemServices;
 	
+	
+	@RequestMapping(value = "/details-module",method = RequestMethod.GET)
+	public String getAuctionsModule(){
+		System.out.println("getting details module");
+		return "/pages/modules/itemDetailsModule.html";
+	}
+	
+	
 	//Return details of item with given ID
 	@RequestMapping(value = "/details",method = RequestMethod.GET)
 	@ResponseBody
-	public String getAuctions(@RequestParam("start") String ItemID){
-		System.out.println("...... Get auctions Controller ......");
+	public String getItemDetails(@RequestParam("itemID") String ItemID){
+		System.out.println("...... Get item details Controller ......");
 		int itemID = Integer.parseInt(ItemID);
 		
 		Item product = itemServices.getDetails(itemID);

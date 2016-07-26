@@ -62,11 +62,11 @@ function initListeners(){
 		window.location = window.location.href;
 	});
 	
-	$("#auction-title").click(function(event){
+	/*$("#auction-title").click(function(event){
 		event.preventDefault();
 		alert("you clicked me")
 		//console.log("you clicked the item and location: "+window.location.href);
-	});
+	});*/
 	
 }
 
@@ -145,9 +145,10 @@ function getAuctionsByCategory(start,end,template_module,category){
 				$('#no_auctions').css("display","none");
 				
 				for(var i=0;i<auctions.length;i++){
-					var panel = $("<div>" + template_module + "</div>");
+					var panel = $("<div id=\"item-lists-module\">" + template_module + "</div>");
 					panel.find('.item-listing-seller label').text(auctions[i].seller);
-					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
+					//panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
+					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id);
 					//panel.find('.item-id').text(auctions[i].id);
 					panel.find('.item-listing-title a').text(auctions[i].name);
 					
@@ -182,9 +183,10 @@ function getAuctions(start,end,template_module){
 				$('#no_auctions').css("display","none");
 				
 				for(var i=0;i<auctions.length;i++){
-					var panel = $("<div>" + template_module + "</div>");
+					var panel = $("<div id=\"item-lists-module\">" + template_module + "</div>");
 					panel.find('.item-listing-seller label').text(auctions[i].seller);
-					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
+					//panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
+					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id);
 					panel.find('.item-listing-title a').text(auctions[i].name);
 					
 					panel.find("#elapseTime h4").text(auctions[i].expires+"remaining");

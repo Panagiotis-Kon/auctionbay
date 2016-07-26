@@ -70,7 +70,7 @@ public class MainController {
 		return "/pages/auctions.html";
 	}
 	
-	@RequestMapping(value = {"/auctions/item"})
+	@RequestMapping(value = {"/auctions/item/{item_id}"})
 	public static String itemRedirection() {
 		
 		return "/pages/item.html";
