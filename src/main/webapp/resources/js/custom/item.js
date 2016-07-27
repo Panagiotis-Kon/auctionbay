@@ -42,6 +42,11 @@ function getDetails(itemID, details_module) {
 				
 				var panel = $("<div>" + details_module + "</div>");
 				panel.find('#Title').text(data.name);
+				panel.find('#description').text(data.description);
+				panel.find('#itemID').text(data.id);
+				panel.find('#location').text(data.location);
+				panel.find('#latitude').text(data.lat);
+				panel.find('#longtitude').text(data.lon);
 				//panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
 				//panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id);
 				//panel.find('.item-listing-title a').text(auctions[i].name);
@@ -52,6 +57,7 @@ function getDetails(itemID, details_module) {
 				//panel.find("#numberOfbids").text(auctions[i].numberOfBids + "     " + "Bids");
 				html = panel.html();
 				$("#item-details").append(html);
+				//checkforUser();
 			}
 		}	
 	}); 

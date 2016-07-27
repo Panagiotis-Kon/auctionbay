@@ -48,7 +48,7 @@ public class ItemController {
 			jitem.put("name", item.getName());
 			jitem.put("id", item.getItemID());
 			jitem.put("description",item.getDescription());
-			//j.put("category", product.getItemID)
+			//jitem.put("category", item.getItemID)
 			jitem.put("location",item.getLocation());
 			jitem.put("lat", item.getLatitude());
 			jitem.put("lon",item.getLongitute());
