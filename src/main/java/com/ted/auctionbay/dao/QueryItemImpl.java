@@ -26,7 +26,7 @@ public class QueryItemImpl implements QueryItem {
 	public List<Double> getCoordinates(int ItemID){
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query q = em.createNativeQuery("SELECT Latitude, Longitude FROM item WHERE ItemID=?",Item.class);
-		q.setParameter(0, ItemID);
+		q.setParameter(1, ItemID);
 		List<Item> Set = q.getResultList();
 		List<Double> resultSet = new ArrayList<Double>();
 		resultSet.add(Set.get(0).getLatitude());
@@ -39,7 +39,7 @@ public class QueryItemImpl implements QueryItem {
 	public List<Category>  getCategories(int ItemID){		
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query q = em.createNativeQuery("SELECT Category FROM item WHERE ItemID=?",Item.class);
-		q.setParameter(0, ItemID);
+		q.setParameter(1, ItemID);
 		List<Category> resultSet = q.getResultList();
 		return resultSet;
 	}
@@ -49,7 +49,7 @@ public class QueryItemImpl implements QueryItem {
 	public String getLocation(int ItemID){
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query q = em.createNativeQuery("SELECT Location FROM item WHERE ItemID=?",Item.class);
-		q.setParameter(0, ItemID);
+		q.setParameter(1, ItemID);
 		List<Item> Set = q.getResultList();
 		return Set.get(0).getLocation();
 	}
@@ -68,7 +68,7 @@ public class QueryItemImpl implements QueryItem {
 	public Item getDetails(int ItemID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query q = em.createNativeQuery("SELECT * FROM item WHERE ItemID=?",Item.class);
-		q.setParameter(0, ItemID);
+		q.setParameter(1, ItemID);
 		List<Item> Set = q.getResultList();
 		return Set.get(0);
 	}

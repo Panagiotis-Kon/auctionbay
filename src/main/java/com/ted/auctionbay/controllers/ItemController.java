@@ -40,21 +40,21 @@ public class ItemController {
 		System.out.println("...... Get item details Controller ......");
 		int itemID = Integer.parseInt(ItemID);
 		
-		Item product = itemServices.getDetails(itemID);
+		Item item = itemServices.getDetails(itemID);
 		
-		JSONObject jproduct = new JSONObject();
+		JSONObject jitem = new JSONObject();
 		
 		try {
-			jproduct.put("name", product.getName());
-			jproduct.put("id", product.getItemID());
-			jproduct.put("description",product.getDescription());
+			jitem.put("name", item.getName());
+			jitem.put("id", item.getItemID());
+			jitem.put("description",item.getDescription());
 			//j.put("category", product.getItemID)
-			jproduct.put("location",product.getLocation());
-			jproduct.put("lat", product.getLatitude());
-			jproduct.put("lon",product.getLongitute());
+			jitem.put("location",item.getLocation());
+			jitem.put("lat", item.getLatitude());
+			jitem.put("lon",item.getLongitute());
 		}catch(JSONException e){
 			System.out.println("....... get item json error .....");
 		}
-		return jproduct.toString();
+		return jitem.toString();
 	}
 }
