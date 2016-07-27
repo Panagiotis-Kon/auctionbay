@@ -18,7 +18,5 @@ public interface QueryItem {
 	public Item getDetails(int ItemID);
 	
 	public String getLocation(int ItemID);
-	
-	public List<Float> getPrices(int ItemID);
 
 }

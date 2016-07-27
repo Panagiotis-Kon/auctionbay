@@ -71,18 +71,5 @@ public class QueryItemImpl implements QueryItem {
 		List<Item> Set = q.getResultList();
 		return Set.get(0);
 	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Float> getPrices(int ItemID) {
-		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query q = em.createNativeQuery("SELECT * FROM item WHERE ItemID=?",Item.class);
-		q.setParameter(1, ItemID);
-		List<String> Set = q.getResultList();
-		List<Float> prices = new ArrayList<Float>();
-		prices.add(Float.parseFloat(Set.get(0)));
-		prices.add(Float.parseFloat(Set.get(1)));
-		return prices;
-	}
 	
 }

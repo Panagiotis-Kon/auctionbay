@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
 
 public class QueryAuctionImpl implements QueryAuction{
@@ -63,6 +64,16 @@ public class QueryAuctionImpl implements QueryAuction{
 		query.setMaxResults(endpage);
 		
 		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Auction getDetails(int AuctionID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM auction WHERE AuctionID=?",Auction.class) ;
+		query.setParameter(1, AuctionID);
+		List<Auction> Set = query.getResultList();
+		return Set.get(0);
 	}
 
 }

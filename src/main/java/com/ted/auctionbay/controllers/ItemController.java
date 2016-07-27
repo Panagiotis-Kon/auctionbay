@@ -1,5 +1,6 @@
 package com.ted.auctionbay.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.services.ItemServices;
+import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.timeutils.TimeUtilities;
 
 @Controller
@@ -25,6 +27,9 @@ public class ItemController {
 
 	@Autowired
 	ItemServices itemServices;
+	
+	@Autowired
+	AuctionServices auctionServices;
 	
 	
 	@RequestMapping(value = "/details-module",method = RequestMethod.GET)
@@ -43,6 +48,7 @@ public class ItemController {
 		
 		Item item = itemServices.getDetails(itemID);
 		List<String> categories = itemServices.getCategories(itemID);
+		//Auction auction = auctionServices.getDetails()
 		
 		JSONObject jitem = new JSONObject();
 		

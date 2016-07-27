@@ -32,9 +32,8 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public Auction getDetails() {
-		// TODO Auto-generated method stub
-		return null;
+	public Auction getDetails(int AuctionID) {
+		return queryAuction.getDetails(AuctionID);
 	}
 
 	@Override
