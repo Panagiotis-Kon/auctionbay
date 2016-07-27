@@ -57,11 +57,13 @@ function initListeners() {
 		var tr = $(this).parents('tr');
 		var row = user_auctions.row(tr);
 		
-		var id = row.data()[0];
+		var auction_id = row.data()[0];
+		var item_id = row.data()[1];
+		console.log("item_id: " + row.data()[1])
 		$('#user-auctions').hide();
 		
-		editAuctionModule();
-        console.log("auction_id: " + id);
+		editAuctionModule(auction_id,item_id);
+        console.log("auction_id: " + auction_id);
         
        
     } );
@@ -73,12 +75,11 @@ function initListeners() {
 		
 		var id = row.data()[0];
 		var name = row.data()[2];
+		
 		$("#auction-name-modal").html("<strong>" + name + " ?</strong>");
 		$('#deleteModal').modal('show');
-        console.log("auction_id: " + id);
-        
-       
-    } );
+        console.log("auction_id: " + id);  
+    });
 	
 	$('#toAuctions-button').click(function(){
 		$('#edit-area').hide();
@@ -86,22 +87,31 @@ function initListeners() {
 		getUserAuctions();
 		
 	});
-	
-	
-	
-	
-	
+
 }
 
-function editAuctionModule() {
+function editAuctionModule(auction_id,item_id) {
 	$.get( window.location.href + "/edit-module", function( edit_module ) {
 		var panel = $("<div id=\"edit-form\">" + edit_module + "</div>");
 		var html = panel.html();
 		$("#auction-edit").append(html);
 		$('#edit-area').show();
+		
+		//getAuctionDetails(auction_id,item_id);
 	});
 }
 
+function getAuctionDetails(auction_id,item_id) {
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		url  :window.location.href + "/auction-details",
+		data :{auction_id:auction_id,item_id:item_id},
+		success : function(data) {
+			
+		}	
+	}); 
+}
 
 function modifyMenu(){
 	
