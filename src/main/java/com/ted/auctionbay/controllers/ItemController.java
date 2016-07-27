@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.timeutils.TimeUtilities;
@@ -41,6 +42,7 @@ public class ItemController {
 		int itemID = Integer.parseInt(ItemID);
 		
 		Item item = itemServices.getDetails(itemID);
+		List<String> categories = itemServices.getCategories(itemID);
 		
 		JSONObject jitem = new JSONObject();
 		
@@ -48,10 +50,24 @@ public class ItemController {
 			jitem.put("name", item.getName());
 			jitem.put("id", item.getItemID());
 			jitem.put("description",item.getDescription());
-			//jitem.put("category", item.getItemID)
 			jitem.put("location",item.getLocation());
 			jitem.put("lat", item.getLatitude());
 			jitem.put("lon",item.getLongitute());
+			String allcategories = null;
+			// make a string from all categories of the item
+			for (int i=0;i<categories.size();i++){
+				if (i==0){
+					allcategories = String.valueOf(categories.get(i)) + ", ";
+				}
+				else if (i==categories.size()-1){
+					allcategories = allcategories + String.valueOf(categories.get(i));
+				}
+				else {
+					allcategories = allcategories + String.valueOf(categories.get(i)) + ", ";
+				}
+				
+			}
+			jitem.put("category", allcategories);
 		}catch(JSONException e){
 			System.out.println("....... get item json error .....");
 		}

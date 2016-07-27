@@ -11,12 +11,14 @@ public interface QueryItem {
 	
 	public List<Double> getCoordinates(int ItemID);
 
-	public List<Category> getCategories(int ItemID);
+	public List<String> getCategories(int ItemID);
 	
 	public int getNumberofItems();
 	
 	public Item getDetails(int ItemID);
 	
 	public String getLocation(int ItemID);
+	
+	public List<Float> getPrices(int ItemID);
 
 }

@@ -13,7 +13,7 @@ public interface ItemServices {
 	
 	public int getNumberofItems();
 	
-	public List<Category> getCategories(int ItemID);
+	public List<String> getCategories(int ItemID);
 	
 	public List<Double> getCoordinates(int ItemID);
 	

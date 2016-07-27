@@ -29,7 +29,7 @@ public class ItemServicesImpl  implements ItemServices{
 	}
 
 	@Override
-	public List<Category> getCategories(int ItemID) {
+	public List<String> getCategories(int ItemID) {
 		return queryItem.getCategories(ItemID);
 	}
 

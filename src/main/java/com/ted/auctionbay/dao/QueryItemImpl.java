@@ -17,7 +17,6 @@ public class QueryItemImpl implements QueryItem {
 	public List<Item>  getItems(){		
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		List<Item> resultSet = em.createNativeQuery("SELECT * FROM item",Item.class).getResultList();
-		
 		return resultSet;
 	}
 
@@ -36,11 +35,11 @@ public class QueryItemImpl implements QueryItem {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Category>  getCategories(int ItemID){		
+	public List<String>  getCategories(int ItemID){		
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query q = em.createNativeQuery("SELECT Category FROM item WHERE ItemID=?",Item.class);
+		Query q = em.createNativeQuery("SELECT Name FROM category, item_has_category WHERE item_has_category.CategoryID = category.CategoryID and item_has_category.ItemID=?");
 		q.setParameter(1, ItemID);
-		List<Category> resultSet = q.getResultList();
+		List<String> resultSet = q.getResultList();
 		return resultSet;
 	}
 	
@@ -71,6 +70,19 @@ public class QueryItemImpl implements QueryItem {
 		q.setParameter(1, ItemID);
 		List<Item> Set = q.getResultList();
 		return Set.get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Float> getPrices(int ItemID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query q = em.createNativeQuery("SELECT * FROM item WHERE ItemID=?",Item.class);
+		q.setParameter(1, ItemID);
+		List<String> Set = q.getResultList();
+		List<Float> prices = new ArrayList<Float>();
+		prices.add(Float.parseFloat(Set.get(0)));
+		prices.add(Float.parseFloat(Set.get(1)));
+		return prices;
 	}
 	
 }
