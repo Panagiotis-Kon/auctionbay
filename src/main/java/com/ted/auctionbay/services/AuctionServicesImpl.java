@@ -27,7 +27,6 @@ public class AuctionServicesImpl implements AuctionServices{
 
 	@Override
 	public int numOfAuctions() {
-		
 		return queryAuction.numOfAuctions();
 	}
 
@@ -38,25 +37,21 @@ public class AuctionServicesImpl implements AuctionServices{
 
 	@Override
 	public int getNumOfBids(int auction_id) {
-		
 		return queryAuction.getNumOfBids(auction_id);
 	}
 
 	@Override
 	public float getHighestBid(int auction_id) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public List<Auction> getAuctionsByCategory(int start, int end, String Category) {
-		
 		return queryAuction.getAuctionsByCategory(start,end,Category);
 	}
 
 	@Override
 	public List<Object[]> getAllCategories() { 
-		
 		return queryCategory.getAllCategories();
 	}
 

@@ -45,10 +45,9 @@ public class ItemController {
 	public String getItemDetails(@RequestParam("itemID") String ItemID){
 		System.out.println("...... Get item details Controller ......");
 		int itemID = Integer.parseInt(ItemID);
-		
 		Item item = itemServices.getDetails(itemID);
 		List<String> categories = itemServices.getCategories(itemID);
-		//Auction auction = auctionServices.getDetails()
+		Auction auction = auctionServices.getDetails(itemID);
 		
 		JSONObject jitem = new JSONObject();
 		
@@ -74,6 +73,9 @@ public class ItemController {
 				
 			}
 			jitem.put("category", allcategories);
+			jitem.put("seller", auction.getSeller());
+			jitem.put("byuprice", auction.getBuyPrice());
+			jitem.put("firstbid", auction.getFirstBid());
 		}catch(JSONException e){
 			System.out.println("....... get item json error .....");
 		}

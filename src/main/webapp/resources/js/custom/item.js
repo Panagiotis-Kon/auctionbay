@@ -48,6 +48,9 @@ function getDetails(itemID, details_module) {
 				panel.find('#latitude').text(data.lat);
 				panel.find('#longtitude').text(data.lon);
 				panel.find('#allcategories').text(data.category);
+				panel.find('#byuprice').text(data.byuprice);
+				panel.find('#seller').text(data.seller);
+				panel.find('#firstbid').text(data.firstbid);
 				html = panel.html();
 				$("#item-details").append(html);
 				//checkforUser();

@@ -9,5 +9,5 @@ public interface QueryAuction {
 	public List<Auction> getAuctions(int startpage, int endpage);
 	public List<Auction> getAuctionsByCategory(int startpage, int endpage, String category);
 	public int getNumOfBids(int auction_id);
-	public Auction getDetails(int AuctionID);
+	public Auction getDetails(int ItemID);
 }
