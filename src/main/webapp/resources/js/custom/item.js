@@ -8,10 +8,18 @@ $(document).ready(function(){
 	var url = window.location.href;
 	var itemID = url.substring(url.lastIndexOf("/")+1); 
 	console.log("item ID: " + itemID);
-	getItemModule(itemID)
+	getItemModule(itemID);
 	
 });
 
+/* --------- Global Variables ----------- */
+
+var map;
+var geocoder;
+var location_marker;
+var user_auctions;
+
+/* --------- Global Variables ----------- */
 
 function getItemModule(itemID) {
 	
@@ -58,5 +66,34 @@ function getDetails(itemID, details_module) {
 		}	
 	}); 
 	
+}
+
+
+function initGoogleMap(){
+	center = new google.maps.LatLng(51.508742,-0.120850)
+	map = new google.maps.Map(document.getElementById('itemgoogleMap'), {
+	    center: center,
+	    zoom: 8,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
 	
+
+	location_marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+	location_marker.setMap(map);
+
+	
+	map.addListener('click', function(e) {
+		
+		if(typeof location_marker !== 'undefined')
+			location_marker.setMap(null);
+		
+		location_marker = new google.maps.Marker({
+	        position: e.latLng,
+	        map: map
+	    });
+		location_marker.setMap(map);
+	});
 }
