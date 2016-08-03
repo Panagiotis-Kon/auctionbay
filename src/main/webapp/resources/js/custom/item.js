@@ -9,6 +9,7 @@ $(document).ready(function(){
 	var itemID = url.substring(url.lastIndexOf("/")+1); 
 	console.log("item ID: " + itemID);
 	getItemModule(itemID);
+	checkForUser();
 	
 });
 
@@ -18,6 +19,8 @@ var map;
 var geocoder;
 var location_marker;
 var user_auctions;
+var latitude;
+var longtitude;
 
 /* --------- Global Variables ----------- */
 
@@ -59,25 +62,31 @@ function getDetails(itemID, details_module) {
 				panel.find('#byuprice').text(data.byuprice);
 				panel.find('#seller').text(data.seller);
 				panel.find('#firstbid').text(data.firstbid);
+				latitude = data.lat;
+				longtitude = data.lon;
+				
 				html = panel.html();
 				$("#item-details").append(html);
-				//checkforUser();
+				
 			}
 		}	
 	}); 
-	
+	console.log("end of getting item details")
 }
 
 
-function initGoogleMap(){
-	center = new google.maps.LatLng(51.508742,-0.120850)
-	map = new google.maps.Map(document.getElementById('itemgoogleMap'), {
+function initMap(){
+	console.log("Creating google maps")
+	var center = new google.maps.LatLng(latitude,longtitude);
+	var mapDiv = document.getElementById('itemMap');
+	map = new google.maps.Map(mapDiv, {
 	    center: center,
 	    zoom: 8,
 	    mapTypeId: google.maps.MapTypeId.ROADMAP
 	});
 	
-
+	//var position = new google.maps.LatLng(latitude,longtitude);
+	console.log("center: " + center)
 	location_marker = new google.maps.Marker({
         position: center,
         map: map
@@ -85,7 +94,7 @@ function initGoogleMap(){
 	location_marker.setMap(map);
 
 	
-	map.addListener('click', function(e) {
+	/*map.addListener('click', function(e) {
 		
 		if(typeof location_marker !== 'undefined')
 			location_marker.setMap(null);
@@ -95,5 +104,7 @@ function initGoogleMap(){
 	        map: map
 	    });
 		location_marker.setMap(map);
-	});
+	});*/
+	
+	console.log("end of creation")
 }

@@ -1,6 +1,7 @@
 
-$(document).ready(function(){
-	
+
+
+function checkForUser(){
 	/*
 	 * Check first the url. 
 	 * If the url is /auctionbay/ then the user is a guest -> create the default modules
@@ -14,95 +15,129 @@ $(document).ready(function(){
 		// if not found then it return -1 
 		// then it is a guest 
 		// call default modules
-		console.log("the url DOES NOT contains the user")
-		defaultModulesInit();
-		//var username = "alex";
-		//userModulesInit(username);
+		console.log("the url DOES NOT contains the user: " + window.location.pathname)
+		var patharray = window.location.pathname.split( '/' );
+		console.log("patharray: " + patharray)
+		console.log("patharray length: " + patharray.length)
+		var page;
+		if(patharray.length > 3) {
+			page = patharray[3];
+		} else {
+			page = "index";
+		}
+		modulesController(page,"");
 		
 	} else {
 		// it is registered user, call userModulesInit()
 		var patharray = window.location.pathname.split( '/' );
-		var username = patharray[3];
-		console.log("username: " + username);
-		//username = "alex";
-		userModulesInit(username);
-	}
-	//getCategories();
-	setlisteners();
-});
-
-
-function defaultModulesInit(){
-	
-	document.getElementById('default-right-col').style.display = 'block';
-	//$('#create-auction-panel').css("display","none");
-	$('#manage-auction-panel').css("display","none");
-	console.log("default-right-col showed");
-	
-}
-
-
-function userModulesInit(username){
-	
-	document.getElementById('auctions1').style.display = 'none';
-	document.getElementById('auctions2').style.display = 'block';
-	
-	console.log("the url contains the user " + username);
-	document.getElementById('user-right-col').style.display = 'block';
-	
-	console.log("user-right-col showed");
-	var btn_text = document.getElementById('username');
-	btn_text.innerHTML = username + " <span class=\"caret\"></span>";
-	
-	document.getElementById('login-panel').style.display = 'none';
-	document.getElementById('sidebar').style.display = 'block';
-	$('#main-info-header').removeClass("col-lg-12");
-	$('#main-info-header').addClass("col-md-10");
-	
-	$('#va-panel').removeClass("col-lg-3 col-md-6");
-	$('#va-panel').addClass("col-xs-3 col-xs-offset-2");
-	
-	
-	
-	//$('#create-auction-panel').css("display","block");
-	$('#manage-auction-panel').css("display","block");
-	/* It might not be needed*/
-	$('#b').removeClass("col-lg-3 col-md-6");
-	$('#b').addClass("col-xs-3");
-	/**/
-	
-	
-	
-	console.log("class added");
-	
-	
-}
-
-function getCategories(){
-	
-	/* Make ajax call to receive the categories from the db */
-	console.log("getting the categories");
-
-	$.ajax({
-		type : "GET",
-		dataType:'json',
-		url  : "/auctionbay/categories",
-		success : function(data) {
-			$.each(data, function(k, v) {
-				//$("#side-categories").append("<li><a href=\"\">ITEM 3</a></li>")
-			    console.log(data);
-			});
+		console.log("patharray: " + patharray)
+		console.log("patharray length: " + patharray.length)
+		var page;
+		if(patharray.length > 4) {
+			page = patharray[4]
+		} else {
+			page = "index";
 		}
 		
-	});  
-	
+		console.log(page)
+		var username = patharray[3];
+		console.log("username: " + username);
+		modulesController(page,username)
+		
+	}
 }
 
-function setlisteners(){
-	
-
-	
+function getUser() {
+	var patharray = window.location.pathname.split( '/' );
+	var username = patharray[3];
+	return username;
 }
+
+function modulesController(page,username){
+	if(username == "") {
+		if(page == "index") {
+			var modules = [];
+			modules.push("#manage-auction-panel");
+			disableModules(modules);
+		} 
+		if(page == "auctions") {
+			var modules = [];
+			
+			modules.push("button.bid");
+			disableModules(modules);
+		}
+	} else {
+		
+		menuBarEdit(username);
+		if(page == "index") {
+			var enable_modules = [];
+			var disable_modules = [];
+			enable_modules.push("#sidebar");
+			enable_modules.push("#manage-auction-panel");
+			enableModules(enable_modules);
+			
+			
+			disable_modules.push("#login-panel");
+			disableModules(disable_modules);
+			
+			
+			changeClass("#main-info-header","col-lg-12","col-md-10");
+			changeClass("#va-panel","col-lg-3 col-md-6","col-xs-3 col-xs-offset-2");
+			
+		} 
+		if(page == "auctions") {
+			var enable_modules = [];
+		
+			enable_modules.push("#sidebar");
+			enableModules(enable_modules);
+			
+		}
+	}
+}
+
+function menuBarEdit(username){
+	console.log("Menu bar ")
+	var enable_modules = [];
+	var disable_modules = [];
+	enable_modules.push("#auctions2");
+	enable_modules.push("#user-right-col");
+	enableModules(enable_modules);
+	editText("#username",username);
+	
+	disable_modules.push("#auctions1");
+	disable_modules.push("#default-right-col");
+	disableModules(disable_modules);
+}
+
+function enableModules(modules){
+	console.log(modules)
+	for(var module in modules) {
+		console.log(modules[module])
+		var module_name = modules[module];
+		$(module_name).css("display","block");
+	}		
+}
+
+function disableModules(modules) {
+	console.log(modules)
+	for(var module in modules) {
+		console.log(modules[module])
+		var module_name = modules[module];
+		$(module_name).css("display","none");
+	}	
+}
+
+function changeClass(module,oldClass,newClass) {
+	$(module).removeClass(oldClass);
+	$(module).addClass(newClass);
+}
+
+function editText(module,text) {
+	
+	$(module).html(text + " <span class=\"caret\"></span>");
+}
+
+
 
 
 

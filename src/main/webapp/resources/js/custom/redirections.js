@@ -22,12 +22,43 @@ $(document).ready(function(){
 		console.log("window.location.href: " + window.location.href)
 		console.log("baseURL: " + baseURL)
 		var location = window.location.href;
+		var patharray = window.location.pathname.split( '/' );
+		if(patharray.length >= 4) {
+			console.log("path: " + patharray)
+			location = baseURL + "/" + patharray[2] + "/" + patharray[3] + "/auctions";
+			window.location = location;
+		} else {
+			window.location = baseURL + "/auctions";
+		}
 		var lastChar = location.substr(location.length - 1);
-		if(lastChar == "/"){
+		/*if(lastChar == "/"){
 			window.location = window.location.href+"auctions";
 		} else {
 			window.location = window.location.href+"/auctions";
+		}*/
+    	
+   });
+	
+	$("a.create-auction-ref").on("click",function(event){
+
+		event.preventDefault();
+		console.log("window.location.href: " + window.location.href)
+		console.log("baseURL: " + baseURL)
+		var location = window.location.href;
+		var patharray = window.location.pathname.split( '/' );
+		if(patharray.length >= 4) {
+			console.log("path: " + patharray)
+			location = baseURL + "/" + patharray[2] + "/" + patharray[3] + "/manage-auctions";
+			window.location = location;
+		} else {
+			window.location = baseURL + "/manage-auctions";
 		}
+		var lastChar = location.substr(location.length - 1);
+		/*if(lastChar == "/"){
+			window.location = window.location.href+"auctions";
+		} else {
+			window.location = window.location.href+"/auctions";
+		}*/
     	
    });
 	

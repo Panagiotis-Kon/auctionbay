@@ -94,7 +94,12 @@ public class UserController {
 	
 	}
 	
-	
+	@RequestMapping(value = "/{username}/manage-auctions/create-auction", method = RequestMethod.POST)
+	@ResponseBody
+	public String createAuction(@RequestParam String input){
+		System.out.println("Create auction: " + input);
+		return "";
+	}
 	
 	@RequestMapping(value = {"/{username}/manage-auctions/get-user-auctions"})
 	@ResponseBody

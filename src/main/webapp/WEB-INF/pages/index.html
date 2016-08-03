@@ -13,14 +13,7 @@
 <link href="https://localhost:8443/auctionbay/resources/css/custom/footer.css" rel="stylesheet" type="text/css" media="all" />
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<script type="application/x-javascript"> 
 
-addEventListener("load", function() 
-		{ setTimeout(hideURLbar, 0); }, false); 
-		function hideURLbar(){ window.scrollTo(0,1); 
-		} 
-		
-</script>
 <!--fonts-->
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <!--//fonts-->
@@ -31,6 +24,14 @@ addEventListener("load", function()
 <script src="https://localhost:8443/auctionbay/resources/js/custom/redirections.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/index.js" type="text/javascript"></script>
 <!--script-->
+<script>
+$(document).ready(function(){
+	
+	checkForUser();
+	
+});
+</script>
+
 </head>
 <body> 
 	<!--header-->
@@ -76,7 +77,7 @@ addEventListener("load", function()
             				</form>
             				
             				<!-- guest user section -->
-            				<div id="default-right-col" style="display:none">
+            				<div id="default-right-col">
             					<ul class="nav navbar-nav navbar-right">
       								<li>
       									<a href="#" class="login-link" style="color:#fff;">

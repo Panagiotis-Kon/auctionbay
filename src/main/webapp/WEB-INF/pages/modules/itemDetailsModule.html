@@ -4,45 +4,52 @@
 <div id="content-area" class="col-md-6">
 	<div class="row">
   		<div class="col-md-12">
-   			<h1 id="Title"></h1>
+   			<h2 id="Title"></h2>
    		</div>
  	</div>
+ 	<div style="margin-bottom:2%;"></div>
  	<div class="row">
  		<div class="col-md-12">
- 			<span class="label label-primary">Seller:</span>
-  			<span class="text text-primary" id="seller"></span>
+ 			<h4><span class="label label-primary">Seller:</span>
+  			<span class="text text-success" id="seller"></span></h4>
  		</div>
 	</div>
+	<div style="margin-bottom:2%;"></div>
  	<div class="row">
  		<div class="col-md-12">
- 			<span class="label label-primary">Categories:</span>
-  			<span class="text text-primary" id="allcategories"></span>
+ 			<h4><span class="label label-primary">Categories:</span>
+  			<span class="text text-success" id="allcategories"></span></h4>
  		</div>
  	</div>
+ 	<div style="margin-bottom:2%;"></div>
  	<div class="row">
  		<div class="col-md-12">
- 			<span class="label label-primary">Item ID:</span>
-  			<span class="text text-primary" id="itemID"></span>
+ 			<h4><span class="label label-primary">Item ID:</span>
+  			<span class="text text-success" id="itemID"></span></h4>
  		</div>
  	</div>
+ 	<div style="margin-bottom:2%;"></div>
  	<div class="row">
  		<div class="col-md-12">
- 			<span class="label label-primary">Location:</span>
-  			<span class="text text-primary" id="location"></span>
+ 			<h4><span class="label label-primary">Location:</span>
+  			<span class="text text-success" id="location"></span></h4>
  		</div>
 	</div>
+	<div style="margin-bottom:2%;"></div>
 	<div class="row">
  		<div class="col-md-12">
- 			<span class="label label-primary">Byu Price:</span>
-  			<span class="text text-primary" id="byuprice"></span>
+ 			<h4><span class="label label-primary">Buy Price:</span>
+  			<span class="text text-success" id="byuprice"></span></h4>
  		</div>
 	</div>
+	<div style="margin-bottom:2%;"></div>
 	<div class="row">
  		<div class="col-md-12">
- 			<span class="label label-primary">First Bid:</span>
-  			<span class="text text-primary" id="firstbid"></span>
+ 			<h4><span class="label label-primary">First Bid:</span>
+  			<span class="text text-primary" id="firstbid"></span></h4>
  		</div>
 	</div>
+	<div style="margin-bottom:2%;"></div>
 	<div class="row">
  		<div class="col-md-3">
   			<span class="sr-only">Four out of Five Stars</span>
@@ -57,11 +64,20 @@
   			<span class="monospaced">Write a Review</span>
  		</div>
 	</div>
+	<div style="margin-bottom:2%;"></div>
 	<div class="row">
  		<div class="col-md-12 bottom-rule">
   			<h2 class="product-price" id="price"></h2>
  		</div>
-	</div><!-- end row -->
+	</div>
+	<div style="margin-bottom:2%;"></div>
+	<div class="row">
+ 		<div class="col-md-3 pull-right">
+  			<button class="btn btn-warning">Bid Now</button>
+ 		</div>
+	</div>
+	<div style="margin-bottom:2%;"></div>
+	<!-- end row -->
 
 	<!--  <div class="row add-to-cart">
  		<div class="col-md-5 product-qty">
@@ -99,6 +115,9 @@
   >Map</a>
  </li>
 </ul>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBlKBVky_UnMTgOzkHGYbKnqksn5I5LQw&callback=initMap"></script>
+
 	
 <div class="tab-content">
  <div role="tabpanel" class="tab-pane active" id="description">
@@ -106,7 +125,8 @@
  </div>
  <div role="tabpanel" class="tab-pane top-10" id="map">
  	<!-- Google maps api -->
- 	<div id="itemgoogleMap"  style="width:500px;height:380px;"></div>
+ 	<div id="itemMap"  style="width:500px;height:380px;"></div>
+ 	
  	<!-- Google maps api -->
  </div>
 </div>	
