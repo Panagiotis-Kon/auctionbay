@@ -5,6 +5,7 @@ $(document).ready(function (){
 	getCategoryList();
 	countUserAuctions()
 	getUserAuctions();
+	countryList('countries-list');
 	initListeners();
 	
 	checkForUser();
@@ -17,8 +18,10 @@ $(document).ready(function (){
 var map;
 var geocoder;
 var location_marker;
+var lat;
+var lon;
 var user_auctions;
-var country_list = ["Afghanistan","Albania","Algeria","Andorra",
+var countries = ["Afghanistan","Albania","Algeria","Andorra",
                     "Angola","Anguilla","Antigua &amp; Barbuda","Argentina",
                     "Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas",
                     "Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize",
@@ -53,6 +56,23 @@ var country_list = ["Afghanistan","Albania","Algeria","Andorra",
 
 /* --------- Global Variables ----------- */
 
+function countryList(divName) {
+	console.log("countries!!!")
+	var sel = document.getElementById(divName);
+	var empty = document.createElement('option');
+    empty.innerHTML = "";
+    empty.value = "";
+    sel.appendChild(empty);
+    
+	for(var i = 0; i < countries.length; i++) {
+	    var opt = document.createElement('option');
+	    opt.innerHTML = countries[i];
+	    opt.value = countries[i];
+	    sel.appendChild(opt);
+	}
+}
+
+
 
 function initListeners() {
 	
@@ -69,7 +89,7 @@ function initListeners() {
 	  	console.log("resizing map...")
 		google.maps.event.trigger(map, 'resize');
 	});
-	$('#country2').change(function(){
+	$('#countries-list').change(function(){
         var country = $(this).val();
         console.log("country: " + country)
         geocodeAddress(geocoder, map, country);
@@ -129,27 +149,51 @@ function initListeners() {
 		}
 		var auction_desc = $("#auction-description").val();
 		var auction_category = $("#category_list").val();
+		
+		input["auction_name"] = auction_name;
+		input["auction_desc"] = auction_desc;
+		
 		if(auction_category == null) {
 			var new_auction_cat = $("#new-category").val();
 			if(new_auction_cat == "") {
 				alert("Please provide a category");
 			}
 			console.log(new_auction_cat)
+			input["auction_category"] = new_auction_cat;
+		} else {
+			input["auction_category"] = auction_category;
 		}
-		var auction_country = $("#country2").val();
+		var auction_country = $("#countries-list").val();
+		input["auction_country"] = auction_country;
 		
+		var deadline = $("#datetime-field").val();
+		input["deadline"] = deadline;
+		var buyPrice = $("#buy-price").val();
+		input["buyPrice"] = buyPrice;
+		var first_bid = $("#first-bid").val();
+		input["first_bid"] = first_bid;
+		input["lon"] = lon;
+		input["lat"] = lat;
+		
+		console.log(deadline);
+		console.log(lat + " ***** " + lon)
 		
 		console.log(auction_country);
+		
+		console.log(input);
+		createAuction(input);
 		});
 
 }
 
 function createAuction(input) {
+	var auction_data = JSON.stringify(input);
+	console.log(auction_data);
 	$.ajax({
 		type : "POST",
 		dataType:'json',
-		url  :window.location.href + "/auction-details",
-		data :{input:input},
+		url  :window.location.href + "/create-auction",
+		data :{input:auction_data},
 		success : function(data) {
 			
 		}	
@@ -256,6 +300,7 @@ function initGoogleMap(){
 
 	location_marker = new google.maps.Marker({
         position: center,
+        draggable: true,
         map: map
     });
 	location_marker.setMap(map);
@@ -268,10 +313,30 @@ function initGoogleMap(){
 		
 		location_marker = new google.maps.Marker({
 	        position: e.latLng,
+	        draggable: true,
 	        map: map
 	    });
+		
+		lat = e.latLng.lat().toFixed(3);
+		lon = e.latLng.lng().toFixed(3);
 		location_marker.setMap(map);
+		console.log("lat: " + lat);
+		console.log("lon: " + lon);
 	});
+	
+	/*google.maps.event.addListener(location_marker,'dragend', function(a) {
+		 alert("yaaay")
+		 lat = a.latLng.lat().toFixed(4);
+		 lon = a.latLng.lng().toFixed(4);
+		 console.log("Drag --- lat: " + lat + " **** " + " lon: " + lon)
+	 });*/
+	 
+	 google.maps.event.addListener(location_marker, 'click', function(a) {
+		 lat = a.latLng.lat().toFixed(4);
+		 lon = a.latLng.lng().toFixed(4);
+		 console.log("Click --- lat: " + lat + " **** " + " lon: " + lon)
+	 });
+	     
 }
 
 function geocodeAddress(geocoder, resultsMap, country) {
