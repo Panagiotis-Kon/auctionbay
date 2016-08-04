@@ -143,6 +143,8 @@ function initListeners() {
 	$('#create-auction').click(function(){
 		var input = {};
 		console.log("hiiiii")
+		
+		
 		var auction_name = $("#auction-name").val();
 		if(auction_name == "") {
 			alert("Please insert a name for your auction")
@@ -188,14 +190,15 @@ function initListeners() {
 
 function createAuction(input) {
 	var auction_data = JSON.stringify(input);
+	var username = getUser();
 	console.log(auction_data);
 	$.ajax({
 		type : "POST",
 		dataType:'json',
 		url  :window.location.href + "/create-auction",
-		data :{input:auction_data},
+		data :{username:username,input:auction_data},
 		success : function(data) {
-			
+			alert(data);
 		}	
 	});
 }

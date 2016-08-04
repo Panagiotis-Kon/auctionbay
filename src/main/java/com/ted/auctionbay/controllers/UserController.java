@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Pendinguser;
+import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.UserServices;
 
 @Controller
@@ -29,6 +30,9 @@ public class UserController {
 
 	@Autowired
 	UserServices userServices;
+	
+	@Autowired
+	AuctionServices auctionServices;
 	
 	private static int user_auctions_num;
 	
@@ -96,9 +100,21 @@ public class UserController {
 	
 	@RequestMapping(value = "/{username}/manage-auctions/create-auction", method = RequestMethod.POST)
 	@ResponseBody
-	public String createAuction(@RequestParam String input){
-		System.out.println("Create auction: " + input);
-		return "";
+	public String createAuction(@RequestParam String username, @RequestParam String input){
+		System.out.println("username: " + username);
+		System.out.println("Auction data: " + input);
+		int res = 1;
+		try {
+			JSONObject auction_params = new JSONObject(input);
+			res = auctionServices.createAuction(username, auction_params);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(res == 0) {
+			return "The auction was created";
+		}
+		return "Some problem occurred";
 	}
 	
 	@RequestMapping(value = {"/{username}/manage-auctions/get-user-auctions"})

@@ -71,5 +71,18 @@ public class QueryItemImpl implements QueryItem {
 		List<Item> Set = q.getResultList();
 		return Set.get(0);
 	}
+
+	@Override
+	public int maxItemID() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		int maxID;
+		Object idSet  =  em.createNamedQuery("Item.itemMaxID").getResultList().get(0);
+		if(idSet == null) {
+			maxID = 0;
+		} else {
+			maxID = Integer.parseInt(idSet.toString()) + 1;
+		}
+		return maxID;
+	}
 	
 }

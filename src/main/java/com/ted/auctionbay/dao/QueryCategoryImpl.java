@@ -22,4 +22,26 @@ public class QueryCategoryImpl implements QueryCategory{
 		
 		return categoryList;
 	}
+
+	@Override
+	public int maxCategoryID() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		int maxID;
+		Object idSet  =  em.createNamedQuery("Category.categoryMaxID").getResultList().get(0);
+		if(idSet == null) {
+			maxID = 0;
+		} else {
+			maxID = Integer.parseInt(idSet.toString()) + 1;
+		}
+		return maxID;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Category> fetchCategories() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM category",Category.class);
+		List<Category> cat_list = query.getResultList();
+		return cat_list;
+	}
 }

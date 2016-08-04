@@ -185,6 +185,18 @@ public class QueryUserImpl implements QueryUser{
 		
 		return query.getResultList();
 	}
+
+	@Override
+	public User getUser(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM user WHERE Username = ?",User.class);
+		query.setParameter(1, username);
+		User user = (User) query.getResultList().get(0);
+		if(user != null) {
+			return user;
+		}
+		return null;
+	}
 	
 	
 	

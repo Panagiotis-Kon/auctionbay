@@ -5,6 +5,7 @@ import java.util.List;
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
+import com.ted.auctionbay.entities.users.User;
 
 public interface UserServices {
 
@@ -17,6 +18,8 @@ public interface UserServices {
 	public int Login(String username, String password);
 	
 	public boolean userExists(String username);
+	
+	public User getUser(String username);
 	
 	public void accept_user(String username);
 	

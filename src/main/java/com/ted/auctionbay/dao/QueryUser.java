@@ -13,6 +13,8 @@ public interface QueryUser {
 	
 	public boolean fetchPendingByUsername(String username);
 	
+	public User getUser(String username);
+	
 	public int count_registered();
 	
 	public int count_pending();

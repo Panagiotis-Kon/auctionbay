@@ -2,6 +2,8 @@ package com.ted.auctionbay.entities.items;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -10,7 +12,10 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Item.findAll", query="SELECT i FROM Item i")
+@NamedQueries({
+	@NamedQuery(name="Item.findAll", query="SELECT i FROM Item i"),
+	@NamedQuery(name="Item.itemMaxID", query="SELECT MAX(i.itemID) FROM Item i")
+})
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -98,6 +103,19 @@ public class Item implements Serializable {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+	
+	public void insertCategory(Category category) {
+		if(categories == null) {
+			this.categories = new ArrayList<Category>();
+		}
+		categories.add(category);
+		category.insertItem(this);
+	}
+	
+	public void deleteCategory(Category category) {
+		categories.remove(category);
+		category.deleteItem(null);
 	}
 
 }

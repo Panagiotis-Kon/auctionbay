@@ -147,5 +147,12 @@ public class UserServicesImpl implements UserServices{
 		
 		return queryUser.get_user_auctions(username);
 	}
+
+
+	@Override
+	public User getUser(String username) {
+		
+		return queryUser.getUser(username);
+	}
 	
 }

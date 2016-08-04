@@ -3,6 +3,7 @@ package com.ted.auctionbay.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import com.ted.auctionbay.entities.auctions.Auction;
@@ -76,5 +77,30 @@ public class QueryAuctionImpl implements QueryAuction{
 		List<Auction> Set = query.getResultList();
 		return Set.get(0);
 	}
+
+	@Override
+	public int maxAuctionID() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		int maxID;
+		Object idSet  =  em.createNamedQuery("Auction.auctionMaxID").getResultList().get(0);
+		if(idSet == null) {
+			maxID = 0;
+		} else {
+			maxID = Integer.parseInt(idSet.toString()) + 1;
+		}
+		return maxID;
+	}
+
+	@Override
+	public void submitAuction(Auction auction) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		trans.begin();
+		em.persist(auction);
+		trans.commit();
+		
+	}
+	
+	
 
 }
