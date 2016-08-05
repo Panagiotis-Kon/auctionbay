@@ -1,5 +1,6 @@
 <div id="image-area" class="col-md-6">
 	<img src="https://localhost:8443/auctionbay/resources/images/no-image.png" alt="NO IMAGE AVAILABE" class="image-responsive"/>
+
 </div>
 <div id="content-area" class="col-md-6">
 	<div class="row">
@@ -60,9 +61,7 @@
   			<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
  		 	<span class="label label-success">61</span>
  		</div>
- 		<div class="col-md-3">
-  			<span class="monospaced">Write a Review</span>
- 		</div>
+ 		
 	</div>
 	<div style="margin-bottom:2%;"></div>
 	<div class="row">
@@ -76,59 +75,48 @@
   			<button class="btn btn-warning">Bid Now</button>
  		</div>
 	</div>
-	<div style="margin-bottom:2%;"></div>
-	<!-- end row -->
+	<div style="margin-bottom:2%; margin-top: 2%; border-bottom: 1px solid black"></div>
 
-	<!--  <div class="row add-to-cart">
- 		<div class="col-md-5 product-qty">
-  			<span class="btn btn-default btn-lg btn-qty">
-   			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-  			</span>
 
-  			<input class="btn btn-default btn-lg btn-qty" value="1" />
+</div>
 
-  			<span class="btn btn-default btn-lg btn-qty">
-   			<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-  			</span>
- 		</div>
-
- 		<div class="col-md-4">
-  			<button class="btn btn-lg btn-brand btn-full-width">
-   			Add to Cart
-  			</button>
- 		</div>
-	</div> --><!-- end row -->
-
-	<!-- Nav tabs -->
-	<ul class="nav nav-tabs" role="tablist">
- 		<li role="presentation" class="active">
-  		<a href="#description" aria-controls="description"
-   role="tab"
-   data-toggle="tab"
-  >Description</a>
- </li>
- <li role="presentation">
-  <a href="#map"
-   aria-controls="map"
-   role="tab"
-   data-toggle="tab"
-  >Map</a>
- </li>
-</ul>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBlKBVky_UnMTgOzkHGYbKnqksn5I5LQw&callback=initMap"></script>
 
-	
-<div class="tab-content">
- <div role="tabpanel" class="tab-pane active" id="description">
-  <textarea class="form-control" style="min-width: 100%" id="description-textarea"></textarea>
- </div>
- <div role="tabpanel" class="tab-pane top-10" id="map">
- 	<!-- Google maps api -->
- 	<div id="itemMap"  style="width:500px;height:380px;"></div>
- 	
- 	<!-- Google maps api -->
- </div>
-</div>	
- 	
+
+<div class="col-md-6">
+<div style="margin-bottom:4%;border-top: 1px solid black"></div>
+<div id="itemMap"  style="width:500px;height:380px;border: 4px solid #708090;"></div>
+
 </div>
+<div class="col-md-6">
+	<ul class="nav nav-tabs" role="tablist">
+ 		<li role="presentation" class="active">
+  		<a href="#description" aria-controls="description"
+   			role="tab"
+   			data-toggle="tab"
+  			>Description</a>
+ 		</li>
+ 		<li role="presentation">
+  		<a href="#map"
+   		aria-controls="map"
+   		role="tab"
+   		data-toggle="tab"
+  		>Map</a>
+ 		</li>
+	</ul>
+	
+	<div class="tab-content">
+ 		<div role="tabpanel" class="tab-pane active" id="description">
+  			<textarea class="form-control" style="height: 150px;" id="description-textarea"></textarea>
+ 		</div>
+ 		<div role="tabpanel" class="tab-pane top-10" id="map">
+ 		<!-- Google maps api -->
+ 		</div>
+ 	
+ 	</div>
+</div>	
+
+
+
+

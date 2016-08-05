@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.services.AuctionServices;
@@ -112,9 +113,20 @@ public class UserController {
 			e.printStackTrace();
 		}
 		if(res == 0) {
-			return "The auction was created";
+			System.out.println("yiiiiihaaaaa");
+			return new Gson().toJson("The auction was created");
 		}
-		return "Some problem occurred";
+		return new Gson().toJson("Sorry an error occurred");
+	}
+	
+	@RequestMapping(value = "/{username}/manage-auctions/delete-auction", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteAuction(@RequestParam String username, @RequestParam String auctionID){
+		int auction_id = Integer.parseInt(auctionID);
+		
+		
+		
+		return new Gson().toJson("Cannot delete auction");
 	}
 	
 	@RequestMapping(value = {"/{username}/manage-auctions/get-user-auctions"})
@@ -140,9 +152,9 @@ public class UserController {
 		for(Auction a : users_auctions){
 			JSONArray auctions = new JSONArray();
 			auctions.put(a.getAuctionID());
-			auctions.put(a.getItemID());
+			auctions.put(a.getItem().getItemID());
 			auctions.put(a.getTitle());
-			auctions.put(a.getSeller());
+			auctions.put(a.getRegistereduser().getUsername());
 			try {
 				auctions.put(a.getBuyPrice());
 			} catch (JSONException e) {

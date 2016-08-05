@@ -17,5 +17,5 @@ public interface QueryAuction {
 	
 	public int maxAuctionID();
 	
-	public void submitAuction(Auction auction);
+	public int submitAuction(Auction auction);
 }

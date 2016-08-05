@@ -105,17 +105,19 @@ public class Item implements Serializable {
 		this.categories = categories;
 	}
 	
-	public void insertCategory(Category category) {
+	public Category insertCategory(Category category) {
 		if(categories == null) {
 			this.categories = new ArrayList<Category>();
 		}
 		categories.add(category);
 		category.insertItem(this);
+		return category;
 	}
 	
-	public void deleteCategory(Category category) {
+	public Category deleteCategory(Category category) {
 		categories.remove(category);
 		category.deleteItem(null);
+		return category;
 	}
 
 }

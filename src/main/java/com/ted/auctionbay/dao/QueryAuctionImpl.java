@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import com.ted.auctionbay.entities.auctions.Auction;
@@ -92,13 +93,16 @@ public class QueryAuctionImpl implements QueryAuction{
 	}
 
 	@Override
-	public void submitAuction(Auction auction) {
-		EntityManager em = EntityManagerHelper.getEntityManager();
-		EntityTransaction trans = em.getTransaction();
-		trans.begin();
-		em.persist(auction);
-		trans.commit();
+	public int submitAuction(Auction auction) {
 		
+		try {
+			EntityManager em = EntityManagerHelper.getEntityManager();
+			em.persist(auction);
+		} catch (PersistenceException pe) {
+			pe.printStackTrace();
+			return -1;
+		}
+		return 0;
 	}
 	
 	

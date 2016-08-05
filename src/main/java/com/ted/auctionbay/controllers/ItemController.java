@@ -73,7 +73,7 @@ public class ItemController {
 				
 			}
 			jitem.put("category", allcategories);
-			jitem.put("seller", auction.getSeller());
+			jitem.put("seller", auction.getRegistereduser().getUsername());
 			jitem.put("byuprice", auction.getBuyPrice());
 			jitem.put("firstbid", auction.getFirstBid());
 		}catch(JSONException e){

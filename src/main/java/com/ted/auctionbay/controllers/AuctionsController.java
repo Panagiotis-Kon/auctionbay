@@ -52,8 +52,8 @@ public class AuctionsController {
 			if(timeDiff != null ) {
 				try {
 					j.put("name", a.getTitle());
-					j.put("id", a.getItemID());
-					j.put("seller",a.getSeller());
+					j.put("id", a.getItem().getItemID());
+					j.put("seller",a.getRegistereduser().getUsername());
 					//j.put("category", a.getItemID)
 					j.put("expires",timeDiff);
 					j.put("firstBid", a.getFirstBid());
@@ -90,8 +90,8 @@ public class AuctionsController {
 			if(timeDiff != null ) {
 				try {
 					j.put("name", a.getTitle());
-					j.put("id", a.getItemID());
-					j.put("seller",a.getSeller());
+					j.put("id", a.getItem().getItemID());
+					j.put("seller",a.getRegistereduser().getUsername());
 				
 					j.put("expires",timeDiff);
 					j.put("firstBid", a.getFirstBid());

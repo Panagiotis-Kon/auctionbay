@@ -79,8 +79,9 @@ function initListeners() {
 	
 	var nowTemp = new Date();
     var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-    $('#datetimepicker').datetimepicker({
-        minDate: now
+    $('#datetimepicker-create').datetimepicker({
+        minDate: now,
+        format:"YYYY-MM-DD HH:mm:ss"
     });
 	
 	
@@ -125,13 +126,22 @@ function initListeners() {
 		var tr = $(this).parents('tr');
 		var row = user_auctions.row(tr);
 		
-		var id = row.data()[0];
+		//var id = row.data()[0];
 		var name = row.data()[2];
 		
 		$("#auction-name-modal").html("<strong>" + name + " ?</strong>");
 		$('#deleteModal').modal('show');
-        console.log("auction_id: " + id);  
+         
     });
+	
+	$('#delete-auction-btn').click(function(){
+		var tr = $(this).parents('tr');
+		var row = user_auctions.row(tr);
+		
+		var id = row.data()[0];
+		console.log("auction_id: " + id);
+		deleteAuction(id);
+	});
 	
 	$('#toAuctions-button').click(function(){
 		$('#edit-area').hide();
@@ -156,19 +166,28 @@ function initListeners() {
 		input["auction_desc"] = auction_desc;
 		
 		if(auction_category == null) {
-			var new_auction_cat = $("#new-category").val();
+			var new_auction_cat = [];
+			var new_temp = $("#new-category").val();
+			new_auction_cat.push(new_temp);
 			if(new_auction_cat == "") {
 				alert("Please provide a category");
 			}
 			console.log(new_auction_cat)
 			input["auction_category"] = new_auction_cat;
 		} else {
+			
+			var new_auction_cat = $("#new-category").val();
+			if(new_auction_cat != "") {
+				auction_category.push(new_auction_cat);
+			}
 			input["auction_category"] = auction_category;
 		}
 		var auction_country = $("#countries-list").val();
 		input["auction_country"] = auction_country;
 		
 		var deadline = $("#datetime-field").val();
+		
+		console.log("deadline: " + deadline);
 		input["deadline"] = deadline;
 		var buyPrice = $("#buy-price").val();
 		input["buyPrice"] = buyPrice;
@@ -177,7 +196,7 @@ function initListeners() {
 		input["lon"] = lon;
 		input["lat"] = lat;
 		
-		console.log(deadline);
+		
 		console.log(lat + " ***** " + lon)
 		
 		console.log(auction_country);
@@ -187,6 +206,28 @@ function initListeners() {
 		});
 
 }
+
+function deleteAuction(auctionID){
+	
+	var username = getUser();
+	$.ajax({
+		type : "POST",
+		dataType:'json',
+		url  :window.location.href + "/delete-auction",
+		data :{username:username,auctionID:auctionID},
+		success : function(data) {
+			alert("Deleted");
+		}	
+	});
+}
+
+
+function do_refresh() {
+	console.log("reloading location");
+	$('#createModal').modal('hide');
+	location.reload();
+}
+
 
 function createAuction(input) {
 	var auction_data = JSON.stringify(input);
@@ -198,7 +239,8 @@ function createAuction(input) {
 		url  :window.location.href + "/create-auction",
 		data :{username:username,input:auction_data},
 		success : function(data) {
-			alert(data);
+			console.log("Successssssssss ********** ********")
+			$('#createModal').modal('show');
 		}	
 	});
 }

@@ -85,7 +85,7 @@ public class AuctionServicesImpl implements AuctionServices{
 		auctionID = queryAuction.maxAuctionID();
 		itemID = queryItem.maxItemID();
 		categoryID = queryCategory.maxCategoryID();
-		
+	
 		User user = queryUser.getUser(username);
 		if(user == null) {
 			return -1;
@@ -124,9 +124,11 @@ public class AuctionServicesImpl implements AuctionServices{
 				if(cat_map.containsKey(cat_name)) {
 					category = cat_map.get(cat_name);
 				} else {
+					System.out.println("New category: " + category);
 					category = new Category();
 					category.setCategoryID(categoryID);
 					category.setName(cat_name);
+					
 				}
 				i.insertCategory(category);
 				categoryID++;
@@ -139,17 +141,17 @@ public class AuctionServicesImpl implements AuctionServices{
 		Auction auction = new Auction();
 		auction.setAuctionID(auctionID);
 		try {
-			auction.setTitle(auction_params.getString("auctiona_name"));
+			auction.setTitle(auction_params.getString("auction_name"));
 			float buyPrice = Float.parseFloat(auction_params.get("buyPrice").toString());
 			float firstBid = Float.parseFloat(auction_params.get("first_bid").toString());
 			auction.setBuyPrice(buyPrice);
 			auction.setFirstBid(firstBid);
-			auction.setSeller(username);
+			//auction.setSeller(username);
 			auction.setItem(i);
 			
-			// now we need to adjust correctly the start and end time
+			
 			Calendar calendar = Calendar.getInstance();
-	        Date start =  calendar.getTime();
+			Date start =  calendar.getTime();
 	        auction.setStartTime(start);
 	        
 	        String deadline = auction_params.getString("deadline");
@@ -157,17 +159,27 @@ public class AuctionServicesImpl implements AuctionServices{
 	        org.joda.time.DateTime dt = formatter.parseDateTime(deadline);
 	        Date endDate = dt.toDate();
 	        auction.setEndTime(endDate);
+	        System.out.println("startTime: " + start + " --- EndTime: " + endDate);
 	        
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		auction.setRegistereduser(user.getRegistereduser());
+		if(queryAuction.submitAuction(auction) == -1){
+			System.out.println("Could not register auction");
+			return -2;
+		}
 		
-		queryAuction.submitAuction(auction);
 		
 		
-		
+		return 0;
+	}
+
+	@Override
+	public int deleteAuction(String username, int auctionID) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
