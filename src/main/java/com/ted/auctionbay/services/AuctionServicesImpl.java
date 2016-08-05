@@ -124,14 +124,15 @@ public class AuctionServicesImpl implements AuctionServices{
 				if(cat_map.containsKey(cat_name)) {
 					category = cat_map.get(cat_name);
 				} else {
-					System.out.println("New category: " + category);
+					System.out.println("New category: " + cat_name);
+					System.out.println("Category ID: " + categoryID);
 					category = new Category();
 					category.setCategoryID(categoryID);
 					category.setName(cat_name);
-					
+					categoryID++;
 				}
 				i.insertCategory(category);
-				categoryID++;
+				
 			}
 		} catch (JSONException e) {
 			System.out.println("Could not get categories JSONArray");
@@ -171,14 +172,29 @@ public class AuctionServicesImpl implements AuctionServices{
 			System.out.println("Could not register auction");
 			return -2;
 		}
-		
-		
-		
+	
 		return 0;
 	}
 
 	@Override
-	public int deleteAuction(String username, int auctionID) {
+	public int deleteAuction(String username, int auctionID, int itemID) {
+		
+		//queryUser.deleteBidderFromAuction(username, auctionID);
+		queryAuction.deleteAuction(auctionID);
+		Item item = queryItem.getDetails(itemID);
+		List<Category> categories_list = item.getCategories();
+		for(Category c:categories_list){
+			c.deleteItem(item);
+		}
+		queryItem.deleteItem(itemID);	
+		/*
+		 * Something more is needed...
+		 * */
+		return 0;
+	}
+
+	@Override
+	public int editAuction(String username, JSONObject params) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

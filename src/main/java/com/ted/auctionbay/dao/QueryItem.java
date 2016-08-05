@@ -20,5 +20,7 @@ public interface QueryItem {
 	public String getLocation(int ItemID);
 	
 	public int maxItemID();
+	
+	public void deleteItem(int itemID);
 
 }

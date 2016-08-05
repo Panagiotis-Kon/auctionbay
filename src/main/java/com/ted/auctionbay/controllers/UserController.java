@@ -1,6 +1,7 @@
 package com.ted.auctionbay.controllers;
 
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.services.AuctionServices;
+import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.UserServices;
+import com.ted.auctionbay.timeutils.TimeUtilities;
 
 @Controller
 @RequestMapping("/user")
@@ -34,6 +38,10 @@ public class UserController {
 	
 	@Autowired
 	AuctionServices auctionServices;
+	
+	@Autowired
+	ItemServices itemServices;
+	
 	
 	private static int user_auctions_num;
 	
@@ -56,6 +64,12 @@ public class UserController {
 		return "/pages/item.html";
 	}
 	
+	@RequestMapping(value = {"/{username}/mailbox"})
+	public static String mailRedirection() {
+		
+		return "/pages/user/mailbox.html";
+	}
+	
 	@RequestMapping(value = {"/{username}/manage-auctions"})
 	public static String manageAuctionsRedirection() {
 		
@@ -67,16 +81,7 @@ public class UserController {
 		
 		return "/pages/modules/auctionEditModule.html";
 	}
-	/*
-	@RequestMapping(value = "",method = RequestMethod.GET)
-	public String access_index(@PathVariable String username){
-		return "/pages/user/index.html";
-	}*/
 	
-	/*@RequestMapping( value = "",params = {"username","status"} ,method = RequestMethod.GET)
-	public String pending(@RequestParam("username") String username) {
-		return "/pages/user/pending.html";
-	}*/
 	
 	@RequestMapping( value = "",params = {"status"} ,method = RequestMethod.GET)
 	public String pending() {
@@ -121,12 +126,62 @@ public class UserController {
 	
 	@RequestMapping(value = "/{username}/manage-auctions/delete-auction", method = RequestMethod.POST)
 	@ResponseBody
-	public String deleteAuction(@RequestParam String username, @RequestParam String auctionID){
+	public String deleteAuction(@RequestParam String username, @RequestParam String auctionID,
+			@RequestParam String itemID){
 		int auction_id = Integer.parseInt(auctionID);
+		int item_id = Integer.parseInt(itemID);
 		
 		
 		
 		return new Gson().toJson("Cannot delete auction");
+	}
+	
+	@RequestMapping(value = {"/{username}/manage-auctions/auction-details"})
+	@ResponseBody
+	public String auctionDetails(@RequestParam String auction_id, @RequestParam String item_id){
+		
+		int auctionID = Integer.parseInt(auction_id);
+		int itemID = Integer.parseInt(item_id);
+		Item item = itemServices.getDetails(itemID);
+		List<String> categories = itemServices.getCategories(itemID);
+		Auction auction = auctionServices.getDetails(itemID);
+		
+		JSONObject jsonDetails = new JSONObject();
+		try {
+			jsonDetails.put("name", item.getName());
+			jsonDetails.put("id", item.getItemID());
+			jsonDetails.put("description",item.getDescription());
+			jsonDetails.put("location",item.getLocation());
+			jsonDetails.put("lat", item.getLatitude());
+			jsonDetails.put("lon",item.getLongitute());
+			String allcategories = null;
+			// make a string from all categories of the item
+			for (int i=0;i<categories.size();i++){
+				if (i==0){
+					allcategories = String.valueOf(categories.get(i)) + ", ";
+				}
+				else if (i==categories.size()-1){
+					allcategories = allcategories + String.valueOf(categories.get(i));
+				}
+				else {
+					allcategories = allcategories + String.valueOf(categories.get(i)) + ", ";
+				}
+				
+			}
+			jsonDetails.put("category", allcategories);
+			jsonDetails.put("seller", auction.getRegistereduser().getUsername());
+			jsonDetails.put("buyprice", auction.getBuyPrice());
+			jsonDetails.put("firstbid", auction.getFirstBid());
+			jsonDetails.put("endTime", auction.getEndTime().toString());
+			
+		}catch(JSONException e){
+			System.out.println("....... get details json error .....");
+		}
+		if(jsonDetails.length() != 0) {
+			System.out.println(".... Returning the Details ....");
+			return jsonDetails.toString();
+		}
+		return new Gson().toJson("Cannot edit auction");
 	}
 	
 	@RequestMapping(value = {"/{username}/manage-auctions/get-user-auctions"})

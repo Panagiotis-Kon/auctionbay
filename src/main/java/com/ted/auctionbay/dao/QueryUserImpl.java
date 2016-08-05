@@ -197,6 +197,14 @@ public class QueryUserImpl implements QueryUser{
 		}
 		return null;
 	}
+
+	@Override
+	public void deleteBidderFromAuction(String username, int auctionID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("DELETE FROM registereduser_bidsin_auction WHERE Username = ?1 AND AuctionID = ?2",User.class);
+		query.setParameter(1, username);
+		query.setParameter(2, auctionID);
+	}
 	
 	
 	

@@ -138,9 +138,10 @@ function initListeners() {
 		var tr = $(this).parents('tr');
 		var row = user_auctions.row(tr);
 		
-		var id = row.data()[0];
-		console.log("auction_id: " + id);
-		deleteAuction(id);
+		var auction_id = row.data()[0];
+		var item_id = row.data()[1];
+		console.log("auction_id: " + auction_id);
+		deleteAuction(auction_id, item_id);
 	});
 	
 	$('#toAuctions-button').click(function(){
@@ -152,69 +153,73 @@ function initListeners() {
 	
 	$('#create-auction').click(function(){
 		var input = {};
-		console.log("hiiiii")
-		
 		
 		var auction_name = $("#auction-name").val();
 		if(auction_name == "") {
-			alert("Please insert a name for your auction")
-		}
-		var auction_desc = $("#auction-description").val();
-		var auction_category = $("#category_list").val();
-		
-		input["auction_name"] = auction_name;
-		input["auction_desc"] = auction_desc;
-		
-		if(auction_category == null) {
-			var new_auction_cat = [];
-			var new_temp = $("#new-category").val();
-			new_auction_cat.push(new_temp);
-			if(new_auction_cat == "") {
-				alert("Please provide a category");
-			}
-			console.log(new_auction_cat)
-			input["auction_category"] = new_auction_cat;
+			//alert("Please insert a name for your auction")
+			$('#warningModal').modal('show');
+			$('#warning-text').html("Please insert a name for your auction");
 		} else {
+			var auction_desc = $("#auction-description").val();
+			var auction_category = $("#category_list").val();
 			
-			var new_auction_cat = $("#new-category").val();
-			if(new_auction_cat != "") {
-				auction_category.push(new_auction_cat);
-			}
-			input["auction_category"] = auction_category;
+			input["auction_name"] = auction_name;
+			input["auction_desc"] = auction_desc;
+			
+			if(auction_category == null) {
+				var new_auction_cat = [];
+				var new_temp = $("#new-category").val();
+				new_auction_cat.push(new_temp);
+				if(new_auction_cat == "") {
+					$('#warningModal').modal('show');
+					$('#warning-text').html("Please provide a category for your auction");
+				}
+				console.log(new_auction_cat)
+				input["auction_category"] = new_auction_cat;
+			} else {
+				
+				var new_auction_cat = $("#new-category").val();
+				if(new_auction_cat != "") {
+					auction_category.push(new_auction_cat);
+				}
+				input["auction_category"] = auction_category;
+				
+				var auction_country = $("#countries-list").val();
+				var deadline = $("#datetime-field").val();
+				var buyPrice = $("#buy-price").val();
+				var first_bid = $("#first-bid").val();
+				
+				if(first_bid == "" || buyPrice == "" || deadline == "" || auction_country=="") {
+					//alert("Please provide all the neccessary fields")
+					$('#warningModal').modal('show');
+					$('#warning-text').html("Please provide all the neccessary fields");
+				} else {
+					input["auction_country"] = auction_country;
+					input["deadline"] = deadline;
+					
+					input["buyPrice"] = buyPrice;
+					
+					input["first_bid"] = first_bid;
+					input["lon"] = lon;
+					input["lat"] = lat;
+					console.log(input);
+					createAuction(input);
+				}
+			}	
 		}
-		var auction_country = $("#countries-list").val();
-		input["auction_country"] = auction_country;
 		
-		var deadline = $("#datetime-field").val();
-		
-		console.log("deadline: " + deadline);
-		input["deadline"] = deadline;
-		var buyPrice = $("#buy-price").val();
-		input["buyPrice"] = buyPrice;
-		var first_bid = $("#first-bid").val();
-		input["first_bid"] = first_bid;
-		input["lon"] = lon;
-		input["lat"] = lat;
-		
-		
-		console.log(lat + " ***** " + lon)
-		
-		console.log(auction_country);
-		
-		console.log(input);
-		createAuction(input);
 		});
 
 }
 
-function deleteAuction(auctionID){
+function deleteAuction(auctionID,itemID){
 	
 	var username = getUser();
 	$.ajax({
 		type : "POST",
 		dataType:'json',
 		url  :window.location.href + "/delete-auction",
-		data :{username:username,auctionID:auctionID},
+		data :{username:username,auctionID:auctionID,itemID:itemID},
 		success : function(data) {
 			alert("Deleted");
 		}	
@@ -252,7 +257,7 @@ function editAuctionModule(auction_id,item_id) {
 		$("#auction-edit").append(html);
 		$('#edit-area').show();
 		
-		//getAuctionDetails(auction_id,item_id);
+		getAuctionDetails(auction_id,item_id);
 	});
 }
 
@@ -263,6 +268,7 @@ function getAuctionDetails(auction_id,item_id) {
 		url  :window.location.href + "/auction-details",
 		data :{auction_id:auction_id,item_id:item_id},
 		success : function(data) {
+			console.log(data);
 			
 		}	
 	}); 

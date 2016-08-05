@@ -25,6 +25,10 @@ public interface AuctionServices {
 	
 	public int createAuction(String username, JSONObject auction_params);
 	
-	public int deleteAuction(String username, int auctionID);
+	public int deleteAuction(String username, int auctionID, int itemID);
+	
+	public int editAuction(String username, JSONObject params);
+	
+	
 	
 }

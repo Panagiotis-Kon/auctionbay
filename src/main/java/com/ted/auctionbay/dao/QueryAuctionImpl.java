@@ -104,6 +104,14 @@ public class QueryAuctionImpl implements QueryAuction{
 		}
 		return 0;
 	}
+
+	@Override
+	public int deleteAuction(int auctionID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("DELETE FROM auction WHERE AuctionID=?",Auction.class);
+		query.setParameter(1, auctionID);
+		return 0;
+	}
 	
 	
 

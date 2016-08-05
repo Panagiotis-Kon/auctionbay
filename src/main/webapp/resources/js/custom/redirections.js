@@ -39,6 +39,22 @@ $(document).ready(function(){
     	
    });
 	
+	$("a.messages-link").on("click",function(event){
+		event.preventDefault();
+		console.log("window.location.href: " + window.location.href)
+		console.log("baseURL: " + baseURL)
+		var location = window.location.href;
+		var patharray = window.location.pathname.split( '/' );
+		if(patharray.length >= 4) {
+			console.log("path: " + patharray)
+			location = baseURL + "/" + patharray[2] + "/" + patharray[3] + "/mailbox";
+			window.location = location;
+		} else {
+			window.location = baseURL + "/mailbox";
+		}
+	});
+	
+	
 	$("a.create-auction-ref").on("click",function(event){
 
 		event.preventDefault();

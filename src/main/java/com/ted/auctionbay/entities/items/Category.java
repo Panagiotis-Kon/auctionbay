@@ -55,17 +55,17 @@ public class Category implements Serializable {
 		this.items = items;
 	}
 
-	public Item insertItem(Item item) {
-		if(items == null) {
+	public void insertItem(Item item) {
+		if(this.items == null) {
 			this.items = new ArrayList<Item>();
 		}
-		items.add(item);
-		return item;
+		this.items.add(item);
+	
 	}
 	
-	public Item deleteItem(Item item) {
-		items.remove(item);
-		return item;
+	public void deleteItem(Item item) {
+		this.items.remove(item);
+		//return item;
 	}
 	
 }

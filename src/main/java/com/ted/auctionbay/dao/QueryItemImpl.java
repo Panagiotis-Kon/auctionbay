@@ -84,5 +84,13 @@ public class QueryItemImpl implements QueryItem {
 		}
 		return maxID;
 	}
+
+	@Override
+	public void deleteItem(int itemID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("DELETE FROM item WHERE ItemID=?");
+		query.setParameter(1, itemID);
+		
+	}
 	
 }

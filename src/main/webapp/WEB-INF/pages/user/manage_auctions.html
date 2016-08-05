@@ -147,7 +147,7 @@
 		        			</div>
 		        			<div class="panel-body">
 		        				<div class="form-horizontal">
-		                			<div class="form-group">
+		                			<div class="form-group required">
 		                   				<label class="col-sm-3 control-label" for="Title">Name</label>
 		                       			<div class="col-sm-9">
 		                        			<input class="form-control" id="auction-name" maxlength="80" name="Name" type="text" value="" />
@@ -171,9 +171,9 @@
 		        			</div>
 		        			<div class="panel-body">
 		        				<div class="form-horizontal">
-		                			 <div class="form-group">
-  										<label class="col-sm-3 control-label" for="category_list">Choose Category</label>
-  										<div class="col-sm-9">
+		                			 <div class="form-group required">
+  										<label class="col-sm-4 control-label" for="category_list">Choose Category</label>
+  										<div class="col-sm-8">
   											<label class="label-danger" style="display:none;" id="no-categories">No Categories Available</label>
   											<div class="col-md-4 col-sm-3">
   											<select multiple="multiple" id="category_list" class="form-control"></select>
@@ -199,14 +199,14 @@
 		        			</div>
 		        			<div class="panel-body">
 		        				<div class="form-horizontal">
-		                			 <div class="form-group">
+		                			 <div class="form-group required">
   										<label class="col-sm-3 control-label" for="country">Select Country</label>
   										<div class="col-sm-9">
   											<select class="form control" id="countries-list" name ="countries-list"></select>
   										</div>
   										
 									</div>
-			                		<div class="form-group">
+			                		<div class="form-group required">
 			                			<label class="col-sm-3 control-label" for="location">Location</label> 
 			                    		<div class="col-sm-9">
 			                    			<div id="googleMap"  style="width:500px;height:380px;border: 4px solid #708090;"></div>
@@ -222,20 +222,8 @@
 		        			</div>
 		        			<div class="panel-body">
 		        				<div class="form-horizontal">
-		                			 <!--  <div class="form-group">
-  										<label class="col-sm-3 control-label" for="Duration">Duration</label>
-		                  				<div class="col-sm-9">
-		                      				<select class="form-control" id="Duration" name="Duration">
-		                      					<option value="">Select Duration</option>
-												<option value="3">3 Days</option>
-												<option value="5">5 Days</option>
-												<option value="7">7 Days</option>
-												<option value="10">10 Days</option>
-												<option value="other">Other</option>
-											</select>
-		                  				</div>	
-									</div> -->
-									<div class="form-group">
+		                			
+									<div class="form-group required">
 									<label for="datetimepicker-create" class="col-sm-3 control-label">Select Duration:</label>
 									<!--  <div class='form-group row'>-->
                   						
@@ -259,14 +247,14 @@
 		        			</div>
 		        			<div class="panel-body">
 		        				<div class="form-horizontal">
-		                			 <div class="form-group">
+		                			 <div class="form-group required">
   										<label class="col-sm-3 control-label" for="buy-price">Buy Price</label>
   										<div class="col-sm-6">
   											<div class='input-group'><input id="buy-price" class="form-control" name="buy-price" type="text" value="" /><span class='input-group-addon'>$</span></div>
   										</div>
   										
 									</div>
-			                		<div class="form-group">
+			                		<div class="form-group required">
 			                			<label class="col-sm-3 control-label" for="first-bid">First Bid</label> 
 			                    		<div class="col-sm-6">
 			                    			<div class='input-group'><input id="first-bid" class="form-control" name="first-bid" type="text" value="" /><span class='input-group-addon'>$</span></div>
@@ -354,6 +342,25 @@
       				</div>
       				<div class="modal-footer">
         				<button type="button" class="btn btn-success" onclick="do_refresh()">OK</button>
+      				</div>
+    			</div>
+  			</div>
+		</div>
+		
+		<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
+  			<div class="modal-dialog" role="dialog">
+    			<div class="modal-content">
+      				<div class="modal-header" style="background-color:#FFD700;">
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          					<span aria-hidden="true">&times;</span>
+        				</button>
+        				<h4 class="modal-title" id="deleteLabel" style="color:#000;">Warning</h4>
+      				</div>
+      				<div class="modal-body">
+     				<h4 id="warning-text"></h4>
+      				</div>
+      				<div class="modal-footer">
+        				<button type="button" class="btn btn-warning" data-dismiss="modal">OK</button>
       				</div>
     			</div>
   			</div>

@@ -37,4 +37,6 @@ public interface QueryUser {
 	
 	public List<Auction> get_user_auctions(String username);
 	
+	public void deleteBidderFromAuction(String username, int auctionID);
+	
 }

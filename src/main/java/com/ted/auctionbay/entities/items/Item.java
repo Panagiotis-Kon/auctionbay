@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Item.findAll", query="SELECT i FROM Item i"),
+	@NamedQuery(name="Item.findItem", query="SELECT i FROM Item i WHERE i.itemID = :id"),
 	@NamedQuery(name="Item.itemMaxID", query="SELECT MAX(i.itemID) FROM Item i")
 })
 public class Item implements Serializable {
@@ -34,7 +35,7 @@ public class Item implements Serializable {
 	private String name;
 
 	//bi-directional many-to-many association to Category
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 		name="item_has_category"
 		, joinColumns={
@@ -105,19 +106,19 @@ public class Item implements Serializable {
 		this.categories = categories;
 	}
 	
-	public Category insertCategory(Category category) {
-		if(categories == null) {
+	public void insertCategory(Category category) {
+		if(this.categories == null) {
 			this.categories = new ArrayList<Category>();
 		}
-		categories.add(category);
+		this.categories.add(category);
 		category.insertItem(this);
-		return category;
+		
 	}
 	
-	public Category deleteCategory(Category category) {
-		categories.remove(category);
+	public void deleteCategory(Category category) {
+		this.categories.remove(category);
 		category.deleteItem(null);
-		return category;
+		//return category;
 	}
 
 }

@@ -18,4 +18,6 @@ public interface QueryAuction {
 	public int maxAuctionID();
 	
 	public int submitAuction(Auction auction);
+	
+	public int deleteAuction(int auctionID);
 }
