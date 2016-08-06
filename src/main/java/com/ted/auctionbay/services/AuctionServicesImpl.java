@@ -190,6 +190,15 @@ public class AuctionServicesImpl implements AuctionServices{
 		/*
 		 * Something more is needed...
 		 * */
+		categories_list = null;
+		categories_list = queryCategory.fetchCategories();
+		
+		for(Category c : categories_list){
+			if(c.getItems().size() == 0){
+				
+			}
+		}
+		
 		return 0;
 	}
 
