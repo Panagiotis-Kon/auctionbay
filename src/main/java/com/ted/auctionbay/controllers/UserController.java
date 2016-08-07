@@ -96,7 +96,9 @@ public class UserController {
 		int itemID = Integer.parseInt(ItemID);
 		float bidAmount = Float.parseFloat(bid_amount);
 		System.out.println("Making the bid with: " + itemID + " --- " + bidAmount);
-		
+		if(auctionServices.submitBid(username, itemID, bidAmount) == 0){
+			return new Gson().toJson("Your offer ( " + bidAmount + " $ ) has been submitted");
+		}
 		
 		return new Gson().toJson("cannot submit the bid");
 	}

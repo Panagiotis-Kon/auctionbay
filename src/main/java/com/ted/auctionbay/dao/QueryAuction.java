@@ -24,4 +24,6 @@ public interface QueryAuction {
 	public int deleteAuction(int auctionID);
 	
 	public boolean alreadyBidded(String username, int itemID);
+	
+	public void updateBid(String username, int itemID, float bid_amount);
 }

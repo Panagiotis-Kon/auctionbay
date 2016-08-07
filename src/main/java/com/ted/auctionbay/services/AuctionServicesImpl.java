@@ -21,6 +21,9 @@ import com.ted.auctionbay.dao.QueryUser;
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
+import com.ted.auctionbay.entities.users.Registereduser;
+import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
+import com.ted.auctionbay.entities.users.RegistereduserBidsinAuctionPK;
 import com.ted.auctionbay.entities.users.User;
 
 @Service("auctionServices")
@@ -218,15 +221,35 @@ public class AuctionServicesImpl implements AuctionServices{
 	public int submitBid(String username, int itemID, float bid_amount) {
 		// Check if the user has already bidded on the product, then update it
 		if(queryAuction.alreadyBidded(username, itemID)) {
-			// update now
-			
+			// update row
+			queryAuction.updateBid(username, itemID, bid_amount);
 			
 		} else {
 			
+			// else register a new bid for the user
+			
+			Auction auction = queryAuction.getDetails(itemID);
+			Registereduser reg_user = queryUser.getUser(username).getRegistereduser();
+			System.out.println("Registered user: " + reg_user.getUsername() + " bids for auction with id: "+auction.getAuctionID() +
+					" and item: " + auction.getItem().getItemID()+"/" + itemID);
+			
+			RegistereduserBidsinAuctionPK rbaPK = new RegistereduserBidsinAuctionPK();
+			rbaPK.setBidder_Username(username);
+			rbaPK.setAuctionID(auction.getAuctionID());
+			
+			RegistereduserBidsinAuction rba = new RegistereduserBidsinAuction();
+			rba.setBidPrice(bid_amount);
+			rba.setId(rbaPK);
+			Date current_time = new Date();
+			rba.setBidTime(current_time);
+			
+			if(queryUser.createBidInUser(rba) == 0){
+				return 0;
+			}
+				
 		}
 		
-		// else create a new bid
-		return 0;
+		return -1;
 	}
 
 	 

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
+import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 import com.ted.auctionbay.entities.users.User;
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
 import com.ted.auctionbay.services.UserServicesImpl;
@@ -204,6 +205,19 @@ public class QueryUserImpl implements QueryUser{
 		Query query = em.createNativeQuery("DELETE FROM registereduser_bidsin_auction WHERE Username = ?1 AND AuctionID = ?2",User.class);
 		query.setParameter(1, username);
 		query.setParameter(2, auctionID);
+	}
+
+	@Override
+	public int createBidInUser(RegistereduserBidsinAuction rba) {
+		try {
+			EntityManager em = EntityManagerHelper.getEntityManager();
+			em.persist(rba);
+		} catch (PersistenceException pe) {
+			pe.printStackTrace();
+			return 1;
+		}
+		return 0;
+		
 	}
 	
 	

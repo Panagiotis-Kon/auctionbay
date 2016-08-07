@@ -5,6 +5,7 @@ import java.util.List;
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
+import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 import com.ted.auctionbay.entities.users.User;
 
 public interface QueryUser {
@@ -38,5 +39,7 @@ public interface QueryUser {
 	public List<Auction> get_user_auctions(String username);
 	
 	public void deleteBidderFromAuction(String username, int auctionID);
+	
+	public int createBidInUser(RegistereduserBidsinAuction rba);
 	
 }

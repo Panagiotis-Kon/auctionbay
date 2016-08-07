@@ -1,5 +1,6 @@
 package com.ted.auctionbay.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import javax.persistence.Query;
 
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.items.Item;
+import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
 
 public class QueryAuctionImpl implements QueryAuction{
@@ -147,6 +149,21 @@ public class QueryAuctionImpl implements QueryAuction{
 		}
 		
 		return false;
+	}
+
+	@Override
+	public void updateBid(String username, int itemID, float bid_amount) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("Select rba.Bidder_Username, rba.auctionID, rba.BidPrice, rba.BidTime "
+				 					 + "from registereduser_bidsin_auction rba,auction a "
+				 					 + "where rba.AuctionID = a.AuctionID and "
+				 					 + "rba.Bidder_Username = ?1 and a.ItemID = ?2",RegistereduserBidsinAuction.class);
+		query.setParameter(1, username);
+		query.setParameter(2, itemID);
+		
+		RegistereduserBidsinAuction rba = (RegistereduserBidsinAuction) query.getResultList().get(0);
+		rba.setBidPrice(bid_amount);
+		rba.setBidTime(new Date());
 	}
 	
 	
