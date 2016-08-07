@@ -13,6 +13,8 @@ public interface QueryAuction {
 	
 	public int getNumOfBids(int auction_id);
 	
+	public float getHighestBid(int auction_id);
+	
 	public Auction getDetails(int ItemID);
 	
 	public int maxAuctionID();
@@ -20,4 +22,6 @@ public interface QueryAuction {
 	public int submitAuction(Auction auction);
 	
 	public int deleteAuction(int auctionID);
+	
+	public boolean alreadyBidded(String username, int itemID);
 }

@@ -49,7 +49,7 @@ public class QueryAuctionImpl implements QueryAuction{
 		if(!list.isEmpty()){
 			return Integer.parseInt(list.get(0).toString());
 		}
-		return -1;
+		return 0;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -111,6 +111,42 @@ public class QueryAuctionImpl implements QueryAuction{
 		Query query = em.createNativeQuery("DELETE FROM auction WHERE AuctionID=?",Auction.class);
 		query.setParameter(1, auctionID);
 		return 0;
+	}
+
+	@Override
+	public float getHighestBid(int auction_id) {
+		//System.out.println("auction_id: " + auction_id);
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT MAX(BidPrice) FROM registereduser_bidsin_auction WHERE AuctionID=?");
+		query.setParameter(1, auction_id);
+		
+		float highestBid;
+		List bidList = query.getResultList();
+		System.out.println(bidList.get(0));
+		if(bidList.get(0) == null || bidList.isEmpty()) {
+			highestBid=0;
+		} else {
+			highestBid = Float.parseFloat(bidList.get(0).toString());
+		}
+		
+		
+		return highestBid;
+	}
+
+	@Override
+	public boolean alreadyBidded(String username, int itemID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT COUNT(*) FROM registereduser_bidsin_auction rba, auction a "
+				+ "WHERE rba.AuctionID = a.AuctionID AND rba.Bidder_Username=?1 AND a.ItemID=?2 ");
+		query.setParameter(1, username);
+		query.setParameter(2, itemID);
+		int number = Integer.parseInt(query.getResultList().get(0).toString());
+		
+		if(number != 0){
+			return true;
+		}
+		
+		return false;
 	}
 	
 	

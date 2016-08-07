@@ -11,6 +11,7 @@ $(document).ready(function(){
 	getItemModule(itemID);
 	checkForUser();
 	
+	
 });
 
 /* --------- Global Variables ----------- */
@@ -23,6 +24,58 @@ var latitude;
 var longtitude;
 
 /* --------- Global Variables ----------- */
+
+function setListeners(){
+	console.log("Setting listeners")
+	$('#bidNow').click( function(event){
+		console.log("clicked")
+		
+		var bid_amount = $("#bid-amount").val();
+		var first_bid = $("#firstbid").text();
+		if(bid_amount == "") {
+			alert("Please enter an amount")
+		} else {
+			console.log("first_bid: " + first_bid + " and bid_amount: " + bid_amount);
+			if(parseFloat(bid_amount) >= parseFloat(first_bid)){
+				console.log(">=")
+				$("#confirm-bid-btn").css("display","block");
+				$("#warningBid-text").html("Are you sure that you want to bid " + bid_amount + " $ ?");
+				$("#warningBidModal").modal('show');
+			} else {
+				$("#warningBid-text").html("Sorry but your bid must be greater or equal than the first bid");
+				$("#warningBidModal").modal('show');
+			}
+		}
+		
+	});
+	
+	$('#confirm-bid-btn').click(function(){
+		
+		console.log("confirm");
+		var bid_amount = $("#bid-amount").val();
+		$("#warningBidModal").modal('hide');
+		
+	});
+}
+
+
+function submitOffer(bid_amount){
+	
+	var itemID = url.substring(url.lastIndexOf("/")+1);
+	var username = getUser();
+	console.log("Sending: " + itemID + " bid: " + bid_amount);
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		url  :window.location.href + "/submit-bid",
+		data :{username:username,itemID:itemID,bid_amount:bid_amount},
+		success : function(data) {
+			alert(data)
+		}
+			
+		
+	});
+}
 
 function getItemModule(itemID) {
 	
@@ -40,7 +93,6 @@ function getDetails(itemID, details_module) {
 	$.ajax({
 		type : "GET",
 		dataType:'json',
-		//url  : baseURL + "/auctions/view-auctions/",
 		url  :window.location.href + "/details",
 		data :{itemID:itemID},
 		success : function(data) {
@@ -59,18 +111,23 @@ function getDetails(itemID, details_module) {
 				panel.find('#latitude').text(data.lat);
 				panel.find('#longtitude').text(data.lon);
 				panel.find('#allcategories').text(data.category);
-				panel.find('#byuprice').text(data.byuprice);
+				panel.find('#buyprice').text(data.buyprice);
 				panel.find('#seller').text(data.seller);
 				panel.find('#firstbid').text(data.firstbid);
+				panel.find('#expire').text(data.expires);
+				panel.find('#highest-bid').html(data.highest_bid + " $");
+				panel.find('#bids-num').text(data.numOfBids);
+				
 				latitude = data.lat;
 				longtitude = data.lon;
 				
 				html = panel.html();
 				$("#item-details").append(html);
-				
+				setListeners();
 			}
 		}	
 	}); 
+	
 	console.log("end of getting item details")
 }
 

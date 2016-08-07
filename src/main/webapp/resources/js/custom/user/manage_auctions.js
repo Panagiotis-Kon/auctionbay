@@ -197,19 +197,29 @@ function initListeners() {
 					input["auction_country"] = auction_country;
 					input["deadline"] = deadline;
 					
-					input["buyPrice"] = buyPrice;
+					if(isNumeric(buyPrice) && isNumeric(first_bid)){
+						input["buyPrice"] = buyPrice;
+						
+						input["first_bid"] = first_bid;
+						input["lon"] = lon;
+						input["lat"] = lat;
+						console.log(input);
+						createAuction(input);
+					} else {
+						$('#warningModal').modal('show');
+						$('#warning-text').html("Buy Price or First Bid are not numeric");
+					}
 					
-					input["first_bid"] = first_bid;
-					input["lon"] = lon;
-					input["lat"] = lat;
-					console.log(input);
-					createAuction(input);
 				}
 			}	
 		}
 		
 		});
 
+}
+
+function isNumeric(n) {
+	  return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 function deleteAuction(auctionID,itemID){

@@ -19,6 +19,8 @@ public interface AuctionServices {
 	
 	public int getNumOfBids(int auction_id);
 	
+	public int getAuctionIDByItem(int item_id);
+	
 	public float getHighestBid(int auction_id);
 	
 	public List<Auction> getAuctionsByCategory(int start, int end, String Category);
@@ -29,6 +31,7 @@ public interface AuctionServices {
 	
 	public int editAuction(String username, JSONObject params);
 	
+	public int submitBid(String username, int itemID, float bid_amount);
 	
 	
 }

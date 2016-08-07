@@ -89,6 +89,19 @@ public class UserController {
 	}
 	
 	
+	@RequestMapping(value = "/{username}/auctions/item/{item_id}/submit-bid",method = RequestMethod.POST)
+	@ResponseBody
+	public String submitBid(@RequestParam("username") String username, 
+			@RequestParam("itemID") String ItemID, @RequestParam("bid_amount") String bid_amount){
+		int itemID = Integer.parseInt(ItemID);
+		float bidAmount = Float.parseFloat(bid_amount);
+		System.out.println("Making the bid with: " + itemID + " --- " + bidAmount);
+		
+		
+		return new Gson().toJson("cannot submit the bid");
+	}
+	
+	
 	@RequestMapping(value = "/{username}/manage-auctions/count-user-auctions", method = RequestMethod.GET)
 	@ResponseBody
 	public String countUserAuctions(@RequestParam String username){

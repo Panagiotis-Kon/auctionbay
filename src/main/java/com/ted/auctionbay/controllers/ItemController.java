@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
@@ -37,6 +38,7 @@ public class ItemController {
 		System.out.println("getting details module");
 		return "/pages/modules/itemDetailsModule.html";
 	}
+	
 	
 	
 	//Return details of item with given ID
@@ -72,9 +74,17 @@ public class ItemController {
 				}
 				
 			}
+			String timeDiff = TimeUtilities.timeDiff(new Date(),auction.getEndTime());
+			jitem.put("expires",timeDiff);
+			
+			float highestBid = auctionServices.getHighestBid(auction.getAuctionID());
+			jitem.put("highest_bid", highestBid);
+			int numOfBids = auctionServices.getNumOfBids(auction.getAuctionID());
+			jitem.put("numOfBids",numOfBids);
+			
 			jitem.put("category", allcategories);
 			jitem.put("seller", auction.getRegistereduser().getUsername());
-			jitem.put("byuprice", auction.getBuyPrice());
+			jitem.put("buyprice", auction.getBuyPrice());
 			jitem.put("firstbid", auction.getFirstBid());
 		}catch(JSONException e){
 			System.out.println("....... get item json error .....");

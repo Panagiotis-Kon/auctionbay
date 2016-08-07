@@ -66,7 +66,7 @@ public class AuctionServicesImpl implements AuctionServices{
 
 	@Override
 	public float getHighestBid(int auction_id) {
-		return 0;
+		return queryAuction.getHighestBid(auction_id);
 	}
 
 	@Override
@@ -205,6 +205,27 @@ public class AuctionServicesImpl implements AuctionServices{
 	@Override
 	public int editAuction(String username, JSONObject params) {
 		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAuctionIDByItem(int item_id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int submitBid(String username, int itemID, float bid_amount) {
+		// Check if the user has already bidded on the product, then update it
+		if(queryAuction.alreadyBidded(username, itemID)) {
+			// update now
+			
+			
+		} else {
+			
+		}
+		
+		// else create a new bid
 		return 0;
 	}
 

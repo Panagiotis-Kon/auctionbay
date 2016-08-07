@@ -1,57 +1,115 @@
 <div id="image-area" class="col-md-6">
-	<img src="https://localhost:8443/auctionbay/resources/images/no-image.png" alt="NO IMAGE AVAILABE" class="image-responsive"/>
-
+	<div class="row">
+		<img src="https://localhost:8443/auctionbay/resources/images/no-image.png" alt="NO IMAGE AVAILABE" class="image-responsive"/>
+		<div style="margin-bottom:2%;"></div>
+	</div>
+	<div class="row">
+  
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBlKBVky_UnMTgOzkHGYbKnqksn5I5LQw&callback=initMap"></script>
+		<div class="col-sm-8 pull-left" style="margin-top:4%; margin-bottom:2%; border-top: 2px solid black"></div>
+		<div id="itemMap"  style="width:500px;height:380px;border: 4px solid #708090;"></div>
+	</div>
 </div>
+
 <div id="content-area" class="col-md-6">
 	<div class="row">
   		<div class="col-md-12">
    			<h2 id="Title"></h2>
+   			<div style="margin-bottom:1%; margin-top: 1%; border-bottom: 2px solid navy"></div>
    		</div>
  	</div>
  	<div style="margin-bottom:2%;"></div>
  	<div class="row">
  		<div class="col-md-12">
- 			<h4><span class="label label-primary">Seller:</span>
-  			<span class="text text-success" id="seller"></span></h4>
+ 			<div class="col-md-6">
+ 				<h4><span class="label label-primary">Seller:</span>
+  				<span class="text text-success" id="seller"></span></h4>
+ 			</div>
+ 			<div class="col-md-6">
+ 				<h4><span class="label label-primary">Item ID:</span>
+  				<span class="text text-success" id="itemID"></span></h4>
+ 			</div>
+  			
+ 		</div>
+	</div>
+	<div class="row">
+ 		<div class="col-md-12">
+ 			<div class="col-md-6">
+ 				<h4><span class="label label-primary">Buy Price:</span>
+  				<span class="text text-success" id="buyprice"></span></h4>
+ 			</div>
+ 			<div class="col-md-6">
+ 				<h4><span class="label label-primary">First Bid:</span>
+  				<span class="text text-primary" id="firstbid"></span></h4>
+ 			</div>
  		</div>
 	</div>
 	<div style="margin-bottom:2%;"></div>
  	<div class="row">
  		<div class="col-md-12">
- 			<h4><span class="label label-primary">Categories:</span>
-  			<span class="text text-success" id="allcategories"></span></h4>
+ 			<h4>Categories:</h4>
+ 			<div style="margin-bottom:1%; margin-top: 1%; border-bottom: 2px solid black"></div>
  		</div>
  	</div>
- 	<div style="margin-bottom:2%;"></div>
+ 	
  	<div class="row">
  		<div class="col-md-12">
- 			<h4><span class="label label-primary">Item ID:</span>
-  			<span class="text text-success" id="itemID"></span></h4>
+ 			<h4><span class="text text-success" id="allcategories"></span></h4>
+ 		</div>
+ 	</div>		
+ 	<div style="margin-bottom:2%;"></div>
+ 		
+ 	<div class="row">
+ 		<div class="col-md-12">
+ 			<div id="accordion" role="tablist" aria-multiselectable="true">
+  				<div class="panel panel-default">
+    				<div class="panel-heading" style="background-color:#FFFACD;" role="tab" id="headingOne">
+      					<h4 class="panel-title" style="color:#000;">
+        				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#item-description" aria-expanded="false" aria-controls="collapseOne">
+          				Description
+        				</a>
+      					</h4>
+    				</div>
+    				<div id="item-description" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+       					<textarea class="form-control" style="height: 150px;" id="description-textarea"></textarea>
+    				</div>
+  				</div>
+  			</div>
+ 		</div>		
+	</div> 
+ 	
+ 	<div style="margin-bottom:2%;"></div>
+ 	
+ 	<div class="row">
+ 		<div class="col-md-12">
+ 			<h4>Location:</h4>
+ 			<div style="margin-bottom:1%; margin-top: 1%; border-bottom: 2px solid black"></div>
  		</div>
  	</div>
- 	<div style="margin-bottom:2%;"></div>
+ 	
  	<div class="row">
  		<div class="col-md-12">
- 			<h4><span class="label label-primary">Location:</span>
-  			<span class="text text-success" id="location"></span></h4>
+ 			<h4><span class="text text-success" id="location"></span></h4>
  		</div>
-	</div>
-	<div style="margin-bottom:2%;"></div>
+ 	</div>
+ 	
 	<div class="row">
  		<div class="col-md-12">
- 			<h4><span class="label label-primary">Buy Price:</span>
-  			<span class="text text-success" id="byuprice"></span></h4>
+ 			<h4>Expires in:</h4>
+ 			<div style="margin-bottom:1%; margin-top: 1%; border-bottom: 2px solid black"></div>
  		</div>
-	</div>
-	<div style="margin-bottom:2%;"></div>
+ 	</div>
 	<div class="row">
  		<div class="col-md-12">
- 			<h4><span class="label label-primary">First Bid:</span>
-  			<span class="text text-primary" id="firstbid"></span></h4>
+ 			<div class="alert alert-danger">
+ 				<h4 class="text text-center"><span class="text text-danger" id="expire"></span></h4>
+ 			</div>
+ 			
  		</div>
-	</div>
+ 	</div>	
+	
 	<div style="margin-bottom:2%;"></div>
-	<div class="row">
+	<!--  <div class="row">
  		<div class="col-md-3">
   			<span class="sr-only">Four out of Five Stars</span>
   			<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -63,59 +121,52 @@
  		</div>
  		
 	</div>
-	<div style="margin-bottom:2%;"></div>
+	<div style="margin-bottom:2%;"></div>-->
 	<div class="row">
- 		<div class="col-md-12 bottom-rule">
-  			<h2 class="product-price" id="price"></h2>
- 		</div>
+		<div class="col-md-12 alert alert-info">
+			<div class="row">
+				<label class="col-sm-4 control-label" for="highest-bid">Current Highest Bid: </label> 
+				<div class="col-sm-6">
+					<h4 id="highest-bid"></h4>
+				
+				</div>
+			</div>
+			
+			<div style="margin-bottom:1%; margin-top: 1%; border-bottom: 2px solid navy"></div>
+			<div class="row">
+			<label class="col-sm-4 control-label" for="bids-num">Number of Bids: </label> 
+			<div class="col-sm-6">
+				<h4 id="bids-num"></h4>
+				
+			</div>
+			</div>
+			
+		</div>
 	</div>
 	<div style="margin-bottom:2%;"></div>
 	<div class="row">
- 		<div class="col-md-3 pull-right">
-  			<button class="btn btn-warning">Bid Now</button>
+		
+ 		<div class="col-md-12 alert alert-info">
+ 		
+ 			<label class="col-sm-3 control-label" for="bid-amount">Bid Amount:</label> 
+			<div class="col-sm-6">
+				<div class='input-group'><input id="bid-amount" placeholder="e.g. 32.7" class="form-control" name="bid-amount" type="text" value="" /><span class='input-group-addon'>$</span></div>
+			</div>
+			<div class="col-md-3 pull-right">
+  				<button class="btn btn-warning" id="bidNow">Bid Now</button>
+ 			</div>
  		</div>
+  			
+ 	
 	</div>
+	<div style="margin-bottom:2%;"></div>
+	
 	<div style="margin-bottom:2%; margin-top: 2%; border-bottom: 1px solid black"></div>
 
 
 </div>
 
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBlKBVky_UnMTgOzkHGYbKnqksn5I5LQw&callback=initMap"></script>
-
-
-<div class="col-md-6">
-<div style="margin-bottom:4%;border-top: 1px solid black"></div>
-<div id="itemMap"  style="width:500px;height:380px;border: 4px solid #708090;"></div>
-
-</div>
-<div class="col-md-6">
-	<ul class="nav nav-tabs" role="tablist">
- 		<li role="presentation" class="active">
-  		<a href="#description" aria-controls="description"
-   			role="tab"
-   			data-toggle="tab"
-  			>Description</a>
- 		</li>
- 		<li role="presentation">
-  		<a href="#map"
-   		aria-controls="map"
-   		role="tab"
-   		data-toggle="tab"
-  		>Map</a>
- 		</li>
-	</ul>
-	
-	<div class="tab-content">
- 		<div role="tabpanel" class="tab-pane active" id="description">
-  			<textarea class="form-control" style="height: 150px;" id="description-textarea"></textarea>
- 		</div>
- 		<div role="tabpanel" class="tab-pane top-10" id="map">
- 		<!-- Google maps api -->
- 		</div>
- 	
- 	</div>
-</div>	
 
 
 

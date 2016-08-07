@@ -13,7 +13,7 @@ public class TimeUtilities {
 		if(diffHours  == 0 && diffDays == 0 && diffMinutes == 0)
 			return null;
 		else
-			return diffDays + " " +  "Days" +  "," + diffHours + " Hours," + diffMinutes + " " + "Minutes ";
+			return diffDays + " " +  "Days" +  " , " + diffHours + " Hours and " + diffMinutes + " " + "Minutes ";
 		
 	}
 }
