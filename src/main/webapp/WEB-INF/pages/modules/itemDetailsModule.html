@@ -65,7 +65,7 @@
   				<div class="panel panel-default">
     				<div class="panel-heading" style="background-color:#FFFACD;" role="tab" id="headingOne">
       					<h4 class="panel-title" style="color:#000;">
-        				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#item-description" aria-expanded="false" aria-controls="collapseOne">
+        				<a class="accordion-toggle" data-toggle="collapse" href="#item-description" aria-expanded="false" aria-controls="collapseOne">
           				Description
         				</a>
       					</h4>
@@ -75,22 +75,23 @@
     				</div>
   				</div>
   					<div class="panel panel-default">
-    				<div class="panel-heading" style="background-color:#FFFACD;" role="tab" id="headingOne">
+    				<div class="panel-heading" style="background-color:#FFFACD;" role="tab" id="headingTwo">
       					<h4 class="panel-title" style="color:#000;">
-        				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#auction-history" aria-expanded="false" aria-controls="collapseOne">
+        				<a class="accordion-toggle" data-toggle="collapse" href="#auction-history" aria-expanded="false" aria-controls="collapseTwo">
           				Auction History
         				</a>
       					</h4>
     				</div>
-    				<div id="auction-history" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-       					<table class="table table-fixed">
+    				<div id="auction-history" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+       					<h4 id="no-history-warning" class="text text-warning text-center" style="display:none;">Sorry no history of Bids exists at the moment</h4>
+       					<table id="history-table" class="table table-condensed">
           					<thead>
             					<tr>
-              						<th class="col-xs-8">Bidder</th>
-              						<th class="col-xs-8">Bid Amount</th>
+              						<th class="col-xs-6">Bidder</th>
+              						<th class="col-xs-4">Bid Amount</th>
             					</tr>
           					</thead>
-          					<tbody id="bodyTable">
+          					<tbody id="bidBody">
             
           					</tbody>
         				</table>
@@ -168,7 +169,7 @@
 	<div style="margin-bottom:2%;"></div>
 	<div class="row">
 		
- 		<div class="col-md-12 alert alert-info">
+ 		<div class="col-md-12 alert alert-info" id="bid-section">
  		
  			<label class="col-sm-3 control-label" for="bid-amount">Bid Amount:</label> 
 			<div class="col-sm-6">
@@ -177,6 +178,10 @@
 			<div class="col-md-3 pull-right">
   				<button class="btn btn-warning" id="bidNow">Bid Now</button>
  			</div>
+ 		</div>
+ 		
+ 		<div class="col-md-12 alert alert-info" id="guest-warning" style="display:none;">
+ 			<h3 class="text text-center text-danger">Please Log in to Bid</h3>
  		</div>
   			
  	

@@ -1,6 +1,7 @@
 package com.ted.auctionbay.dao;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -164,6 +165,18 @@ public class QueryAuctionImpl implements QueryAuction{
 		RegistereduserBidsinAuction rba = (RegistereduserBidsinAuction) query.getResultList().get(0);
 		rba.setBidPrice(bid_amount);
 		rba.setBidTime(new Date());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getBidHistory(int auctionID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT rba.Bidder_username,rba.BidPrice,rba.BidTime "
+				+ "FROM registereduser_bidsin_auction rba "
+				+ "WHERE rba.AuctionID = ?1");
+		query.setParameter(1, auctionID);
+		
+		return query.getResultList();
 	}
 	
 	

@@ -10,6 +10,7 @@
     content: "\e080";    /* adjust as needed, taken from bootstrap.css */
 }
 
+/*
 .table-fixed thead {
   width: 97%;
 }
@@ -24,4 +25,4 @@
 .table-fixed tbody td, .table-fixed thead > tr> th {
   float: left;
   border-bottom-width: 0;
-}
+}*/

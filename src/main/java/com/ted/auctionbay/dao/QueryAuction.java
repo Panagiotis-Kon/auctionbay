@@ -1,5 +1,6 @@
 package com.ted.auctionbay.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.ted.auctionbay.entities.auctions.Auction;
@@ -26,4 +27,6 @@ public interface QueryAuction {
 	public boolean alreadyBidded(String username, int itemID);
 	
 	public void updateBid(String username, int itemID, float bid_amount);
+	
+	public List<Object[]> getBidHistory(int auctionID);
 }

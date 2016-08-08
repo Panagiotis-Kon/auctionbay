@@ -2,6 +2,7 @@ package com.ted.auctionbay.controllers;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -76,6 +77,9 @@ public class ItemController {
 			}
 			String timeDiff = TimeUtilities.timeDiff(new Date(),auction.getEndTime());
 			jitem.put("expires",timeDiff);
+			
+			JSONArray bidsHistory = auctionServices.getBidHistory(auction.getAuctionID());
+			jitem.put("bidsHistory", bidsHistory);
 			
 			float highestBid = auctionServices.getHighestBid(auction.getAuctionID());
 			jitem.put("highest_bid", highestBid);

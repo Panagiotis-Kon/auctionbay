@@ -252,5 +252,24 @@ public class AuctionServicesImpl implements AuctionServices{
 		return -1;
 	}
 
+	@Override
+	public JSONArray getBidHistory(int auctionID) {
+		List<Object[]> bidsList = queryAuction.getBidHistory(auctionID);
+		JSONArray bidsHistory = new JSONArray();
+		for(Object[] obj : bidsList) {
+			JSONObject jobj = new JSONObject();
+			try {
+				jobj.put("Bidder", obj[0].toString());
+				jobj.put("BidPrice", obj[2].toString());
+				bidsHistory.put(jobj);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return bidsHistory;
+	}
+
 	 
 }

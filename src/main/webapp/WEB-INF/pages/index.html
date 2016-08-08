@@ -110,20 +110,11 @@ $(document).ready(function(){
 	<!-- Main Body -->
 	<div class="container">
 		<div class="row">
-			<div class="col-md-2" id="sidebar" style="display:none;">
 			
-			
-   				<div class="panel panel-info hidden-xs hidden-sm hero-spacer" id="recommended" >
-      				<div class="panel-heading text-center"><h4>Recommended</h4></div>
-      				<div class="panel-body">
-      				</div>
-   				</div>
-			
-			</div>
 			
 			<div class="col-lg-12" id="main-info-header">
 				<div class="panel panel-default hero-spacer">
-      				<div class="panel-heading text-center"><h3>Welcome to AuctionBay!</h3></div>
+      				<div class="panel-heading text-center"><h3 id="main-header-title"></h3></div>
       				<div class="panel-body"><h4>AuctionBay is a website where auctions take place. Bidders and Sellers</h4>
       				<ul>
       					<li>If you are a guest, walkthrough our site and check the products that you want</li>
@@ -203,6 +194,29 @@ $(document).ready(function(){
                         <div class="clearfix"></div>
                    	</div>
 				</div>
+            </div>
+            <div class="col-lg-3 col-md-3" id="mailbox-panel">
+            	<div class="panel panel-red">
+                    <a href="#" class="mailbox-panel-link">
+                    	<div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-envelope-o fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Messages</div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </a>
+       				<div class="panel-footer">
+                    	<a href="#"><span class="pull-right"><i class="fa fa-share" style="color:red;"></i></span> </a>
+                        <div class="clearfix"></div>
+                   	</div>
+                       
+                    </div>
             </div>
 			<div class="col-lg-3 col-md-3" id="contact">
             	<div class="panel panel-blue">

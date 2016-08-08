@@ -8,8 +8,13 @@ $(document).ready(function(){
 	var url = window.location.href;
 	var itemID = url.substring(url.lastIndexOf("/")+1); 
 	console.log("item ID: " + itemID);
-	getItemModule(itemID);
-	checkForUser();
+	if(url.indexOf("item") == -1){
+		console.log("item not requested yet")
+	} else {
+		getItemModule(itemID);
+	}
+	
+	
 	
 	
 });
@@ -54,23 +59,24 @@ function setListeners(){
 		console.log("confirm");
 		var bid_amount = $("#bid-amount").val();
 		$("#warningBidModal").modal('hide');
-		
+		submitOffer(bid_amount)
 	});
 }
 
 
 function submitOffer(bid_amount){
-	
+	var url = window.location.href;
 	var itemID = url.substring(url.lastIndexOf("/")+1);
 	var username = getUser();
 	console.log("Sending: " + itemID + " bid: " + bid_amount);
 	$.ajax({
-		type : "GET",
+		type : "POST",
 		dataType:'json',
 		url  :window.location.href + "/submit-bid",
 		data :{username:username,itemID:itemID,bid_amount:bid_amount},
 		success : function(data) {
-			alert(data)
+			alert(data);
+			location.reload();
 		}
 			
 		
@@ -111,19 +117,42 @@ function getDetails(itemID, details_module) {
 				panel.find('#latitude').text(data.lat);
 				panel.find('#longtitude').text(data.lon);
 				panel.find('#allcategories').text(data.category);
-				panel.find('#buyprice').text(data.buyprice);
+				panel.find('#buyprice').text(parseFloat(data.buyprice).toFixed(2));
 				panel.find('#seller').text(data.seller);
-				panel.find('#firstbid').text(data.firstbid);
+				panel.find('#firstbid').text(parseFloat(data.firstbid).toFixed(2));
 				panel.find('#expire').text(data.expires);
-				panel.find('#highest-bid').html(data.highest_bid + " $");
+				panel.find('#highest-bid').html(parseFloat(data.highest_bid).toFixed(2) + " $");
 				panel.find('#bids-num').text(data.numOfBids);
 				
 				latitude = data.lat;
 				longtitude = data.lon;
-				
+				console.log("lat: " + latitude + " --- lon: " + longtitude);
+				var bidsHistory = data.bidsHistory;
+					
 				html = panel.html();
 				$("#item-details").append(html);
+				
+				if(bidsHistory.length == 0) {
+					console.log("No data");
+					$("#history-table").css("display","none");
+					$("#no-history-warning").css("display","block");
+				} else {
+					$.each(bidsHistory, function(key,value) {
+						  var bidder = value.Bidder;
+						  var bidPrice = value.BidPrice;
+						  var html =  "<tr><td>" + 
+							bidder + "</td>" 
+						+ " <td> " + parseFloat(bidPrice).toFixed(2) + " $"
+						+ "</td></tr>";
+						  console.log("bidder: " + bidder + " bidPrice: " + bidPrice);
+						  $("#history-table").find('tbody').append(html);
+						
+						});
+				}
+				
 				setListeners();
+				checkForUser();
+				
 			}
 		}	
 	}); 
@@ -144,6 +173,7 @@ function initMap(){
 	
 	//var position = new google.maps.LatLng(latitude,longtitude);
 	console.log("center: " + center)
+	
 	location_marker = new google.maps.Marker({
         position: center,
         map: map

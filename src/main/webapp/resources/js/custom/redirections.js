@@ -109,6 +109,23 @@ $(document).ready(function(){
 		
 	});
 	
+	$('a.mailbox-panel-link').click(function(event){
+		
+		event.preventDefault();
+		console.log("window.location.href: " + window.location.href)
+		console.log("baseURL: " + baseURL)
+		var location = window.location.href;
+		var lastChar = location.substr(location.length - 1);
+		if(lastChar == "/"){
+			window.location = window.location.href+"mailbox";
+		} else {
+			window.location = window.location.href+"/mailbox";
+		}
+			
+		
+	});
+	
+	
 	$('a.view-auctions-panel-link').click(function(event){
 		
 		event.preventDefault();
