@@ -82,7 +82,8 @@ function modulesController(page,username){
 			
 			modules.push("button.bid");
 			console.log("auctions without user")
-			$("#sidebar-recommended").css("display","none");
+			$("#recommended-module").css("display","none");
+			changeClass("#advanced-search-module","col-xs-12 col-md-9","col-xs-12 col-md-9 pull-right");
 			disableModules(modules);
 		}
 		if(page == "item"){
@@ -115,8 +116,8 @@ function modulesController(page,username){
 		if(page == "auctions") {
 			var enable_modules = [];
 		
-			enable_modules.push("#sidebar-recommended");
-			enable_modules.push("#sidebar-categories-module");
+			enable_modules.push("#recommended-module");
+			enable_modules.push("#categories-sidebar");
 			enableModules(enable_modules);
 			
 		}

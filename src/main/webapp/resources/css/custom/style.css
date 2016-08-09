@@ -873,3 +873,24 @@ a.forgot {
 	border-right: 1px solid #ddd;
 }
 
+
+#search-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+}
+#search-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+
+#advanced-search-area {
+	background-color:#8B0000;
+}
+
+#headingOne {
+	 overflow:visible;
+}

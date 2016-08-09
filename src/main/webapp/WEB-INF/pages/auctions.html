@@ -7,7 +7,7 @@
 <link href="https://localhost:8443/auctionbay/resources/css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/bootstrap/font-awesome.css" rel="stylesheet" type="text/css" media="all" />
 <!--theme-style-->
-
+<link href="https://localhost:8443/auctionbay/resources/css/external/select2.min.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/custom/header.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/custom/style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/custom/modules/items_listing.css" rel="stylesheet" type="text/css" media="all" />	
@@ -22,8 +22,12 @@
 
 
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/jquery-1.12.3.min.js" type="text/javascript"></script>
+		
 <script src="https://localhost:8443/auctionbay/resources/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/jquery.bootpag.min.js" type="text/javascript"></script>
+
+
+<script src="https://localhost:8443/auctionbay/resources/js/external/select2.full.min.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/redirections.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/auctions.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/index.js" type="text/javascript"></script>
@@ -106,24 +110,81 @@
 	<div class="container">
 		<div class="row">
 		
-		<div class="col-md-3" id="sidebar-categories-module">
-			
-			
-  				<div class="panel panel-info hidden-xs hidden-sm"  >
+			<div class="col-md-3" id="recommended-module">
+				<div class="panel panel-info hidden-xs hidden-sm"  >
       				<div class="panel-heading text-center"><h4>Recommended</h4></div>
       				<div class="panel-body">
       				</div>
    				</div>
-   				<div class="panel panel-success hidden-xs hidden-sm" >
+   				
+			</div>
+		
+			
+			<div id="advanced-search-module" class="col-xs-12 col-md-9">
+				<div id="accordion" role="tablist" aria-multiselectable="true">
+  					<div class="panel panel-default" id="search-panel">
+    					<div class="panel-heading" id="search-heading" style="background-color:#FFFACD;" role="tab" id="headingOne">
+      						<h4 class="panel-title" style="color:#000;">
+        					<a class="accordion-toggle" data-toggle="collapse" href="#advanced-search-area" aria-expanded="false" aria-controls="collapseOne">
+          					Advanced Search
+        					</a>
+      						</h4>
+    					</div>
+    					<div id="advanced-search-area" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+       						<div style="margin-top:2%;"></div>
+       						<form class="form-horizontal" id="search-form" method="post" role="form">
+       							
+       								<div class="form-group">
+										<label class="col-sm-3 control-label">Enter Keywords:</label>
+										<div class="col-sm-6">
+											<input class="form-control" id="keywords" name="keywords" type="text" value="">
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Enter Description:</label>
+										<div class="col-sm-6">
+											<textarea id="search-desc"></textarea>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Enter Category/ies:</label>
+										<div class="col-sm-8">
+											<select class="categories-search-list" multiple="multiple">
+											
+											</select>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-3 control-label">Enter Location:</label>
+										<div class="col-sm-8">
+											<input class="form-control" id="country-search" name="country-search" type="text" value="">
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<button class="btn btn-info"></button>
+									</div>
+       							
+       						</form>
+    					</div>
+  					</div>
+				</div>
+			</div> 
+		
+		</div> <!--  1st row -->
+		
+		<div class="row">
+			<div class="col-md-3" id="categories-sidebar">
+				<div class="panel panel-success hidden-xs hidden-sm" >
 					<div class="panel-heading text-center"><h4>Categories</h4></div>
 						<ul id="categories-module" class="scrollable-menu nav nav-pills nav-stacked" role="menu">
 							<li><a class="all-categories" href="all-categories" style="vertical-align: bottom;">All Categories<span class='label label-warning pull-right'>-</span></a></li>
 						</ul>
 				</div>
-   				
-			
 			</div>
-			
 			<div id="category-indicator" class="col-xs-12 col-md-9 alert alert-warning" style="display:none;">
 				<h4 id="text" style="text-align:center;color:green;"></h4>
 			</div>
@@ -135,14 +196,14 @@
 				
 			</div>
 			<div class="row">
-    			<div id="auctions-paginator" class="col-md-6 col-md-offset-9"></div>
+    			<div id="auctions-paginator" class="col-md-6 pull-right"></div>
 			</div>
 			
 			
-			<div id="auctions-byCategory-paginator" class="col-md-6 col-md-offset-9"></div>
-		
+			<div id="auctions-byCategory-paginator" class="col-md-6 pull-right"></div>
+		</div>	<!--  2nd row -->
+			
 
-		</div> <!-- Main row -->
 		
 		
 		

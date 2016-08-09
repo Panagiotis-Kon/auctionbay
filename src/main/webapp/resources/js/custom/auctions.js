@@ -8,6 +8,7 @@ $(document).ready(function(){
 	console.log("base url: " + baseURL);
 	console.log("window.location.href: " + window.location.href)
 	total_pages = getNumOfAuctions();
+
 	getCategories();
 	
 	
@@ -18,6 +19,8 @@ function initListeners(){
 	
 	/*** Initializing Listeners after loading the contents of the page ***/
 	console.log("Listeners Init");
+	
+	$(".categories-search-list").select2({ width: '100%' });
 	
 	$("#categories-module").on('click', 'li', function(e) {
         e.preventDefault();
@@ -62,6 +65,8 @@ function initListeners(){
 		event.preventDefault();
 		window.location = window.location.href;
 	});
+	
+	
 	
 	/*$("#auction-title").click(function(event){
 		event.preventDefault();
@@ -239,6 +244,7 @@ function getCategories(){
 				var html =  "<li><a>No available categories</a></li>";
 				$("#categories-modules").append(html);
 			} else {
+				var categories = [];
 				for(var i = 0; i < data.length; i++) {			
 					var html =  "<li style=\"word-break:break-all;\">" +
 									"<a href="+ encodeURIComponent(data[i].category) + " style=\"white-space:normal;\">" +
@@ -249,7 +255,20 @@ function getCategories(){
 									"</a>" +
 								"</li>";
 					$("#categories-module").append(html);
+					
+					var category = {};
+					category["id"] = data[i].category;
+					category["text"] = data[i].category;
+					categories.push(category)
+						
+
+					
 				}
+				$(".categories-search-list").select2({ 
+					width: '100%',
+					data: categories
+						
+				});
 			}
 			
 		}	
