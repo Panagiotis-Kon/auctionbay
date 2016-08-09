@@ -23,6 +23,8 @@
 <script src="https://localhost:8443/auctionbay/resources/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/redirections.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/index.js" type="text/javascript"></script>
+<script src="https://localhost:8443/auctionbay/resources/js/custom/user/mailbox.js" type="text/javascript"></script>
+
 <!--script-->
 <script>
 $(document).ready(function(){
@@ -114,27 +116,7 @@ $(document).ready(function(){
         <div class="col-sm-3 col-md-2">
             <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Mail <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Mail</a></li>
-                    <li><a href="#">Contacts</a></li>
-                    <li><a href="#">Tasks</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-sm-9 col-md-10">
-            <!-- Split button -->
-            <div class="btn-group">
-                <button type="button" class="btn btn-default">
-                    <div class="checkbox" style="margin: 0;">
-                        <label>
-                            <input type="checkbox">
-                        </label>
-                    </div>
-                </button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span><span class="sr-only">Toggle Dropdown</span>
+                    Mail Menu <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="#">All</a></li>
@@ -145,6 +127,10 @@ $(document).ready(function(){
                     <li><a href="#">Unstarred</a></li>
                 </ul>
             </div>
+        </div>
+        <div class="col-sm-9 col-md-10">
+            <!-- Split button -->
+           
             <button type="button" class="btn btn-default" data-toggle="tooltip" title="Refresh">
                 &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;&nbsp;</button>
             <!-- Single button -->
@@ -174,7 +160,7 @@ $(document).ready(function(){
     <hr>
     <div class="row">
         <div class="col-sm-3 col-md-2">
-            <a href="#" class="btn btn-danger btn-sm btn-block" role="button"><i class="glyphicon glyphicon-edit"></i> Compose</a>
+            <a id="compose-button" href="#" class="btn btn-danger btn-sm btn-block" role="button"><i class="glyphicon glyphicon-edit"></i> Compose</a>
             <hr>
             <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#"><span class="badge pull-right">32</span> Inbox </a>
@@ -185,6 +171,52 @@ $(document).ready(function(){
                 <li><a href="#"><span class="badge pull-right">3</span>Drafts</a></li>
             </ul>
         </div>
+        
+        <div class="col-sm-9 col-md-10" id="compose-area" style="display:none;">
+        	<div class="panel panel-default">
+  				<div class="panel-heading">Compose New Message</div>
+  				<div class="panel-body">
+  					<div class="form-group">
+  						<input class="form-control" id="receiver" placeholder="To:"/>
+  					</div>
+  					<div class="form-group">
+  						<input class="form-control" id="subject" placeholder="Subject:"/>
+  					</div>
+  					<div class="form-group">
+  						<ul class="text-tools">
+  							<li class="dropdown">
+  								<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+  								<span class="glyphicon glyphicon-font"></span>
+  								<span class="current-font">Normal Text</span>
+  								</a>
+  							</li>
+  							<li>
+  								<div class="btn-group">
+  									<a class="btn btn-default">Bold</a>
+  									<a class="btn btn-default">Italic</a>
+  									<a class="btn btn-default">Underline</a>
+  								</div>
+  							</li>
+  						
+  						</ul>
+  						<textarea id="compose-textarea" class="form-control" style="height:300px;"></textarea>
+  					
+  					</div>
+  				
+  				</div>
+  				<div class="panel-footer">
+  					<div class="pull-right">
+  					<button type="button" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
+  					</div>
+  					<button type="button" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>
+  				</div>
+			</div>
+        
+        
+        
+        
+        </div>
+        
         <div class="col-sm-9 col-md-10" id="main-content-area">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">

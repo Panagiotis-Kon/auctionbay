@@ -148,4 +148,23 @@ public class AuctionsController {
 		return jarray.toString();
 	}
 	
+	@RequestMapping(value = "/advanced-search",method = RequestMethod.GET)
+	@ResponseBody
+	public String advancedSearch(@RequestParam String search_data) {
+		try {
+			JSONObject search_params = new JSONObject(search_data);
+			/**
+			 * We need to find what to do next from here
+			 * 1) Get the result from the params given
+			 * 2) get the number of auctions for the pagination
+			 * 3) add the auctions
+			 */
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "Could not find anything";
+	}
+	
 }

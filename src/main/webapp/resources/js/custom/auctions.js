@@ -66,16 +66,43 @@ function initListeners(){
 		window.location = window.location.href;
 	});
 	
+	$("#search-button").click(function(event){
+		var search_data = {};
+		var keywords = $("#keywords").val();
+		var description = $("#search-desc").val();
+		var categories = $(".categories-search-list").val();
+		var country = $("#country-search").val();
+		var minBid = $("#min-bid-price").val();
+		var maxBid = $("#max-bid-price").val();
+		
+		search_data["keywords"] = $("#keywords").val();
+		search_data["description"] = $("#search-desc").val();
+		search_data["categories"] = $(".categories-search-list").val();
+		search_data["country"] = $("#country-search").val();
+		search_data["minBid"] = $("#min-bid-price").val();
+		search_data["maxBid"] = $("#max-bid-price").val();
+		advanced_search(search_data);
+	});
 	
 	
-	/*$("#auction-title").click(function(event){
-		event.preventDefault();
-		alert("you clicked me")
-		//console.log("you clicked the item and location: "+window.location.href);
-	});*/
 	
 }
 
+
+function advanced_search(input) {
+	var search_data = JSON.stringify(input);
+	console.log(search_data);
+	$.ajax({
+		type : "POST",
+		dataType:'json',
+		url  :window.location.href + "/advanced-search",
+		data :{search_data:search_data},
+		success : function(data) {
+			console.log("Successssssssss ********** ********")
+			alert("GOOOODDDDD");
+		}	
+	});
+}
 
 function getNumOfAuctions(){
 	/*** Ajax call for retrieving the number of auction 
@@ -95,6 +122,39 @@ function getNumOfAuctions(){
 	}); 	
 	
 }
+
+function countDown(dt,divID){
+	var end = new Date(dt);
+
+    var _second = 1000;
+    var _minute = _second * 60;
+    var _hour = _minute * 60;
+    var _day = _hour * 24;
+    var timer;
+
+    function showRemaining() {
+        var now = new Date();
+        var distance = end - now;
+        if (distance < 0) {
+
+            clearInterval(timer);
+            document.getElementById(id).innerHTML = 'EXPIRED!';
+
+            return;
+        }
+        var days = Math.floor(distance / _day);
+        var hours = Math.floor((distance % _day) / _hour);
+        var minutes = Math.floor((distance % _hour) / _minute);
+        var seconds = Math.floor((distance % _minute) / _second);
+
+        document.getElementById(id).innerHTML = days + 'days ';
+        document.getElementById(id).innerHTML += hours + 'hrs ';
+        document.getElementById(id).innerHTML += minutes + 'mins ';
+        document.getElementById(id).innerHTML += seconds + 'secs';
+    }
+    timer = setInterval(showRemaining, 1000);
+}
+
 
 function initPaging(total_pages){
 	

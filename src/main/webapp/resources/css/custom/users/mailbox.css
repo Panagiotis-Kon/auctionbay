@@ -13,3 +13,10 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 .ad { padding: 5px;background: #F5F5F5;color: #222;font-size: 80%;border: 1px solid #E5E5E5; }
 .ad a.title {color: #15C;text-decoration: none;font-weight: bold;font-size: 110%;}
 .ad a.url {color: #093;text-decoration: none;}
+
+
+#text-tools{
+	margin:0;
+	padding:0;
+	display:block;
+}
