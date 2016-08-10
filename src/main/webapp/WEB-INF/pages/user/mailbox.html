@@ -123,8 +123,7 @@ $(document).ready(function(){
                     <li><a href="#">None</a></li>
                     <li><a href="#">Read</a></li>
                     <li><a href="#">Unread</a></li>
-                    <li><a href="#">Starred</a></li>
-                    <li><a href="#">Unstarred</a></li>
+                   
                 </ul>
             </div>
         </div>
@@ -161,12 +160,12 @@ $(document).ready(function(){
     <div class="row">
         <div class="col-sm-3 col-md-2">
             <a id="compose-button" href="#" class="btn btn-danger btn-sm btn-block" role="button"><i class="glyphicon glyphicon-edit"></i> Compose</a>
+            <a id="back-to-read" style="display:none;" href="#" class="btn btn-danger btn-sm btn-block" role="button"><i class="glyphicon glyphicon-arrow-left"></i> Back to Read</a>
             <hr>
             <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#"><span class="badge pull-right">32</span> Inbox </a>
                 </li>
                 <li><a href="#">Starred</a></li>
-                <li><a href="#">Important</a></li>
                 <li><a href="#">Sent Mail</a></li>
                 <li><a href="#"><span class="badge pull-right">3</span>Drafts</a></li>
             </ul>
@@ -177,13 +176,15 @@ $(document).ready(function(){
   				<div class="panel-heading">Compose New Message</div>
   				<div class="panel-body">
   					<div class="form-group">
-  						<input class="form-control" id="receiver" placeholder="To:"/>
+  						<input class="form-control" id="recipient" placeholder="To:"/>
   					</div>
   					<div class="form-group">
   						<input class="form-control" id="subject" placeholder="Subject:"/>
   					</div>
   					<div class="form-group">
-  						<ul class="text-tools">
+  				
+  					
+  						<ul class="text-tools list-inline">
   							<li class="dropdown">
   								<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
   								<span class="glyphicon glyphicon-font"></span>
@@ -192,9 +193,9 @@ $(document).ready(function(){
   							</li>
   							<li>
   								<div class="btn-group">
-  									<a class="btn btn-default">Bold</a>
-  									<a class="btn btn-default">Italic</a>
-  									<a class="btn btn-default">Underline</a>
+  									<a class="btn btn-default" style="font-weight:bold;">Bold</a>
+  									<a class="btn btn-default" style="font-style:italic;">Italic</a>
+  									<a class="btn btn-default" style="font-style:underline;">Underline</a>
   								</div>
   							</li>
   						
@@ -224,9 +225,9 @@ $(document).ready(function(){
                 </span>Primary</a></li>
                 <li><a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>
                     Social</a></li>
-                <li><a href="#messages" data-toggle="tab"><span class="glyphicon glyphicon-tags"></span>
-                    Promotions</a></li>
+                
                 <li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-plus no-margin">
+                Settings
                 </span></a></li>
             </ul>
             <!-- Tab panes -->
@@ -239,10 +240,12 @@ $(document).ready(function(){
                                     <input type="checkbox">
                                 </label>
                             </div>
-                            <span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
+                            <span class="name" style="min-width: 120px;
                                 display: inline-block;">Mark Otto</span> <span class="">Nice work on the lastest version</span>
-                            <span class="text-muted" style="font-size: 11px;">- More content here</span> <span class="badge">12:10 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
-                                </span></span></a><a href="#" class="list-group-item">
+                            <span class="text-muted" style="font-size: 11px;">- More content here</span> <span class="badge">12:10 AM</span> 
+                            <span class="pull-right">
+                                </span></a>
+                        <a href="#" class="list-group-item">
                                     <div class="checkbox">
                                         <label>
                                             <input type="checkbox">
@@ -251,7 +254,8 @@ $(document).ready(function(){
                                     <span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
                                         display: inline-block;">Jason Markus</span> <span class="">This is big title</span>
                                     <span class="text-muted" style="font-size: 11px;">- I saw that you had..</span> <span class="badge">12:09 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
-                                        </span></span></a><a href="#" class="list-group-item read">
+                                        </span></span></a>
+                        <a href="#" class="list-group-item read">
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox">
@@ -270,10 +274,9 @@ $(document).ready(function(){
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade in" id="messages">
-                    ...</div>
+                
                 <div class="tab-pane fade in" id="settings">
-                    This tab is empty.</div>
+                    Settings for messages</div>
             </div>
             
             
