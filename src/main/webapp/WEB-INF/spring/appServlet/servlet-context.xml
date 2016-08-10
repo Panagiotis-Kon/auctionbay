@@ -26,12 +26,16 @@
 	
 	<beans:bean id="queryItem" class="com.ted.auctionbay.dao.QueryItemImpl"/>
 	
+	<beans:bean id="queryMail" class="com.ted.auctionbay.dao.QueryMailboxImpl"/>
+	
 	<!-- Services' beans -->
 	<beans:bean id="userServices" class="com.ted.auctionbay.services.UserServicesImpl"/>
 	
 	<beans:bean id="auctionServices" class="com.ted.auctionbay.services.AuctionServicesImpl"/>
 	
 	<beans:bean id="itemServices" class="com.ted.auctionbay.services.ItemServicesImpl"/>
+	
+	<beans:bean id="mailboxServices" class="com.ted.auctionbay.services.MailboxServicesImpl"/>
 	
 	  <mvc:interceptors>
 	    <beans:bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">

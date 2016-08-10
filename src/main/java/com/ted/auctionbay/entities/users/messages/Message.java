@@ -2,6 +2,9 @@ package com.ted.auctionbay.entities.users.messages;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.ted.auctionbay.entities.users.Registereduser;
+
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +24,6 @@ public class Message implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreated;
 
-	private String fromUser;
 
 	private byte isRead;
 
@@ -30,12 +32,38 @@ public class Message implements Serializable {
 
 	private String subject;
 
-	private String toUser;
 
 	//bi-directional many-to-one association to Mailbox
 	@OneToMany(mappedBy="message")
 	private List<Mailbox> mailboxs;
 
+	//bi-directional many-to-one association to Registereduser
+	@ManyToOne
+	@JoinColumn(name="FromUser")
+	private Registereduser sender;
+
+	public Registereduser getSender() {
+		return sender;
+	}
+
+	public void setSender(Registereduser sender) {
+		this.sender = sender;
+	}
+
+	public Registereduser getRecipient() {
+		return recipient;
+	}
+
+	public void setRecipient(Registereduser recipient) {
+		this.recipient = recipient;
+	}
+
+	//bi-directional many-to-one association to Registereduser
+	@ManyToOne
+	@JoinColumn(name="ToUser")
+	private Registereduser recipient;
+	
+	
 	public Message() {
 	}
 
@@ -55,13 +83,7 @@ public class Message implements Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	public String getFromUser() {
-		return this.fromUser;
-	}
-
-	public void setFromUser(String fromUser) {
-		this.fromUser = fromUser;
-	}
+	
 
 	public byte getIsRead() {
 		return this.isRead;
@@ -87,13 +109,7 @@ public class Message implements Serializable {
 		this.subject = subject;
 	}
 
-	public String getToUser() {
-		return this.toUser;
-	}
-
-	public void setToUser(String toUser) {
-		this.toUser = toUser;
-	}
+	
 
 	public List<Mailbox> getMailboxs() {
 		return this.mailboxs;

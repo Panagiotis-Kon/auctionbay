@@ -61,14 +61,16 @@ function getInboxMessages(inboxModule) {
 		dataType:'json',
 		data: {username:username},
 		success:function(inbox){
-			if(inbox.length == 0)
-				alert("No inbox messages")
+			if(inbox.length == 0) {
+				$("no-inbox").css("display","block");
+				$("#no-inbox").text("You have no messages");
+			}	
 			else{
 				
 			}
 			
 			
-		},
+		}
 		
 	});
 }
