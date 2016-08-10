@@ -9,7 +9,7 @@
 <!--theme-style-->
 
 <link href="https://localhost:8443/auctionbay/resources/css/custom/header.css" rel="stylesheet" type="text/css" media="all" />
-<link href="https://localhost:8443/auctionbay/resources/css/custom/user/mailbox.css" rel="stylesheet" type="text/css" media="all" />	
+<link href="https://localhost:8443/auctionbay/resources/css/custom/users/mailbox.css" rel="stylesheet" type="text/css" media="all" />	
 <link href="https://localhost:8443/auctionbay/resources/css/custom/footer.css" rel="stylesheet" type="text/css" media="all" />
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -112,177 +112,264 @@ $(document).ready(function(){
 	
 	<!-- Main Content -->
 	<div class="container">
-    <div class="row">
-        <div class="col-sm-3 col-md-2">
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Mail Menu <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">All</a></li>
-                    <li><a href="#">None</a></li>
-                    <li><a href="#">Read</a></li>
-                    <li><a href="#">Unread</a></li>
+   		<div class="mail-box">
+        	<aside class="sm-side">
+            	<div class="user-head">
+                	<a class="inbox-avatar" href="javascript:;">
+                    	<img  width="64" height="60" src="https://localhost:8443/auctionbay/resources/images/user/default-user.png">
+                   	</a>
+                    <div class="user-name">
+                    	<h5 id="username-upright"></h5>
+                    </div>
+                </div>
+                <div class="inbox-body">
+                	<a id="compose-button" href="#" class="btn btn-danger btn-block" role="button"><i class="glyphicon glyphicon-edit"></i> Compose</a>
+            		<a id="back-to-read" style="display:none;" href="#" class="btn btn-danger btn-block" role="button"><i class="glyphicon glyphicon-arrow-left"></i> Back to Read</a>
+				</div>
+                      <ul class="inbox-nav inbox-divider">
+                          <li class="active">
+                              <a href="#"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger pull-right">2</span></a>
+
+                          </li>
+                          <li>
+                              <a href="#"><i class="fa fa-envelope-o"></i> Sent Mail</a>
+                          </li>
+                          <li>
+                              <a href="#"><i class="fa fa-bookmark-o"></i> Important</a>
+                          </li>
+                          <li>
+                              <a href="#"><i class=" fa fa-external-link"></i> Drafts <span class="label label-info pull-right">30</span></a>
+                          </li>
+                          <li>
+                              <a href="#"><i class=" fa fa-trash-o"></i> Trash</a>
+                          </li>
+                      </ul>
+                      
                    
-                </ul>
-            </div>
-        </div>
-        <div class="col-sm-9 col-md-10">
-            <!-- Split button -->
-           
-            <button type="button" class="btn btn-default" data-toggle="tooltip" title="Refresh">
-                &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;&nbsp;</button>
-            <!-- Single button -->
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    More <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Mark all as read</a></li>
-                    <li class="divider"></li>
-                    <li class="text-center"><small class="text-muted">Select messages to see more actions</small></li>
-                </ul>
-            </div>
-            <div class="pull-right">
-                <span class="text-muted"><b>1</b>–<b>50</b> of <b>160</b></span>
-                <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </button>
-                    <button type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-sm-3 col-md-2">
-            <a id="compose-button" href="#" class="btn btn-danger btn-sm btn-block" role="button"><i class="glyphicon glyphicon-edit"></i> Compose</a>
-            <a id="back-to-read" style="display:none;" href="#" class="btn btn-danger btn-sm btn-block" role="button"><i class="glyphicon glyphicon-arrow-left"></i> Back to Read</a>
-            <hr>
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><span class="badge pull-right">32</span> Inbox </a>
-                </li>
-                <li><a href="#">Starred</a></li>
-                <li><a href="#">Sent Mail</a></li>
-                <li><a href="#"><span class="badge pull-right">3</span>Drafts</a></li>
-            </ul>
-        </div>
-        
-        <div class="col-sm-9 col-md-10" id="compose-area" style="display:none;">
-        	<div class="panel panel-default">
-  				<div class="panel-heading">Compose New Message</div>
-  				<div class="panel-body">
-  					<div class="form-group">
-  						<input class="form-control" id="recipient" placeholder="To:"/>
-  					</div>
-  					<div class="form-group">
-  						<input class="form-control" id="subject" placeholder="Subject:"/>
-  					</div>
-  					<div class="form-group">
-  				
-  					
-  						<ul class="text-tools list-inline">
-  							<li class="dropdown">
-  								<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-  								<span class="glyphicon glyphicon-font"></span>
-  								<span class="current-font">Normal Text</span>
-  								</a>
-  							</li>
-  							<li>
-  								<div class="btn-group">
-  									<a class="btn btn-default" style="font-weight:bold;">Bold</a>
-  									<a class="btn btn-default" style="font-style:italic;">Italic</a>
-  									<a class="btn btn-default" style="font-style:underline;">Underline</a>
+
+                      <div class="inbox-body text-center">
+                          <div class="btn-group">
+                              <a class="btn mini btn-primary" href="javascript:;">
+                                  <i class="fa fa-plus"></i>
+                              </a>
+                          </div>
+                          <div class="btn-group">
+                              <a class="btn mini btn-success" href="javascript:;">
+                                  <i class="fa fa-phone"></i>
+                              </a>
+                          </div>
+                          <div class="btn-group">
+                              <a class="btn mini btn-info" href="javascript:;">
+                                  <i class="fa fa-cog"></i>
+                              </a>
+                          </div>
+                      </div>
+
+                  </aside>
+                  <aside class="lg-side">
+                      <div class="inbox-head">
+                          <h3>Inbox</h3>
+                          <form action="#" class="pull-right position">
+                              <div class="input-append">
+                                  <input type="text" class="sr-input" placeholder="Search Mail">
+                                  <button class="btn sr-btn" type="button"><i class="fa fa-search"></i></button>
+                              </div>
+                          </form>
+                      </div>
+                      
+                      
+                      <div class="col-sm-10 col-md-12" id="compose-area" style="display:none;padding:20px;">
+        				<div class="panel panel-default">
+  							<div class="panel-heading">Compose New Message</div>
+  							<div class="panel-body">
+  								<div class="form-group">
+  									<input class="form-control" id="recipient" placeholder="To:"/>
   								</div>
-  							</li>
+  								<div class="form-group">
+  									<input class="form-control" id="subject" placeholder="Subject:"/>
+  								</div>
+  								<div class="form-group">
+  									<ul class="text-tools list-inline">
+  										<li class="dropdown">
+  											<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+  											<span class="glyphicon glyphicon-font"></span>
+  											<span class="current-font">Normal Text</span>
+  											</a>
+  										</li>
+  										<li>
+  											<div class="btn-group">
+  												<a class="btn btn-default" style="font-weight:bold;">Bold</a>
+  												<a class="btn btn-default" style="font-style:italic;">Italic</a>
+  												<a class="btn btn-default" style="font-style:underline;">Underline</a>
+  											</div>
+  										</li>
   						
-  						</ul>
-  						<textarea id="compose-textarea" class="form-control" style="height:300px;"></textarea>
+  									</ul>
+  								
   					
-  					</div>
+  								</div>
+  								
+  								<textarea id="compose-textarea" class="form-control" style="height:300px;"></textarea>
   				
-  				</div>
-  				<div class="panel-footer">
-  					<div class="pull-right">
-  					<button type="button" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
-  					</div>
-  					<button type="button" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>
-  				</div>
-			</div>
-        
-        
-        
-        
-        </div>
-        
-        <div class="col-sm-9 col-md-10" id="main-content-area">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-inbox">
-                </span>Primary</a></li>
-                <li><a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>
-                    Social</a></li>
-                
-                <li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-plus no-margin">
-                Settings
-                </span></a></li>
-            </ul>
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="home">
-                    <div class="list-group">
-                        <a href="#" class="list-group-item">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox">
-                                </label>
-                            </div>
-                            <span class="name" style="min-width: 120px;
-                                display: inline-block;">Mark Otto</span> <span class="">Nice work on the lastest version</span>
-                            <span class="text-muted" style="font-size: 11px;">- More content here</span> <span class="badge">12:10 AM</span> 
-                            <span class="pull-right">
-                                </span></a>
-                        <a href="#" class="list-group-item">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox">
-                                        </label>
-                                    </div>
-                                    <span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
-                                        display: inline-block;">Jason Markus</span> <span class="">This is big title</span>
-                                    <span class="text-muted" style="font-size: 11px;">- I saw that you had..</span> <span class="badge">12:09 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
-                                        </span></span></a>
-                        <a href="#" class="list-group-item read">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox">
-                                                </label>
-                                            </div>
-                                            <span class="glyphicon glyphicon-star"></span><span class="name" style="min-width: 120px;
-                                                display: inline-block;">Jane Patel</span> <span class="">This is big title</span>
-                                            <span class="text-muted" style="font-size: 11px;">- Hi hello how r u ?</span> <span class="badge">11:30 PM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
-                                                </span></span></a>
-                    </div>
-                </div>
-                <div class="tab-pane fade in" id="profile">
-                    <div class="list-group">
-                        <div class="list-group-item">
-                            <span class="text-center">This tab is empty.</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="tab-pane fade in" id="settings">
-                    Settings for messages</div>
-            </div>
-            
-            
-        </div>
-    </div>
-</div>
+  						</div>
+  						<div class="panel-footer">
+  							<div class="pull-right">
+  								<button type="button" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
+  							</div>
+  							<button type="button" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>
+  						</div>
+					</div>
+        		</div>
+        		
+        		<div class="col-sm-10 col-md-12" id="view-message-area" style="display:none;padding:20px;">
+        				<div class="panel panel-default">
+  							<div class="panel-heading">Message</div>
+  							<div class="panel-body">
+  								<div class="form-group">
+  									<input class="form-control" id="sender" placeholder="From:"/>
+  								</div>
+  								<div class="form-group">
+  									<input class="form-control" id="subject" placeholder="Subject:"/>
+  								</div>
+  								<div class="form-group">
+  									<ul class="text-tools list-inline">
+  										<li class="dropdown">
+  											<a class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+  											<span class="glyphicon glyphicon-font"></span>
+  											<span class="current-font">Normal Text</span>
+  											</a>
+  										</li>
+  										<li>
+  											<div class="btn-group">
+  												<a class="btn btn-default" style="font-weight:bold;">Bold</a>
+  												<a class="btn btn-default" style="font-style:italic;">Italic</a>
+  												<a class="btn btn-default" style="font-style:underline;">Underline</a>
+  											</div>
+  										</li>
+  						
+  									</ul>
+  								
+  					
+  								</div>
+  								
+  								<textarea id="view-textarea" class="form-control" style="height:300px;"></textarea>
+  				
+  						</div>
+  						<div class="panel-footer">
+  							<div class="pull-right">
+  								<button type="button" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Reply</button>
+  							</div>
+  							<button type="button" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>
+  						</div>
+					</div>
+        		</div>
+                      
+               <div class="inbox-body" id="main-content-area">
+               		<div class="mail-option">
+						<div class="chk-all">
+                        	<input type="checkbox" class="mail-checkbox mail-group-checkbox">
+                                 <div class="btn-group">
+                                     <a data-toggle="dropdown" href="#" class="btn mini all" aria-expanded="false">
+                                         All
+                                         <i class="fa fa-angle-down "></i>
+                                     </a>
+                                     <ul class="dropdown-menu">
+                                         <li><a href="#"> None</a></li>
+                                         <li><a href="#"> Read</a></li>
+                                         <li><a href="#"> Unread</a></li>
+                                     </ul>
+                                 </div>
+                             </div>
+
+                             <div class="btn-group">
+                                 <a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" class="btn mini tooltips">
+                                     <i class=" fa fa-refresh"></i>
+                                 </a>
+                             </div>
+                             <div class="btn-group hidden-phone">
+                                 <a data-toggle="dropdown" href="#" class="btn mini blue" aria-expanded="false">
+                                     More
+                                     <i class="fa fa-angle-down "></i>
+                                 </a>
+                                 <ul class="dropdown-menu">
+                                     <li><a href="#"><i class="fa fa-pencil"></i> Mark as Read</a></li>
+                                     <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                                     <li class="divider"></li>
+                                     <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                                 </ul>
+                             </div>
+                             <div class="btn-group">
+                                 <a data-toggle="dropdown" href="#" class="btn mini blue">
+                                     Move to
+                                     <i class="fa fa-angle-down "></i>
+                                 </a>
+                                 <ul class="dropdown-menu">
+                                     <li><a href="#"><i class="fa fa-pencil"></i> Mark as Read</a></li>
+                                     <li><a href="#"><i class="fa fa-ban"></i> Spam</a></li>
+                                     <li class="divider"></li>
+                                     <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                                 </ul>
+                             </div>
+
+                             <ul class="unstyled inbox-pagination">
+                                 <li><span>1-50 of 234</span></li>
+                                 <li>
+                                     <a class="np-btn" href="#"><i class="fa fa-angle-left  pagination-left"></i></a>
+                                 </li>
+                                 <li>
+                                     <a class="np-btn" href="#"><i class="fa fa-angle-right pagination-right"></i></a>
+                                 </li>
+                             </ul>
+                         </div>
+                          <table class="table table-inbox table-hover" id="inbox-table">
+                            <tbody>
+                              <tr class="unread">
+                                  <td class="inbox-small-cells">
+                                      <input type="checkbox" class="mail-checkbox">
+                                  </td>
+                                  <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                  <td class="view-message  dont-show">PHPClass</td>
+                                  <td class="view-message ">Added a new class: Login Class Fast Site</td>
+                                  <td class="view-message inbox-small-cells"></td>
+                                  <td class="view-message  text-right">9:27 AM</td>
+                              </tr>
+                             
+                              <tr class="">
+                                  <td class="inbox-small-cells">
+                                      <input type="checkbox" class="mail-checkbox">
+                                  </td>
+                                  <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                  <td class="view-message dont-show">Tim Reid, S P N</td>
+                                  <td class="view-message">Boost Your Website Traffic</td>
+                                  <td class="view-message inbox-small-cells"></td>
+                                  <td class="view-message text-right">April 01</td>
+                              </tr>
+                              <tr class="">
+                                  <td class="inbox-small-cells">
+                                      <input type="checkbox" class="mail-checkbox">
+                                  </td>
+                                  <td class="inbox-small-cells"><i class="fa fa-star inbox-started"></i></td>
+                                  <td class="view-message dont-show">Freelancer.com <span class="label label-danger pull-right">urgent</span></td>
+                                  <td class="view-message">Stop wasting your visitors </td>
+                                  <td class="view-message inbox-small-cells"></td>
+                                  <td class="view-message text-right">May 23</td>
+                              </tr>
+                              
+                          </tbody>
+                          </table>
+                          
+                          <table class="table table-outbox table-hover" id="outbox-table">
+                          	<tbody>
+                          	
+                          	</tbody>
+                          
+                          
+                          </table>
+                          
+                      </div>
+                  </aside>
+              </div>
+	</div>
 	
 	
 	

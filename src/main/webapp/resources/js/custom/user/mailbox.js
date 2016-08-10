@@ -4,7 +4,9 @@ $(document).ready(function (){
 	
 	
 	initListeners();
-	
+	var username = getUser();
+	console.log("user: "+username);
+	$("#username-upright").append(username);
 	
 	
 	
@@ -44,3 +46,31 @@ function getRecipients() {
 	
 	
 }
+
+function getInboxMessagesModule(){
+	
+	
+}
+
+
+function getInboxMessages(inboxModule) {
+	var username = getUser();
+	$.ajax({
+		type : "GET",
+		url  : window.location.href + "/inbox",
+		dataType:'json',
+		data: {username:username},
+		success:function(inbox){
+			if(inbox.length == 0)
+				alert("No inbox messages")
+			else{
+				
+			}
+			
+			
+		},
+		
+	});
+}
+
+
