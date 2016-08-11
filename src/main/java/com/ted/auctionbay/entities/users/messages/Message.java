@@ -14,7 +14,11 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Message.findAll", query="SELECT m FROM Message m")
+@NamedQueries({
+	@NamedQuery(name="Message.findAll", query="SELECT m FROM Message m"),
+	@NamedQuery(name="Message.maxID", query="SELECT MAX(m.messageID) FROM Message m")
+})
+
 public class Message implements Serializable {
 	private static final long serialVersionUID = 1L;
 

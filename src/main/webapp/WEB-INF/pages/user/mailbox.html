@@ -318,34 +318,29 @@
                                  </li>
                              </ul>
                          </div>
-                         <div class="alert alert-info" style="display:none;">
-                         	<h4 id="no-inbox"></h4>
+                         <div class="alert alert-info" style="display:none;" id="no-sent-alert">
+                         	<h4 class="text text-center" id="no-sent-text"></h4>
                          </div>
-                          <table class="table table-inbox table-hover" id="inbox-table">
+                         
+                          <div class="alert alert-info" style="display:none;" id="no-inbox-alert">
+                         	<h4 class="text text-center" id="no-inbox-text"></h4>
+                         </div>
+                         
+                         <table class="table table-inbox table-hover" id="inbox-table">
                             <tbody>
-                              <tr class="unread">
-                                  <td class="inbox-small-cells">
-                                      <input type="checkbox" class="mail-checkbox">
-                                  </td>
-                                  <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
-                                  <td class="view-message  dont-show">PHPClass</td>
-                                  <td class="view-message ">Added a new class: Login Class Fast Site</td>
-                                  <td class="view-message inbox-small-cells"><input type="hidden" id="messageID" name="messageID" value="" /></td>
-                                  <td class="view-message  text-right">9:27 AM</td>
-                              </tr>
                              
                               
                               
-                          </tbody>
-                          </table>
+                          	</tbody>
+                         </table>
                           
-                          <table class="table table-outbox table-hover" id="outbox-table">
-                          	<tbody>
+                         <table class="table table-outbox table-hover" style="display:none;" id="outbox-table">
+                         	<tbody>
                           	
                           	</tbody>
                           
                           
-                          </table>
+                         </table>
                           
                       </div>
                   </aside>

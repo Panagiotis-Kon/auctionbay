@@ -59,4 +59,30 @@ public class QueryMailboxImpl implements QueryMailbox{
 		return 0;
 	}
 
+	@Override
+	public int getMaxMailboxID() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		List list = em.createNamedQuery("Mailbox.maxID").getResultList();
+		int maxID = -1;
+		if(list.get(0) == null){
+			maxID=0;
+		} else {
+			maxID = Integer.parseInt(list.get(0).toString());
+		}
+		return maxID;
+	}
+
+	@Override
+	public int getMaxMessageID() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		List list = em.createNamedQuery("Message.maxID").getResultList();
+		int maxID = -1;
+		if(list.get(0) == null){
+			maxID=0;
+		} else {
+			maxID = Integer.parseInt(list.get(0).toString());
+		}
+		return maxID;
+	}
+
 }

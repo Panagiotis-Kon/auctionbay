@@ -76,11 +76,13 @@ function getRecipients() {
 	
 }
 
-function sendMessage(message){
+function sendMessage(data){
+	var username = getUser();
+	var message = JSON.stringify(data);
 	$.ajax({
 		type : "POST",
 		dataType:'json',
-		data: {message:message},
+		data: {username:username,message:message},
 		url  : window.location.href + "/message",
 		success:function(result){
 			alert("Your message has been sent");
@@ -93,19 +95,26 @@ function sendMessage(message){
 
 
 function getInboxMessagesModule(){
-	$.ajax({
-		type : "GET",
-		dataType:'json',
-		url  : window.location.href + "/inbox-module",
-		success: getInboxMessages
-		
+	console.log("module get...")
+
+	$.get( window.location.href+"/inbox-module", function( inboxModule ) {
+		getInboxMessages(inboxModule);
 	});
-	
+	console.log("module get end...")
+}
+
+function getSentMessagesModule(){
+
+	$.get( window.location.href+"/sent-module", function( sentModule ) {
+		getSentMessages(sentModule);
+	});
 }
 
 
-function getInboxMessages(inboxModule) {
+
+function getInboxMessages(data) {
 	console.log("getting inbox messages")
+	var inboxModule = data;
 	var username = getUser();
 	$.ajax({
 		type : "GET",
@@ -113,9 +122,11 @@ function getInboxMessages(inboxModule) {
 		dataType:'json',
 		data: {username:username},
 		success:function(inbox){
+			
 			if(inbox.length == 0) {
-				$("no-inbox").css("display","block");
-				$("#no-inbox").text("You have no messages");
+				$("#inbox-table").css("display","none");
+				$("#no-inbox-alert").css("display","block");
+				$("#no-inbox-text").text("You have no messages");
 			}	
 			else{
 				console.log(inbox);
@@ -144,4 +155,8 @@ function getInboxMessages(inboxModule) {
 	});
 }
 
+
+function getSentMessages(sentModule) {
+	
+}
 
