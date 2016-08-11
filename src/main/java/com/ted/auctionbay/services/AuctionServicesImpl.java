@@ -271,5 +271,12 @@ public class AuctionServicesImpl implements AuctionServices{
 		return bidsHistory;
 	}
 
+	@Override
+	public List<Auction> advancedSearch(String keywords, String description,
+			List<String> Categories, String Location, String minBid,
+			String maxBid) {
+		return queryAuction.advancedSearch(keywords, description, Categories, Location, minBid, maxBid);
+	}
+
 	 
 }

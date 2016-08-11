@@ -173,9 +173,34 @@ public class QueryAuctionImpl implements QueryAuction{
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT rba.Bidder_username,rba.BidPrice,rba.BidTime "
 				+ "FROM registereduser_bidsin_auction rba "
-				+ "WHERE rba.AuctionID = ?1");
+				+ "WHERE rba.AuctionID = ?");
 		query.setParameter(1, auctionID);
 		
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Auction> advancedSearch(String keywords, String description,
+			List<String> Categories, String Location, String minBid,
+			String maxBid) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
+				+ "FROM auction a,category c,item_has_category ihc, item i"
+				+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
+				+ " and (a.Seller = IFNULL(?,a.Seller) or a.Title = IFNULL(?,a.Title))"
+				+ " and i.Description = IFNULL(?,i.Description)"
+				+ " and (c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name))"
+				+ " and i.Location = IFNULL(?,i.Location)"
+				+ " and a.FirstBid >= IFNULL(?,(SELECT MAX(FirstBid) FROM auction)) and a.FirstBid <= IFNULL(?,(SELECT MAX(FirstBid) FROM auction))",Auction.class);
+		query.setParameter(1, keywords);
+		query.setParameter(2, keywords);
+		query.setParameter(3, description);
+		query.setParameter(4, Categories.get(0));
+		query.setParameter(5, Categories.get(1));
+		query.setParameter(6, Categories.get(2));
+		query.setParameter(7, Location);
+		query.setParameter(8, minBid);
+		query.setParameter(9, maxBid);
 		return query.getResultList();
 	}
 	
