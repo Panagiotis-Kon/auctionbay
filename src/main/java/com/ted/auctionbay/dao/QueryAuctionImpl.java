@@ -173,7 +173,7 @@ public class QueryAuctionImpl implements QueryAuction{
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT rba.Bidder_username,rba.BidPrice,rba.BidTime "
 				+ "FROM registereduser_bidsin_auction rba "
-				+ "WHERE rba.AuctionID = ?1");
+				+ "WHERE rba.AuctionID = ?");
 		query.setParameter(1, auctionID);
 		
 		return query.getResultList();
