@@ -183,8 +183,14 @@ public class QueryAuctionImpl implements QueryAuction{
 	public List<Auction> advancedSearch(String keywords, String description,
 			List<String> Categories, String Location, String minBid,
 			String maxBid) {
-		
-		return null;
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
+				+ "FROM auction a,category c,item_has_category ihc, item i"
+				+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
+				+ " and c.Name = ?1",Auction.class);
+		query.setParameter(1, keywords);
+		query.setParameter(2, description);
+		return query.getResultList();
 	}
 	
 	
