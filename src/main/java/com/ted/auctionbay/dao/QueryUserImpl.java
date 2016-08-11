@@ -219,6 +219,15 @@ public class QueryUserImpl implements QueryUser{
 		return 0;
 		
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Registereduser> getRecipients() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		
+		Query query = em.createNativeQuery("SELECT * FROM registereduser",Registereduser.class);
+		return query.getResultList();
+	}
 	
 	
 	

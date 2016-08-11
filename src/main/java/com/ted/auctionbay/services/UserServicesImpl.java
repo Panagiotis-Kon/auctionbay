@@ -154,5 +154,12 @@ public class UserServicesImpl implements UserServices{
 		
 		return queryUser.getUser(username);
 	}
+
+
+	@Override
+	public List<Registereduser> getRecipients() {
+		
+		return queryUser.getRecipients();
+	}
 	
 }

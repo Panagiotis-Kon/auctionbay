@@ -13,21 +13,48 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.ted.auctionbay.entities.users.Registereduser;
 import com.ted.auctionbay.entities.users.messages.Message;
 import com.ted.auctionbay.services.MailboxServices;
+import com.ted.auctionbay.services.UserServices;
 
 @Controller
-@RequestMapping(value={"/mailbox"})
+@RequestMapping(value={"/user/{username}/mailbox"})
 public class MessagesController {
 	
 	@Autowired
 	MailboxServices mailboxServices;
+	
+	@Autowired
+	UserServices userServices;
 	
 	
 	@RequestMapping(value = "/inbox-module",method = RequestMethod.GET)
 	public String getInboxModule(){
 		System.out.println("getting inbox module");
 		return "/pages/modules/inboxMessagesModule.html";
+	}
+	
+	@RequestMapping(value = "/sent-module",method = RequestMethod.GET)
+	public String getSentModule(){
+		System.out.println("getting sent module");
+		return "/pages/modules/sentMessagesModule.html";
+	}
+	
+	@RequestMapping(value = "/recipients",method = RequestMethod.GET)
+	@ResponseBody
+	public String getRecipients(){
+		
+		List<Registereduser> reg_users = userServices.getRecipients();
+		JSONArray recipients = new JSONArray();
+		if(reg_users.size() != 0){
+			for(Registereduser reg : reg_users){
+				recipients.put(reg.getUsername());
+			}
+			return recipients.toString();
+		}
+		
+		return new Gson().toJson("No recipients found");
 	}
 	
 	@RequestMapping(value = "/inbox",method = RequestMethod.GET)
@@ -54,7 +81,7 @@ public class MessagesController {
 		}
 		
 		
-		return new Gson().toJson(inbox);
+		return inbox.toString();
 	}
 	
 	
@@ -82,8 +109,10 @@ public class MessagesController {
 		}
 		
 		
-		return new Gson().toJson(sent);
+		return sent.toString();
 	}
+	
+	
 	
 	
 	

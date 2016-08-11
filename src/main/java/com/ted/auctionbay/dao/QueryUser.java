@@ -28,6 +28,8 @@ public interface QueryUser {
 	
 	public List<Registereduser> getGroupsOfUsers(int startpage, int pagesize);
 	
+	public List<Registereduser> getRecipients();
+	
 	public int registeredNumber();
 	
 	public void accept_user(String username);

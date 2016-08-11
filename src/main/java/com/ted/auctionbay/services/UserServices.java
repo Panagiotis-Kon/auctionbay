@@ -31,6 +31,8 @@ public interface UserServices {
 	
 	public List<Registereduser> getGroupsOfUsers(int startpage, int pagesize);
 	
+	public List<Registereduser> getRecipients();
+	
 	public int count_user_auctions(String username);
 	
 	public List<Auction> get_user_auctions(String username);

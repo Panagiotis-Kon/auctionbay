@@ -1,8 +1,8 @@
 $(document).ready(function (){
 	
 	
-	
-	
+	checkForUser();
+	getRecipients();
 	initListeners();
 	var username = getUser();
 	console.log("user: "+username);
@@ -12,11 +12,42 @@ $(document).ready(function (){
 	
 });
 
+var recipientTags = [];
+var availableTags = [
+                     "ActionScript",
+                     "AppleScript",
+                     "Asp",
+                     "BASIC",
+                     "C",
+                     "C++",
+                     "Clojure",
+                     "COBOL",
+                     "ColdFusion",
+                     "Erlang",
+                     "Fortran",
+                     "Groovy",
+                     "Haskell",
+                     "Java",
+                     "JavaScript",
+                     "Lisp",
+                     "Perl",
+                     "PHP",
+                     "Python",
+                     "Ruby",
+                     "Scala",
+                     "Scheme"
+                   ];
 
 function initListeners() {
 	
 	$("#recipient").click(function(event){
 		event.preventDefault();
+		console.log("recipients####")
+		console.log(availableTags);
+		$("#recipient").attr('autocomplete', 'on');
+		$("#recipient").autocomplete({
+	         source: availableTags
+	       });
 		
 	});
 	
@@ -43,12 +74,27 @@ function initListeners() {
 
 
 function getRecipients() {
-	
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		url  : window.location.href + "/recipients",
+		success:function(recipients){
+			//console.log(recipients);
+			recipientTags = recipients;
+		}
+		
+	});
 	
 }
 
 function getInboxMessagesModule(){
-	
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		url  : window.location.href + "/inbox-module",
+		success: getInboxMessages
+		
+	});
 	
 }
 

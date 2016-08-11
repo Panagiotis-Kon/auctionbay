@@ -370,3 +370,7 @@ ul {
 	padding:0;
 	display:block;
 }
+
+/*.ui-autocomplete-input {
+z-index: 100;
+}*/
