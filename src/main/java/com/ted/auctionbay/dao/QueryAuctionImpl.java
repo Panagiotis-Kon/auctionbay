@@ -192,8 +192,14 @@ public class QueryAuctionImpl implements QueryAuction{
 				+ " and (c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name))"
 				+ " and i.Location = IFNULL(?,i.Location)"
 				+ " and a.FirstBid >= IFNULL(?,(SELECT MAX(FirstBid) FROM auction)) and a.FirstBid <= IFNULL(?,(SELECT MAX(FirstBid) FROM auction))",Auction.class);
-		query.setParameter(1, keywords);
-		query.setParameter(2, keywords);
+		if (keywords.equals(""))
+			query.setParameter(1, null);
+		else
+			query.setParameter(1, keywords);
+		if (keywords.equals(""))
+			query.setParameter(2, null);
+		else
+			query.setParameter(2, keywords);
 		query.setParameter(3, description);
 		query.setParameter(4, Categories.get(0));
 		query.setParameter(5, Categories.get(1));
