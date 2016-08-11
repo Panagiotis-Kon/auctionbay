@@ -9,7 +9,11 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name="Mailbox.findAll", query="SELECT m FROM Mailbox m")
+@NamedQueries({
+	@NamedQuery(name="Mailbox.findAll", query="SELECT m FROM Mailbox m"),
+	@NamedQuery(name="Mailbox.maxID", query="SELECT MAX(mb.id.id) FROM Mailbox mb")
+})
+
 public class Mailbox implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -13,4 +13,8 @@ public interface QueryMailbox {
 	public int countNewMessages(String username);
 	
 	public int markAsRead(int messageID);
+	
+	public int getMaxMailboxID();
+	
+	public int getMaxMessageID();
 }

@@ -49,6 +49,7 @@ public class MessagesController {
 		JSONArray recipients = new JSONArray();
 		if(reg_users.size() != 0){
 			for(Registereduser reg : reg_users){
+				
 				recipients.put(reg.getUsername());
 			}
 			return recipients.toString();
@@ -112,8 +113,27 @@ public class MessagesController {
 		return sent.toString();
 	}
 	
-	
-	
+	@RequestMapping(value = "/message",method = RequestMethod.POST)
+	@ResponseBody
+	public String submitMessage(@RequestParam("username") String username, 
+			@RequestParam("message") String message){
+		
+		JSONObject message_json=null;
+		String recipient,subject,message_body;
+		try {
+			message_json = new JSONObject(message);
+			
+			recipient = message_json.get("recipient").toString();
+			subject = message_json.get("subject").toString();
+			message_body = message_json.get("message_body").toString();
+			
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return "something";
+	}
 	
 	
 

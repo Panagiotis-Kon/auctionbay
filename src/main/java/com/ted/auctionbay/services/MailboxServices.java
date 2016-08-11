@@ -12,5 +12,7 @@ public interface MailboxServices {
 	
 	public int countNewMessages(String username);
 	
+	public int submitMessage(String sender, String recipient, String subject, String message_body);
+	
 	public int markAsRead(int messageID);
 }
