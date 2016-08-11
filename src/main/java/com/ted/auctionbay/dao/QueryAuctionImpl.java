@@ -14,14 +14,14 @@ import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
 
-public class QueryAuctionImpl implements QueryAuction{
+public class QueryAuctionImpl implements QueryAuction {
 
 	@Override
 	public int numOfAuctions() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT count(*) FROM auction");
 		int num = Integer.parseInt(query.getResultList().get(0).toString());
-	
+
 		return num;
 	}
 
@@ -29,27 +29,31 @@ public class QueryAuctionImpl implements QueryAuction{
 	@Override
 	public List<Auction> getAuctions(int startpage, int endpage) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		/*String sql = "SELECT a.AuctionID, a.ItemID, a.Seller, a.Title, a.BuyPrice, a.FirstBid, a.StartTime, a.EndTime, c.Name"+ 
-				" FROM auction a, aitem_has_category ihc, category c" +
-				" WHERE a.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID";
-		*/
-		Query query = em.createNativeQuery("SELECT * FROM auction",Auction.class);
-		//Query query = em.createNativeQuery(sql,Auction.class);
+		/*
+		 * String sql =
+		 * "SELECT a.AuctionID, a.ItemID, a.Seller, a.Title, a.BuyPrice, a.FirstBid, a.StartTime, a.EndTime, c.Name"
+		 * + " FROM auction a, aitem_has_category ihc, category c" +
+		 * " WHERE a.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID";
+		 */
+		Query query = em.createNativeQuery("SELECT * FROM auction",
+				Auction.class);
+		// Query query = em.createNativeQuery(sql,Auction.class);
 		query.setFirstResult(startpage);
 		query.setMaxResults(endpage);
-		
+
 		return query.getResultList();
-		
+
 	}
 
 	@Override
 	public int getNumOfBids(int auction_id) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT count(rba.AuctionID) FROM registereduser_bidsin_auction rba"
-				+" WHERE rba.AuctionID LIKE ?1 GROUP BY rba.AuctionID");
+		Query query = em
+				.createNativeQuery("SELECT count(rba.AuctionID) FROM registereduser_bidsin_auction rba"
+						+ " WHERE rba.AuctionID LIKE ?1 GROUP BY rba.AuctionID");
 		query.setParameter(1, auction_id).getFirstResult();
 		List<?> list = query.getResultList();
-		if(!list.isEmpty()){
+		if (!list.isEmpty()) {
 			return Integer.parseInt(list.get(0).toString());
 		}
 		return 0;
@@ -57,17 +61,20 @@ public class QueryAuctionImpl implements QueryAuction{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Auction> getAuctionsByCategory(int startpage, int endpage, String category) {
+	public List<Auction> getAuctionsByCategory(int startpage, int endpage,
+			String category) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
-				+ "FROM auction a,category c,item_has_category ihc, item i"
-				+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
-				+ " and c.Name = ?1",Auction.class) ;
-		
+		Query query = em
+				.createNativeQuery(
+						"SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
+								+ "FROM auction a,category c,item_has_category ihc, item i"
+								+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
+								+ " and c.Name = ?1", Auction.class);
+
 		query.setParameter(1, category);
 		query.setFirstResult(startpage);
 		query.setMaxResults(endpage);
-		
+
 		return query.getResultList();
 	}
 
@@ -76,7 +83,8 @@ public class QueryAuctionImpl implements QueryAuction{
 	public Auction getDetails(int ItemID) {
 		System.out.println("getting auction details with id: " + ItemID);
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT * FROM auction WHERE ItemID=?",Auction.class);
+		Query query = em.createNativeQuery(
+				"SELECT * FROM auction WHERE ItemID=?", Auction.class);
 		query.setParameter(1, ItemID);
 		List<Auction> Set = query.getResultList();
 		return Set.get(0);
@@ -86,8 +94,9 @@ public class QueryAuctionImpl implements QueryAuction{
 	public int maxAuctionID() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		int maxID;
-		Object idSet  =  em.createNamedQuery("Auction.auctionMaxID").getResultList().get(0);
-		if(idSet == null) {
+		Object idSet = em.createNamedQuery("Auction.auctionMaxID")
+				.getResultList().get(0);
+		if (idSet == null) {
 			maxID = 0;
 		} else {
 			maxID = Integer.parseInt(idSet.toString()) + 1;
@@ -97,7 +106,7 @@ public class QueryAuctionImpl implements QueryAuction{
 
 	@Override
 	public int submitAuction(Auction auction) {
-		
+
 		try {
 			EntityManager em = EntityManagerHelper.getEntityManager();
 			em.persist(auction);
@@ -111,58 +120,64 @@ public class QueryAuctionImpl implements QueryAuction{
 	@Override
 	public int deleteAuction(int auctionID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("DELETE FROM auction WHERE AuctionID=?",Auction.class);
+		Query query = em.createNativeQuery(
+				"DELETE FROM auction WHERE AuctionID=?", Auction.class);
 		query.setParameter(1, auctionID);
 		return 0;
 	}
 
 	@Override
 	public float getHighestBid(int auction_id) {
-		//System.out.println("auction_id: " + auction_id);
+		// System.out.println("auction_id: " + auction_id);
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT MAX(BidPrice) FROM registereduser_bidsin_auction WHERE AuctionID=?");
+		Query query = em
+				.createNativeQuery("SELECT MAX(BidPrice) FROM registereduser_bidsin_auction WHERE AuctionID=?");
 		query.setParameter(1, auction_id);
-		
+
 		float highestBid;
 		List bidList = query.getResultList();
 		System.out.println(bidList.get(0));
-		if(bidList.get(0) == null || bidList.isEmpty()) {
-			highestBid=0;
+		if (bidList.get(0) == null || bidList.isEmpty()) {
+			highestBid = 0;
 		} else {
 			highestBid = Float.parseFloat(bidList.get(0).toString());
 		}
-		
-		
+
 		return highestBid;
 	}
 
 	@Override
 	public boolean alreadyBidded(String username, int itemID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT COUNT(*) FROM registereduser_bidsin_auction rba, auction a "
-				+ "WHERE rba.AuctionID = a.AuctionID AND rba.Bidder_Username=?1 AND a.ItemID=?2 ");
+		Query query = em
+				.createNativeQuery("SELECT COUNT(*) FROM registereduser_bidsin_auction rba, auction a "
+						+ "WHERE rba.AuctionID = a.AuctionID AND rba.Bidder_Username=?1 AND a.ItemID=?2 ");
 		query.setParameter(1, username);
 		query.setParameter(2, itemID);
 		int number = Integer.parseInt(query.getResultList().get(0).toString());
-		
-		if(number != 0){
+
+		if (number != 0) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public void updateBid(String username, int itemID, float bid_amount) {
+		System.out.print("updateBid");
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("Select rba.Bidder_Username, rba.auctionID, rba.BidPrice, rba.BidTime "
-				 					 + "from registereduser_bidsin_auction rba,auction a "
-				 					 + "where rba.AuctionID = a.AuctionID and "
-				 					 + "rba.Bidder_Username = ?1 and a.ItemID = ?2",RegistereduserBidsinAuction.class);
+		Query query = em.createNativeQuery(
+				"Select rba.Bidder_Username, rba.auctionID, rba.BidPrice, rba.BidTime "
+						+ "from registereduser_bidsin_auction rba,auction a "
+						+ "where rba.AuctionID = a.AuctionID and "
+						+ "rba.Bidder_Username = ?1 and " + "a.ItemID = ?2",
+				RegistereduserBidsinAuction.class);
 		query.setParameter(1, username);
 		query.setParameter(2, itemID);
-		
-		RegistereduserBidsinAuction rba = (RegistereduserBidsinAuction) query.getResultList().get(0);
+
+		RegistereduserBidsinAuction rba = (RegistereduserBidsinAuction) query
+				.getResultList().get(0);
 		rba.setBidPrice(bid_amount);
 		rba.setBidTime(new Date());
 	}
@@ -171,27 +186,31 @@ public class QueryAuctionImpl implements QueryAuction{
 	@Override
 	public List<Object[]> getBidHistory(int auctionID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT rba.Bidder_username,rba.BidPrice,rba.BidTime "
-				+ "FROM registereduser_bidsin_auction rba "
-				+ "WHERE rba.AuctionID = ?");
+		Query query = em
+				.createNativeQuery("SELECT rba.Bidder_username,rba.BidPrice,rba.BidTime "
+						+ "FROM registereduser_bidsin_auction rba "
+						+ "WHERE rba.AuctionID = ?");
 		query.setParameter(1, auctionID);
-		
+
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Auction> advancedSearch(String keywords, String description,
+	public List<Auction> advancedSearch(String keywords,
 			List<String> Categories, String Location, String minBid,
 			String maxBid) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
-				+ "FROM auction a,category c,item_has_category ihc, item i"
-				+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
-				+ " and (a.Seller = IFNULL(?,a.Seller) or a.Title = IFNULL(?,a.Title))"
-				+ " and i.Description = IFNULL(?,i.Description)"
-				+ " and (c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name))"
-				+ " and i.Location = IFNULL(?,i.Location)"
-				+ " and a.FirstBid >= IFNULL(?,(SELECT MAX(FirstBid) FROM auction)) and a.FirstBid <= IFNULL(?,(SELECT MAX(FirstBid) FROM auction))",Auction.class);
+		Query query = em
+				.createNativeQuery(
+						"SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
+								+ "FROM auction a,category c,item_has_category ihc, item i"
+								+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
+								+ " and (a.Seller LIKE '%?%' or a.Title LIKE '%?%' or i.Description LIKE '%?%'"
+								+ " and (c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name))"
+								+ " and i.Location = IFNULL(?,i.Location)"
+								+ " and a.FirstBid >= IFNULL(?,(SELECT MAX(FirstBid) FROM auction)) and a.FirstBid <= IFNULL(?,(SELECT MAX(FirstBid) FROM auction))",
+						Auction.class);
 		if (keywords.equals(""))
 			query.setParameter(1, null);
 		else
@@ -200,16 +219,46 @@ public class QueryAuctionImpl implements QueryAuction{
 			query.setParameter(2, null);
 		else
 			query.setParameter(2, keywords);
-		query.setParameter(3, description);
-		query.setParameter(4, Categories.get(0));
-		query.setParameter(5, Categories.get(1));
-		query.setParameter(6, Categories.get(2));
-		query.setParameter(7, Location);
-		query.setParameter(8, minBid);
-		query.setParameter(9, maxBid);
+		if (keywords.equals(""))
+			query.setParameter(3, null);
+		else
+			query.setParameter(3, keywords);
+		if (Categories.get(0).isEmpty())
+			query.setParameter(4, null);
+		else
+			query.setParameter(4, Categories.get(0));
+		if (Categories.get(1).isEmpty())
+			query.setParameter(5, null);
+		else
+			query.setParameter(5, Categories.get(1));
+		if (Categories.get(2).isEmpty())
+			query.setParameter(6, null);
+		else
+			query.setParameter(6, Categories.get(2));
+		if (Location.equals(""))
+			query.setParameter(7, null);
+		else
+			query.setParameter(7, Location);
+		if (minBid.equals(""))
+			query.setParameter(8, null);
+		else
+			query.setParameter(8, minBid);
+		if (maxBid.equals(""))
+			query.setParameter(9, null);
+		else
+			query.setParameter(9, maxBid);
 		return query.getResultList();
 	}
-	
-	
+
+	@Override
+	public int delAuction(String Username, int auctionID, int ItemID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em
+				.createNativeQuery("DELETE FROM auction WHERE Seller=? and AuctionID=? and ItemID=?");
+		query.setParameter(0, Username);
+		query.setParameter(1, auctionID);
+		query.setParameter(2, ItemID);
+		return query.executeUpdate();
+	}
 
 }

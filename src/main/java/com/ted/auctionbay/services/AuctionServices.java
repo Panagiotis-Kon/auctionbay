@@ -38,5 +38,7 @@ public interface AuctionServices {
 	
 	public JSONArray getBidHistory(int auctionID);
 	
-	public List<Auction> advancedSearch(String keywords, String description, List<String> Categories, String Location, String minBid, String maxBid);
+	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
+	
+	public int delAuction(String Username, int auctionID, int ItemID);
 }

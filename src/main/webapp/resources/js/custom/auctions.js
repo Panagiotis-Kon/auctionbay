@@ -107,49 +107,23 @@ function advanced_search(input) {
 			}else {
 				console.log(data)
 				
-				var panel = $("<div>" + details_module + "</div>");
-				panel.find('#Title').text(data.title);
-				panel.find('#itemID').text(data.id);
-				panel.find('#location').text(data.location);
-				panel.find('#latitude').text(data.lat);
-				panel.find('#longtitude').text(data.lon);
-				panel.find('#allcategories').text(data.category);
-				panel.find('#buyprice').text(parseFloat(data.buyprice).toFixed(2));
-				panel.find('#seller').text(data.seller);
-				panel.find('#firstbid').text(parseFloat(data.firstbid).toFixed(2));
-				panel.find('#expire').text(data.expires);
-				panel.find('#highest-bid').html(parseFloat(data.highest_bid).toFixed(2) + " $");
-				panel.find('#bids-num').text(data.numOfBids);
-				
-				latitude = data.lat;
-				longtitude = data.lon;
-				console.log("lat: " + latitude + " --- lon: " + longtitude);
-				var bidsHistory = data.bidsHistory;
+				for(var i=0;i<data.length;i++){
+					var panel = $("<div id=\"searchresults\"></div>");
+					panel.find('.item-listing-seller label').text(auctions[i].seller);
+					//panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
+					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id);
+					panel.find('.item-listing-title a').text(auctions[i].name);
 					
-				html = panel.html();
-				$("#search_data").append(html);
-				
-				if(bidsHistory.length == 0) {
-					console.log("No data");
-					$("#history-table").css("display","none");
-					$("#no-history-warning").css("display","block");
-				} else {
-					$.each(bidsHistory, function(key,value) {
-						  var bidder = value.Bidder;
-						  var bidPrice = value.BidPrice;
-						  var html =  "<tr><td>" + 
-							bidder + "</td>" 
-						+ " <td> " + parseFloat(bidPrice).toFixed(2) + " $"
-						+ "</td></tr>";
-						  console.log("bidder: " + bidder + " bidPrice: " + bidPrice);
-						  $("#history-table").find('tbody').append(html);
-						
-						});
+					panel.find("#elapseTime h4").text(auctions[i].expires+"remaining");
+					//panel.find("#category-listing h4").text(auctions[i].expires+"remaining");
+					panel.find("#firstBid").text("$"+parseFloat(auctions[i].firstBid).toFixed(2));
+					panel.find("#numberOfbids").text(auctions[i].numberOfBids + "     " + "Bids");
+					html = panel.html();
+					$("#available-auctions").append(html);
+					
 				}
-				
-				setListeners();
 				checkForUser();
-			}	
+			}
 		}
 	});
 }

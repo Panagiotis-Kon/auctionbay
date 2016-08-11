@@ -272,10 +272,16 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public List<Auction> advancedSearch(String keywords, String description,
+	public List<Auction> advancedSearch(String keywords,
 			List<String> Categories, String Location, String minBid,
 			String maxBid) {
-		return queryAuction.advancedSearch(keywords, description, Categories, Location, minBid, maxBid);
+		return queryAuction.advancedSearch(keywords, Categories, Location, minBid, maxBid);
+	}
+
+	@Override
+	public int delAuction(String Username, int auctionID, int ItemID) {
+		queryAuction.delAuction(Username,auctionID,ItemID);
+		return 0;
 	}
 
 	 
