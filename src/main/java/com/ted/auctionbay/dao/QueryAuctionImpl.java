@@ -178,6 +178,14 @@ public class QueryAuctionImpl implements QueryAuction{
 		
 		return query.getResultList();
 	}
+
+	@Override
+	public List<Auction> advancedSearch(String keywords, String description,
+			List<String> Categories, String Location, String minBid,
+			String maxBid) {
+		
+		return null;
+	}
 	
 	
 
