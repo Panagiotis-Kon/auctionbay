@@ -1,6 +1,6 @@
 $(document).ready(function (){
 	
-	
+	getInboxMessagesModule();
 	checkForUser();
 	getRecipients();
 	initListeners();
@@ -13,43 +13,22 @@ $(document).ready(function (){
 });
 
 var recipientTags = [];
-var availableTags = [
-                     "ActionScript",
-                     "AppleScript",
-                     "Asp",
-                     "BASIC",
-                     "C",
-                     "C++",
-                     "Clojure",
-                     "COBOL",
-                     "ColdFusion",
-                     "Erlang",
-                     "Fortran",
-                     "Groovy",
-                     "Haskell",
-                     "Java",
-                     "JavaScript",
-                     "Lisp",
-                     "Perl",
-                     "PHP",
-                     "Python",
-                     "Ruby",
-                     "Scala",
-                     "Scheme"
-                   ];
+var bodyMessageHolder = {};
 
 function initListeners() {
 	
 	$("#recipient").click(function(event){
 		event.preventDefault();
-		console.log("recipients####")
-		console.log(availableTags);
-		$("#recipient").attr('autocomplete', 'on');
+		//console.log("recipients####")
+		//console.log(recipientTags);
+		//$("#recipient").attr('autocomplete', 'on');
 		$("#recipient").autocomplete({
-	         source: availableTags
+	         source: recipientTags
 	       });
 		
 	});
+	
+	
 	
 	$("#compose-button").click(function(e){
 		e.preventDefault();
@@ -70,6 +49,16 @@ function initListeners() {
 		
 	});
 	
+	$("#send-message").click(function(event){
+		event.preventDefault();
+		var message = {};
+		message["recipient"] = $("#recipient").val();
+		message["subject"] = $("#subject").val();
+		message["message_body"] = $("#message-body");
+		sendMessage(message);
+		
+	});
+	
 }
 
 
@@ -87,6 +76,22 @@ function getRecipients() {
 	
 }
 
+function sendMessage(message){
+	$.ajax({
+		type : "POST",
+		dataType:'json',
+		data: {message:message},
+		url  : window.location.href + "/message",
+		success:function(result){
+			alert("Your message has been sent");
+			window.location.reload();
+		}
+		
+	});
+	
+}
+
+
 function getInboxMessagesModule(){
 	$.ajax({
 		type : "GET",
@@ -100,6 +105,7 @@ function getInboxMessagesModule(){
 
 
 function getInboxMessages(inboxModule) {
+	console.log("getting inbox messages")
 	var username = getUser();
 	$.ajax({
 		type : "GET",
@@ -112,9 +118,26 @@ function getInboxMessages(inboxModule) {
 				$("#no-inbox").text("You have no messages");
 			}	
 			else{
+				console.log(inbox);
+				for(var i=0; i<inbox.length; i++){
+					var body = null;
+					bodyMessageHolder[inbox[i].messageID] = inbox[i].messageBody;
+					
+					if(inbox[i].isRead == 0  ) {
+						body = $('<tr class="unread">' + inboxModule + '</tr>');
+					} else {
+						body = $('<tr>' + inboxModule + '</tr>');
+					} 
+					body.find("#messageID").val(inbox[i].messageID);
+					body.find("#sender-inbox").text(inbox[i].sender);
+					body.find("#subject-inbox").text(inbox[i].subject);
+					body.find("#datetime-inbox").text(inbox[i].dateCreated);
+					var html = body.html();
+					$("#inbox-table").append(html);
+				}
 				
 			}
-			
+			console.log("end of getting inbox messages")
 			
 		}
 		

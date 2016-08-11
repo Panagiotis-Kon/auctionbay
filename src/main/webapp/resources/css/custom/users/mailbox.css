@@ -371,6 +371,13 @@ ul {
 	display:block;
 }
 
-/*.ui-autocomplete-input {
+.ui-autocomplete-input {
 z-index: 100;
-}*/
+}
+
+  .ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }

@@ -180,7 +180,7 @@
   							<div class="panel-body">
   								<div class="form-group">
   									
-  									<input class="form-control" type="text" id="recipient" >
+  									<input class="form-control" type="text" id="recipient" placeholder="To:"/>
   								</div>
   								<div class="form-group">
   									<input class="form-control" id="subject" placeholder="Subject:"/>
@@ -206,12 +206,12 @@
   					
   								</div>
   								
-  								<textarea id="compose-textarea" class="form-control" style="height:300px;"></textarea>
+  								<textarea id="message-body" class="form-control" style="height:300px;"></textarea>
   				
   						</div>
   						<div class="panel-footer">
   							<div class="pull-right">
-  								<button type="button" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
+  								<button type="button" class="btn btn-primary" id="send-message"><i class="fa fa-envelope-o"></i> Send</button>
   							</div>
   							<button type="button" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>
   						</div>
@@ -330,30 +330,11 @@
                                   <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
                                   <td class="view-message  dont-show">PHPClass</td>
                                   <td class="view-message ">Added a new class: Login Class Fast Site</td>
-                                  <td class="view-message inbox-small-cells"></td>
+                                  <td class="view-message inbox-small-cells"><input type="hidden" id="messageID" name="messageID" value="" /></td>
                                   <td class="view-message  text-right">9:27 AM</td>
                               </tr>
                              
-                              <tr class="">
-                                  <td class="inbox-small-cells">
-                                      <input type="checkbox" class="mail-checkbox">
-                                  </td>
-                                  <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
-                                  <td class="view-message dont-show">Tim Reid, S P N</td>
-                                  <td class="view-message">Boost Your Website Traffic</td>
-                                  <td class="view-message inbox-small-cells"></td>
-                                  <td class="view-message text-right">April 01</td>
-                              </tr>
-                              <tr class="">
-                                  <td class="inbox-small-cells">
-                                      <input type="checkbox" class="mail-checkbox">
-                                  </td>
-                                  <td class="inbox-small-cells"><i class="fa fa-star inbox-started"></i></td>
-                                  <td class="view-message dont-show">Freelancer.com <span class="label label-danger pull-right">urgent</span></td>
-                                  <td class="view-message">Stop wasting your visitors </td>
-                                  <td class="view-message inbox-small-cells"></td>
-                                  <td class="view-message text-right">May 23</td>
-                              </tr>
+                              
                               
                           </tbody>
                           </table>
