@@ -164,7 +164,8 @@ function changeClass(module,oldClass,newClass) {
 
 function editText(module,text) {
 	
-	$(module).html(text + " <span class=\"caret\"></span>");
+	$(module).html("<span class=\"glyphicon glyphicon-user\"></span>" 
+			+ "<span style=\"display:none;\" class=\"badge badge-notify\"></span> " +text + " <span class=\"caret\"></span>");
 }
 
 

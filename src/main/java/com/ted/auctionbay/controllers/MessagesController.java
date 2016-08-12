@@ -119,20 +119,22 @@ public class MessagesController {
 			@RequestParam("message") String message){
 		
 		JSONObject message_json=null;
-		String recipient,subject,message_body;
+		String sender,recipient,subject,message_body;
 		try {
 			message_json = new JSONObject(message);
-			
+			sender = username.toString();
 			recipient = message_json.get("recipient").toString();
 			subject = message_json.get("subject").toString();
 			message_body = message_json.get("message_body").toString();
-			
+			if(mailboxServices.submitMessage(sender, recipient, subject, message_body) == 0){
+				return new Gson().toJson("Your message to " + recipient + " was sent");
+			}
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		
-		return "something";
+		return new Gson().toJson("Your message was not sent");
 	}
 	
 	

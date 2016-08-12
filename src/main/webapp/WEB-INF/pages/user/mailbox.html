@@ -123,12 +123,12 @@
             		<a id="back-to-read" style="display:none;" href="#" class="btn btn-danger btn-block" role="button"><i class="glyphicon glyphicon-arrow-left"></i> Back to Read</a>
 				</div>
                       <ul class="inbox-nav inbox-divider">
-                          <li class="active">
-                              <a href="#"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger pull-right">2</span></a>
+                          <li class="active" id="inbox-item">
+                              <a href="#" class="inbox-ref"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger pull-right">2</span></a>
 
                           </li>
-                          <li>
-                              <a href="#"><i class="fa fa-envelope-o"></i> Sent Mail</a>
+                          <li id="sent-item">
+                              <a href="#" class="sent-ref"><i class="fa fa-envelope-o"></i> Sent Mail</a>
                           </li>
                           <li>
                               <a href="#"><i class="fa fa-bookmark-o"></i> Important</a>
@@ -334,7 +334,7 @@
                           	</tbody>
                          </table>
                           
-                         <table class="table table-outbox table-hover" style="display:none;" id="outbox-table">
+                         <table class="table table-inbox table-hover" style="display:none;" id="sent-table">
                          	<tbody>
                           	
                           	</tbody>

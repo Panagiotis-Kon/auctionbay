@@ -2,6 +2,7 @@ package com.ted.auctionbay.dao;
 
 import java.util.List;
 
+import com.ted.auctionbay.entities.users.messages.Mailbox;
 import com.ted.auctionbay.entities.users.messages.Message;
 
 public interface QueryMailbox {
@@ -17,4 +18,6 @@ public interface QueryMailbox {
 	public int getMaxMailboxID();
 	
 	public int getMaxMessageID();
+	
+	public int submitMessage(Message message, Mailbox from, Mailbox to);
 }

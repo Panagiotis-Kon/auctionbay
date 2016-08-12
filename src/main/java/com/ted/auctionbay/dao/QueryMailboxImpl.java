@@ -3,8 +3,10 @@ package com.ted.auctionbay.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import com.ted.auctionbay.entities.users.messages.Mailbox;
 import com.ted.auctionbay.entities.users.messages.Message;
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
 
@@ -83,6 +85,21 @@ public class QueryMailboxImpl implements QueryMailbox{
 			maxID = Integer.parseInt(list.get(0).toString());
 		}
 		return maxID;
+	}
+
+	@Override
+	public int submitMessage(Message message, Mailbox from, Mailbox to) {
+		try {
+			EntityManager em = EntityManagerHelper.getEntityManager();
+			em.persist(message);
+			em.persist(to);
+			em.persist(from);
+		} catch (PersistenceException pe) {
+			pe.printStackTrace();
+			return 1;
+		}
+		return 0;
+		
 	}
 
 }

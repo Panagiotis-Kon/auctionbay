@@ -3,6 +3,8 @@ package com.ted.auctionbay.entities.users.messages;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.ted.auctionbay.entities.users.Registereduser;
+
 
 /**
  * The persistent class for the mailbox database table.
@@ -26,6 +28,19 @@ public class Mailbox implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="MessageID")
 	private Message message;
+
+	//bi-directional many-to-one association to Registereduser
+	@OneToOne
+	@JoinColumn(name="RegisteredUser")
+	private Registereduser registereduser;
+	
+	public Registereduser getRegistereduser() {
+		return registereduser;
+	}
+
+	public void setRegistereduser(Registereduser registereduser) {
+		this.registereduser = registereduser;
+	}
 
 	public Mailbox() {
 	}
