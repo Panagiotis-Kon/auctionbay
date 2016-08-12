@@ -284,5 +284,15 @@ public class AuctionServicesImpl implements AuctionServices{
 		return 0;
 	}
 
+	@Override
+	public List<Auction> getActiveAuctions() {
+		return queryAuction.getActiveAuctions();
+	}
+
+	@Override
+	public List<Auction> getExpiredAuctions() {
+		return queryAuction.getExpiredAuctions();
+	}
+
 	 
 }

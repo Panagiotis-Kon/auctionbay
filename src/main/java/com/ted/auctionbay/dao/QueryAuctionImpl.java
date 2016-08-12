@@ -253,12 +253,25 @@ public class QueryAuctionImpl implements QueryAuction {
 	@Override
 	public int delAuction(String Username, int auctionID, int ItemID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em
-				.createNativeQuery("DELETE FROM auction WHERE Seller=? and AuctionID=? and ItemID=?");
+		Query query = em.createNativeQuery("DELETE FROM auction WHERE Seller=? and AuctionID=? and ItemID=?");
 		query.setParameter(0, Username);
 		query.setParameter(1, auctionID);
 		query.setParameter(2, ItemID);
 		return query.executeUpdate();
+	}
+
+	@Override
+	public List<Auction> getActiveAuctions() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM auction WHERE EndTime >= NOW();");
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Auction> getExpiredAuctions() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM auction WHERE EndTime < NOW();");
+		return query.getResultList();
 	}
 
 }

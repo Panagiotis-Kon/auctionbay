@@ -41,4 +41,8 @@ public interface AuctionServices {
 	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
 	
 	public int delAuction(String Username, int auctionID, int ItemID);
+	
+    public List<Auction> getActiveAuctions();
+	
+	public List<Auction> getExpiredAuctions();
 }
