@@ -16,25 +16,33 @@ public class QueryMailboxImpl implements QueryMailbox{
 	@Override
 	public List<Message> getInboxMessages(String username) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT * FROM message m, mailbox mb"
+		Query query = em.createNativeQuery("SELECT m.MessageID, m.FromUser, m.ToUser,"
+				+ " m.Subject, m.DateCreated, m.isRead, m.MessageText "
+				+ "FROM message m, mailbox mb"
 				+ " WHERE m.MessageID = mb.MessageID AND mb.type = 'Inbox'"
-				+ " AND mb.RegisteredUser = ?1",Message.class);
+				+ " AND mb.RegisteredUser = ?1");
 		
 		query.setParameter(1,username);
 		
-		return query.getResultList();
+		List<Message> resultSet = query.getResultList();
+		//List resultSet  =  em.createNamedQuery("Message.inbox").setParameter("username",username).getResultList();
+		return resultSet;
 	}
 
+	
 	@Override
 	public List<Message> getSentMessages(String username) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT * FROM message m, mailbox mb"
+		Query query = em.createNativeQuery("SELECT m.MessageID, m.FromUser, m.ToUser, m.Subject,"
+				+ " m.DateCreated, m.isRead, m.MessageText"
+				+ " FROM message m, mailbox mb"
 				+ " WHERE m.MessageID = mb.MessageID AND mb.type = 'Sent'"
-				+ " AND mb.RegisteredUser = ?1",Message.class);
+				+ " AND mb.RegisteredUser = ?1");
 		
 		query.setParameter(1,username);
-		
-		return query.getResultList();
+		List<Message> resultSet = query.getResultList();
+		//List resultSet  =  em.createNamedQuery("Message.sent").setParameter("username",username).getResultList();
+		return resultSet;
 	}
 
 	@Override
@@ -69,7 +77,7 @@ public class QueryMailboxImpl implements QueryMailbox{
 		if(list.get(0) == null){
 			maxID=0;
 		} else {
-			maxID = Integer.parseInt(list.get(0).toString());
+			maxID = Integer.parseInt(list.get(0).toString()) + 1;
 		}
 		return maxID;
 	}
@@ -82,7 +90,7 @@ public class QueryMailboxImpl implements QueryMailbox{
 		if(list.get(0) == null){
 			maxID=0;
 		} else {
-			maxID = Integer.parseInt(list.get(0).toString());
+			maxID = Integer.parseInt(list.get(0).toString()) + 1;
 		}
 		return maxID;
 	}

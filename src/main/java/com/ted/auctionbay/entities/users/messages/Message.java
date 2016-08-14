@@ -16,7 +16,13 @@ import java.util.List;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Message.findAll", query="SELECT m FROM Message m"),
-	@NamedQuery(name="Message.maxID", query="SELECT MAX(m.messageID) FROM Message m")
+	@NamedQuery(name="Message.maxID", query="SELECT MAX(m.messageID) FROM Message m"),
+	@NamedQuery(name="Message.inbox", query="SELECT m FROM Message m,Mailbox b WHERE m.messageID = b.message.messageID "
+			+ "and b.type = 'Inbox' and b.registereduser.username LIKE :username"
+			),
+	@NamedQuery(name="Message.sent", query="SELECT m FROM Message m,Mailbox b WHERE m.messageID = b.message.messageID "
+			+ "and b.type = 'Sent' and b.registereduser.username LIKE :username"
+			)
 })
 
 public class Message implements Serializable {
@@ -31,7 +37,7 @@ public class Message implements Serializable {
 
 	private byte isRead;
 
-	@Lob
+	//@Lob
 	private String messageText;
 
 	private String subject;

@@ -47,8 +47,10 @@ public class MailboxServicesImpl implements MailboxServices{
 
 	@Override
 	public int submitMessage(String sender, String recipient, String subject, String message_body) {
-		int messageID = queryMail.getMaxMessageID();
+		int messageID = queryMail.getMaxMessageID(); // returns the id that should be used, not the previous
 		int mailboxID = queryMail.getMaxMailboxID();
+		
+		System.out.println("Message body: " + message_body);
 		
 		Message m = new Message();
 		m.setMessageID(messageID);
@@ -62,13 +64,14 @@ public class MailboxServicesImpl implements MailboxServices{
 		m.setRecipient(queryUser.getUser(recipient).getRegistereduser());
 		
 		/* mailbox pk set , one for sender one for recipient*/
-		
+		System.out.println("Setting the sender PK");
 		/* For the sender */
 		MailboxPK mbpk_sender = new MailboxPK();
 		mbpk_sender.setId(mailboxID);
 		mbpk_sender.setMessageID(messageID);
 		mbpk_sender.setRegisteredUser(sender);
 		
+		System.out.println("Setting the sender");
 		Mailbox mb_sender = new Mailbox();
 		mb_sender.setId(mbpk_sender);
 		mb_sender.setMessage(m);
@@ -78,11 +81,13 @@ public class MailboxServicesImpl implements MailboxServices{
 		mailboxID++;
 		
 		/* For the recipient*/
+		System.out.println("Setting the recipient PK");
 		MailboxPK mbpk_recipient = new MailboxPK();
 		mbpk_recipient.setId(mailboxID);
 		mbpk_recipient.setMessageID(messageID);
 		mbpk_recipient.setRegisteredUser(recipient);
 		
+		System.out.println("Setting the recipient");
 		Mailbox mb_recipient = new Mailbox();
 		mb_recipient.setId(mbpk_recipient);
 		mb_recipient.setMessage(m);
@@ -91,6 +96,7 @@ public class MailboxServicesImpl implements MailboxServices{
 		mailboxID++;
 		
 		if(queryMail.submitMessage(m, mb_sender, mb_recipient) == 0){
+			System.out.println("The message was submitted");
 			messageID++;
 			return 0;
 		}

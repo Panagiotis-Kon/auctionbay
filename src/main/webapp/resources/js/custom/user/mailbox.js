@@ -1,5 +1,6 @@
 $(document).ready(function (){
 	
+	getUnreadMessages();
 	getInboxMessagesModule();
 	getSentMessagesModule();
 	checkForUser();
@@ -76,13 +77,31 @@ function initListeners() {
 		var message = {};
 		message["recipient"] = $("#recipient").val();
 		message["subject"] = $("#subject").val();
-		message["message_body"] = $("#message-body");
+		message["message_body"] = $("#message-body").val();
 		sendMessage(message);
 		
 	});
 	
 }
 
+
+function getUnreadMessages(){
+	var username = getUser();
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		data: {username:username},
+		url  : window.location.href + "/unread-number",
+		success:function(unread){
+			console.log("unread: " + unread);
+			if(unread != "0") {
+				$("#inbox-counter").css("display","block");
+				$("#inbox-counter").text(unread);
+			}
+		}
+		
+	});
+}
 
 function getRecipients() {
 	$.ajax({

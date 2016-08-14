@@ -2,6 +2,10 @@ package com.ted.auctionbay.entities.users;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.ted.auctionbay.entities.users.messages.Mailbox;
+import com.ted.auctionbay.entities.users.messages.Message;
+
 import java.util.List;
 
 
@@ -20,6 +24,43 @@ public class Registereduser implements Serializable {
 	//bi-directional many-to-one association to Bidderrating
 	@OneToMany(mappedBy="registereduser")
 	private List<Bidderrating> bidderratings;
+
+	
+	//bi-directional many-to-one association to Message
+	@OneToMany(mappedBy="sender")
+	private List<Message> inboxMessages;
+
+	public List<Message> getInboxMessages() {
+		return inboxMessages;
+	}
+
+	public void setInboxMessages(List<Message> inboxMessages) {
+		this.inboxMessages = inboxMessages;
+	}
+
+	public List<Message> getOutBoxMessages() {
+		return outBoxMessages;
+	}
+
+	public void setOutBoxMessages(List<Message> outBoxMessages) {
+		this.outBoxMessages = outBoxMessages;
+	}
+
+	//bi-directional many-to-one association to Message
+	@OneToMany(mappedBy="recipient")
+	private List<Message> outBoxMessages;
+	
+	//bi-directional many-to-one association to Mailbox
+	@OneToOne(mappedBy="registereduser")
+	private Mailbox mailboxs;
+	
+	public Mailbox getMailboxs() {
+		return mailboxs;
+	}
+
+	public void setMailboxs(Mailbox mailboxs) {
+		this.mailboxs = mailboxs;
+	}
 
 	//bi-directional one-to-one association to User
 	@OneToOne

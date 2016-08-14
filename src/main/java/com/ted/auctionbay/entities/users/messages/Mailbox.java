@@ -25,11 +25,13 @@ public class Mailbox implements Serializable {
 	private String type;
 
 	//bi-directional many-to-one association to Message
+	@MapsId("messageID")
 	@ManyToOne
 	@JoinColumn(name="MessageID")
 	private Message message;
 
 	//bi-directional many-to-one association to Registereduser
+	@MapsId("registeredUser")
 	@OneToOne
 	@JoinColumn(name="RegisteredUser")
 	private Registereduser registereduser;

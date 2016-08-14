@@ -41,6 +41,19 @@ public class MessagesController {
 		return "/pages/modules/sentMessagesModule.html";
 	}
 	
+	
+	@RequestMapping(value = "/unread-number",method = RequestMethod.GET)
+	@ResponseBody
+	public String unread_number(@RequestParam("username") String username){
+		
+		int num = mailboxServices.countNewMessages(username);
+		if(num > 0) {
+			return new Gson().toJson(num);
+		}
+		return new Gson().toJson("0");
+	}
+	
+	
 	@RequestMapping(value = "/recipients",method = RequestMethod.GET)
 	@ResponseBody
 	public String getRecipients(){
@@ -89,7 +102,7 @@ public class MessagesController {
 	@RequestMapping(value = "/sent",method = RequestMethod.GET)
 	@ResponseBody
 	public String getSent(@RequestParam("username") String username){
-		System.out.println("getting inbox messages");
+		System.out.println("getting sent messages");
 		List<Message> messages = mailboxServices.getSentMessages(username);
 		JSONArray sent = new JSONArray();
 		for(Message m : messages){
