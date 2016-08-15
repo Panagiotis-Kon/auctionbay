@@ -1,10 +1,11 @@
 $(document).ready(function (){
 	
 	getUnreadMessages();
+	getRecipients();
 	getInboxMessagesModule();
 	getSentMessagesModule();
 	checkForUser();
-	getRecipients();
+	
 	initListeners();
 	var username = getUser();
 	console.log("user: "+username);

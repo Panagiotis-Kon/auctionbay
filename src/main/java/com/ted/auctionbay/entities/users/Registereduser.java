@@ -27,7 +27,7 @@ public class Registereduser implements Serializable {
 
 	
 	//bi-directional many-to-one association to Message
-	@OneToMany(mappedBy="sender")
+	@OneToMany(mappedBy="sender",cascade=CascadeType.ALL)
 	private List<Message> inboxMessages;
 
 	public List<Message> getInboxMessages() {
@@ -47,7 +47,7 @@ public class Registereduser implements Serializable {
 	}
 
 	//bi-directional many-to-one association to Message
-	@OneToMany(mappedBy="recipient")
+	@OneToMany(mappedBy="recipient",cascade=CascadeType.ALL)
 	private List<Message> outBoxMessages;
 	
 	//bi-directional many-to-one association to Mailbox

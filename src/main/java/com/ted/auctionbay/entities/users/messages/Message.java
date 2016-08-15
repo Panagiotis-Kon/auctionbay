@@ -37,7 +37,7 @@ public class Message implements Serializable {
 
 	private byte isRead;
 
-	//@Lob
+	@Lob
 	private String messageText;
 
 	private String subject;

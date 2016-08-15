@@ -104,8 +104,10 @@ public class MessagesController {
 	public String getSent(@RequestParam("username") String username){
 		System.out.println("getting sent messages");
 		List<Message> messages = mailboxServices.getSentMessages(username);
+	
 		JSONArray sent = new JSONArray();
 		for(Message m : messages){
+			System.out.println("message: " + m.getSubject());
 			JSONObject message = new JSONObject();
 			try{
 				message.put("messageID", m.getMessageID());

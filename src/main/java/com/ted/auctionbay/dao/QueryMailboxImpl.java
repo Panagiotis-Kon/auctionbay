@@ -20,7 +20,7 @@ public class QueryMailboxImpl implements QueryMailbox{
 				+ " m.Subject, m.DateCreated, m.isRead, m.MessageText "
 				+ "FROM message m, mailbox mb"
 				+ " WHERE m.MessageID = mb.MessageID AND mb.type = 'Inbox'"
-				+ " AND mb.RegisteredUser = ?1");
+				+ " AND mb.RegisteredUser = ?1", Message.class);
 		
 		query.setParameter(1,username);
 		
@@ -37,7 +37,7 @@ public class QueryMailboxImpl implements QueryMailbox{
 				+ " m.DateCreated, m.isRead, m.MessageText"
 				+ " FROM message m, mailbox mb"
 				+ " WHERE m.MessageID = mb.MessageID AND mb.type = 'Sent'"
-				+ " AND mb.RegisteredUser = ?1");
+				+ " AND mb.RegisteredUser = ?1", Message.class);
 		
 		query.setParameter(1,username);
 		List<Message> resultSet = query.getResultList();
