@@ -41,8 +41,8 @@ public class MailboxServicesImpl implements MailboxServices{
 
 	@Override
 	public int markAsRead(int messageID) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return queryMail.markAsRead(messageID);
 	}
 
 	@Override

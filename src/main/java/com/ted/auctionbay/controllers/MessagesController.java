@@ -152,6 +152,15 @@ public class MessagesController {
 		return new Gson().toJson("Your message was not sent");
 	}
 	
+	@RequestMapping(value = "/markAsRead",method = RequestMethod.GET)
+	@ResponseBody
+	public String markAsRead(@RequestParam("messageID") String messageID){
+		
+		if(mailboxServices.markAsRead(Integer.parseInt(messageID)) == 0){
+			return new Gson().toJson("Marked as Read");
+		}
+		return new Gson().toJson("Cannot mark as read");
+	}
 	
 
 }

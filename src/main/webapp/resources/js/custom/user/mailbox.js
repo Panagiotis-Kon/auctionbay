@@ -97,12 +97,7 @@ function initListeners() {
 	
 	
 	
-    /*var rows = document.getElementById('my_table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    for (i = 0; i < rows.length; i++) {
-        rows[i].onclick = function() {
-            alert(this.rowIndex + 1);
-        }
-    }*/
+  
 	
 }
 
@@ -110,30 +105,79 @@ function initListeners() {
 function inboxListeners(){
 	var rows = document.getElementById('inbox-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
     for (i = 0; i < rows.length; i++) {
-        rows[i].onclick = function() {
-        	var message_id = $(this).find("#messageID").val();
-        	alert("inbox message id: " + id)
-            //alert(this.rowIndex + 1);
+        rows[i].onclick = function(e) {
+        	if(e.target.type == "checkbox"){
+        		console.log("checkbox clicked")
+        	} else {
+        		var message_id = $(this).find("#messageID").val();
+            	var message_body = bodyMessageInboxHolder[message_id].messageBody;
+            	var from = bodyMessageInboxHolder[message_id].sender;
+            	var subject = bodyMessageInboxHolder[message_id].subject;
+            	
+            	if ( $( this ).hasClass( "unread" ) ) {
+            		$(this).removeClass("unread");
+            		markAsRead(message_id);
+            	}
+            	
+            	$("#sender-inbox-view").val(from);
+            	$("#subject-inbox-view").val(subject);
+            	$("#view-inbox-textarea").text(message_body);
+            	$("#view-inbox-area").css("display","block");
+        	}
+        	
+        	
         }
     }
+    $("#hide-inbox-message").click(function(event){
+		
+		$("#view-sent-area").css("display","none");
+	});
+    
+    $("#reply-message").click(function(event){
+    	
+    });
 }
 
 
 function sentListeners() {
 	var rows = document.getElementById('sent-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
     for (i = 0; i < rows.length; i++) {
-        rows[i].onclick = function() {
-        	var message_id = $(this).find("#messageID").val();
-        	var message_body = bodyMessageSentHolder[message_id];
-        	$("#view-sent-textarea").text(message_body);
-        	$("#view-sent-area").css("display","block");
+        rows[i].onclick = function(e) {
+        	
+        	if(e.target.type == "checkbox"){
+        		console.log("checkbox clicked")
+        	} else {
+        		var message_id = $(this).find("#messageID").val();
+            	var message_body = bodyMessageSentHolder[message_id].messageBody;
+            	var to = bodyMessageSentHolder[message_id].recipient;
+            	var subject = bodyMessageSentHolder[message_id].subject;
+            	$("#view-sent-textarea").text(message_body);
+            	$("#recipient-sent-view").val(to);
+            	$("#subject-sent-view").val(subject);
+            	$("#view-sent-area").css("display","block");
+        	}
+        	
         	
         	//alert("sent message id: " + id)
         }
     }
     $("#hide-sent-message").click(function(event){
-		console.log("you called")
+		
 		$("#view-sent-area").css("display","none");
+	});
+}
+
+function markAsRead(message_id){
+	$.ajax({
+		type : "GET",
+		dataType:'json',
+		data: {messageID:message_id},
+		url  : window.location.href + "/markAsRead",
+		success:function(data){
+			console.log(data);
+			console.log("message with id: " + message_id + " marked as read");
+		}
+		
 	});
 }
 
@@ -178,7 +222,8 @@ function sendMessage(data){
 		data: {username:username,message:message},
 		url  : window.location.href + "/message",
 		success:function(result){
-			alert(result);
+			$("#info-text").append("Your message to" + data["recipient"] + "was sent");
+			$("#info-modal").modal('show');
 			window.location.reload();
 		}
 		
@@ -224,14 +269,11 @@ function getInboxMessages(data) {
 			else{
 				console.log(inbox);
 				for(var i=0; i<inbox.length; i++){
-					var body = null;
-					bodyMessageInboxHolder[inbox[i].messageID] = inbox[i].messageBody;
+					//var body = null;
+					bodyMessageInboxHolder[inbox[i].messageID] = inbox[i];
 					
-					if(inbox[i].isRead == 0  ) {
-						body = $('<tr class="unread">' + inboxModule + '</tr>');
-					} else {
-						body = $('<tr>' + inboxModule + '</tr>');
-					} 
+					
+					var body = $("<tr>" + sentModule + "</tr>");
 					body.find("#messageID").val(inbox[i].messageID);
 					body.find("#sender-inbox").text(inbox[i].sender);
 					body.find("#subject-inbox").text(inbox[i].subject);
@@ -278,8 +320,7 @@ function getSentMessages(sentModule) {
 				console.log(sent);
 				for(var i=0; i<sent.length; i++){
 					
-					bodyMessageSentHolder[sent[i].messageID] = sent[i].messageBody;
-					
+					bodyMessageSentHolder[sent[i].messageID] = sent[i];
 					
 					var body = $("<tr>" + sentModule + "</tr>");
 					

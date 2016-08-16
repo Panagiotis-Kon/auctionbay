@@ -120,7 +120,7 @@
                 </div>
                 <div class="inbox-body">
                 	<a id="compose-button" href="#" class="btn btn-danger btn-block" role="button"><i class="glyphicon glyphicon-edit"></i> Compose</a>
-            		<a id="back-to-read" style="display:none;" href="#" class="btn btn-danger btn-block" role="button"><i class="glyphicon glyphicon-arrow-left"></i> Back to Read</a>
+            		<a id="back-to-read" style="display:none;" href="#" class="btn btn-danger btn-block" role="button"><i class="glyphicon glyphicon-arrow-left"></i> Back to Mailbox</a>
 				</div>
                       <ul class="inbox-nav inbox-divider">
                           <li class="active" id="inbox-item">
@@ -134,7 +134,7 @@
                               <a href="#"><i class="fa fa-bookmark-o"></i> Important</a>
                           </li>
                           <li>
-                              <a href="#"><i class=" fa fa-external-link"></i> Drafts <span class="label label-info pull-right">30</span></a>
+                              <a href="#"><i class=" fa fa-external-link"></i> Drafts</a>
                           </li>
                           <li>
                               <a href="#"><i class=" fa fa-trash-o"></i> Trash</a>
@@ -317,43 +317,49 @@
                                   <td class="view-message text-right">March 15</td>
                               </tr>-->
                           	</tbody>
-                          
-                          
                          </table>
                          
-                       <div class="col-sm-10 col-md-12" id="view-inbox-area" style="display:none;padding:20px;">
-        				<div class="panel panel-default">
+					<div class="col-sm-10 col-md-12" id="view-inbox-area" style="display:none;padding:20px;">
+        			   	<div class="panel panel-default">
   							<div class="panel-heading">
-  										<div class="col-xs-3 text-left">
-  											Message
-  										</div>
+  								<div class="col-xs-3 text-left">
+  									Message
+  								</div>
   									
-  										<div class="col-xs-6 text-center "></div>
-  										<div class="col-xs-3 text-right"> 
-  											<button type="button" id="hide-inbox-message" class="btn btn-default">
-  												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-											</button>
-										</div>
-  							
+  								<div class="col-xs-6 text-center "></div>
+  								<div class="col-xs-3 text-right"> 
+  									<button type="button" id="hide-inbox-message" class="btn btn-default">
+  										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									</button>
+								</div>	
   							</div>
   							<div class="panel-body">
+  							<form class="form-horizontal">
   								<div class="form-group">
-  									<input class="form-control" id="sender-inbox-view" placeholder="From:"/>
+  									<label class="col-sm-2" for="sender-inbox-view">From:</label>
+  									<div class="col-sm-8">
+  										<input class="form-control" id="sender-inbox-view" placeholder="From:"/>
+  									</div>
+  									
   								</div>
   								<div class="form-group">
-  									<input class="form-control" id="subject-inbox-view" placeholder="Subject:"/>
+  									<label class="col-sm-2" for="subject-inbox-view">Subject:</label>
+  									<div class="col-sm-8">
+  										<input class="form-control" id="subject-inbox-view" placeholder="Subject:"/>
+  									</div>
+  									
   								</div>
   							
   								
-  								<textarea id="view-textarea" class="form-control" style="height:300px;"></textarea>
-  				
-  						</div>
-  						<div class="panel-footer">
-  							<div class="pull-right">
-  								<button type="button" class="btn btn-primary" id="reply-message"><i class="fa fa-envelope-o"></i> Reply</button>
+  								<textarea id="view-inbox-textarea" class="form-control" style="height:300px;"></textarea>
+  							</form>
   							</div>
-  							<button type="button" class="btn btn-danger"><i class="fa fa-times"></i> Delete</button>
-  						</div>
+  							<div class="panel-footer">
+  								<div class="pull-right">
+  									<button type="button" class="btn btn-primary" id="reply-message"><i class="fa fa-envelope-o"></i> Reply</button>
+  								</div>
+  								<button type="button" class="btn btn-danger"><i class="fa fa-times"></i> Delete</button>
+  							</div>
 						</div>
         			</div>
         			
@@ -376,14 +382,22 @@
   									</div>
 								</div>
   								<div class="panel-body">
+  									<form class="form-horizontal">
   									<div class="form-group">
-  										<input class="form-control" id="recipient-sent-view" placeholder="To:"/>
+  										<label class="col-sm-2" for="recipient-sent-view">To:</label>
+  										<div class="col-sm-8">
+  											<input class="form-control" id="recipient-sent-view" placeholder="To:"/>
+  										</div>
+  										
   									</div>
   									<div class="form-group">
-  										<input class="form-control" id="subject-sent-view" placeholder="Subject:"/>
+  										<label class="col-sm-2" for="subject-sent-view">Subject:</label>
+  										<div class="col-sm-8">
+  											<input class="form-control" id="subject-sent-view" placeholder="Subject:"/>
+  										</div>
   									</div>
   									<textarea id="view-sent-textarea" class="form-control" style="height:300px;"></textarea>
-  				
+  									</form>
   								</div>
   								<div class="panel-footer">
   									<button type="button" class="btn btn-danger"><i class="fa fa-times"></i> Delete</button>
@@ -394,6 +408,25 @@
                    </div>
                   </aside>
               </div>
+              
+             <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+  				<div class="modal-dialog" role="dialog">
+    			<div class="modal-content">
+      				<div class="modal-header" style="background-color:#FFD700;">
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          					<span aria-hidden="true">&times;</span>
+        				</button>
+        				<h4 class="modal-title" id="infoLabel" style="color:#000;">Info</h4>
+      				</div>
+      				<div class="modal-body">
+     				<h4 id="info-text"></h4>
+      				</div>
+      				<div class="modal-footer">
+        				<button type="button" class="btn btn-warning" data-dismiss="modal">OK</button>
+      				</div>
+    			</div>
+  				</div>
+			</div>
 	</div>
 	
 	

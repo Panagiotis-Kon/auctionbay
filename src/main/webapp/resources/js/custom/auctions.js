@@ -45,7 +45,7 @@ function initListeners(){
         	limit=1;
         }
         console.log("limit: " + limit);
-         $('#auctions-byCategory-paginator').bootpag({
+        $('#auctions-byCategory-paginator').bootpag({
         total: limit
          }).on("page", function(event, num){
         
@@ -55,7 +55,7 @@ function initListeners(){
         // ... after content load -> change total to 10
         $(this).bootpag({total: limit});
         $('html, body').animate({scrollTop : 0},800);
-        	getTemplateModule(start,end,decodeURIComponent(category));
+        getTemplateModule(start,end,decodeURIComponent(category));
      
         });
         getTemplateModule(0,10,decodeURIComponent(category));
@@ -67,6 +67,10 @@ function initListeners(){
 	});
 	
 	$("#search-button").click(function(event){
+		$('#auctions-paginator').css("display","none");
+		$('#auctions-ByCategory-paginator').css("display","none");
+		$('#advSearch-paginator').css("display","block");
+		
 		var search_data = {};
 		var keywords = $("#keywords").val();
 		var description = $("#search-desc").val();
@@ -81,22 +85,52 @@ function initListeners(){
 		search_data["country"] = $("#country-search").val();
 		search_data["minBid"] = $("#min-bid-price").val();
 		search_data["maxBid"] = $("#max-bid-price").val();
-		advanced_search(search_data);
+		$("#available-auctions").empty();
+		advSearchListeners(search_data);
+		// initialize the pagination for the advanced search
+		
+		//advanced_search(search_data);
 	});
+	
 	
 	
 	
 }
 
+function advSearchListeners(search_data){
+	
+	var end=10;
+	$('#advSearch-paginator').bootpag({
+        total: limit
+         }).on("page", function(event, num){
+        
+        console.log("adv search paging event!!!!!")
+        var start = (num-1)*end;
+       
+        // ... after content load -> change total to 10
+        $(this).bootpag({total: limit});
+        $('html, body').animate({scrollTop : 0},800);
+        getTemplateBySearch(start,end,search_data);
+     
+        });
+        getTemplateBySearch(0,10,search_data);
+}
 
-function advanced_search(input) {
+function getTemplateBySearch(start,end,search_data){
+	$.get( window.location.href + "/template-module", function( template_module ) {
+		
+		advanced_search(start,end,search_data);
+	});
+}
+
+function advanced_search(start,end,input) {
 	var search_data = JSON.stringify(input);
 	console.log(search_data);
 	$.ajax({
 		type : "POST",
 		dataType:'json',
 		url  :window.location.href + "/advanced-search",
-		data :{search_data:search_data},
+		data :{start:start,end:end,search_data:search_data},
 		success : function(data) {
 			console.log("Successssssssss ********** ********")
 			alert("GOOOODDDDD");
@@ -119,10 +153,11 @@ function advanced_search(input) {
 					panel.find("#firstBid").text("$"+parseFloat(auctions[i].firstBid).toFixed(2));
 					panel.find("#numberOfbids").text(auctions[i].numberOfBids + "     " + "Bids");
 					html = panel.html();
+					
 					$("#available-auctions").append(html);
 					
 				}
-				checkForUser();
+				//checkForUser();
 			}
 		}
 	});
@@ -211,6 +246,9 @@ function initPaging(total_pages){
 	
 	
 }
+
+
+
 
 function getTemplateModule(start,end,category){
 	

@@ -150,7 +150,9 @@ public class AuctionsController {
 	
 	@RequestMapping(value = "/advanced-search",method = RequestMethod.GET)
 	@ResponseBody
-	public String advancedSearch(@RequestParam String search_data) {
+	public String advancedSearch(@RequestParam String start,@RequestParam String end,@RequestParam String search_data) {
+		int start_pag = Integer.parseInt(start);
+		int end_pag = Integer.parseInt(end);
 		try {
 			JSONObject search_params = new JSONObject(search_data);
 			/**

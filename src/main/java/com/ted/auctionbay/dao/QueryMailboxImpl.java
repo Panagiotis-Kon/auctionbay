@@ -65,7 +65,19 @@ public class QueryMailboxImpl implements QueryMailbox{
 
 	@Override
 	public int markAsRead(int messageID) {
-		// TODO Auto-generated method stub
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM message WHERE MessageID=?1",Message.class);
+		query.setParameter(1, messageID);
+		Message m = (Message) query.getResultList().get(0);
+		m.setIsRead(Byte.parseByte("1".toString()));
+		
+		try {
+			em.persist(m);
+		}catch (PersistenceException pe) {
+			pe.printStackTrace();
+			return 1;
+		}
+		
 		return 0;
 	}
 
