@@ -78,6 +78,7 @@ public class MailboxServicesImpl implements MailboxServices{
 		
 		mb_sender.setRegistereduser(queryUser.getUser(sender).getRegistereduser());
 		mb_sender.setType("Sent");
+		System.out.println("Sender ----> Setting mailbox id: " + mailboxID);
 		mailboxID++;
 		
 		/* For the recipient*/
@@ -85,7 +86,7 @@ public class MailboxServicesImpl implements MailboxServices{
 		MailboxPK mbpk_recipient = new MailboxPK();
 		mbpk_recipient.setId(mailboxID);
 		mbpk_recipient.setMessageID(messageID);
-		mbpk_recipient.setRegisteredUser(recipient);
+		mbpk_recipient.setRegisteredUser(sender);
 		
 		System.out.println("Setting the recipient");
 		Mailbox mb_recipient = new Mailbox();
@@ -93,10 +94,11 @@ public class MailboxServicesImpl implements MailboxServices{
 		mb_recipient.setMessage(m);
 		mb_recipient.setRegistereduser(queryUser.getUser(recipient).getRegistereduser());
 		mb_recipient.setType("Inbox");
+		System.out.println("Recipient ----> Setting mailbox id: " + mailboxID);
 		mailboxID++;
 		
 		if(queryMail.submitMessage(m, mb_sender, mb_recipient) == 0){
-			System.out.println("The message was submitted");
+			System.out.println("The message was submitted, messageID: " + messageID);
 			messageID++;
 			return 0;
 		}

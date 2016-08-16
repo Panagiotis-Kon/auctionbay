@@ -48,7 +48,7 @@ public class Message implements Serializable {
 	private List<Mailbox> mailboxs;
 
 	//bi-directional many-to-one association to Registereduser
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="FromUser")
 	private Registereduser sender;
 
@@ -69,7 +69,7 @@ public class Message implements Serializable {
 	}
 
 	//bi-directional many-to-one association to Registereduser
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="ToUser")
 	private Registereduser recipient;
 	

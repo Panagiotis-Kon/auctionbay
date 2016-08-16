@@ -37,21 +37,30 @@ function initListeners() {
 		$("#inbox-item").removeClass("active");
 		$("#sent-item").addClass("active");
 		if($("#no-inbox-alert").is(":visible")){
+			console.log("here1")
 			$("#no-inbox-alert").css("display","none");
 		}
-		$("#inbox-table").css("display","none");
-		$("#sent-table").css("display","block");
+		//$("#inbox-table").css("display","none");
+		//$("#sent-table").css("display","block");
+		$("#inbox-table").hide();
+		$("#sent-table").show();
+		
 	});
 	
 	$("a.inbox-ref").click(function(event){
 		event.preventDefault();
-		$("#sent-item").removeClass("active");
-		$("#inbox-item").addClass("active");
+		
 		if($("#no-sent-alert").is(":visible")){
+			console.log("here2")
 			$("#no-sent-alert").css("display","none");
 		}
-		$("#sent-table").css("display","none");
-		$("#inbox-table").css("display","block");
+		
+		//$("#sent-table").css("display","none");
+		//$("#inbox-table").css("display","block");
+		$("#sent-table").hide();
+		$("#inbox-table").show();
+		$("#sent-item").removeClass("active");
+		$("#inbox-item").addClass("active");
 	});
 	
 	$("#compose-button").click(function(e){
@@ -186,7 +195,7 @@ function getInboxMessages(data) {
 					body.find("#subject-inbox").text(inbox[i].subject);
 					body.find("#datetime-inbox").text(inbox[i].dateCreated);
 					var html = body.html();
-					$("#inbox-table").append(html);
+					$("#inbox-table").find('tbody').append(html);
 				}
 				
 			}
@@ -221,24 +230,23 @@ function getSentMessages(sentModule) {
 			else{
 				console.log(sent);
 				for(var i=0; i<sent.length; i++){
-					var body = null;
+					
 					bodyMessageSentHolder[sent[i].messageID] = sent[i].messageBody;
 					
-					if(sent[i].isRead == 0  ) {
-						body = $('<tr class="unread">' + sentModule + '</tr>');
-					} else {
-						body = $('<tr>' + sentModule + '</tr>');
-					} 
+					
+					var body = $("<tr>" + sentModule + "</tr>");
+					
 					body.find("#messageID").val(sent[i].messageID);
 					body.find("#recipient-sent").text(sent[i].recipient);
 					body.find("#subject-sent").text(sent[i].subject);
 					body.find("#datetime-sent").text(sent[i].dateCreated);
 					var html = body.html();
-					$("#sent-table").append(html);
+					console.log(html);
+					$("#sent-table").find('tbody').append("<tr>"+html+"</tr>");
 				}
 				
 			}
-			console.log("end of getting inbox messages")
+			console.log("end of getting sent messages")
 			
 		}
 		
