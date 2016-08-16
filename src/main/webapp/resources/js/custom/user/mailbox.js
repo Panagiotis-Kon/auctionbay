@@ -44,6 +44,7 @@ function initListeners() {
 		//$("#sent-table").css("display","block");
 		$("#inbox-table").hide();
 		$("#sent-table").show();
+		$("#active-area").text("Sent");
 		
 	});
 	
@@ -61,6 +62,7 @@ function initListeners() {
 		$("#inbox-table").show();
 		$("#sent-item").removeClass("active");
 		$("#inbox-item").addClass("active");
+		$("#active-area").text("Inbox");
 	});
 	
 	$("#compose-button").click(function(e){
@@ -92,8 +94,48 @@ function initListeners() {
 		
 	});
 	
+	
+	
+	
+    /*var rows = document.getElementById('my_table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    for (i = 0; i < rows.length; i++) {
+        rows[i].onclick = function() {
+            alert(this.rowIndex + 1);
+        }
+    }*/
+	
 }
 
+
+function inboxListeners(){
+	var rows = document.getElementById('inbox-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    for (i = 0; i < rows.length; i++) {
+        rows[i].onclick = function() {
+        	var message_id = $(this).find("#messageID").val();
+        	alert("inbox message id: " + id)
+            //alert(this.rowIndex + 1);
+        }
+    }
+}
+
+
+function sentListeners() {
+	var rows = document.getElementById('sent-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    for (i = 0; i < rows.length; i++) {
+        rows[i].onclick = function() {
+        	var message_id = $(this).find("#messageID").val();
+        	var message_body = bodyMessageSentHolder[message_id];
+        	$("#view-sent-textarea").text(message_body);
+        	$("#view-sent-area").css("display","block");
+        	
+        	//alert("sent message id: " + id)
+        }
+    }
+    $("#hide-sent-message").click(function(event){
+		console.log("you called")
+		$("#view-sent-area").css("display","none");
+	});
+}
 
 function getUnreadMessages(){
 	var username = getUser();
@@ -195,9 +237,14 @@ function getInboxMessages(data) {
 					body.find("#subject-inbox").text(inbox[i].subject);
 					body.find("#datetime-inbox").text(inbox[i].dateCreated);
 					var html = body.html();
-					$("#inbox-table").find('tbody').append(html);
+					if(inbox[i].isRead == 0  ) {
+						$("#inbox-table").find('tbody').append('<tr class="unread">' + html + '</tr>');
+					} else {
+						$("#inbox-table").find('tbody').append('<tr>' + html + '</tr>');
+					}
+					
 				}
-				
+				inboxListeners();
 			}
 			console.log("end of getting inbox messages")
 			
@@ -241,10 +288,10 @@ function getSentMessages(sentModule) {
 					body.find("#subject-sent").text(sent[i].subject);
 					body.find("#datetime-sent").text(sent[i].dateCreated);
 					var html = body.html();
-					console.log(html);
+					//console.log(html);
 					$("#sent-table").find('tbody').append("<tr>"+html+"</tr>");
 				}
-				
+				sentListeners();
 			}
 			console.log("end of getting sent messages")
 			

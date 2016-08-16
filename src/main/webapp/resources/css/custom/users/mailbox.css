@@ -382,4 +382,11 @@ z-index: 100;
     overflow-x: hidden;
   }
   
+  
+  
+.panel-container {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    height:35px;
+}
  
