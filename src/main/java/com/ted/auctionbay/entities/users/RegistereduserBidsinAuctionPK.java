@@ -12,10 +12,10 @@ public class RegistereduserBidsinAuctionPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false)
+	//@Column(insertable=false, updatable=false)
 	private String bidder_Username;
 
-	@Column(insertable=false, updatable=false)
+	//@Column(insertable=false, updatable=false)
 	private int auctionID;
 
 	public RegistereduserBidsinAuctionPK() {

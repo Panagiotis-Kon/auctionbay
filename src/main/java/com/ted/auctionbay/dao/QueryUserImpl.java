@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.auctions.Auctionhistory;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
 import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
@@ -227,6 +228,24 @@ public class QueryUserImpl implements QueryUser{
 		
 		Query query = em.createNativeQuery("SELECT * FROM registereduser",Registereduser.class);
 		return query.getResultList();
+	}
+
+	@Override
+	public int appendBuyerHistory(String username, int itemID) {
+		
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Auctionhistory history = new Auctionhistory();
+		history.setItemID(itemID);
+		history.setUsername(username);
+		
+		try {
+			
+			em.persist(history);
+		} catch (PersistenceException pe) {
+			pe.printStackTrace();
+			return 1;
+		}
+		return 0;
 	}
 	
 	

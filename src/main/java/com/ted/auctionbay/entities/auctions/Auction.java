@@ -6,7 +6,9 @@ import javax.persistence.*;
 import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.Registereduser;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -46,6 +48,10 @@ public class Auction implements Serializable {
 	@JoinColumn(name="ItemID")
 	private Item item;
 
+	
+	@ManyToMany(mappedBy="auctionsBids",fetch = FetchType.LAZY)
+	private List<Registereduser> registeredusers = new ArrayList<Registereduser>();
+	
 	public Item getItem() {
 		return item;
 	}

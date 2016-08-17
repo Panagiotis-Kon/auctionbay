@@ -183,7 +183,7 @@ public class AuctionServicesImpl implements AuctionServices{
 	public int deleteAuction(String username, int auctionID, int itemID) {
 		
 		//queryUser.deleteBidderFromAuction(username, auctionID);
-		queryAuction.deleteAuction(auctionID);
+		queryAuction.deleteAuction(username,itemID,auctionID);
 		Item item = queryItem.getDetails(itemID);
 		List<Category> categories_list = item.getCategories();
 		for(Category c:categories_list){
@@ -222,8 +222,9 @@ public class AuctionServicesImpl implements AuctionServices{
 		// Check if the user has already bidded on the product, then update it
 		if(queryAuction.alreadyBidded(username, itemID)) {
 			// update row
+			System.out.println("Updating " + username + " Auction!! ");
 			queryAuction.updateBid(username, itemID, bid_amount);
-			
+			return 0;
 		} else {
 			
 			// else register a new bid for the user
@@ -244,6 +245,7 @@ public class AuctionServicesImpl implements AuctionServices{
 			rba.setBidTime(current_time);
 			
 			if(queryUser.createBidInUser(rba) == 0){
+				System.out.println("Bid created");
 				return 0;
 			}
 				
@@ -260,7 +262,7 @@ public class AuctionServicesImpl implements AuctionServices{
 			JSONObject jobj = new JSONObject();
 			try {
 				jobj.put("Bidder", obj[0].toString());
-				jobj.put("BidPrice", obj[2].toString());
+				jobj.put("BidPrice", obj[1].toString());
 				bidsHistory.put(jobj);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -292,6 +294,16 @@ public class AuctionServicesImpl implements AuctionServices{
 	@Override
 	public List<Auction> getExpiredAuctions() {
 		return queryAuction.getExpiredAuctions();
+	}
+
+	@Override
+	public int buyItem(String username, int itemID) {
+		Auction a = queryAuction.getDetails(itemID);
+		queryAuction.deleteAuction(username, itemID, a.getAuctionID());
+		if(queryUser.appendBuyerHistory(username, itemID) == 0){
+			return 0;	
+		}
+		return 1;
 	}
 
 	 

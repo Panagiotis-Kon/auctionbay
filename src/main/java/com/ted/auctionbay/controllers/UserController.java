@@ -103,6 +103,21 @@ public class UserController {
 		return new Gson().toJson("cannot submit the bid");
 	}
 	
+	@RequestMapping(value = "/{username}/auctions/item/{item_id}/buy",method = RequestMethod.POST)
+	@ResponseBody
+	public String buyItem(@RequestParam("username") String username, 
+			@RequestParam("itemID") String ItemID){
+		int itemID = Integer.parseInt(ItemID);
+		
+		if(auctionServices.buyItem(username, itemID) == 0){
+			return new Gson().toJson("Your purchase was submitted");
+		}
+		System.out.println("Buying item");
+		
+		
+		return new Gson().toJson("cannot buy the item");
+	}
+	
 	
 	@RequestMapping(value = "/{username}/manage-auctions/count-user-auctions", method = RequestMethod.GET)
 	@ResponseBody

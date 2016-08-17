@@ -36,6 +36,8 @@ public interface AuctionServices {
 	
 	public int submitBid(String username, int itemID, float bid_amount);
 	
+	public int buyItem(String username, int itemID);
+	
 	public JSONArray getBidHistory(int auctionID);
 	
 	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);

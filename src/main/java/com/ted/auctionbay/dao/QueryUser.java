@@ -44,4 +44,6 @@ public interface QueryUser {
 	
 	public int createBidInUser(RegistereduserBidsinAuction rba);
 	
+	public int appendBuyerHistory(String username, int itemID);
+	
 }

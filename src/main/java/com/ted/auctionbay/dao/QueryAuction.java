@@ -22,7 +22,7 @@ public interface QueryAuction {
 	
 	public int submitAuction(Auction auction);
 	
-	public int deleteAuction(int auctionID);
+	public int deleteAuction(String username, int itemID,int auctionID);
 	
 	public boolean alreadyBidded(String username, int itemID);
 	

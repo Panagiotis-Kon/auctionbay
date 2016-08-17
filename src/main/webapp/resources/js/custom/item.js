@@ -65,7 +65,7 @@ function setListeners(){
 
 
 function submitOffer(bid_amount){
-	var url = window.location.href;
+	//var url = window.location.href;
 	var itemID = url.substring(url.lastIndexOf("/")+1);
 	var username = getUser();
 	console.log("Sending: " + itemID + " bid: " + bid_amount);
@@ -75,8 +75,10 @@ function submitOffer(bid_amount){
 		url  :window.location.href + "/submit-bid",
 		data :{username:username,itemID:itemID,bid_amount:bid_amount},
 		success : function(data) {
-			alert(data);
-			location.reload();
+			$("#successModal-Label").text("Successfull Bid")
+			$("#successModal-text").html(data);
+			$("#successModal").modal('show');
+			window.location.reload();
 		}
 			
 		
@@ -124,6 +126,19 @@ function getDetails(itemID, details_module) {
 				panel.find('#highest-bid').html(parseFloat(data.highest_bid).toFixed(2) + " $");
 				panel.find('#bids-num').text(data.numOfBids);
 				
+				if(parseFloat(data.buyprice).toFixed(2) != 0.00){
+					$("#buy-section").css("display","block");
+					
+					$("#buyNow").click(function(event){
+						$("#confirm-buy-btn").css("display","block");
+						$("#warningBid-text").html("Are you sure that you want to buy this item ?");
+						$("#warningBidModal").modal('show');
+						
+						$("#confirm-buy-btn").click(function(event){
+							buyCall();
+						});
+					});
+				}
 				latitude = data.lat;
 				longtitude = data.lon;
 				console.log("lat: " + latitude + " --- lon: " + longtitude);
@@ -158,6 +173,25 @@ function getDetails(itemID, details_module) {
 	}); 
 	
 	console.log("end of getting item details")
+}
+
+function buyCall(){
+	var username = getUser();
+	var itemID = url.substring(url.lastIndexOf("/")+1);
+	$.ajax({
+		type : "POST",
+		dataType:'json',
+		url  :window.location.href + "/buy",
+		data :{username:username,itemID:itemID},
+		success : function(data) {
+			$("#successModal-Label").text("Successfull Buy")
+			$("#successModal-text").html(data);
+			$("#successModal").modal('show');
+			window.location.reload();
+		}
+			
+		
+	});
 }
 
 

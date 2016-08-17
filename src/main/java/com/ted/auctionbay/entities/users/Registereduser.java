@@ -3,6 +3,7 @@ package com.ted.auctionbay.entities.users;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.messages.Mailbox;
 import com.ted.auctionbay.entities.users.messages.Message;
 
@@ -25,11 +26,21 @@ public class Registereduser implements Serializable {
 	@OneToMany(mappedBy="registereduser")
 	private List<Bidderrating> bidderratings;
 
+	//bi-directional many-to-one association to Message
+	@OneToMany(mappedBy="recipient",cascade=CascadeType.ALL)
+	private List<Message> outBoxMessages;
+		
+	//bi-directional many-to-one association to Mailbox
+	@OneToOne(mappedBy="registereduser")
+	private Mailbox mailboxs;
 	
 	//bi-directional many-to-one association to Message
 	@OneToMany(mappedBy="sender",cascade=CascadeType.ALL)
 	private List<Message> inboxMessages;
 
+	
+	
+	
 	public List<Message> getInboxMessages() {
 		return inboxMessages;
 	}
@@ -46,13 +57,7 @@ public class Registereduser implements Serializable {
 		this.outBoxMessages = outBoxMessages;
 	}
 
-	//bi-directional many-to-one association to Message
-	@OneToMany(mappedBy="recipient",cascade=CascadeType.ALL)
-	private List<Message> outBoxMessages;
 	
-	//bi-directional many-to-one association to Mailbox
-	@OneToOne(mappedBy="registereduser")
-	private Mailbox mailboxs;
 	
 	public Mailbox getMailboxs() {
 		return mailboxs;
@@ -67,9 +72,28 @@ public class Registereduser implements Serializable {
 	@PrimaryKeyJoinColumn(name="Username")
 	private User user;
 
+	/*
+	 * 
+	 * Info: 
+	 * http://stackoverflow.com/questions/28755832/jpa-many-to-many-relation-not-inserting-into-generated-table
+	 * 
+	 * */
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+		name="registereduser_bidsin_auction"
+		, joinColumns={
+			@JoinColumn(name="bidder_Username")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="AuctionID")
+			}
+		)
+	private List<Auction> auctionsBids;
+	
 	//bi-directional many-to-one association to RegistereduserBidsinAuction
-	@OneToMany(mappedBy="registereduser")
-	private List<RegistereduserBidsinAuction> registereduserBidsinAuctions;
+	//@OneToMany(mappedBy="registereduser")
+	//private List<RegistereduserBidsinAuction> registereduserBidsinAuctions;
 
 	//bi-directional many-to-one association to Sellerrating
 	@OneToMany(mappedBy="registereduser")
@@ -116,15 +140,15 @@ public class Registereduser implements Serializable {
 		this.user = user;
 	}
 
-	public List<RegistereduserBidsinAuction> getRegistereduserBidsinAuctions() {
+	/*public List<RegistereduserBidsinAuction> getRegistereduserBidsinAuctions() {
 		return this.registereduserBidsinAuctions;
 	}
 
 	public void setRegistereduserBidsinAuctions(List<RegistereduserBidsinAuction> registereduserBidsinAuctions) {
 		this.registereduserBidsinAuctions = registereduserBidsinAuctions;
-	}
+	}*/
 
-	public RegistereduserBidsinAuction addRegistereduserBidsinAuction(RegistereduserBidsinAuction registereduserBidsinAuction) {
+	/*public RegistereduserBidsinAuction addRegistereduserBidsinAuction(RegistereduserBidsinAuction registereduserBidsinAuction) {
 		getRegistereduserBidsinAuctions().add(registereduserBidsinAuction);
 		registereduserBidsinAuction.setRegistereduser(this);
 
@@ -136,7 +160,7 @@ public class Registereduser implements Serializable {
 		registereduserBidsinAuction.setRegistereduser(null);
 
 		return registereduserBidsinAuction;
-	}
+	}*/
 
 	public List<Sellerrating> getSellerratings() {
 		return this.sellerratings;

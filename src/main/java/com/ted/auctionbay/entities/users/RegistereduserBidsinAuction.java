@@ -23,11 +23,7 @@ public class RegistereduserBidsinAuction implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date bidTime;
 
-	//bi-directional many-to-one association to Registereduser
-	@ManyToOne
-	@JoinColumn(name="Bidder_Username")
-	private Registereduser registereduser;
-
+	
 	public RegistereduserBidsinAuction() {
 	}
 
@@ -55,12 +51,12 @@ public class RegistereduserBidsinAuction implements Serializable {
 		this.bidTime = bidTime;
 	}
 
-	public Registereduser getRegistereduser() {
+	/*public Registereduser getRegistereduser() {
 		return this.registereduser;
 	}
 
 	public void setRegistereduser(Registereduser registereduser) {
 		this.registereduser = registereduser;
-	}
+	}*/
 
 }
