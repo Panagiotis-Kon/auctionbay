@@ -58,11 +58,12 @@ function checkForUser(){
 	}
 }
 
+
 function getUser() {
 	var patharray = window.location.pathname.split( '/' );
 	var username = patharray[3];
 	if(username == null || username=="")
-		return;
+		return "";
 	return username;
 }
 
@@ -168,6 +169,35 @@ function editText(module,text) {
 			+ "<span style=\"display:none;\" class=\"badge badge-notify\"></span> " +text + " <span class=\"caret\"></span>");
 }
 
+
+function getUnreadMessages(){
+	var username = getUser();
+	var url = window.location.protocol+ "//" + window.location.hostname + ":" +window.location.port + "/auctionbay/user/";
+	if(username != ""){
+		console.log("getting unread messages");
+		$.ajax({
+			type : "GET",
+			dataType:'json',
+			data: {username:username},
+			url  : url + username + "/mailbox/unread-number",
+			success:function(unread){
+				console.log("unread: " + unread);
+				if(unread != "0") {
+					// display on header 
+					$("#header-unread-messages").text(unread);
+					$("#header-unread-messages").css("display","block");
+					//$(".badge-notify").text(unread);
+					//$(".badge-noti")
+					// check if we are on mailbox and add the number to inbox
+				}
+			}
+			
+		});
+		
+	}
+	
+	
+}
 
 
 
