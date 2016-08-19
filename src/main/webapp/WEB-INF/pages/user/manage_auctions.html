@@ -59,33 +59,35 @@
   						<div class="container-fluid">
     						<div class="navbar-header">
     							<div class="logo">
-									<a href="#index" class="index-link"><img style="height:40px;margin-bottom:3px;" src="https://localhost:8443/auctionbay/resources/images/auction-logo.png" alt=" " /></a>
+									<a href="#index" class="index-link"><img style="height:40px;padding-right:10px;margin-bottom:3px;" src="https://localhost:8443/auctionbay/resources/images/auction-logo.png" alt=" " /></a>
 								</div>
-     							
+     							 <!--  <a class="navbar-brand" href="#">Auctionbay</a>-->
     						</div>
     						<ul class="nav navbar-nav">
-      						<li><a href="#" class="index-link">Home</a></li>
+      						<li class="active"><a href="#" class="index-link">Home</a></li>
       						
-      						<li class="active" id="auctions1" style="display:block;"><a href="#" class="view-auctions-ref">Auctions</a></li>
+      						<li id="auctions1" style="display:block;"><a href="#" class="view-auctions-ref">Auctions</a></li>
       						<li id="auctions2" style="display:none;"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Auctions <span class="caret"></span></a>
       							<ul class="dropdown-menu">
       								<li><a href="#" class="view-auctions-ref" >View Auctions</a></li>
       								<li><a href="#" class="create-auction-ref">Create Auction</a></li>
       							</ul>			
       						</li>
-      						<li><a href="#" class="contact-link">Contact</a></li>
+      							
+      						<li id="rating-li" style="display:none;"><a href="#" class="rate-link"><span class="glyphicon glyphicon-star"></span> Rates</a></li>
+      						<li><a href="#" class="contact-link"><span class=" glyphicon glyphicon-earphone"></span> Contact</a></li>
       						
     						</ul>
     						
-    						<form role="search" class="navbar-form navbar-left">
+    						<!--  <form role="search" class="navbar-form navbar-left">
                 				<div class="form-group">
                     				<input type="text" placeholder="Search" class="form-control">
                 				</div>
                 				<button type="submit" class="btn btn-sm"><span class="glyphicon glyphicon-search"></span></button>
-            				</form>
+            				</form> -->
             				
             				<!-- guest user section -->
-            				<div id="default-right-col" style="display:none">
+            				<div id="default-right-col">
             					<ul class="nav navbar-nav navbar-right">
       								<li>
       									<a href="#" class="login-link" style="color:#fff;">
@@ -99,12 +101,20 @@
             				<div id="user-right-col" style="display:none">
             					<ul class="nav navbar-nav navbar-right">
         						<li class="dropdown">
+        						
          							<a href="#" id="username" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+         							
          							</a>
+         							
           							<ul class="dropdown-menu">
-            							<li><a href="#">Profile</a></li>
-            							<li><a href="#">My Auctions</a></li>
-            							<li><a href="#">My Messages</a></li>
+            							<li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Profile</a></li>
+            							<li><a href="#"><span class="glyphicon glyphicon-th-list"></span> My Auctions</a></li>
+            							<li><a href="#" class="messages-link">
+            								<span class="glyphicon glyphicon-envelope"></span> My Messages 
+            								<span style="display:none;" id="header-unread-messages" class="label label-danger pull-right"></span>
+            								</a>
+            							</li>
+            							<li><a href="#" class="rates-link"><span class="glyphicon glyphicon-star"></span> Rates</a></li>
             							<li role="separator" class="divider"></li>
             							<li><a href="#" class="log-out">
             							<span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
@@ -119,7 +129,7 @@
 				<div class="clearfix"> </div>	
 			</div>
 		</div>
-	</div>
+	</div> <!--  header ends -->
 	<!---->
 	<!-- Main Body -->
 	<div class="container">

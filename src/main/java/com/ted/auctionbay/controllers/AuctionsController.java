@@ -126,6 +126,14 @@ public class AuctionsController {
 		return numObject.toString();
 	}
 	
+	@RequestMapping(value = "/expired-auctions", method = RequestMethod.GET)
+	@ResponseBody
+	public String getExpiredAuctions(){
+		System.out.println("...... Expired Auctions ......");
+		
+		return "";
+	}
+	
 	@RequestMapping(value = "/categories",method = RequestMethod.GET)
 	@ResponseBody
 	public String getCategories(){

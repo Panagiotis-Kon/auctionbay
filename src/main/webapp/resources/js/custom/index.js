@@ -131,6 +131,7 @@ function menuBarEdit(username){
 	var enable_modules = [];
 	var disable_modules = [];
 	enable_modules.push("#auctions2");
+	enable_modules.push("#rating-li");
 	enable_modules.push("#user-right-col");
 	enableModules(enable_modules);
 	editText("#username",username);
@@ -165,8 +166,8 @@ function changeClass(module,oldClass,newClass) {
 
 function editText(module,text) {
 	
-	$(module).html("<span class=\"glyphicon glyphicon-user\"></span>" 
-			+ "<span style=\"display:none;\" class=\"badge badge-notify\"></span> " +text + " <span class=\"caret\"></span>");
+	$(module).html("<span id=\"user-icon\" class=\"glyphicon glyphicon-user\"></span>" 
+			+ "&nbsp" +text + " <span class=\"caret\"></span>");
 }
 
 
@@ -184,11 +185,14 @@ function getUnreadMessages(){
 				console.log("unread: " + unread);
 				if(unread != "0") {
 					// display on header 
+					console.log("We have messages....")
 					$("#header-unread-messages").text(unread);
 					$("#header-unread-messages").css("display","block");
-					//$(".badge-notify").text(unread);
-					//$(".badge-noti")
+					$( "#user-icon" ).after( "<span class=\"badge badge-notify\">" + unread + "</span>" );
+					
 					// check if we are on mailbox and add the number to inbox
+				} else {
+					
 				}
 			}
 			

@@ -82,6 +82,12 @@ public class UserController {
 		return "/pages/modules/auctionEditModule.html";
 	}
 	
+	@RequestMapping(value = {"/{username}/rates"})
+	public static String ratesRedirection() {
+		
+		return "/pages/user/rates.html";
+	}
+	
 	
 	@RequestMapping( value = "",params = {"status"} ,method = RequestMethod.GET)
 	public String pending() {
