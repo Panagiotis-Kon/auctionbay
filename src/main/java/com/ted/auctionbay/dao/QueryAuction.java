@@ -37,4 +37,6 @@ public interface QueryAuction {
 	public List<Auction> getActiveAuctions();
 	
 	public List<Auction> getExpiredAuctions();
+	
+	public List<Object[]> BidderExpiredAuction(String username);
 }

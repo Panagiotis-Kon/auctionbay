@@ -55,7 +55,7 @@ $(document).ready(function(){
 		
 	});
 	
-	$("a.rates-ref").on("click",function(event){
+	/*$("a.rates-ref").on("click",function(event){
 		event.preventDefault();
 		console.log("window.location.href: " + window.location.href)
 		console.log("baseURL: " + baseURL)
@@ -69,7 +69,7 @@ $(document).ready(function(){
 			window.location = baseURL + "/rates";
 		}
 		
-	});
+	});*/
 	
 	$("a.messages-link").on("click",function(event){
 		event.preventDefault();

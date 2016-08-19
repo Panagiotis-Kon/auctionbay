@@ -6,10 +6,11 @@
 <title>AuctionBay - Rates</title>
 <link href="https://localhost:8443/auctionbay/resources/css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link href="https://localhost:8443/auctionbay/resources/css/bootstrap/font-awesome.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <!--theme-style-->
 
 <link href="https://localhost:8443/auctionbay/resources/css/custom/header.css" rel="stylesheet" type="text/css" media="all" />
-<link href="https://localhost:8443/auctionbay/resources/css/custom/style.css" rel="stylesheet" type="text/css" media="all" />	
+<link href="https://localhost:8443/auctionbay/resources/css/custom/users/rates.css" rel="stylesheet" type="text/css" media="all" />	
 <link href="https://localhost:8443/auctionbay/resources/css/custom/footer.css" rel="stylesheet" type="text/css" media="all" />
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -21,6 +22,7 @@
 
 <script src="https://localhost:8443/auctionbay/resources/js/jquery/jquery-1.12.3.min.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+<script src="https://localhost:8443/auctionbay/resources/js/external/rater.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/redirections.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/index.js" type="text/javascript"></script>
 <script src="https://localhost:8443/auctionbay/resources/js/custom/user/rates.js" type="text/javascript"></script>
@@ -53,7 +55,7 @@
       							</ul>			
       						</li>
       							
-      						<li class="active" id="rating-li" style="display:none;"><a href="#" class="rate-ref"><span class="glyphicon glyphicon-star"></span> Rates</a></li>
+      						<li class="active" id="rating-li" style="display:none;"><a href="#" class="rates-link"><span class="glyphicon glyphicon-star"></span> Rates</a></li>
       						<li><a href="#" class="contact-link"><span class=" glyphicon glyphicon-earphone"></span> Contact</a></li>
       						
     						</ul>
@@ -106,18 +108,40 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12">
-				<div class="well">
+				<div class="alert alert-info">
 					<h3 class="text text-center">Rate Sellers and Bidders</h3>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<table id="rating-table" class="table table-condensed"></table>
+				<table id="rating-table" class="table table-condensed">
+					<tr>
+						<th class="text-center"><span class="glyphicon glyphicon-user"></span> Users</th>
+						<th class="text-center">Item</th>
+						<th class="text-center"><span class="glyphicon glyphicon-star"></span>Rating</th>
+					</tr>
+				</table>
+				
 			</div>
+			
 		</div>
+		<div class="row">
+			<div class="col-xs-12 alert alert-warning">
+              		<button id="submit-rating" class="btn btn-primary pull-right">Submit Rate</button>
+              	</div>
+		</div>
+		
 	
 	
 	</div>
+	
+	<br><br>
+		<footer class="container-fluid text-center">
+ 			<h3>Our Info</h3> 
+  			<h4 id="developers">Alexandros Tsakrilis - sdi1100092</h4>
+  			<h4 id="developers">Panagiotis Kontopoulos - sdi1100124</h4>
+  			<p>Copyright &copy; AuctionBay</p>
+		</footer>
 </body>
 </html>

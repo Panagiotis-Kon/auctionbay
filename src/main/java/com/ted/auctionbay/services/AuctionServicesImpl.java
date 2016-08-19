@@ -306,5 +306,11 @@ public class AuctionServicesImpl implements AuctionServices{
 		return 1;
 	}
 
+	@Override
+	public List<Object[]> BidderExpiredAuctions(String username) {
+		
+		return queryAuction.BidderExpiredAuction(username);
+	}
+
 	 
 }

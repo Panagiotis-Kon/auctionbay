@@ -275,4 +275,17 @@ public class QueryAuctionImpl implements QueryAuction {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<Object[]> BidderExpiredAuction(String username) {
+		
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT a.AuctionID, a.Seller, a.Title, ruba.Bidder_Username"
+				+ " FROM auction a, registereduser_bidsin_auction ruba"
+				+ " WHERE EndTime < NOW() AND a.AuctionID = ruba.AuctionID"
+				+ " AND(a.Seller = ?1 OR ruba.Bidder_Username = ?2)");
+		query.setParameter(1, username);
+		query.setParameter(2, username);
+		return query.getResultList();
+	}
+
 }
