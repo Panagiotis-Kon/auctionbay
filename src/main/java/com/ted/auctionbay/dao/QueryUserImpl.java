@@ -14,9 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.auctions.Auctionhistory;
+import com.ted.auctionbay.entities.users.Bidderrating;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
 import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
+import com.ted.auctionbay.entities.users.Sellerrating;
 import com.ted.auctionbay.entities.users.User;
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
 import com.ted.auctionbay.services.UserServicesImpl;
@@ -30,9 +32,7 @@ public class QueryUserImpl implements QueryUser{
 		Query query = em.createNativeQuery("SELECT Username FROM user WHERE Username =?");
 		query.setParameter(1, username); 
 		boolean res = !query.getResultList().isEmpty(); //then user exists already
-		//Query query = em.createNativeQuery("SELECT EXISTS (SELECT Username FROM User WHERE Username =?)");
-		//query.setParameter(1, username); 
-		//boolean res = (boolean) query.getResultList().get(0); //then user exists already
+		
 		System.out.println("user exist: " + res);
 		return res;
 	}
@@ -246,6 +246,61 @@ public class QueryUserImpl implements QueryUser{
 			return 1;
 		}
 		return 0;
+	}
+
+	@Override
+	public int maxBidderRatingID() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT MAX(BidderRatingID) FROM bidderrating");
+		List<?> result  =  query.getResultList();
+		int maxID;
+		if( result.get(0) == null){
+			maxID = 0;
+		}else {
+			maxID = Integer.parseInt(result.get(0).toString())+1;
+		}
+		return maxID;
+	}
+
+	@Override
+	public int maxSellerRatingID() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT MAX(SellerRatingID) FROM sellerrating");
+		List<?> result  =  query.getResultList();
+		int maxID;
+		if( result.get(0) == null){
+			maxID = 0;
+		}else {
+			maxID = Integer.parseInt(result.get(0).toString()) + 1;
+		}
+		return maxID;
+	}
+
+	@Override
+	public void submitBidderRating(Bidderrating bidder_rate) {
+		
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		
+		try {
+			em.persist(bidder_rate);
+		} catch (PersistenceException pe) {
+			pe.printStackTrace();
+			
+		}
+		
+	}
+
+	@Override
+	public void submitSellerRating(Sellerrating seller_rate) {
+	EntityManager em = EntityManagerHelper.getEntityManager();
+		
+		try {
+			em.persist(seller_rate);
+		} catch (PersistenceException pe) {
+			pe.printStackTrace();
+			
+		}
+		
 	}
 	
 	

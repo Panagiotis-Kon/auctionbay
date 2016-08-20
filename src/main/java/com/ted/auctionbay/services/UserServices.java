@@ -2,6 +2,8 @@ package com.ted.auctionbay.services;
 
 import java.util.List;
 
+import org.json.JSONArray;
+
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
@@ -36,5 +38,7 @@ public interface UserServices {
 	public int count_user_auctions(String username);
 	
 	public List<Auction> get_user_auctions(String username);
+	
+	public void submitRating(JSONArray data);
 	
 }

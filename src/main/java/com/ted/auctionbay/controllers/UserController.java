@@ -279,4 +279,21 @@ public class UserController {
 		return data.toString();
 	}
 	
+	
+	@RequestMapping(value = {"/{username}/rates/submit-rates"})
+	@ResponseBody
+	public String submitRatings(@RequestParam("ratings") String ratings){
+		
+		try {
+			JSONArray data = new JSONArray(ratings);
+			userServices.submitRating(data);
+			return new Gson().toJson("Your ratings have been submitted");
+		} catch(JSONException e){
+			System.out.println("Parsing json problem on user controller - { submit-rates }");
+			e.printStackTrace();
+		}
+	
+		return new Gson().toJson("A problem on submitting ratings");
+	}
+	
 }

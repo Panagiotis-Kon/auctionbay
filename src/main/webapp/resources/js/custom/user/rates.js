@@ -3,8 +3,17 @@ $(document).ready(function(){
 	getExpiredAuctions();
 	checkForUser();
 	getUnreadMessages();
+	initListeners();
 });
 
+
+function initListeners(){
+	
+	$("#submit-rating").click(function(event){
+		
+	});
+	
+}
 
 function initRatingModule(id){
 	 var elem = "#"+id;
@@ -12,8 +21,6 @@ function initRatingModule(id){
              max_value: 6,
              step_size: 0.5,
              selected_symbol_type: 'utf8_star',
-             //url: 'http://localhost/test.php',
-             //initial_value: 3,
              update_input_field_name: $(elem),
          }
 	 $(".rate").rate(options);
@@ -38,7 +45,7 @@ function getExpiredAuctions(){
 		success:function(expired){
 			
 			
-			
+			var counterRow = 0;
 			$.each(expired, function(i, item) {
 				
 				
@@ -53,8 +60,11 @@ function getExpiredAuctions(){
 			    
 			    if(bidder == username){
 			    	var row =  "<tr id=' " + auctionID+"-"+seller + '-seller'+  "'> <td>" + 
-					seller              
-					+ "</td> " 				
+					seller            
+					+ "</td> " +
+					+ "<td>" +
+					"Seller" 
+					+ "</td>" +
 					+ " <td> " +
 					item_title
 					+ "</td> "
@@ -67,8 +77,11 @@ function getExpiredAuctions(){
 			    	
 			    } else {
 			    	var row =  "<tr id=' " + auctionID+"-"+bidder + '-bidder'+  "'> <td>" + 
-					bidder              
-					+ "</td> " 				
+					bidder               
+					+ "</td> " +
+					+ "<td>" +
+					"Bidder" 
+					+ "</td>" +
 					+ " <td> " +
 					item_title
 					+ "</td> "
@@ -78,8 +91,8 @@ function getExpiredAuctions(){
 
 			    	$("#rating-table").find('tbody').append(row);
 			    }
-			    initRatingModule(auctionID);
-			    
+			    initRatingModule(counterRow);
+			    counterRow++;
 			    
 			});
 			
@@ -88,4 +101,16 @@ function getExpiredAuctions(){
 	});
 }
 
-function submitRate(){}
+function submitRate(ratings){
+	$.ajax({
+		type : "POST",
+		dataType:'json',
+		url  : window.location.href + "/submit-rate",
+		data : {ratings:ratings},
+		success:function(result){
+			console.log(result)
+		},
+		
+	});
+	
+}

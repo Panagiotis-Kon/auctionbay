@@ -3,9 +3,11 @@ package com.ted.auctionbay.dao;
 import java.util.List;
 
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.users.Bidderrating;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
 import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
+import com.ted.auctionbay.entities.users.Sellerrating;
 import com.ted.auctionbay.entities.users.User;
 
 public interface QueryUser {
@@ -45,5 +47,13 @@ public interface QueryUser {
 	public int createBidInUser(RegistereduserBidsinAuction rba);
 	
 	public int appendBuyerHistory(String username, int itemID);
+	
+	public int maxBidderRatingID();
+	
+	public int maxSellerRatingID();
+	
+	public void submitBidderRating(Bidderrating bidder_rate);
+	
+	public void submitSellerRating(Sellerrating seller_rate);
 	
 }

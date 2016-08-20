@@ -7,14 +7,21 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.Address;
+import com.ted.auctionbay.entities.users.Bidderrating;
+import com.ted.auctionbay.entities.users.BidderratingPK;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
+import com.ted.auctionbay.entities.users.Sellerrating;
+import com.ted.auctionbay.entities.users.SellerratingPK;
 import com.ted.auctionbay.entities.users.User;
 import com.ted.auctionbay.dao.QueryUser;
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
@@ -160,6 +167,60 @@ public class UserServicesImpl implements UserServices{
 	public List<Registereduser> getRecipients() {
 		
 		return queryUser.getRecipients();
+	}
+
+
+	@Override
+	public void submitRating(JSONArray data) {
+		
+		for(int i=0;i<data.length();i++){
+			
+			int bidderRatingID = queryUser.maxBidderRatingID();
+			int sellerRatingID = queryUser.maxSellerRatingID();
+			
+			JSONObject obj;
+			String username = "";
+			String role = "";
+			float rate = 0;
+			
+			try{
+				obj = data.getJSONObject(i);
+				username = obj.get("username").toString();
+				role = obj.get("role").toString();
+				rate = Float.parseFloat(obj.get("rate").toString());
+			}catch(JSONException je){
+				System.out.println("Error parsing json on rating");
+				je.printStackTrace();
+			}
+		
+			if(role.equals("bidder")){
+				BidderratingPK brpk = new BidderratingPK();
+				brpk.setBidderRatingID(bidderRatingID);
+				brpk.setUsername(username);
+				
+				Bidderrating br = new Bidderrating();
+				br.setId(brpk);
+				br.setRate(rate);
+				br.setRegistereduser(queryUser.getUser(username).getRegistereduser());
+				bidderRatingID++;
+				
+				queryUser.submitBidderRating(br);
+				
+			} else {
+				SellerratingPK srpk = new SellerratingPK();
+				srpk.setSellerRatingID(sellerRatingID);
+				srpk.setUsername(username);
+				
+				Sellerrating sr = new Sellerrating();
+				sr.setId(srpk);
+				sr.setRate(rate);
+				sr.setRegistereduser(queryUser.getUser(username).getRegistereduser());
+				sellerRatingID++;
+				
+				queryUser.submitSellerRating(sr);
+			}
+		}
+
 	}
 	
 }

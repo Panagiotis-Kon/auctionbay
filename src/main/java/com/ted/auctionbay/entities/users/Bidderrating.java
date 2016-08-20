@@ -16,7 +16,7 @@ public class Bidderrating implements Serializable {
 	@EmbeddedId
 	private BidderratingPK id;
 
-	private int rate;
+	private float rate;
 
 	//bi-directional many-to-one association to Registereduser
 	@ManyToOne
@@ -34,11 +34,11 @@ public class Bidderrating implements Serializable {
 		this.id = id;
 	}
 
-	public int getRate() {
+	public float getRate() {
 		return this.rate;
 	}
 
-	public void setRate(int rate) {
+	public void setRate(float rate) {
 		this.rate = rate;
 	}
 
