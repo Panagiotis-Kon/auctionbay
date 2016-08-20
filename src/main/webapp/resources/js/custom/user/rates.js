@@ -6,7 +6,7 @@ $(document).ready(function(){
 	initListeners();
 });
 
-
+var ratings = {};
 function initListeners(){
 	
 	$("#submit-rating").click(function(event){
@@ -49,7 +49,7 @@ function getExpiredAuctions(){
 			$.each(expired, function(i, item) {
 				
 				
-				
+				var data = [];
 			    var auctionID = item.auctionID;
 			    var seller = item.seller;
 			    var bidder = item.bidder;
@@ -57,6 +57,8 @@ function getExpiredAuctions(){
 			    
 			    var starRateModule = "<div class=\"rate\" style=\"margin:0 auto;font-size:24px;\"></div>" +
 			    		"<div class=\"col-xs-3\" style=\"float:none; margin:0 auto;\">"+"<input class=\"form-control input-sm\"id='"+ auctionID + "' "+"type=\"text\"></div>";
+			    
+			    
 			    
 			    if(bidder == username){
 			    	var row =  "<tr id=' " + auctionID+"-"+seller + '-seller'+  "'> <td>" + 
@@ -74,7 +76,9 @@ function getExpiredAuctions(){
 					+ "</div></td> </tr>";
 
 			    	$("#rating-table").find('tbody').append(row);
-			    	
+			    	data.push(seller);
+			    	data.push("seller");
+			    	ratings[auctionID+"-"+seller] = data; 
 			    } else {
 			    	var row =  "<tr id=' " + auctionID+"-"+bidder + '-bidder'+  "'> <td>" + 
 					bidder               
@@ -90,7 +94,11 @@ function getExpiredAuctions(){
 					+ "</td> </tr>";
 
 			    	$("#rating-table").find('tbody').append(row);
+			    	data.push(bidder);
+			    	data.push("bidder");
+			    	ratings[auctionID+"-"+bidder] = data; 
 			    }
+			    
 			    initRatingModule(counterRow);
 			    counterRow++;
 			    
