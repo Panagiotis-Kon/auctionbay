@@ -252,9 +252,10 @@ public class QueryUserImpl implements QueryUser{
 	public int maxBidderRatingID() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT MAX(BidderRatingID) FROM bidderrating");
-		List<?> result  =  query.getResultList();
+		List result  =  query.getResultList();
 		int maxID;
 		if( result.get(0) == null){
+			System.out.println("null id");
 			maxID = 0;
 		}else {
 			maxID = Integer.parseInt(result.get(0).toString())+1;
@@ -266,7 +267,7 @@ public class QueryUserImpl implements QueryUser{
 	public int maxSellerRatingID() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT MAX(SellerRatingID) FROM sellerrating");
-		List<?> result  =  query.getResultList();
+		List result  =  query.getResultList();
 		int maxID;
 		if( result.get(0) == null){
 			maxID = 0;

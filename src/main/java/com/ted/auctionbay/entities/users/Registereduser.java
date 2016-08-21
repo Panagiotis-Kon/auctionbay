@@ -38,7 +38,9 @@ public class Registereduser implements Serializable {
 	@OneToMany(mappedBy="sender",cascade=CascadeType.ALL)
 	private List<Message> inboxMessages;
 
-	
+	//bi-directional many-to-one association to Sellerrating
+	@OneToMany(mappedBy="registereduser")
+	private List<Sellerrating> sellerratings;
 	
 	
 	public List<Message> getInboxMessages() {
@@ -95,9 +97,7 @@ public class Registereduser implements Serializable {
 	//@OneToMany(mappedBy="registereduser")
 	//private List<RegistereduserBidsinAuction> registereduserBidsinAuctions;
 
-	//bi-directional many-to-one association to Sellerrating
-	@OneToMany(mappedBy="registereduser")
-	private List<Sellerrating> sellerratings;
+	
 
 	public Registereduser() {
 	}

@@ -69,7 +69,7 @@ public class QueryAuctionImpl implements QueryAuction {
 						"SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
 								+ "FROM auction a,category c,item_has_category ihc, item i"
 								+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
-								+ " and c.Name = ?1", Auction.class);
+								+ " and c.Name = ?1 and a.EndTime >= NOW()", Auction.class);
 
 		query.setParameter(1, category);
 		query.setFirstResult(startpage);
@@ -262,16 +262,18 @@ public class QueryAuctionImpl implements QueryAuction {
 	}
 
 	@Override
-	public List<Auction> getActiveAuctions() {
+	public List<Auction> getActiveAuctions(int startpage, int endpage) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT * FROM auction WHERE EndTime >= NOW();");
+		Query query = em.createNativeQuery("SELECT * FROM auction WHERE EndTime >= NOW()",Auction.class);
+		query.setFirstResult(startpage);
+		query.setMaxResults(endpage);
 		return query.getResultList();
 	}
 
 	@Override
 	public List<Auction> getExpiredAuctions() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT * FROM auction WHERE EndTime < NOW();");
+		Query query = em.createNativeQuery("SELECT * FROM auction WHERE EndTime < NOW()",Auction.class);
 		return query.getResultList();
 	}
 

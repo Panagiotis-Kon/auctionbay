@@ -42,7 +42,7 @@ public class AuctionsController {
 		int startpage = Integer.parseInt(start);
 		int endpage = Integer.parseInt(size);
 		
-		List<Auction> auctions_list = auctionServices.getAuctions(startpage, endpage);
+		List<Auction> auctions_list = auctionServices.getActiveAuctions(startpage, endpage);
 		
 		JSONArray answer = new JSONArray();
 		for(Auction a: auctions_list){

@@ -34,7 +34,7 @@ public interface QueryAuction {
 	
 	public int delAuction(String Username, int auctionID, int ItemID);
 	
-	public List<Auction> getActiveAuctions();
+	public List<Auction> getActiveAuctions(int startpage, int endpage);
 	
 	public List<Auction> getExpiredAuctions();
 	

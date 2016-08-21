@@ -19,6 +19,7 @@ public class Sellerrating implements Serializable {
 	private float rate;
 
 	//bi-directional many-to-one association to Registereduser
+	@MapsId("username")
 	@ManyToOne
 	@JoinColumn(name="Username")
 	private Registereduser registereduser;
