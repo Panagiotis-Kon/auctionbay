@@ -37,12 +37,12 @@ public class AuctionsController {
 	@RequestMapping(value = "/view-auctions",method = RequestMethod.GET)
 	@ResponseBody
 	public String getAuctions(@RequestParam("start") String start,
-			@RequestParam("size") String size){
+			@RequestParam("size") String size, @RequestParam("type") String type){
 		System.out.println("...... Get auctions Controller ......");
 		int startpage = Integer.parseInt(start);
 		int endpage = Integer.parseInt(size);
 		
-		List<Auction> auctions_list = auctionServices.getActiveAuctions(startpage, endpage);
+		List<Auction> auctions_list = auctionServices.getAuctions(startpage, endpage, type);
 		
 		JSONArray answer = new JSONArray();
 		for(Auction a: auctions_list){
@@ -73,12 +73,15 @@ public class AuctionsController {
 	@RequestMapping(value = "/view-auctions-byCategory",method = RequestMethod.GET)
 	@ResponseBody
 	public String getAuctionsByCategory(@RequestParam("start") String start,
-			@RequestParam("size") String size, @RequestParam("category") String category){
+			@RequestParam("size") String size, @RequestParam("category") String category,
+			@RequestParam("type") String type){
 		System.out.println("...... Get auctions By category Controller ......");
 		int startpage = Integer.parseInt(start);
 		int endpage = Integer.parseInt(size);
 		System.out.println("category: " + category);
-		List<Auction> auctions_list = auctionServices.getAuctionsByCategory(startpage, endpage, category);
+
+		
+		List<Auction> auctions_list = auctionServices.getAuctionsByCategory(startpage, endpage, category, type);
 		if(auctions_list.isEmpty()){
 			System.out.println("empty list");
 		}
@@ -111,10 +114,10 @@ public class AuctionsController {
 	
 	@RequestMapping(value = "/numberOfAuctions", method = RequestMethod.GET)
 	@ResponseBody
-	public String getNumberOfAuctions(){
+	public String getNumberOfAuctions(@RequestParam("type") String type){
 		System.out.println("...... Number of Auctions Controller ......");
 		JSONObject numObject = new JSONObject();
-		int num = auctionServices.numOfAuctions();
+		int num = auctionServices.numOfAuctions(type);
 		try {
 			numObject.put("auctionsNum", num);
 		} catch (JSONException e) {
@@ -152,11 +155,11 @@ public class AuctionsController {
 	
 	@RequestMapping(value = "/categories",method = RequestMethod.GET)
 	@ResponseBody
-	public String getCategories(){
+	public String getCategories(@RequestParam("type") String type){
 		
 		
 		JSONArray jarray = new JSONArray();
-		List<Object[]> categoryList = auctionServices.getAllCategories();
+		List<Object[]> categoryList = auctionServices.getCategories(type);
 		for(Object[] obj : categoryList){
 			JSONObject data = new JSONObject();
 			try {

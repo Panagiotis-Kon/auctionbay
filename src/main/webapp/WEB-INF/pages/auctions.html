@@ -212,7 +212,24 @@
 							<li><a class="all-categories" href="all-categories" style="vertical-align: bottom;">All Categories<span class='label label-warning pull-right'>-</span></a></li>
 						</ul>
 				</div>
+				
+				<div class="panel panel-danger hidden-xs hidden-sm" >
+					<div class="panel-heading text-center"><h4>Filter</h4></div>
+					<div class="panel-body">
+						<div class="btn-group btn-group-justified" data-toggle="buttons" id="radioopt">
+  							<label class="btn btn-primary active">
+      							<input type="radio" name="options" id="active-auctions" value=">Active Auctions" />Active Auctions
+  							</label>
+  							<label class="btn btn-primary">
+      							<input type="radio" name="options" id="all-auctions" value=">All Auctions" />All Auctions
+  							</label>
+						
+						</div>
+					</div>	
+				</div>
 			</div>
+			
+			
 			<div id="category-indicator" class="col-xs-12 col-md-9 alert alert-warning" style="display:none;">
 				<h4 id="text" style="text-align:center;color:green;"></h4>
 			</div>

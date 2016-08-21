@@ -24,6 +24,21 @@ public class QueryAuctionImpl implements QueryAuction {
 
 		return num;
 	}
+	
+	@Override
+	public int numOfActiveAuctions() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT count(*) FROM auction WHERE EndTime >= NOW()");
+		int num;
+		if(query.getResultList().get(0) == null){
+			num = 0;
+		} else {
+			num = Integer.parseInt(query.getResultList().get(0).toString());
+		}
+		
+
+		return num;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -69,7 +84,7 @@ public class QueryAuctionImpl implements QueryAuction {
 						"SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
 								+ "FROM auction a,category c,item_has_category ihc, item i"
 								+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
-								+ " and c.Name = ?1 and a.EndTime >= NOW()", Auction.class);
+								+ " and c.Name = ?1", Auction.class);
 
 		query.setParameter(1, category);
 		query.setFirstResult(startpage);
@@ -289,5 +304,24 @@ public class QueryAuctionImpl implements QueryAuction {
 		query.setParameter(2, username);
 		return query.getResultList();
 	}
+
+	@Override
+	public List<Auction> getActiveAuctionsByCategory(int startpage, int endpage, String category) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em
+				.createNativeQuery(
+						"SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
+								+ "FROM auction a,category c,item_has_category ihc, item i"
+								+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
+								+ " and c.Name = ?1 and a.EndTime >= NOW()", Auction.class);
+
+		query.setParameter(1, category);
+		query.setFirstResult(startpage);
+		query.setMaxResults(endpage);
+
+		return query.getResultList();
+	}
+
+
 
 }

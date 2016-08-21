@@ -47,13 +47,18 @@ public class AuctionServicesImpl implements AuctionServices{
 	
 	
 	@Override
-	public List<Auction> getAuctions(int startpage,int endpage) {
-		
+	public List<Auction> getAuctions(int startpage,int endpage, String type) {
+		if(type.equals("active")){
+			return queryAuction.getActiveAuctions(startpage, endpage);
+		}
 		return queryAuction.getAuctions(startpage, endpage);
 	}
 
 	@Override
-	public int numOfAuctions() {
+	public int numOfAuctions(String type) {
+		if(type.equals("active")){
+			return queryAuction.numOfActiveAuctions();
+		}
 		return queryAuction.numOfAuctions();
 	}
 
@@ -73,12 +78,18 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public List<Auction> getAuctionsByCategory(int start, int end, String Category) {
+	public List<Auction> getAuctionsByCategory(int start, int end, String Category, String type) {
+		if(type.equals("active")){
+			return queryAuction.getActiveAuctions(start, end);
+		}
 		return queryAuction.getAuctionsByCategory(start,end,Category);
 	}
 
 	@Override
-	public List<Object[]> getAllCategories() { 
+	public List<Object[]> getCategories(String type) { 
+		if(type.equals("active")){
+			return queryCategory.getActiveCategories();
+		}
 		return queryCategory.getAllCategories();
 	}
 
@@ -286,10 +297,7 @@ public class AuctionServicesImpl implements AuctionServices{
 		return 0;
 	}
 
-	@Override
-	public List<Auction> getActiveAuctions(int startpage, int endpage) {
-		return queryAuction.getActiveAuctions(startpage,endpage);
-	}
+	
 
 	@Override
 	public List<Auction> getExpiredAuctions() {

@@ -44,4 +44,15 @@ public class QueryCategoryImpl implements QueryCategory{
 		List<Category> cat_list = query.getResultList();
 		return cat_list;
 	}
+
+	@Override
+	public List<Object[]> getActiveCategories() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		
+		Query query = em.createNativeQuery("SELECT c.name,COUNT(*) FROM auction a, category c, item_has_category ihc "
+				+ "where c.categoryID = ihc.categoryID and a.ItemID = ihc.itemID and a.EndTime >= NOW() GROUP by c.categoryID");
+		List<Object[]> categoryList = query.getResultList();
+		
+		return categoryList;
+	}
 }

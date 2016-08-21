@@ -6,11 +6,20 @@ import java.util.List;
 import com.ted.auctionbay.entities.auctions.Auction;
 
 public interface QueryAuction {
+	
 	public int numOfAuctions();
+	
+	public int numOfActiveAuctions();
 	
 	public List<Auction> getAuctions(int startpage, int endpage);
 	
+	public List<Auction> getActiveAuctions(int startpage, int endpage);
+	
+	public List<Auction> getExpiredAuctions();
+	
 	public List<Auction> getAuctionsByCategory(int startpage, int endpage, String category);
+	
+	public List<Auction> getActiveAuctionsByCategory(int startpage, int endpage, String category);
 	
 	public int getNumOfBids(int auction_id);
 	
@@ -33,10 +42,6 @@ public interface QueryAuction {
 	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
 	
 	public int delAuction(String Username, int auctionID, int ItemID);
-	
-	public List<Auction> getActiveAuctions(int startpage, int endpage);
-	
-	public List<Auction> getExpiredAuctions();
 	
 	public List<Object[]> BidderExpiredAuction(String username);
 }

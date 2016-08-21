@@ -12,11 +12,11 @@ import com.ted.auctionbay.entities.items.Category;
 
 public interface AuctionServices {
 
-	public List<Auction> getAuctions(int startpage, int endpage);
+	public List<Auction> getAuctions(int startpage, int endpage, String type);
 	
-	public List<Object[]> getAllCategories();
+	public List<Object[]> getCategories(String type);
 	
-	public int numOfAuctions();
+	public int numOfAuctions(String type);
 	
 	public Auction getDetails(int ItemID);
 	
@@ -26,7 +26,7 @@ public interface AuctionServices {
 	
 	public float getHighestBid(int auction_id);
 	
-	public List<Auction> getAuctionsByCategory(int start, int end, String Category);
+	public List<Auction> getAuctionsByCategory(int start, int end, String Category, String type);
 	
 	public int createAuction(String username, JSONObject auction_params);
 	
@@ -43,8 +43,6 @@ public interface AuctionServices {
 	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
 	
 	public int delAuction(String Username, int auctionID, int ItemID);
-	
-    public List<Auction> getActiveAuctions(int startpage, int endpage);
 	
 	public List<Auction> getExpiredAuctions();
 	
