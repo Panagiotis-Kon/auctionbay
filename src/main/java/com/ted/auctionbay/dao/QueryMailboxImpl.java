@@ -122,4 +122,24 @@ public class QueryMailboxImpl implements QueryMailbox{
 		
 	}
 
+
+	@Override
+	public int deleteMessage(String username, int messageID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("DELETE FROM mailbox WHERE MessageID=?1 AND RegisteredUser=?2");
+		query.setParameter(1, messageID);
+		query.setParameter(2, username);
+		query.executeUpdate();
+		
+		Query query2 = em.createNativeQuery("SELECT * FROM mailbox WHERE MessageID=?1").setParameter(1, messageID);
+		List messages = query2.getResultList();
+		if(messages.size() == 0){
+			Query query3 = em.createNativeQuery("DELETE FROM message WHERE MessageID=?1").setParameter(1, messageID);
+			if(query3.executeUpdate() != 0){
+				return 0;
+			}
+		}
+		return 1;
+	}
+
 }

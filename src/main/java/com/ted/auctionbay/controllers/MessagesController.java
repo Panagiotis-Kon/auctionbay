@@ -162,5 +162,16 @@ public class MessagesController {
 		return new Gson().toJson("Cannot mark as read");
 	}
 	
+	@RequestMapping(value = "/delete-message",method = RequestMethod.DELETE)
+	@ResponseBody
+	public String deleteMessage(@RequestParam("username") String username,@RequestParam("messageID") String messageID){
+		
+		int m_id = Integer.parseInt(messageID);
+		if(mailboxServices.deleteMessage(username, m_id) == 0){
+			return new Gson().toJson("Your message has been deleted");
+		}
+		return new Gson().toJson("Cannot delete message");
+	}
+	
 
 }

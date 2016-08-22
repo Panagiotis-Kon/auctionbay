@@ -15,4 +15,6 @@ public interface MailboxServices {
 	public int submitMessage(String sender, String recipient, String subject, String message_body);
 	
 	public int markAsRead(int messageID);
+	
+	public int deleteMessage(String username, int messageID);
 }

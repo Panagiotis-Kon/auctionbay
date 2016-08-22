@@ -105,4 +105,12 @@ public class MailboxServicesImpl implements MailboxServices{
 		return -1;
 	}
 
+	@Override
+	public int deleteMessage(String username, int messageID) {
+		if(queryMail.deleteMessage(username, messageID) == 0){
+			return 0;
+		}
+		return 1;
+	}
+
 }

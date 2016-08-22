@@ -20,4 +20,6 @@ public interface QueryMailbox {
 	public int getMaxMessageID();
 	
 	public int submitMessage(Message message, Mailbox from, Mailbox to);
+	
+	public int deleteMessage(String username, int messageID);
 }

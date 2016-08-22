@@ -341,3 +341,20 @@ function getSentMessages(sentModule) {
 	});
 }
 
+
+function deleteMessage(messageID){
+	var username = getUser();
+	$.ajax({
+		type : "DELETE",
+		url  : window.location.href + "/delete-message",
+		data : {username:username,messageID:messageID},
+		dataType:'json',
+		success:function(result){
+			console.log(result);
+			window.location.reload();
+			
+		}
+		
+	});
+}
+
