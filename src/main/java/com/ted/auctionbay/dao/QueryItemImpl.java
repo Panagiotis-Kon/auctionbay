@@ -92,5 +92,13 @@ public class QueryItemImpl implements QueryItem {
 		query.setParameter(1, itemID);
 		
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getItemIDs() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		List<String> resultSet = em.createNativeQuery("SELECT ItemID FROM item",Item.class).getResultList();
+		return resultSet;
+	}
 	
 }

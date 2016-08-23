@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.lang.model.element.Element;
-import javax.swing.text.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -18,9 +18,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ted.auctionbay.dao.QueryItem;
+import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
 
@@ -67,7 +72,7 @@ public class ItemServicesImpl  implements ItemServices{
 		WriteToXMLFile(doc,filename);	
 	}
 
-	private void WriteToXMLFile(Document doc, String filename) throws IOException {
+	private static void WriteToXMLFile(Document doc, String filename) throws IOException {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer;
 		try {
@@ -103,7 +108,14 @@ public class ItemServicesImpl  implements ItemServices{
 
 	@Override
 	public void exportAllToXML() throws IOException {
-		List<Integer> productIDs = queryItem.getAllProductIDs();
+		
+		List<String> qresults = queryItem.getItemIDs();
+		List<Integer> itemIDs = new ArrayList<Integer>();
+		for (String result : qresults){
+			itemIDs.add(Integer.valueOf(result));
+		}
+		
+		
 		int count = 0;
 		Document doc;
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -115,7 +127,7 @@ public class ItemServicesImpl  implements ItemServices{
 		initializeRatingData();
 		
 		int i = 0;
-		for(i=0;i < productIDs.size() ;i++){/**/
+		for(i=0;i < itemIDs.size() ;i++){/**/
 			
 			if( i%500 == 0){
 				if(i != 0){
@@ -136,7 +148,7 @@ public class ItemServicesImpl  implements ItemServices{
 				}		
 			}
 			//System.out.println("store product "+i+ "to file "+i/500);
-			doc = XMLExporter(productIDs.get(i).toString());
+			doc = XMLExporter(itemIDs.get(i).toString());
 		    Element e = doc.getDocumentElement();
 		    Node n = (Node) doc.getChildNodes().item(0);
 		    Node newNode = (Node) fileDoc.importNode(n, true);
@@ -152,7 +164,7 @@ public class ItemServicesImpl  implements ItemServices{
 					
 		try {
 			Auction a = auctions.get(Integer.parseInt(ItemID));//AuctionQueries.details(ItemID);
-			Product p = a.getProduct();
+			Item p = a.getProduct();
 			
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -281,6 +293,12 @@ public class ItemServicesImpl  implements ItemServices{
 			pce.printStackTrace();
 		}
 		return null;
+		
+	}
+
+	@Override
+	public void initializeRatingData() throws IOException {
+		// TODO Auto-generated method stub
 		
 	}
 }

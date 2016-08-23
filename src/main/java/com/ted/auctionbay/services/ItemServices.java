@@ -1,10 +1,10 @@
 package com.ted.auctionbay.services;
 
+import java.io.IOException;
 import java.util.List;
 
-import javax.swing.text.Document;
+import org.w3c.dom.Document;
 
-import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
 
 public interface ItemServices {
@@ -23,10 +23,10 @@ public interface ItemServices {
 	
 	public Document XMLExporter(String ItemID);
 	
-	public void exportAllToXML();
+	public void exportAllToXML() throws IOException;
 	
-	public void exportToXML(String ItemID);
+	public void exportToXML(String ItemID) throws IOException;
 	
-	public void initializeRatingData();
+	public void initializeRatingData() throws IOException;
 	
 }
