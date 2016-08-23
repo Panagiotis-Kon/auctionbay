@@ -2,6 +2,8 @@ package com.ted.auctionbay.services;
 
 import java.util.List;
 
+import javax.swing.text.Document;
+
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
 
@@ -18,5 +20,13 @@ public interface ItemServices {
 	public List<Double> getCoordinates(int ItemID);
 	
 	public String getLocation(int ItemID);
+	
+	public Document XMLExporter(String ItemID);
+	
+	public void exportAllToXML();
+	
+	public void exportToXML(String ItemID);
+	
+	public void initializeRatingData();
 	
 }
