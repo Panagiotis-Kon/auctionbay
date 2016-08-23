@@ -24,15 +24,24 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ted.auctionbay.dao.QueryAuction;
 import com.ted.auctionbay.dao.QueryItem;
+import com.ted.auctionbay.dao.QueryUser;
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
+import com.ted.auctionbay.entities.users.User;
 
 public class ItemServicesImpl  implements ItemServices{
 	
 	@Autowired
+	QueryAuction queryAuction;
+	
+	@Autowired
 	QueryItem queryItem;
+	
+	@Autowired
+	QueryUser queryUser;
 	
 	@Override
 	public List<Item> getAllItems() {
@@ -163,8 +172,8 @@ public class ItemServicesImpl  implements ItemServices{
 	public Document XMLExporter(String ItemID){
 					
 		try {
-			Auction a = auctions.get(Integer.parseInt(ItemID));//AuctionQueries.details(ItemID);
-			Item p = a.getProduct();
+			Auction auction = queryAuction.getDetails(Integer.parseInt(ItemID));
+			Item item = queryItem.getDetails(Integer.parseInt(ItemID));//AuctionQueries.details(ItemID);
 			
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -172,14 +181,14 @@ public class ItemServicesImpl  implements ItemServices{
 			Document doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement("Item");
 			doc.appendChild(rootElement);
-			rootElement.setAttribute("ItemID",Integer.toString(p.getProductID()));
+			rootElement.setAttribute("ItemID",Integer.toString(item.getItemID()));
 			
 			
 			Element name = doc.createElement("Name");
-			name.appendChild(doc.createTextNode(p.getName()));
+			name.appendChild(doc.createTextNode(item.getName()));
 			rootElement.appendChild(name);
 			
-			List<Category> categories = p.getCategories();
+			List<Category> categories = item.getCategories();
 			for(Category c:categories){
 				Element cat = doc.createElement("Category");
 				cat.appendChild(doc.createTextNode(c.getName()));
@@ -189,18 +198,18 @@ public class ItemServicesImpl  implements ItemServices{
 			Element currently = doc.createElement("Currently");
 			
 			/**************fix me*******************************/
-			currently.appendChild(doc.createTextNode("$" + AuctionQueries.findHighestBid(a.getAuctionID())));
+			currently.appendChild(doc.createTextNode("$" + auction.findHighestBid(auction.getAuctionID())));
 			rootElement.appendChild(currently);
 			/**************fix me*******************************/
 			
 			
 			Element fb = doc.createElement("First_Bid");
-			fb.appendChild(doc.createTextNode("$" +a.getFirstBid()));
+			fb.appendChild(doc.createTextNode("$" +auction.getFirstBid()));
 			rootElement.appendChild(fb);
 			
 			
 			/********************** fix me **********************************/
-			int numberOfBids = AuctionQueries.numberOfBids(a.getAuctionID());
+			int numberOfBids = queryAuction.numberOfBids(auction.getAuctionID());
 			/********************** fix me **********************************/
 			
 			Element nb = doc.createElement("Number_of_Bids");
@@ -211,11 +220,11 @@ public class ItemServicesImpl  implements ItemServices{
 			rootElement.appendChild(bids);
 			
 			if( numberOfBids != 0 ){
-				List<Object[]> resultSet = AuctionQueries.findBids(a.getAuctionID());
+				List<Object[]> resultSet = queryAuction.findBids(auction.getAuctionID());
 				for(Object[] r:resultSet){
 					Element bid = doc.createElement("Bid");
 					
-					User u = users.get(r[0].toString());//UserQueries.findByUsername(r[0].toString());
+					User u = queryUser.get(r[0].toString());//UserQueries.findByUsername(r[0].toString());
 					Element bidder = doc.createElement("Bidder");
 					
 					int rating;
@@ -252,20 +261,20 @@ public class ItemServicesImpl  implements ItemServices{
 			
 			
 			Element l = doc.createElement("Location");
-			l.appendChild(doc.createTextNode("Latitude=" + p.getLatitude() + " " + "Longitude=" + p.getLongitute()));
+			l.appendChild(doc.createTextNode("Latitude=" + item.getLatitude() + " " + "Longitude=" + item.getLongitute()));
 			rootElement.appendChild(l);
 			
 			
 			Element c = doc.createElement("Country");
-			c.appendChild(doc.createTextNode(p.getLocation()));
+			c.appendChild(doc.createTextNode(item.getLocation()));
 			rootElement.appendChild(c);
 			
 			Element st = doc.createElement("Started");
-			st.appendChild(doc.createTextNode(a.getStartedTime().toString()));
+			st.appendChild(doc.createTextNode(auction.getStartTime().toString()));
 			rootElement.appendChild(st);
 			
 			Element ends = doc.createElement("Ends");
-			ends.appendChild(doc.createTextNode(a.getExpirationDate().toString()));
+			ends.appendChild(doc.createTextNode(auction.getEndTime().toString()));
 			rootElement.appendChild(ends);
 			
 			Element seller = doc.createElement("Seller");
@@ -273,19 +282,19 @@ public class ItemServicesImpl  implements ItemServices{
 			
 			int rating;
 			if(sellerRanking.containsKey( a.getRegistereduser().getUsername()) ){
-				System.out.println(p.getProductID() + "/" +a.getRegistereduser().getUsername() );
-				rating = sellerRanking.get( a.getRegistereduser().getUsername());
+				System.out.println(p.getProductID() + "/" +auction.getRegistereduser().getUsername() );
+				rating = sellerRanking.get( auction.getRegistereduser().getUsername());
 			}else
 				rating = 0;
 			
 			seller.setAttribute("Rating",Integer.toString(rating) );
-			seller.setAttribute("UserID",a.getRegistereduser().getUsername());
+			seller.setAttribute("UserID",auction.getRegistereduser().getUsername());
 			
 			
 			rootElement.appendChild(seller);
 			
 			Element d = doc.createElement("Description");
-			d.appendChild(doc.createTextNode(p.getDescription()));
+			d.appendChild(doc.createTextNode(item.getDescription()));
 			rootElement.appendChild(d);
 			
 			return doc;
