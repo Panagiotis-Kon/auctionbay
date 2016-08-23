@@ -75,7 +75,7 @@ public class MessagesController {
 	@ResponseBody
 	public String getInbox(@RequestParam("username") String username){
 		System.out.println("getting inbox messages");
-		List<Message> messages = mailboxServices.getInboxMessages(username);
+		/*List<Message> messages = mailboxServices.getInboxMessages(username);
 		JSONArray inbox = new JSONArray();
 		for(Message m : messages){
 			JSONObject message = new JSONObject();
@@ -92,8 +92,28 @@ public class MessagesController {
 				e.printStackTrace();
 			}
 			inbox.put(message);
-		}
+		}*/
 		
+		
+		List<Object[]> messages = mailboxServices.inbox(username);
+		JSONArray inbox = new JSONArray();
+		
+		for(Object[] o :messages){
+			JSONObject jobj = new JSONObject();
+			try {
+				jobj.put("messageID", o[0]);
+				jobj.put("sender",o[1]);
+				jobj.put("recipient", o[2]);
+				jobj.put("subject", o[3]);
+				jobj.put("dateCreated", o[4]);
+				jobj.put("isRead", o[5]);
+				jobj.put("messageBody", o[6]);
+			} catch (JSONException e) {
+				System.out.println("Problem on json return --- inbox message");
+				e.printStackTrace();
+			}
+			inbox.put(jobj);
+		}
 		
 		return inbox.toString();
 	}
@@ -103,7 +123,7 @@ public class MessagesController {
 	@ResponseBody
 	public String getSent(@RequestParam("username") String username){
 		System.out.println("getting sent messages");
-		List<Message> messages = mailboxServices.getSentMessages(username);
+		/*List<Message> messages = mailboxServices.getSentMessages(username);
 	
 		JSONArray sent = new JSONArray();
 		for(Message m : messages){
@@ -122,7 +142,28 @@ public class MessagesController {
 				e.printStackTrace();
 			}
 			sent.put(message);
+		}*/
+		
+		List<Object[]> messages = mailboxServices.sent(username);
+		JSONArray sent = new JSONArray();
+		
+		for(Object[] o :messages){
+			JSONObject jobj = new JSONObject();
+			try {
+				jobj.put("messageID", o[0]);
+				jobj.put("sender",o[1]);
+				jobj.put("recipient", o[2]);
+				jobj.put("subject", o[3]);
+				jobj.put("dateCreated", o[4]);
+				jobj.put("isRead", o[5]);
+				jobj.put("messageBody", o[6]);
+			} catch (JSONException e) {
+				System.out.println("Problem on json return --- sent message");
+				e.printStackTrace();
+			}
+			sent.put(jobj);
 		}
+		
 		
 		
 		return sent.toString();
@@ -164,13 +205,26 @@ public class MessagesController {
 	
 	@RequestMapping(value = "/delete-message",method = RequestMethod.DELETE)
 	@ResponseBody
-	public String deleteMessage(@RequestParam("username") String username,@RequestParam("messageID") String messageID){
+	public String deleteMessage(@RequestParam("username") String username,@RequestParam("messages") String messages){
 		
-		int m_id = Integer.parseInt(messageID);
-		if(mailboxServices.deleteMessage(username, m_id) == 0){
-			return new Gson().toJson("Your message has been deleted");
+		try{
+			JSONArray jarray = new JSONArray(messages);
+			for(int i=0; i<jarray.length();i++){
+				int m_id = Integer.parseInt(jarray.get(i).toString());
+				System.out.println("m_id to delete: " + m_id);
+				if(mailboxServices.deleteMessage(username, m_id) != 0){
+					//return new Gson().toJson("A problem occured");
+					System.out.println("Cannot delete message with id: " + m_id);
+				}
+				
+			}
+		} catch(JSONException e){
+			System.out.println("JSON parse problem in deleteMessage");
 		}
-		return new Gson().toJson("Cannot delete message");
+		
+		
+		
+		return new Gson().toJson("ok");
 	}
 	
 

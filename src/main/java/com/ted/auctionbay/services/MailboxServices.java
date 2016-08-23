@@ -17,4 +17,8 @@ public interface MailboxServices {
 	public int markAsRead(int messageID);
 	
 	public int deleteMessage(String username, int messageID);
+	
+	public List<Object[]> inbox(String username);
+	
+	public List<Object[]> sent(String username);
 }

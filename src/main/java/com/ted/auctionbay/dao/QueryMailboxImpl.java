@@ -22,9 +22,16 @@ public class QueryMailboxImpl implements QueryMailbox{
 				+ " WHERE m.MessageID = mb.MessageID AND mb.type = 'Inbox'"
 				+ " AND mb.RegisteredUser = ?1", Message.class);
 		
+		
+		Query queryTest = em.createNativeQuery("SELECT m.MessageID, m.FromUser, m.ToUser,"
+				+ " m.Subject, m.DateCreated, m.isRead, m.MessageText "
+				+ "FROM message m, mailbox mb"
+				+ " WHERE m.MessageID = mb.MessageID AND mb.type = 'Inbox'"
+				+ " AND mb.RegisteredUser = ?1"); 
 		query.setParameter(1,username);
 		
 		List<Message> resultSet = query.getResultList();
+		List<Object[]> test = queryTest.getResultList();
 		//List resultSet  =  em.createNamedQuery("Message.inbox").setParameter("username",username).getResultList();
 		return resultSet;
 	}
@@ -140,6 +147,36 @@ public class QueryMailboxImpl implements QueryMailbox{
 			}
 		}
 		return 1;
+	}
+
+
+	@Override
+	public List<Object[]> inbox(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT m.MessageID, m.FromUser, m.ToUser,"
+				+ " m.Subject, m.DateCreated, m.isRead, m.MessageText "
+				+ "FROM message m, mailbox mb"
+				+ " WHERE m.MessageID = mb.MessageID AND mb.type = 'Inbox'"
+				+ " AND mb.RegisteredUser = ?1"); 
+		
+		query.setParameter(1, username);
+		List<Object[]> res = query.getResultList();
+		return res;
+	}
+
+
+	@Override
+	public List<Object[]> sent(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT m.MessageID, m.FromUser, m.ToUser,"
+				+ " m.Subject, m.DateCreated, m.isRead, m.MessageText "
+				+ "FROM message m, mailbox mb"
+				+ " WHERE m.MessageID = mb.MessageID AND mb.type = 'Inbox'"
+				+ " AND mb.RegisteredUser = ?1"); 
+		
+		query.setParameter(1, username);
+		List<Object[]> res = query.getResultList();
+		return res;
 	}
 
 }

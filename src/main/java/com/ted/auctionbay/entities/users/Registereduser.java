@@ -27,15 +27,18 @@ public class Registereduser implements Serializable {
 	private List<Bidderrating> bidderratings;
 
 	//bi-directional many-to-one association to Message
-	@OneToMany(mappedBy="recipient",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="recipient")
 	private List<Message> outBoxMessages;
 		
 	//bi-directional many-to-one association to Mailbox
 	@OneToOne(mappedBy="registereduser")
 	private Mailbox mailboxs;
 	
+	//@OneToOne(mappedBy="registereduser", cascade = CascadeType.ALL, orphanRemoval = true)
+	//private Mailbox mailboxs;
+	
 	//bi-directional many-to-one association to Message
-	@OneToMany(mappedBy="sender",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="sender")
 	private List<Message> inboxMessages;
 
 	//bi-directional many-to-one association to Sellerrating

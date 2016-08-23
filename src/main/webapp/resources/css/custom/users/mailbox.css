@@ -389,4 +389,16 @@ z-index: 100;
     padding-left: 0 !important;
     height:35px;
 }
+
+#inbox-table tbody {
+	height: 200px;
+  	overflow-y: auto;
+	
+}
+
+#sent-table tbody {
+	height: 200px;
+  	overflow-y: auto;
+	
+}
  

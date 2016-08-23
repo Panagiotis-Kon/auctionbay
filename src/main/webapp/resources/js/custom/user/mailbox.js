@@ -108,14 +108,24 @@ function inboxListeners(){
         rows[i].onclick = function(e) {
         	if(e.target.type == "checkbox"){
         		console.log("checkbox clicked")
+        		$("#trash-message").css("display","block");
+        		
         	} else {
         		var message_id = $(this).find("#messageID").val();
+        		console.log("message_id: " + message_id)
             	var message_body = bodyMessageInboxHolder[message_id].messageBody;
             	var from = bodyMessageInboxHolder[message_id].sender;
             	var subject = bodyMessageInboxHolder[message_id].subject;
             	
             	if ( $( this ).hasClass( "unread" ) ) {
             		$(this).removeClass("unread");
+            		var inbox_num = ParseInt($("#inbox-counter").text());
+            		if(inbox_num == 0){
+            			$("#inbox-counter").css("display","none");
+            		} else {
+            			inbox_num--;
+            			$("#inbox-counter").text(inbox_num);
+            		}
             		markAsRead(message_id);
             	}
             	
@@ -128,10 +138,27 @@ function inboxListeners(){
         	
         }
     }
+    
+    $("#trash-message").click(function(event){
+    	var toDelete = [];
+    	 $('#inbox-table').find('tr').each(function () {
+    	        var row = $(this);
+    	        if (row.find('input[type="checkbox"]').is(':checked')) {
+    	        	var m_id = row.find("#messageID").val();
+    	        	toDelete.push(m_id);
+    	        }
+    	    });
+    	 //alert(toDelete);
+    	 deleteMessage(JSON.stringify(toDelete));
+    	
+    });
+    
     $("#hide-inbox-message").click(function(event){
 		
-		$("#view-sent-area").css("display","none");
+		$("#view-inbox-area").css("display","none");
 	});
+    
+    
     
     $("#reply-message").click(function(event){
     	
@@ -273,7 +300,7 @@ function getInboxMessages(data) {
 					bodyMessageInboxHolder[inbox[i].messageID] = inbox[i];
 					
 					
-					var body = $("<tr>" + sentModule + "</tr>");
+					var body = $("<tr>" + inboxModule + "</tr>");
 					body.find("#messageID").val(inbox[i].messageID);
 					body.find("#sender-inbox").text(inbox[i].sender);
 					body.find("#subject-inbox").text(inbox[i].subject);
@@ -342,12 +369,13 @@ function getSentMessages(sentModule) {
 }
 
 
-function deleteMessage(messageID){
+function deleteMessage(messages){
 	var username = getUser();
+	console.log(messages);
 	$.ajax({
 		type : "DELETE",
 		url  : window.location.href + "/delete-message",
-		data : {username:username,messageID:messageID},
+		data : {username:username,messages:messages},
 		dataType:'json',
 		success:function(result){
 			console.log(result);

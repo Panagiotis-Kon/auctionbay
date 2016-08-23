@@ -113,4 +113,16 @@ public class MailboxServicesImpl implements MailboxServices{
 		return 1;
 	}
 
+	@Override
+	public List<Object[]> inbox(String username) {
+		
+		return queryMail.inbox(username);
+	}
+
+	@Override
+	public List<Object[]> sent(String username) {
+		// TODO Auto-generated method stub
+		return queryMail.sent(username);
+	}
+
 }
