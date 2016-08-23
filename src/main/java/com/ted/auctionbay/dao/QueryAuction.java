@@ -11,6 +11,8 @@ public interface QueryAuction {
 	
 	public int numOfActiveAuctions();
 	
+	public List<Auction> getAuctions();
+	
 	public List<Auction> getAuctions(int startpage, int endpage);
 	
 	public List<Auction> getActiveAuctions(int startpage, int endpage);

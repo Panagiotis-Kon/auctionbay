@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -42,6 +43,11 @@ public class ItemServicesImpl  implements ItemServices{
 	
 	@Autowired
 	QueryUser queryUser;
+	
+	public static HashMap<String,Integer> bidderRanking;
+	public static HashMap<String,Integer> sellerRanking;
+	static HashMap<Integer,Auction> auctions;
+	static HashMap<String,User> users;
 	
 	@Override
 	public List<Item> getAllItems() {
@@ -220,11 +226,11 @@ public class ItemServicesImpl  implements ItemServices{
 			rootElement.appendChild(bids);
 			
 			if( numberOfBids != 0 ){
-				List<Object[]> resultSet = queryAuction.findBids(auction.getAuctionID());
+				List<Object[]> resultSet = queryAuction.getBidHistory(auction.getAuctionID());
 				for(Object[] r:resultSet){
 					Element bid = doc.createElement("Bid");
 					
-					User u = queryUser.get(r[0].toString());//UserQueries.findByUsername(r[0].toString());
+					User u = queryUser.getUser(r[0].toString());//UserQueries.findByUsername(r[0].toString());
 					Element bidder = doc.createElement("Bidder");
 					
 					int rating;
@@ -281,8 +287,8 @@ public class ItemServicesImpl  implements ItemServices{
 			
 			
 			int rating;
-			if(sellerRanking.containsKey( a.getRegistereduser().getUsername()) ){
-				System.out.println(p.getProductID() + "/" +auction.getRegistereduser().getUsername() );
+			if(sellerRanking.containsKey( auction.getRegistereduser().getUsername()) ){
+				System.out.println(item.getItemID() + "/" +auction.getRegistereduser().getUsername() );
 				rating = sellerRanking.get( auction.getRegistereduser().getUsername());
 			}else
 				rating = 0;
@@ -307,7 +313,37 @@ public class ItemServicesImpl  implements ItemServices{
 
 	@Override
 	public void initializeRatingData() throws IOException {
-		// TODO Auto-generated method stub
+        List<Auction> aucs = (List<Auction>)queryAuction.getAuctions();
 		
+		auctions = new HashMap<Integer,Auction>();
+		for(Auction a:aucs){
+			auctions.put(a.getItem().getItemID(), a);
+		}
+		
+		System.out.println("auctions = "+auctions.size());
+		List<User> us = (List<User>)queryUser.getUsers();
+		users = new HashMap<String,User>();
+		for(User u:us){
+			users.put(u.getUsername(), u);
+		}
+		System.out.println("users = "+users.size());
+		
+		List<String> rs = queryUser.getBiddersbyRate(); 		
+		
+		bidderRanking = new HashMap<String,Integer>();
+		int rankPos = 1;
+		for(String o:rs){
+			bidderRanking.put(o, rankPos);
+			rankPos++;
+		}
+			
+		
+		rs = queryUser.getSellersbyRate(); 		
+		sellerRanking = new HashMap<String,Integer>();
+		rankPos = 1;
+		for(String o:rs){
+			sellerRanking.put(o, rankPos);
+			rankPos++;
+		}
 	}
 }

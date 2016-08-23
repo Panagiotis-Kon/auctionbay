@@ -303,6 +303,42 @@ public class QueryUserImpl implements QueryUser{
 		}
 		
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getUsers() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM user",User.class);
+		List<User> user = query.getResultList();
+		if(user != null) {
+			return user;
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getBiddersbyRate() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT Username FROM bidderrating group by Username order by avg(Rate);");
+		List<String> user = query.getResultList();
+		if(user != null) {
+			return user;
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getSellersbyRate() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT Username FROM sellerrating group by Username order by avg(Rate);");
+		List<String> user = query.getResultList();
+		if(user != null) {
+			return user;
+		}
+		return null;
+	}
 	
 	
 	

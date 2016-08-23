@@ -56,4 +56,10 @@ public interface QueryUser {
 	
 	public void submitSellerRating(Sellerrating seller_rate);
 	
+	public List<User> getUsers();
+	
+	public List<String> getBiddersbyRate();
+	
+	public List<String> getSellersbyRate();
+	
 }
