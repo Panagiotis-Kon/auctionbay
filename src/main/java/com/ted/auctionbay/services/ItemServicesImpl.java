@@ -198,7 +198,7 @@ public class ItemServicesImpl  implements ItemServices{
 			Element currently = doc.createElement("Currently");
 			
 			/**************fix me*******************************/
-			currently.appendChild(doc.createTextNode("$" + auction.findHighestBid(auction.getAuctionID())));
+			currently.appendChild(doc.createTextNode("$" + queryAuction.getHighestBid(auction.getAuctionID())));
 			rootElement.appendChild(currently);
 			/**************fix me*******************************/
 			
@@ -209,7 +209,7 @@ public class ItemServicesImpl  implements ItemServices{
 			
 			
 			/********************** fix me **********************************/
-			int numberOfBids = queryAuction.numberOfBids(auction.getAuctionID());
+			int numberOfBids = queryAuction.getNumOfBids(auction.getAuctionID());
 			/********************** fix me **********************************/
 			
 			Element nb = doc.createElement("Number_of_Bids");
