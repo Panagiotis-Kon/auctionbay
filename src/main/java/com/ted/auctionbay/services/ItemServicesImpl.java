@@ -332,8 +332,8 @@ public class ItemServicesImpl  implements ItemServices{
 		
 		bidderRanking = new HashMap<String,Integer>();
 		int rankPos = 1;
-		for(String o:rs){
-			bidderRanking.put(o, rankPos);
+		for(String user:rs){
+			bidderRanking.put(user, rankPos);
 			rankPos++;
 		}
 			
@@ -341,8 +341,8 @@ public class ItemServicesImpl  implements ItemServices{
 		rs = queryUser.getSellersbyRate(); 		
 		sellerRanking = new HashMap<String,Integer>();
 		rankPos = 1;
-		for(String o:rs){
-			sellerRanking.put(o, rankPos);
+		for(String user:rs){
+			sellerRanking.put(user, rankPos);
 			rankPos++;
 		}
 	}
