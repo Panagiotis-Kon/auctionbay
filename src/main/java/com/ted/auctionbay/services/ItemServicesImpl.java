@@ -99,7 +99,7 @@ public class ItemServicesImpl  implements ItemServices{
 		    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 		    DOMSource source = new DOMSource(doc);
 
-		    File myFile = new File("C:\\Users\\takis\\Desktop\\XML\\product"+filename+".xml");
+		    File myFile = new File("C:\\AuctionBayXML\\item"+filename+".xml");
 			try {
 				myFile.createNewFile();
 			} catch (IOException e1) {
