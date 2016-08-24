@@ -126,7 +126,13 @@ public class ItemServicesImpl  implements ItemServices{
 		
 		List<String> qresults = queryItem.getItemIDs();
 		List<Integer> itemIDs = new ArrayList<Integer>();
-		for (String result : qresults){
+		System.out.print("Size of list: "+qresults.size()+"\n");
+		if (qresults.size() == 0){
+			return;
+		}
+		for (int i=0;i<qresults.size();i++){
+			System.out.print("I: "+i+" ID: "+qresults.get(i).toString());
+			String result = qresults.get(i);
 			itemIDs.add(Integer.valueOf(result));
 		}
 		

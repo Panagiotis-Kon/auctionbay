@@ -100,15 +100,4 @@ public class ItemController {
 		return jitem.toString();
 	}
 	
-	@RequestMapping(value = "/export-to-xml/{ItemID}",method = RequestMethod.GET)
-	public void exportToXML(@PathVariable String ItemID,HttpServletResponse response) throws IOException {
-		itemServices.exportToXML(ItemID);
-		response.setStatus(HttpServletResponse.SC_OK);
-	}
-	
-	@RequestMapping(value = "/export-all-to-xml",method = RequestMethod.GET)
-	public void exportAllToXML(HttpServletResponse response) throws IOException {
-		itemServices.exportAllToXML();
-		response.setStatus(HttpServletResponse.SC_OK);
-	}
 }

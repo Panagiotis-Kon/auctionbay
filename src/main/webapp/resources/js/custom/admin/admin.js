@@ -69,6 +69,34 @@ function setListeners(){
 		
 		});
 	
+	$('a.export-link').click(function(event){
+		console.log("export clicked");
+		event.preventDefault();
+		document.getElementById('export-options').style.display = "block";
+		document.getElementById('registered-users').style.display = "none";
+		document.getElementById('pending-users').style.display = "none";
+	} );
+	
+	$('a.export-nav').click(function(event){
+		console.log("export clicked");
+		event.preventDefault();
+		document.getElementById('export-options').style.display = "block";
+		document.getElementById('registered-users').style.display = "none";
+		document.getElementById('pending-users').style.display = "none";
+	} );
+	
+	$('a.export-one').click(function(event){
+		console.log("export clicked");
+		event.preventDefault();
+		document.getElementById('export-options').style.display = "block";
+	} );
+	
+	$('a.export-all').click(function(event){
+		console.log("export clicked");
+		event.preventDefault();
+		ExportAll();
+	} );
+	
 	$("#pending-users-link").click(function(event){
 		console.log("hi pen users");
 		event.preventDefault();
@@ -108,7 +136,6 @@ function setListeners(){
 		pending_table.row( $(this).parents('tr') ).remove().draw();
 		console.log('reached here');
     } );
-	
 	
 }
 
@@ -183,4 +210,18 @@ function accept_user(username){
 	});
 }
 
-
+function ExportAll () {
+	$.ajax({
+		type : "GET",
+		datatype: 'json',
+		url  : "/auctionbay/administrator/export-all-to-xml",
+		success : function(response) {	
+			console.log("ok from ajax");
+		}/*,
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log('error', textStatus + " " + errorThrown);
+			alert('Application could not Accept the user');
+		}*/
+		
+	});
+}

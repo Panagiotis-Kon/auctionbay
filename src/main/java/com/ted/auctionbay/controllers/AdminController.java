@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
+import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.UserServices;
 import com.ted.auctionbay.dao.QueryUser;
 
@@ -27,6 +29,9 @@ import com.ted.auctionbay.dao.QueryUser;
 @RequestMapping("/administrator")
 public class AdminController {
 
+	@Autowired
+	ItemServices itemServices;
+	
 	@Autowired
 	UserServices userServices;
 	
@@ -165,6 +170,16 @@ public class AdminController {
 		return data.toString();
 	}
 	
+	@RequestMapping(value = "/export-to-xml/{ItemID}",method = RequestMethod.GET)
+	public void exportToXML(@PathVariable String ItemID,HttpServletResponse response) throws IOException {
+		itemServices.exportToXML(ItemID);
+		response.setStatus(HttpServletResponse.SC_OK);
+	}
 	
+	@RequestMapping(value = "/export-all-to-xml",method = RequestMethod.GET)
+	public void exportAllToXML(HttpServletResponse response) throws IOException {
+		itemServices.exportAllToXML();
+		response.setStatus(HttpServletResponse.SC_OK);
+	}
 	
 }
