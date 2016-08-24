@@ -124,16 +124,10 @@ public class ItemServicesImpl  implements ItemServices{
 	@Override
 	public void exportAllToXML() throws IOException {
 		
-		List<String> qresults = queryItem.getItemIDs();
-		List<Integer> itemIDs = new ArrayList<Integer>();
-		System.out.print("Size of list: "+qresults.size()+"\n");
-		if (qresults.size() == 0){
+		List<Integer> itemIDs = queryItem.getItemIDs();
+		System.out.print("Size of list: "+itemIDs.size()+"\n");
+		if (itemIDs.size() == 0){
 			return;
-		}
-		for (int i=0;i<qresults.size();i++){
-			System.out.print("I: "+i+" ID: "+qresults.get(i).toString());
-			String result = qresults.get(i);
-			itemIDs.add(Integer.valueOf(result));
 		}
 		
 		

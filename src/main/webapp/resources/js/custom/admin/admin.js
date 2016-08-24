@@ -188,6 +188,18 @@ function createGrids(){
         ]
     	});
 	
+	auctions_table = $('auctions-grid').DataTable( {
+		"processing": true,
+	    "serverSide": true,
+	    ajax:"/auctionbay/auctions/view-auctions",
+	    
+        columns: [
+            { title: "Name" },
+            { title: "ID" }    
+            
+        ]
+	});
+	
 }
 
 

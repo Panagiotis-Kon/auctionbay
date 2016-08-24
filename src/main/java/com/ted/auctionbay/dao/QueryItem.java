@@ -23,6 +23,6 @@ public interface QueryItem {
 	
 	public void deleteItem(int itemID);
 	
-	public List<String> getItemIDs();
+	public List<Integer> getItemIDs();
 
 }

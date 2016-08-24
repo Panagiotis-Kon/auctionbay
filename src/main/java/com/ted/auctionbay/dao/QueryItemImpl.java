@@ -95,9 +95,12 @@ public class QueryItemImpl implements QueryItem {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<String> getItemIDs() {
+	public List<Integer> getItemIDs() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		List<String> resultSet = em.createNativeQuery("SELECT ItemID FROM item").getResultList();
+		List<Integer> resultSet = em.createNativeQuery("SELECT ItemID FROM item").getResultList();
+		for (int i=0;i<resultSet.size();i++){
+			System.out.print(resultSet.get(i).toString());
+		}
 		return resultSet;
 	}
 	
