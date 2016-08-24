@@ -110,9 +110,9 @@ public class QueryUserImpl implements QueryUser{
 	public List<Registereduser> getGroupsOfUsers(int startpage, int pagesize){
 		
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		System.out.println("startpage: " + startpage + " pagesize: " + pagesize);
-		Query query = em.createNativeQuery("SELECT * FROM registereduser",Registereduser.class);
-
+		System.out.println("Registered -> startpage: " + startpage + " pagesize: " + pagesize);
+		//Query query = em.createNativeQuery("SELECT * FROM registereduser",Registereduser.class);
+		Query query = em.createQuery("SELECT r FROM Registereduser r");
 		query.setFirstResult(startpage);
 		query.setMaxResults(pagesize);
 		List<Registereduser> regUsers = query.getResultList();

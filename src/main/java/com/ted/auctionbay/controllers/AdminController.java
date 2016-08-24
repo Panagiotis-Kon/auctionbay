@@ -155,6 +155,8 @@ public class AdminController {
 			user_data.put(ru.getUser().getAddress().getRegion());
 			user_data.put(ru.getUser().getAddress().getStreet());
 			user_data.put(ru.getUser().getAddress().getZipCode());
+			user_data.put(ru.getUser().getBidderRating());
+			user_data.put(ru.getUser().getSellerRating());
 		
 			answer.put(user_data);
 		}

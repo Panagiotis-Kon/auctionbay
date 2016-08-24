@@ -45,7 +45,26 @@ public class Registereduser implements Serializable {
 	@OneToMany(mappedBy="registereduser")
 	private List<Sellerrating> sellerratings;
 	
+	//bi-directional many-to-one association to Auction
+	@OneToMany(mappedBy="registereduser")
+	private List<Auction> auctionsList;
 	
+	public List<Auction> getAuctionsList() {
+		return auctionsList;
+	}
+
+	public void setAuctionsList(List<Auction> auctionsList) {
+		this.auctionsList = auctionsList;
+	}
+
+	public List<Auction> getAuctionsBids() {
+		return auctionsBids;
+	}
+
+	public void setAuctionsBids(List<Auction> auctionsBids) {
+		this.auctionsBids = auctionsBids;
+	}
+
 	public List<Message> getInboxMessages() {
 		return inboxMessages;
 	}

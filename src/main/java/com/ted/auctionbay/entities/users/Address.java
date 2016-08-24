@@ -10,12 +10,14 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Address.findAll", query="SELECT a FROM Address a")
+@NamedQueries({
+	@NamedQuery(name="Address.findAll", query="SELECT a FROM Address a"),
+	@NamedQuery(name="Address.maxID", query="SELECT MAX(a.addressID) FROM Address a")
+})
 public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="AddressID")
 	private int addressID;
 
 	@Column(name="City")
@@ -30,6 +32,7 @@ public class Address implements Serializable {
 	@Column(name="ZipCode")
 	private String zipCode;
 
+	
 	@OneToOne(mappedBy="address")
 	private User user;
 	
@@ -41,9 +44,7 @@ public class Address implements Serializable {
 		this.user = user;
 	}
 
-	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="address")
-	private List<User> users;
+	
 
 	public Address() {
 	}
@@ -88,26 +89,8 @@ public class Address implements Serializable {
 		this.zipCode = zipCode;
 	}
 
-	public List<User> getUsers() {
-		return this.users;
-	}
+	
 
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
 
-	public User addUser(User user) {
-		getUsers().add(user);
-		user.setAddress(this);
-
-		return user;
-	}
-
-	public User removeUser(User user) {
-		getUsers().remove(user);
-		user.setAddress(null);
-
-		return user;
-	}
 
 }

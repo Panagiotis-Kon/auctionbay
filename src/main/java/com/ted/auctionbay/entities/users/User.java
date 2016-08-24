@@ -44,6 +44,7 @@ public class User implements Serializable {
 	private Registereduser registereduser;
 
 	//bi-directional many-to-one association to Address
+	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="AddressID")
 	private Address address;
