@@ -20,6 +20,8 @@ public interface QueryAuction {
 	
 	public List<Auction> getExpiredAuctions();
 	
+	public Auction getAuctionByID(int AuctionID);
+	
 	public List<Auction> getAuctionsByCategory(int startpage, int endpage, String category);
 	
 	public List<Auction> getActiveAuctionsByCategory(int startpage, int endpage, String category);

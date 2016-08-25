@@ -3,6 +3,7 @@ package com.ted.auctionbay.controllers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +28,8 @@ import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.UserServices;
+import com.ted.auctionbay.timeutils.TimeUtilities;
+import com.ted.auctionbay.recommendations.RecommendationEngine;
 import com.ted.auctionbay.timeutils.TimeUtilities;
 
 @Controller
@@ -294,6 +297,33 @@ public class UserController {
 		}
 	
 		return new Gson().toJson("A problem on submitting ratings");
+	}
+	
+	@RequestMapping(value = "/user/{username}/recommendations",method = RequestMethod.GET)
+	@ResponseBody
+	public String recommendations(@PathVariable String username) {
+			
+		Set<Integer> auctionIDs = RecommendationEngine.getRecommendationForUser(username);
+		
+		if(auctionIDs == null)
+			return new JSONArray().toString();
+		
+		JSONArray a = new JSONArray();
+		for(int auctionID:auctionIDs){
+			JSONObject o = new JSONObject();
+			Auction auction = auctionServices.getAuctionByID(auctionID);
+			try {
+				o.put("id", auction.getItem().getItemID());
+				o.put("name", auction.getItem().getName());
+				o.put("firstBid", auction.getFirstBid());
+				o.put("remainingTime", TimeUtilities.timeDiff(auction.getStartTime(), auction.getEndTime()));
+				a.put(o);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		//return a.toString();
+		return new Gson().toJson("OK REC");
 	}
 	
 }

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.items.Category;
+import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 
 public interface AuctionServices {
 
@@ -47,4 +48,8 @@ public interface AuctionServices {
 	public List<Auction> getExpiredAuctions();
 	
 	public List<Object[]> BidderExpiredAuctions(String username);
+	
+	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers();
+	
+	public Auction getAuctionByID(int AuctionID);
 }

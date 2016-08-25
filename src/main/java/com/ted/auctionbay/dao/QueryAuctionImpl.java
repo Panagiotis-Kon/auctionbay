@@ -348,4 +348,14 @@ public class QueryAuctionImpl implements QueryAuction {
 		return em.createNamedQuery("RegistereduserBidsinAuction.findAll").getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Auction getAuctionByID(int AuctionID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM auction WHERE AuctionID=?",Auction.class);
+		query.setParameter(1, AuctionID);
+		List<Auction> set = query.getResultList();
+		return set.get(0);
+	}
+
 }

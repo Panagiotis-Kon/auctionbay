@@ -199,8 +199,24 @@ function getUnreadMessages(){
 		});
 		
 	}
-	
-	
+}
+
+function getRecommendations(){
+	var username = getUser();
+	var url = window.location.protocol+ "//" + window.location.hostname + ":" +window.location.port + "/auctionbay/user/";
+	if(username != ""){
+		console.log("getting unread messages");
+		$.ajax({
+			type : "GET",
+			dataType:'json',
+			data: {username:username},
+			url  : url + username + "/recommendations",
+			success:function(data){
+				console.log(data);
+			}
+			
+		});
+	}
 }
 
 

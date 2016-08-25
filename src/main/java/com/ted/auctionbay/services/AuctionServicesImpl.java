@@ -320,5 +320,15 @@ public class AuctionServicesImpl implements AuctionServices{
 		return queryAuction.BidderExpiredAuction(username);
 	}
 
+	@Override
+	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers() {
+		return queryAuction.getAuctionsOfAllUsers();
+	}
+
+	@Override
+	public Auction getAuctionByID(int AuctionID) {
+		return queryAuction.getAuctionByID(AuctionID);
+	}
+
 	 
 }
