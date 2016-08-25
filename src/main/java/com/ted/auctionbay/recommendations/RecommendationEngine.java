@@ -14,13 +14,17 @@ import java.util.TreeSet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Sets;
-//import com.project.eauctions.data.auctions.RegistereduserBidsinAuction;
-//import com.project.eauctions.queries.AuctionQueries;
-//import com.project.eauctions.queries.UserQueries;
+import com.ted.auctionbay.dao.QueryAuction;
+import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 
 public class RecommendationEngine {
+	
+	@Autowired
+	static
+	QueryAuction queryAuction;
 
 	private static float[][] similarityMatrix;
 	private static int N;
@@ -31,11 +35,6 @@ public class RecommendationEngine {
 	private final static int MAX_NEIGHBORS = 10;
 	
 	private static boolean INITIALIZED = false;
-	
-	
-	
-	
-	
 	
 	public static void run(){
 		
@@ -174,21 +173,20 @@ public class RecommendationEngine {
 	}
 
 	private static HashMap<String, Set<Integer>> getAuctionsPerUser() {
-//		List<RegistereduserBidsinAuction> aucOfUsers = AuctionQueries.getAuctionsOfAllUsers();
-//		System.out.println(aucOfUsers.size());
-//		HashMap<String,Set<Integer>> map = new HashMap<String,Set<Integer>>();
-//		for(RegistereduserBidsinAuction rec : aucOfUsers){
-//			Set<Integer> set = new HashSet<Integer>();
-//			if(map.containsKey(rec.getId().getBidder_Username())){
-//				Set<Integer> s = map.get(rec.getId().getBidder_Username());
-//				set.addAll(s);
-//			}
-//			set.add(rec.getId().getAuctionID());
-//			
-//			map.put(rec.getId().getBidder_Username(), set);
-//		}
-//		return map;
-		return null;
+		List<RegistereduserBidsinAuction> aucOfUsers = queryAuction.getAuctionsOfAllUsers();
+		System.out.println(aucOfUsers.size());
+		HashMap<String,Set<Integer>> map = new HashMap<String,Set<Integer>>();
+		for(RegistereduserBidsinAuction rec : aucOfUsers){
+			Set<Integer> set = new HashSet<Integer>();
+			if(map.containsKey(rec.getId().getBidder_Username())){
+				Set<Integer> s = map.get(rec.getId().getBidder_Username());
+				set.addAll(s);
+			}
+			set.add(rec.getId().getAuctionID());
+			
+			map.put(rec.getId().getBidder_Username(), set);
+		}
+		return map;
 	}
 
 	

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 
 public interface QueryAuction {
 	
@@ -46,4 +47,6 @@ public interface QueryAuction {
 	public int delAuction(String Username, int auctionID, int ItemID);
 	
 	public List<Object[]> BidderExpiredAuction(String username);
+	
+	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers();
 }

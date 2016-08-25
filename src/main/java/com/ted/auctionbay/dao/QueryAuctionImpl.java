@@ -309,6 +309,7 @@ public class QueryAuctionImpl implements QueryAuction {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> BidderExpiredAuction(String username) {
 		
@@ -322,6 +323,7 @@ public class QueryAuctionImpl implements QueryAuction {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Auction> getActiveAuctionsByCategory(int startpage, int endpage, String category) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
@@ -337,6 +339,13 @@ public class QueryAuctionImpl implements QueryAuction {
 		query.setMaxResults(endpage);
 
 		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		return em.createNamedQuery("RegistereduserBidsinAuction.findAll").getResultList();
 	}
 
 }
