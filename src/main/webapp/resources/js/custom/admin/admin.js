@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 /* Global variables */
 var pendingusers_matrix = [];
-var pending_table, registered_table;
+var pending_table, registered_table, auctions_table;
 
 
 function initialize(){
@@ -124,7 +124,7 @@ function setListeners(){
 	} );
 	
 	
-	$('#pending-users-grid tbody').on('click', 'td.details-control', function () {
+	$('#pending-users-grid tbody').on('click', 'td.accept-button', function () {
 		var tr = $(this).parents('tr');
 		var row = pending_table.row(tr);
 		pendingusers_matrix.push(row.data()[0]);
@@ -135,6 +135,16 @@ function setListeners(){
         console.log('ACCEPTED USER');
 		pending_table.row( $(this).parents('tr') ).remove().draw();
 		console.log('reached here');
+    } );
+	
+	$('#auctions-grid tbody').on('click', 'td.export-button', function () {
+		var tr = $(this).parents('tr');
+		var row = auctions_table.row(tr);
+		
+        
+        console.log("auctionID: " + row.data()[0] + " and Name: " + row.data()[1]);
+        var auctionID = row.data()[0];
+        
     } );
 	
 }
@@ -160,12 +170,15 @@ function createGrids(){
             { title: "Zip Code" },
             {
                  title: "Accept user",
-                "className":      'details-control',
                 "orderable":      false,
                 "data":           null,
-                "defaultContent": ''
+                "defaultContent": '<button type=\"button\" id=\"accept-button\" class=\"btn btn-primary btn-sm accept-button\">Accept</button>'
             }
-        ]
+        ],
+        "columnDefs": [
+                      
+                       {"className": "dt-center", "targets": "_all"}
+          ]          
     	});
 	
 	registered_table = $('#registered-users-grid').DataTable( {
@@ -191,13 +204,29 @@ function createGrids(){
 	auctions_table = $('auctions-grid').DataTable( {
 		"processing": true,
 	    "serverSide": true,
-	    ajax:"/auctionbay/auctions/view-auctions",
+	    ajax:"/auctionbay/auctions/auctions-to-export",
 	    
         columns: [
+            { title: "ID" },
             { title: "Name" },
-            { title: "ID" }    
+            { title: "Seller" },
+            {
+                title: "Export",
+               "orderable":      false,
+               "data":           null,
+               "defaultContent": '<button type=\"button\" id=\"export-button\" class=\"btn btn-primary btn-sm export-button\"><span class=\"glyphicon glyphicon-export\"></span></button>'
+           }    
             
-        ]
+        ],
+        "columnDefs": [
+                       {
+                           "targets": [ 0 ],
+                           "visible": false,
+                           "searchable": false
+                       },
+                       
+                       {"className": "dt-center", "targets": "_all"}
+          ]           
 	});
 	
 }
@@ -213,6 +242,7 @@ function accept_user(username){
 		url  : "/auctionbay/administrator/accept-user",
 		success : function(response) {	
 			console.log("ok from ajax");
+			window.location.reload();
 		}/*,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log('error', textStatus + " " + errorThrown);

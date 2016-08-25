@@ -95,6 +95,8 @@ min-height: 80px;
     content: "\f055";
     cursor: pointer;
 }  
+
+th.dt-center, td.dt-center { text-align: center; }
     
 /*==============================================
     DASHBOARD STYLES    

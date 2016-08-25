@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.entities.users.Registereduser;
+import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.UserServices;
 import com.ted.auctionbay.dao.QueryUser;
@@ -34,6 +35,9 @@ public class AdminController {
 	
 	@Autowired
 	UserServices userServices;
+	
+	@Autowired
+	AuctionServices auctionServices;
 	
 	static int registeredUsersNumber = 0;
 	static int pendingUsersNumber=0;
@@ -171,6 +175,27 @@ public class AdminController {
 		}
 		return data.toString();
 	}
+	
+	
+	@RequestMapping(value="/auctions-to-export",method = RequestMethod.GET)
+	@ResponseBody
+	public String auctionsToExport(HttpServletRequest request, 
+			  HttpServletResponse response){
+		
+		int start = Integer.parseInt(request.getParameter("start"));
+		int pagesize = Integer.parseInt(request.getParameter("length"));
+		int pageNumber=0;
+		
+		int numOfAuctions = auctionServices.numOfAuctions("");
+		
+		if(start == 0)
+			pageNumber = 0;
+		else
+			pageNumber = start%pagesize;
+		return "";
+	}
+	
+	
 	
 	@RequestMapping(value = "/export-to-xml/{ItemID}",method = RequestMethod.GET)
 	public void exportToXML(@PathVariable String ItemID,HttpServletResponse response) throws IOException {
