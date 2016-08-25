@@ -299,10 +299,10 @@ public class UserController {
 		return new Gson().toJson("A problem on submitting ratings");
 	}
 	
-	@RequestMapping(value = "/user/{username}/recommendations",method = RequestMethod.GET)
+	@RequestMapping(value = "/{username}/recommendations",method = RequestMethod.GET)
 	@ResponseBody
 	public String recommendations(@PathVariable String username) {
-			
+		System.out.print("Recommendations");
 		Set<Integer> auctionIDs = RecommendationEngine.getRecommendationForUser(username);
 		
 		if(auctionIDs == null)
@@ -321,6 +321,7 @@ public class UserController {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
+			System.out.print("Auction: "+auction.getItem().getName()+" Item: "+auction.getItem().getItemID());
 		}
 		//return a.toString();
 		return new Gson().toJson("OK REC");
