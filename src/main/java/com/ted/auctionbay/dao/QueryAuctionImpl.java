@@ -368,7 +368,6 @@ public class QueryAuctionImpl implements QueryAuction {
 		return query.getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean auctionCanBeEdited(int auctionID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
