@@ -89,11 +89,7 @@ function setListeners(){
 		
 	} );
 	
-	/*$('a.export-one').click(function(event){
-		console.log("export clicked");
-		event.preventDefault();
-		document.getElementById('export-options').style.display = "block";
-	} );*/
+	
 	
 	$('#export-all-btn').click(function(event){
 		console.log("export all clicked");
@@ -264,11 +260,15 @@ function accept_user(username){
 }
 
 function ExportAll () {
+	$("#loading-image").fadeIn(3000);
 	$.ajax({
 		type : "POST",
 		datatype: 'json',
 		url  : "/auctionbay/administrator/export-all-to-xml",
-		success : function(response) {	
+		success : function(response) {
+			$("#loading-image").fadeOut(500);
+			$("#info-text").text("Your auction have been exported to AuctionBayXML folder");
+			$('#InfoModal').modal('show');
 			console.log("ok from ajax");
 		}/*,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -280,13 +280,19 @@ function ExportAll () {
 }
 
 function exportAuction(itemID) {
+	//$("#loading-image").css("display","block");
+	$("#loading-image").fadeIn(3000);
 	$.ajax({
 		type : "POST",
 		datatype: 'json',
 		url  : "/auctionbay/administrator/export-to-xml",
 		data : {itemID:itemID},
 		success : function(response) {	
-			alert(response);
+			//$("#loading-image").css("display","none");
+			$("#loading-image").fadeOut(500);
+			$("#info-text").text(response);
+			$('#InfoModal').modal('show');
+			//alert(response);
 		}/*,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log('error', textStatus + " " + errorThrown);

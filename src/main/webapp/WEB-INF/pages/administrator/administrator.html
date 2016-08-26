@@ -156,6 +156,9 @@
                     </div>
                  </div>
                  
+                 
+                 
+                 
                  <div id="pending-users" class="panel panel-default" style="display:none">
 	       			<div class="panel-heading text-center">
 		        		<i class="fa fa-user fa-fw"></i> Pending Users 
@@ -181,13 +184,18 @@
 	   					<h4>Export Area</h4>
 	   				</div>
 	   				<div class="panel-body">
+	   				
 	   					<div class="row">
+	   						
 	   						<div class="col-md-3 col-xs-3">
 	   							<button id="export-all-btn" class="btn btn-danger">Export All</button>
 	   						</div>
 	   					</div>
 	   					<div style="margin-top:10px;border-bottom:2px solid black;"></div>
 	   					<div style="margin-top:10px;"></div>
+	   					<div id="loading-image" style="display:none;z-index:2;top:50%;left:50%;width:100px;height:100px;position:fixed;margin:0 auto;">
+                 				<img src='resources/images/hourglass.svg'/>
+                 		</div>
 	   					<table id="auctions-grid" class="display" style="width:100%;"></table>
 	   					
 	   				</div>
@@ -197,6 +205,27 @@
                   <!-- /. ROW  --> 
     	</div>
              <!-- /. PAGE INNER  -->
+             
+        <div class="modal fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="InfoModalLabel" aria-hidden="true">
+  			<div class="modal-dialog" role="dialog">
+    			<div class="modal-content">
+      				<div class="modal-header" style="background-color:navy;">
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          					<span aria-hidden="true">&times;</span>
+        				</button>
+        				<h4 class="modal-title" id="deleteLabel" style="color:#fff;">Info</h4>
+      				</div>
+      				<div class="modal-body">
+     				<h4 id="info-text"></h4>
+      				</div>
+      				<div class="modal-footer">
+        				<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      				</div>
+    			</div>
+  			</div>
+		</div>     
+             
+             
         </div>
         
         <!-- <div id="divpopup" style="display:none">
