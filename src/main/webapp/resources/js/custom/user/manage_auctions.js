@@ -326,7 +326,8 @@ function getUserAuctions() {
 	                //"className":      'edit-control delete-control',
 	                "orderable":      false,
 	                "data":           null,
-	                "defaultContent": '<button type=\"button\" id=\"edit-button\" class=\"btn btn-primary btn-sm edit-button\">Edit</button>'+
+	                "defaultContent": '<button type=\"button\" id=\"view-button\" class=\"btn btn-primary btn-sm view-button\">View</button>'+
+	                '<button type=\"button\" id=\"edit-button\" class=\"btn btn-warning btn-sm edit-button\">Edit</button>'+
 	                '&nbsp<button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-sm delete-button\">Delete</button>'
 	            }
 	        ],
