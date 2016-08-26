@@ -53,4 +53,6 @@ public interface QueryAuction {
 	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers();
 	
 	public List<Object[]> getAuctionsForExport(int startpage,int endpage);
+	
+	public boolean auctionCanBeEdited(int auctionID);
 }

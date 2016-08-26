@@ -53,5 +53,7 @@ public interface AuctionServices {
 	
 	public Auction getAuctionByID(int AuctionID);
 	
+	public boolean auctionCanBeEdited(int auctionID);
+	
 	public List<Object[]> getAuctionsForExport(int startpage,int endpage);
 }

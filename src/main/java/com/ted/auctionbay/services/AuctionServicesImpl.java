@@ -336,5 +336,10 @@ public class AuctionServicesImpl implements AuctionServices{
 		return queryAuction.getAuctionsForExport(startpage, endpage);
 	}
 
+	@Override
+	public boolean auctionCanBeEdited(int auctionID) {
+		return queryAuction.auctionCanBeEdited(auctionID);
+	}
+
 	 
 }

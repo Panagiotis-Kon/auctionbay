@@ -263,7 +263,7 @@ public class UserController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			auctions.put(auctionServices.auctionCanBeEdited(a.getAuctionID()));
 			
 			answer.put(auctions);
 		}
