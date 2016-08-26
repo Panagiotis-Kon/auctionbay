@@ -358,4 +358,15 @@ public class QueryAuctionImpl implements QueryAuction {
 		return set.get(0);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getAuctionsForExport(int startpage, int endpage) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT AuctionID,ItemID, Title, Seller FROM auction");
+		query.setFirstResult(startpage);
+		query.setMaxResults(endpage);
+		
+		return query.getResultList();
+	}
+
 }

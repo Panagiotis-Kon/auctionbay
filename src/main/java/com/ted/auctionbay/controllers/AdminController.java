@@ -186,13 +186,44 @@ public class AdminController {
 		int pagesize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber=0;
 		
-		int numOfAuctions = auctionServices.numOfAuctions("");
+		int numOfAuctions = auctionServices.numOfAuctions("all");
 		
 		if(start == 0)
 			pageNumber = 0;
 		else
 			pageNumber = start%pagesize;
-		return "";
+		
+		List<Object[]> auctions = auctionServices.getAuctionsForExport(start, pagesize);
+		
+		if(auctions == null)
+			return null;
+		
+		JSONArray auctionsArray = new JSONArray();
+		JSONObject data = new JSONObject();
+		for(Object[] obj : auctions){
+			JSONArray jarray = new JSONArray();
+			
+				jarray.put(obj[0].toString());
+				jarray.put(obj[1].toString());
+				jarray.put(obj[2]);
+				jarray.put(obj[3]);
+				
+			
+			auctionsArray.put(jarray);
+		}
+		
+		
+		try {
+			data.put("draw",pageNumber);
+			data.put("iTotalRecords",numOfAuctions);
+			data.put("iTotalDisplayRecords", numOfAuctions);
+			data.put("aaData", auctionsArray);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		System.out.println("---- Exporting -----");
+		System.out.println(data.toString());
+		return data.toString();
 	}
 	
 	

@@ -330,5 +330,11 @@ public class AuctionServicesImpl implements AuctionServices{
 		return queryAuction.getAuctionByID(AuctionID);
 	}
 
+	@Override
+	public List<Object[]> getAuctionsForExport(int startpage, int endpage) {
+		// TODO Auto-generated method stub
+		return queryAuction.getAuctionsForExport(startpage, endpage);
+	}
+
 	 
 }

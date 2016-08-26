@@ -72,17 +72,21 @@ function setListeners(){
 	$('a.export-link').click(function(event){
 		console.log("export clicked");
 		event.preventDefault();
-		document.getElementById('export-options').style.display = "block";
 		document.getElementById('registered-users').style.display = "none";
 		document.getElementById('pending-users').style.display = "none";
+		document.getElementById('export-options').style.display = "block";
+		document.getElementById('auctions-grid').style.display = "block";
+		
 	} );
 	
 	$('a.export-nav').click(function(event){
 		console.log("export clicked");
 		event.preventDefault();
-		document.getElementById('export-options').style.display = "block";
 		document.getElementById('registered-users').style.display = "none";
 		document.getElementById('pending-users').style.display = "none";
+		document.getElementById('export-options').style.display = "block";
+		document.getElementById('auctions-grid').style.display = "block";
+		
 	} );
 	
 	$('a.export-one').click(function(event){
@@ -201,14 +205,15 @@ function createGrids(){
         ]
     	});
 	
-	auctions_table = $('auctions-grid').DataTable( {
+	auctions_table = $('#auctions-grid').DataTable( {
 		"processing": true,
 	    "serverSide": true,
-	    ajax:"/auctionbay/auctions/auctions-to-export",
+	    ajax:"/auctionbay/administrator/auctions-to-export",
 	    
         columns: [
-            { title: "ID" },
-            { title: "Name" },
+            { title: "auctionID" },
+            { title: "itemID" },
+            { title: "Title" },
             { title: "Seller" },
             {
                 title: "Export",
@@ -221,6 +226,11 @@ function createGrids(){
         "columnDefs": [
                        {
                            "targets": [ 0 ],
+                           "visible": false,
+                           "searchable": false
+                       },
+                       {
+                           "targets": [ 1 ],
                            "visible": false,
                            "searchable": false
                        },

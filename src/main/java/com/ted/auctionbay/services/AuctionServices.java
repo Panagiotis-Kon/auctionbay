@@ -52,4 +52,6 @@ public interface AuctionServices {
 	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers();
 	
 	public Auction getAuctionByID(int AuctionID);
+	
+	public List<Object[]> getAuctionsForExport(int startpage,int endpage);
 }
