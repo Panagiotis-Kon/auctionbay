@@ -75,7 +75,7 @@ function setListeners(){
 		document.getElementById('registered-users').style.display = "none";
 		document.getElementById('pending-users').style.display = "none";
 		document.getElementById('export-options').style.display = "block";
-		document.getElementById('auctions-grid').style.display = "block";
+		
 		
 	} );
 	
@@ -85,18 +85,18 @@ function setListeners(){
 		document.getElementById('registered-users').style.display = "none";
 		document.getElementById('pending-users').style.display = "none";
 		document.getElementById('export-options').style.display = "block";
-		document.getElementById('auctions-grid').style.display = "block";
+		
 		
 	} );
 	
-	$('a.export-one').click(function(event){
+	/*$('a.export-one').click(function(event){
 		console.log("export clicked");
 		event.preventDefault();
 		document.getElementById('export-options').style.display = "block";
-	} );
+	} );*/
 	
-	$('a.export-all').click(function(event){
-		console.log("export clicked");
+	$('#export-all-btn').click(function(event){
+		console.log("export all clicked");
 		event.preventDefault();
 		ExportAll();
 	} );
@@ -141,14 +141,15 @@ function setListeners(){
 		console.log('reached here');
     } );
 	
-	$('#auctions-grid tbody').on('click', 'td.export-button', function () {
+	$('#auctions-grid tbody').on('click', 'button.export-button', function () {
 		var tr = $(this).parents('tr');
 		var row = auctions_table.row(tr);
 		
         
         console.log("auctionID: " + row.data()[0] + " and Name: " + row.data()[1]);
         var auctionID = row.data()[0];
-        
+        var itemID = row.data()[1];
+        exportAuction(itemID);
     } );
 	
 }
@@ -264,11 +265,28 @@ function accept_user(username){
 
 function ExportAll () {
 	$.ajax({
-		type : "GET",
+		type : "POST",
 		datatype: 'json',
 		url  : "/auctionbay/administrator/export-all-to-xml",
 		success : function(response) {	
 			console.log("ok from ajax");
+		}/*,
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log('error', textStatus + " " + errorThrown);
+			alert('Application could not Accept the user');
+		}*/
+		
+	});
+}
+
+function exportAuction(itemID) {
+	$.ajax({
+		type : "POST",
+		datatype: 'json',
+		url  : "/auctionbay/administrator/export-to-xml",
+		data : {itemID:itemID},
+		success : function(response) {	
+			alert(response);
 		}/*,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log('error', textStatus + " " + errorThrown);

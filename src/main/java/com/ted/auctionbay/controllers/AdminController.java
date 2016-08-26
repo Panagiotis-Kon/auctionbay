@@ -24,6 +24,7 @@ import com.ted.auctionbay.entities.users.Registereduser;
 import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.UserServices;
+import com.google.gson.Gson;
 import com.ted.auctionbay.dao.QueryUser;
 
 @Controller
@@ -203,10 +204,10 @@ public class AdminController {
 		for(Object[] obj : auctions){
 			JSONArray jarray = new JSONArray();
 			
-				jarray.put(obj[0].toString());
-				jarray.put(obj[1].toString());
-				jarray.put(obj[2]);
-				jarray.put(obj[3]);
+			jarray.put(obj[0].toString());
+			jarray.put(obj[1].toString());
+			jarray.put(obj[2]);
+			jarray.put(obj[3]);
 				
 			
 			auctionsArray.put(jarray);
@@ -228,13 +229,14 @@ public class AdminController {
 	
 	
 	
-	@RequestMapping(value = "/export-to-xml/{ItemID}",method = RequestMethod.GET)
-	public void exportToXML(@PathVariable String ItemID,HttpServletResponse response) throws IOException {
-		itemServices.exportToXML(ItemID);
-		response.setStatus(HttpServletResponse.SC_OK);
+	@RequestMapping(value = "/export-to-xml",method = RequestMethod.POST)
+	@ResponseBody
+	public String exportToXML(@RequestParam("itemID") String itemID) throws IOException {
+		itemServices.exportToXML(itemID);
+		return new Gson().toJson("Export of Auction completed");
 	}
 	
-	@RequestMapping(value = "/export-all-to-xml",method = RequestMethod.GET)
+	@RequestMapping(value = "/export-all-to-xml",method = RequestMethod.POST)
 	public void exportAllToXML(HttpServletResponse response) throws IOException {
 		itemServices.exportAllToXML();
 		response.setStatus(HttpServletResponse.SC_OK);
