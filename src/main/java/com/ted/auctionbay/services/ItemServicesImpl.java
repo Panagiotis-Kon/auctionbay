@@ -100,6 +100,7 @@ public class ItemServicesImpl  implements ItemServices{
 		    DOMSource source = new DOMSource(doc);
 
 		    File myFile = new File("C:\\AuctionBayXML\\item"+filename+".xml");
+		    System.out.print("File: C:\\AuctionBayXML\\item"+filename+".xml exported.");
 			try {
 				myFile.createNewFile();
 			} catch (IOException e1) {
@@ -144,7 +145,7 @@ public class ItemServicesImpl  implements ItemServices{
 		int i = 0;
 		for(i=0;i < itemIDs.size() ;i++){/**/
 			
-			if( i%500 == 0){
+			if( i%100 == 0){
 				if(i != 0){
 					WriteToXMLFile(fileDoc,Integer.toString(fileNumber));
 					System.out.println("writing file "+fileNumber);
