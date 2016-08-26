@@ -101,7 +101,7 @@ public class ItemServicesImpl  implements ItemServices{
 
 		    File myFile = new File("C:\\AuctionBayXML\\item"+filename+".xml");
 			try {
-				myFile.mkdirs();
+				myFile.getParentFile().mkdirs();
 				myFile.createNewFile();
 				System.out.print("File: C:\\AuctionBayXML\\item"+filename+".xml exported.");
 			} catch (IOException e1) {
