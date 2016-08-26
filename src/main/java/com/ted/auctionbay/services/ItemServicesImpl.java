@@ -100,10 +100,10 @@ public class ItemServicesImpl  implements ItemServices{
 		    DOMSource source = new DOMSource(doc);
 
 		    File myFile = new File("C:\\AuctionBayXML\\item"+filename+".xml");
-		    System.out.print("File: C:\\AuctionBayXML\\item"+filename+".xml exported.");
 			try {
 				myFile.mkdirs();
 				myFile.createNewFile();
+				System.out.print("File: C:\\AuctionBayXML\\item"+filename+".xml exported.");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
