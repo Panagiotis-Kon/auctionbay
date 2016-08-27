@@ -125,7 +125,8 @@ $(document).ready(function(){
 		if(result == 0){
 			document.location.href=baseURL;
 		} else {
-			window.location = window.location.href; 
+			var user = getUser();
+			window.location = baseURL + "/user/"+user; 
 		}
 	});
 	

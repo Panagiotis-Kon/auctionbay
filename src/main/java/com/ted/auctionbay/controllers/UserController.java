@@ -218,6 +218,7 @@ public class UserController {
 		}
 		if(jsonDetails.length() != 0) {
 			System.out.println(".... Returning the Details ....");
+			System.out.println(jsonDetails.toString());
 			return jsonDetails.toString();
 		}
 		return new Gson().toJson("Cannot edit auction");
@@ -263,12 +264,9 @@ public class UserController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			JSONArray bidsHistory = auctionServices.getBidHistory(a.getAuctionID());
 			
-			auctions.put(bidsHistory);
-			int numOfBids = auctionServices.getNumOfBids(a.getAuctionID());
-			auctions.put(numOfBids);
-			//auctions.put(auctionServices.auctionCanBeEdited(a.getAuctionID()));
+			
+			auctions.put(auctionServices.auctionCanBeEdited(a.getAuctionID()));
 			
 			answer.put(auctions);
 		}
@@ -287,6 +285,68 @@ public class UserController {
 		return data.toString();
 	}
 	
+	
+	@RequestMapping(value = {"/{username}/manage-auctions/view-user-auctions"})
+	@ResponseBody
+	public String viewUserAuctions(HttpServletRequest request, 
+			  HttpServletResponse response, @RequestParam String username, @RequestParam String type) {
+		
+		System.out.println("viewUserAuctions ...");
+		int start = Integer.parseInt(request.getParameter("start"));
+		int pageSize = Integer.parseInt(request.getParameter("length"));
+		int pageNumber;
+
+		if(start == 0)
+			pageNumber = 0;
+		else
+			pageNumber = start%pageSize;
+
+
+		JSONArray reply = new JSONArray();
+		JSONObject data = new JSONObject();
+		List<Auction> users_auctions = userServices.get_user_auctions(username,type);
+		
+		for(Auction auction : users_auctions){
+			JSONObject aObj = new JSONObject();
+			JSONArray bidsHistory = auctionServices.getBidHistory(auction.getAuctionID());
+			int numOfBids = auctionServices.getNumOfBids(auction.getAuctionID());
+			float highestBid = auctionServices.getHighestBid(auction.getAuctionID());
+			try {
+				aObj.put("AuctionID", auction.getAuctionID());
+				aObj.put("ItemID", auction.getItem().getItemID());
+				aObj.put("Title", auction.getTitle());
+				aObj.put("Seller", auction.getRegistereduser().getUsername());
+				aObj.put("BuyPrice", auction.getBuyPrice());
+				aObj.put("FirstBid", auction.getFirstBid());
+				aObj.put("numOfBids", numOfBids);
+				aObj.put("BidsHistory", bidsHistory);
+				aObj.put("HighestBid", highestBid);
+				aObj.put("StartTime", auction.getStartTime());
+				aObj.put("EndTime", auction.getEndTime());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			reply.put(aObj);
+		}
+		
+		
+	
+		try {
+			data.put("draw",pageNumber);
+			data.put("iTotalRecords",user_auctions_num);
+			data.put("iTotalDisplayRecords", user_auctions_num);
+			data.put("data", reply);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		System.out.println("----------- view user's auctions end ----------");
+		System.out.println("");
+		System.out.println(data.toString());
+		System.out.println("");
+		System.out.println("**********************************************");
+		return data.toString();
+	}
 	
 	@RequestMapping(value = {"/{username}/rates/submit-rates"})
 	@ResponseBody

@@ -27,7 +27,9 @@
 <script>
 $(document).ready(function(){
 	
-	
+	$('#myCarousel').carousel({
+	    interval: 10000
+	});
 	checkForUser();
 	getUnreadMessages();
 	getRecommendations();
@@ -94,9 +96,9 @@ $(document).ready(function(){
          							
           							<ul class="dropdown-menu">
             							<li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Profile</a></li>
-            							<li><a href="#"><span class="glyphicon glyphicon-th-list"></span> My Auctions</a></li>
+            							<li><a href="#"><span class="glyphicon glyphicon-th-list"></span> Auctions</a></li>
             							<li><a href="#" class="messages-link">
-            								<span class="glyphicon glyphicon-envelope"></span> My Messages 
+            								<span class="glyphicon glyphicon-envelope"></span> Messages 
             								<span style="display:none;" id="header-unread-messages" class="label label-danger pull-right"></span>
             								</a>
             							</li>
@@ -125,7 +127,9 @@ $(document).ready(function(){
 			<div class="col-lg-12" id="main-info-header">
 				<div class="panel panel-default hero-spacer">
       				<div class="panel-heading text-center"><h3 id="main-header-title"></h3></div>
-      				<div class="panel-body"><h4><b>AuctionBay</b> is a website where,as the name suggests, auctions take place.</h4>
+      				<div class="panel-body">
+      				<div id="guest-text">
+      				<h4><b>AuctionBay</b> is a website where,as the name suggests, auctions take place.</h4>
       				<ul>
       					<li>If you are a guest, walkthrough our site and check the products that you want</li>
       					<li>If you want to become a member of our community then you simply can register</li>
@@ -137,6 +141,20 @@ $(document).ready(function(){
       				Also users can contact a bidder or a seller for more info on the item they are looking for,
       				through the intergrated message system, or ask for support from the admin.<br>
       				Admins can accept or decline new pending users and they can backup the auctions.<br>
+      				</div>
+      				<div id="user-recommedations" style="display:none;">
+      					<div class="well">
+      						<div id="myCarousel" class="carousel slide">
+                 
+                
+               
+                
+                 
+                			
+                			</div><!--/myCarousel-->
+      						
+      					</div>
+      				</div>
       				</div>
    				</div>
    		

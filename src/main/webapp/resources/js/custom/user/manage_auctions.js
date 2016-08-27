@@ -279,6 +279,8 @@ function getAuctionDetails(auction_id,item_id) {
 		data :{auction_id:auction_id,item_id:item_id},
 		success : function(data) {
 			console.log(data);
+			$("#auction-name-edit").val(data.name);
+			$("#auction-description-edit").text(data.description);
 			
 		}	
 	}); 
@@ -304,20 +306,43 @@ function countUserAuctions(type) {
 
 function auctionDetails(d){
 	
-	return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+	 var bidHistory = d.bidHistory;
+	 var content = '<button class="btn btn-info" data-toggle="collapse" data-target="#demo">Bids</button>'+
+	 '<div id="demo" class="collapse">'+
+	 '<table><thead><tr><th>Bidder</th><th>Bid</th></tr></thead>';
+	 /*for(var i=0; i<bidHistory.length; i++){
+		 content += '<tr><td>' + bidHistory[0]'</td><td>'+ bidHistory[1] + '</td></tr>';
+	 }*/
+	 
+	 content += '<tr><td>' +'Magas' +'</td><td>'+ '18.88' + '</td></tr>';
+	 content += '<tr><td>' +'Magas2' +'</td><td>'+ '13.18' + '</td></tr>';
+	 content +='</table></div>';
+	
+	
+	return '<div class="slider">'+
+	'<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
     '<tr>'+
-        '<td>Full name:</td>'+
-        '<td>'+d.name+'</td>'+
+        '<td>StartTime:</td>'+
+        '<td>'+d.StartTime+'</td>'+
     '</tr>'+
     '<tr>'+
-        '<td>Extension number:</td>'+
-        '<td>'+d.extn+'</td>'+
+        '<td># Bids:</td>'+
+        '<td>'+d.numOfBids+'</td>'+
     '</tr>'+
     '<tr>'+
-        '<td>Extra info:</td>'+
-        '<td>And any further details here (images etc)...</td>'+
+        '<td>First Bid:</td>'+
+        '<td>'+ d.FirstBid + '</td>'+
     '</tr>'+
-'</table>';
+    '<tr>'+
+    '<td>Highest Bid:</td>'+
+    '<td>'+ d.HighestBid + '</td>'+
+    '</tr>'+
+    '<tr>'+
+    '<td>'+ content +'</td>'+
+    
+    '</tr>'+
+'</table>'+
+'</div>';
 }
 
 function getUserAuctions() {
@@ -329,7 +354,7 @@ function getUserAuctions() {
 		"processing": true,
 	    "serverSide": true,
 	    "ajax": {
-	    	"url": window.location.href + "/get-user-auctions",
+	    	"url": window.location.href + "/view-user-auctions",
 	    	"data":{"username":username,"type":type} 
 	    },
 	  columns: [
@@ -345,15 +370,7 @@ function getUserAuctions() {
 	            { "data": "Seller" },
 	            { "data": "BuyPrice" },
 	            { "data": "EndTime" },
-	           /* {
-	                 title: "Options",
-	                //"className":      'edit-control delete-control',
-	                "orderable":      false,
-	                "data":           null,
-	                "defaultContent": '<button type=\"button\" id=\"view-button\" class=\"btn btn-primary btn-sm view-button\">View</button>'+
-	                '<button type=\"button\" id=\"edit-button\" class=\"btn btn-warning btn-sm edit-button\">Edit</button>'+
-	                '&nbsp<button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-sm delete-button\">Delete</button>'
-	            }*/
+	         
 	        ],
 	        "columnDefs": [
 	                       {
@@ -373,18 +390,23 @@ function getUserAuctions() {
 	$('#active-user-auctions').show();
 	$('#active-user-auctions-grid tbody').on('click', 'td.auction-details-control', function () {
         var tr = $(this).closest('tr');
-        var row = table.row( tr );
+        var row = active_auctions.row( tr );
  
         if ( row.child.isShown() ) {
             // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
+        	 $('div.slider', row.child()).slideUp( function () {
+                 row.child.hide();
+                 tr.removeClass('shown');
+             } );
+            
         }
         else {
             // Open this row
         	console.log(row.data());
-           // row.child( format(row.data()) ).show();
+        	row.child( auctionDetails(row.data()), 'no-padding' ).show();
+        	
             tr.addClass('shown');
+            $('div.slider', row.child()).slideDown();
         }
     } );
 	
@@ -396,7 +418,7 @@ function getUserAuctions() {
 	    "serverSide": true,
 	    "ajax": {
 	    	"url": window.location.href + "/get-user-auctions",
-	    	"data":{"username":username} 
+	    	"data":{"username":username,type:type} 
 	    },
 	  columns: [
 	            { title: "AuctionID" },
@@ -411,8 +433,7 @@ function getUserAuctions() {
 	                //"className":      'edit-control delete-control',
 	                "orderable":      false,
 	                "data":           null,
-	                "defaultContent": '<button type=\"button\" id=\"view-button\" class=\"btn btn-primary btn-sm view-button\">View</button>'+
-	                '<button type=\"button\" id=\"edit-button\" class=\"btn btn-warning btn-sm edit-button\">Edit</button>'+
+	                "defaultContent":'<button type=\"button\" id=\"edit-button\" class=\"btn btn-warning btn-sm edit-button\">Edit</button>'+
 	                '&nbsp<button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-sm delete-button\">Delete</button>'
 	            }
 	        ],

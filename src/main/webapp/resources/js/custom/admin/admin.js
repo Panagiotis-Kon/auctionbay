@@ -56,6 +56,12 @@ function countRegisteredUsers(){}
 
 function setListeners(){
 	
+	$("a.navbar-brand").click(function(event){
+		event.preventDefault();
+		document.location.href="/auctionbay/administrator";
+	});
+	
+	
 	$("a.admin-logout").click(function(event){
 		console.log("logout from admin");
 		event.preventDefault();

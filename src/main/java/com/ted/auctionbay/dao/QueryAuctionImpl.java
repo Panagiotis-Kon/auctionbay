@@ -371,7 +371,7 @@ public class QueryAuctionImpl implements QueryAuction {
 	@Override
 	public boolean auctionCanBeEdited(int auctionID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("SELECT IF((SELECT count(a.AuctionID) FROM auction as a, registereduser_bidsin_auction as rba WHERE (a.AuctionID = '?' and a.AuctionID = rba.AuctionID and a.StartTime <= NOW())) = 0 ,'1','0') as Can_Edit");
+		Query query = em.createNativeQuery("SELECT IF((SELECT count(a.AuctionID) FROM auction as a, registereduser_bidsin_auction as rba WHERE (a.AuctionID = ?1 and a.AuctionID = rba.AuctionID and a.StartTime <= NOW())) = 0 ,'1','0') as Can_Edit");
 		query.setParameter(1, auctionID);
 		String can_edit = query.getResultList().get(0).toString();
 		if (can_edit.equals("0")){
@@ -386,7 +386,7 @@ public class QueryAuctionImpl implements QueryAuction {
 	public int  updateAuction(int auctionID, String title, float buyprice,
 			float firstbid, Date starttime, Date endtime) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("UPDATE auction set Title=?, BuyPrice=?, FirstBid=?, StartTime=?, EndTime=? WHERE AuctionID=?");
+		Query query = em.createNativeQuery("UPDATE auction set Title=?1, BuyPrice=?2, FirstBid=?3, StartTime=?4, EndTime=?5 WHERE AuctionID=?6");
 		query.setParameter(1, title);
 		query.setParameter(2, buyprice);
 		query.setParameter(3, firstbid);

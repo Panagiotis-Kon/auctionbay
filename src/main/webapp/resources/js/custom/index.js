@@ -98,14 +98,17 @@ function modulesController(page,username){
 		if(page == "index") {
 			var enable_modules = [];
 			var disable_modules = [];
-			$("#main-header-title").html("Welcome back <span class=\"text text-danger\">" + username + "</span>");
+			$("#main-header-title").html("Welcome back <span class=\"text text-danger\">" + username + "</span>"
+					+ "</br><h4 class=\"text-center\">Here are some recomendations for you: </h4>");
 			
 			enable_modules.push("#sidebar-recommended");
 		
 			enable_modules.push("#manage-auction-panel");
+			enable_modules.push("#user-recommedations");
+			 
 			enableModules(enable_modules);
 			
-			
+			disable_modules.push("#guest-text");
 			disable_modules.push("#login-panel");
 			disableModules(disable_modules);
 			
@@ -213,6 +216,60 @@ function getRecommendations(){
 			url  : url + username + "/recommendations",
 			success:function(data){
 				console.log(data);
+				// create carousel
+				
+				var carousel = "";
+				var ol = '<ol class="carousel-indicators">'+
+                    '<li data-target="#myCarousel" data-slide-to="0" class="active"></li>'+
+                    '<li data-target="#myCarousel" data-slide-to="1"></li>'+
+                    
+                '</ol>';
+				carousel += ol;
+				
+				var inner = '<div class="carousel-inner">'+
+                    '<div class="item active">'+
+                	'<div class="row-fluid">'+
+                	  '<div class="col-md-3">'+
+                	  	'<a href="#x" class="thumbnail">'+
+                	  		'<img src="https://localhost:8443/auctionbay/resources/images/no-image-available-thumb.png" alt="Image" style="max-width:100%;" />'+
+                	  	'</a>'+
+                	  	'<div class="caption">'+
+                	  		'<p>Some Caption</p>' +
+                	  	'</div>'+
+                	  '</div>'+
+                	  '<div class="col-md-3"><a href="#x" class="thumbnail"><img src="https://localhost:8443/auctionbay/resources/images/no-image-available-thumb.png" alt="Image" style="max-width:100%;" /></a></div>'+
+                	  '<div class="col-md-3"><a href="#x" class="thumbnail"><img src="https://localhost:8443/auctionbay/resources/images/no-image-available-thumb.png" alt="Image" style="max-width:100%;" /></a></div>'+
+                	  '<div class="col-md-3"><a href="#x" class="thumbnail"><img src="https://localhost:8443/auctionbay/resources/images/no-image-available-thumb.png" alt="Image" style="max-width:100%;" /></a></div>'+
+                	'</div><!--/row-fluid-->'+
+                '</div><!--/item-->'+
+                '</div>';
+				
+				var inner2 = '<div class="carousel-inner">'+
+                '<div class="item">'+
+            	'<div class="row-fluid">'+
+            	  '<div class="col-md-3">'+
+            	  	'<a href="#x" class="thumbnail">'+
+            	  		'<img src="https://localhost:8443/auctionbay/resources/images/no-image-available-thumb.png" alt="Image" style="max-width:100%;" />'+
+            	  	'</a>'+
+            	  	'<div class="caption">'+
+            	  		'<p>Some Caption</p>' +
+            	  	'</div>'+
+            	  '</div>'+
+            	  '<div class="col-md-3"><a href="#x" class="thumbnail"><img src="https://localhost:8443/auctionbay/resources/images/no-image-available-thumb.png" alt="Image" style="max-width:100%;" /></a></div>'+
+            	  '<div class="col-md-3"><a href="#x" class="thumbnail"><img src="https://localhost:8443/auctionbay/resources/images/no-image-available-thumb.png" alt="Image" style="max-width:100%;" /></a></div>'+
+            	  '<div class="col-md-3"><a href="#x" class="thumbnail"><img src="https://localhost:8443/auctionbay/resources/images/no-image-available-thumb.png" alt="Image" style="max-width:100%;" /></a></div>'+
+            	'</div><!--/row-fluid-->'+
+            '</div><!--/item-->'+
+            '</div>';
+				
+				carousel += inner;
+				carousel += inner2;
+				var indicators = '<a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="icon-prev"></span></a>'+
+        			'<a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="icon-next"></span></a>';
+				
+				carousel += indicators;
+				
+				$("#myCarousel").append(carousel);
 			}
 			
 		});
