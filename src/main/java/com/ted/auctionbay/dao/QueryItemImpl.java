@@ -103,5 +103,19 @@ public class QueryItemImpl implements QueryItem {
 		}
 		return resultSet;
 	}
+
+	@Override
+	public int updateItem(int itemID, String name, String description,
+			String location, Double latitude, Double longitude) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("UPDATE item set Name=?, Description=?, Location=?, Latitude=?, Longitude=? WHERE ItemID=?");
+		query.setParameter(1, name);
+		query.setParameter(2, description);
+		query.setParameter(3, location);
+		query.setParameter(4, latitude);
+		query.setParameter(5, longitude);
+		query.setParameter(6, itemID);
+		return query.executeUpdate();
+	}
 	
 }

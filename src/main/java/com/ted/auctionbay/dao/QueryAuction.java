@@ -1,5 +1,6 @@
 package com.ted.auctionbay.dao;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,4 +56,6 @@ public interface QueryAuction {
 	public List<Object[]> getAuctionsForExport(int startpage,int endpage);
 	
 	public boolean auctionCanBeEdited(int auctionID);
+	
+	public int updateAuction(int auctionID, String title, float buyprice, float firstbid, Date starttime, Date endtime);
 }

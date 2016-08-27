@@ -1,5 +1,6 @@
 package com.ted.auctionbay.services;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,4 +57,7 @@ public interface AuctionServices {
 	public boolean auctionCanBeEdited(int auctionID);
 	
 	public List<Object[]> getAuctionsForExport(int startpage,int endpage);
+	
+	public int updateAuction(int auctionID, String title, float buyprice, float firstbid, Date starttime, Date endtime, String name, String description, String location, Double latitude, Double longitude);
+	
 }

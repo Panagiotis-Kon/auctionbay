@@ -332,7 +332,6 @@ public class AuctionServicesImpl implements AuctionServices{
 
 	@Override
 	public List<Object[]> getAuctionsForExport(int startpage, int endpage) {
-		// TODO Auto-generated method stub
 		return queryAuction.getAuctionsForExport(startpage, endpage);
 	}
 
@@ -341,5 +340,63 @@ public class AuctionServicesImpl implements AuctionServices{
 		return queryAuction.auctionCanBeEdited(auctionID);
 	}
 
-	 
+	@Override
+	public int updateAuction(int auctionID, String title, float buyprice,
+			float firstbid, Date starttime, Date endtime,
+			String name, String description, String location, Double latitude,
+			Double longitude) {
+		//Auction details
+		int results = 0;
+		int countofnull = 0; //count null arguments if all are null, then don't update
+		if (title.equals("-1")){
+			title = queryAuction.getAuctionByID(auctionID).getTitle();
+			countofnull++;
+		}
+		if (buyprice == -1){
+			buyprice = queryAuction.getAuctionByID(auctionID).getBuyPrice();
+			countofnull++;
+		}
+		if (firstbid == -1){
+			firstbid = queryAuction.getAuctionByID(auctionID).getFirstBid();
+			countofnull++;
+		}
+		if (starttime == null){
+			starttime = queryAuction.getAuctionByID(auctionID).getStartTime();
+			countofnull++;
+		}
+		if (endtime == null){
+			endtime = queryAuction.getAuctionByID(auctionID).getStartTime();
+			countofnull++;
+		}
+		if (countofnull < 5){
+			results = queryAuction.updateAuction(auctionID, title, buyprice, firstbid, starttime, endtime);
+		}
+		//Item of the Auction details
+		countofnull=0;
+		int itemID = queryAuction.getAuctionByID(auctionID).getItem().getItemID();
+		if (name.equals("-1")){
+			name = queryItem.getDetails(itemID).getName();
+			countofnull++;
+		}
+		if (description.equals("-1")){
+			description = queryItem.getDetails(itemID).getDescription();
+			countofnull++;
+		}
+		if (location.equals("-1")){
+			location = queryItem.getDetails(itemID).getLocation();
+			countofnull++;
+		}
+		if (latitude.isNaN()){
+			latitude = queryItem.getDetails(itemID).getLatitude();
+			countofnull++;
+		}
+		if (longitude.isNaN()){
+			longitude = queryItem.getDetails(itemID).getLongitute();
+			countofnull++;
+		}
+        if (countofnull < 5){
+			results = results + queryItem.updateItem(itemID, name, description, location, latitude, longitude);
+		}
+        return results;
+	}
 }

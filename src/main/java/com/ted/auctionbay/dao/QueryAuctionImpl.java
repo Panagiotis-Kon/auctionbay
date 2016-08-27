@@ -382,4 +382,18 @@ public class QueryAuctionImpl implements QueryAuction {
 		}
 	}
 
+	@Override
+	public int  updateAuction(int auctionID, String title, float buyprice,
+			float firstbid, Date starttime, Date endtime) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("UPDATE auction set Title=?, BuyPrice=?, FirstBid=?, StartTime=?, EndTime=? WHERE AuctionID=?");
+		query.setParameter(1, title);
+		query.setParameter(2, buyprice);
+		query.setParameter(3, firstbid);
+		query.setParameter(4, starttime);
+		query.setParameter(5, endtime);
+		query.setParameter(6, auctionID);
+		return query.executeUpdate();
+	}
+
 }
