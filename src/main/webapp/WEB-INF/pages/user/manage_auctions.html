@@ -135,14 +135,81 @@
 	<div class="container">
 		<div class="row">
 		<ul class="nav nav-tabs">
-			<li class="active"><a id="create-tab" data-toggle="tab" href="#create">Create Auction</a></li>
-  			<li><a id="modify-tab" data-toggle="tab" href="#modify">Modify or Delete Auction</a></li>
-  			
+			<li class="active"><a id="view-tab" data-toggle="tab" href="#view">View Auctions</a></li>
+  			<li><a id="modify-tab" data-toggle="tab" href="#modify">Modify Auctions</a></li>
+  			<li><a id="create-tab" data-toggle="tab" href="#create">Create Auctions</a></li>
 		</ul>
 
 		<div class="tab-content">
   			
-  			<div id="create" class="tab-pane fade in active">
+  			
+  			<div id="view" class="tab-pane fade in active">
+    			<div class="well">
+  					<h3 class="text-center">View your Auctions</h3>
+  				</div>
+  				<div class="col-sm-12">
+  					<div id="active-user-auctions" class="panel panel-default" style="display:none">
+	       				<div class="panel-heading text-center">
+		        			<h5 id="auctions-number" style="font-weight:bold;"></h5>
+		        			
+		    			</div>
+		    			<div class="panel-body">
+		    				<table id="active-user-auctions-grid" class="display" style="width:100%;">
+		    				<thead>
+            					<tr>
+                					<th></th>
+                					<th>AuctionID</th>
+                					<th>ItemID</th>
+                					<th>Title</th>
+                					<th>Seller</th>
+                					<th>BuyPrice</th>
+                					<th>EndTime</th>
+                					
+            					</tr>
+        					</thead>
+		    				
+		    				
+		    				</table>
+						</div>
+	   				</div>
+	   				
+	   				 
+  				</div>
+  			</div>
+  			
+  			
+  			
+  			<div id="modify" class="tab-pane fade">
+    			<div class="well">
+  					<h3 class="text-center">Modify your Auctions</h3>
+  				</div>
+  				<div class="col-sm-12">
+  					<div id="user-auctions" class="panel panel-default" style="display:none">
+	       				<div class="panel-heading text-center">
+		        			<h5 id="auctions-number" style="font-weight:bold;"></h5>
+		        			
+		    			</div>
+		    			<div class="panel-body">
+		    				<table id="user-auctions-grid" class="display" style="width:100%;"></table>
+						</div>
+	   				</div>
+	   				<div id="edit-area" style="display:none;">
+	   					<div class="row">
+	   						<button type="button" id="toAuctions-button" class="btn btn-default btn-lg pull-left">
+  								<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back to auctions
+							</button>
+	   					
+	   					</div>
+						<div id="auction-edit">
+							
+						</div>
+	   				</div>
+	   				 
+  				</div>
+  			</div>
+  			
+  			
+  			<div id="create" class="tab-pane fade">
   				<div class="well">
   					<h3 class="text-center">Create your desired Auction, in a few steps</h3>
   				</div>
@@ -282,37 +349,7 @@
 				</div>
   			</div>
   			
-  			<div id="modify" class="tab-pane fade">
-    			<div class="well">
-  					<h3 class="text-center">Modify or Delete your Auctions</h3>
-  				</div>
-  				<div class="col-sm-12">
-  					<div id="user-auctions" class="panel panel-default" style="display:none">
-	       				<div class="panel-heading text-center">
-		        			<h5 id="auctions-number" style="font-weight:bold;"></h5>
-		        			
-		    			</div>
-		    			<div class="panel-body">
-		    				<table id="user-auctions-grid" class="display" style="width:100%;"></table>
-						</div>
-	   				</div>
-	   				<div id="edit-area" style="display:none;">
-	   					<div class="row">
-	   						<button type="button" id="toAuctions-button" class="btn btn-default btn-lg pull-left">
-  								<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Back to auctions
-							</button>
-	   					
-	   					</div>
-						<div id="auction-edit">
-							
-						</div>
-	   				</div>
-	   				 
-  				</div>
   				
-  				
-  				
-  			</div>	
 		</div>
 		</div>
 		<div class="row"></div>

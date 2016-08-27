@@ -143,16 +143,27 @@ public class UserServicesImpl implements UserServices{
 
 
 	@Override
-	public int count_user_auctions(String username) {
-		
-		return queryUser.count_user_auctions(username);
+	public int count_user_auctions(String username, String type) {
+		if(type.equals("active")){
+			return queryUser.count_active_user_auctions(username);
+		} else if(type.equals("expired")){
+			return queryUser.count_expired_user_auctions(username);
+		} else {
+			return queryUser.count_all_user_auctions(username);
+		}
 	}
 
 
 	@Override
-	public List<Auction> get_user_auctions(String username) {
+	public List<Auction> get_user_auctions(String username, String type) {
+		if(type.equals("active")){
+			return queryUser.get_active_user_auctions(username);
+		} else if(type.equals("expired")){
+			return queryUser.get_expired_user_auctions(username);
+		} else {
+			return queryUser.get_all_user_auctions(username);
+		}
 		
-		return queryUser.get_user_auctions(username);
 	}
 
 

@@ -16,3 +16,14 @@ th.dt-center, td.dt-center { text-align: center; }
    content:"*";
    color:red;
 }
+
+
+td.auction-details-control {
+	font-family: FontAwesome;
+    content: "\f055";
+    cursor: pointer;
+}
+tr.shown td.auction-details-control {
+	font-family: FontAwesome;
+    content: "\f056";
+}

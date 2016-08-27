@@ -38,9 +38,17 @@ public interface QueryUser {
 	
 	public int registerUser(User ruser);
 	
-	public int count_user_auctions(String username);
+	public int count_all_user_auctions(String username);
 	
-	public List<Auction> get_user_auctions(String username);
+	public int count_active_user_auctions(String username);
+	
+	public int count_expired_user_auctions(String username);
+	
+	public List<Auction> get_all_user_auctions(String username);
+	
+	public List<Auction> get_active_user_auctions(String username);
+	
+	public List<Auction> get_expired_user_auctions(String username);
 	
 	public void deleteBidderFromAuction(String username, int auctionID);
 	

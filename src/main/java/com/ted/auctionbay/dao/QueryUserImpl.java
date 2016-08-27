@@ -170,7 +170,7 @@ public class QueryUserImpl implements QueryUser{
 	}
 
 	@Override
-	public int count_user_auctions(String username) {
+	public int count_all_user_auctions(String username) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT count(*) FROM auction WHERE Seller=?");
 		query.setParameter(1, username);
@@ -179,7 +179,7 @@ public class QueryUserImpl implements QueryUser{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Auction> get_user_auctions(String username) {
+	public List<Auction> get_all_user_auctions(String username) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT * FROM auction WHERE Seller=?",Auction.class);
 		
@@ -338,6 +338,39 @@ public class QueryUserImpl implements QueryUser{
 			return user;
 		}
 		return null;
+	}
+
+	@Override
+	public List<Auction> get_active_user_auctions(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT * FROM auction WHERE Seller=? AND EndTime >= NOW()",Auction.class);
+		
+		query.setParameter(1, username);
+		
+		return query.getResultList();
+		
+	}
+
+	@Override
+	public List<Auction> get_expired_user_auctions(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int count_active_user_auctions(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT count(*) FROM auction WHERE Seller=? AND EndTime >= NOW()");
+		query.setParameter(1, username);
+		return Integer.parseInt(query.getResultList().get(0).toString());
+	}
+
+	@Override
+	public int count_expired_user_auctions(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT count(*) FROM auction WHERE Seller=? AND EndTime < NOW()");
+		query.setParameter(1, username);
+		return Integer.parseInt(query.getResultList().get(0).toString());
 	}
 	
 	

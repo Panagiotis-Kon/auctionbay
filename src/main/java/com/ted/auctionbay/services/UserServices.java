@@ -35,9 +35,9 @@ public interface UserServices {
 	
 	public List<Registereduser> getRecipients();
 	
-	public int count_user_auctions(String username);
+	public int count_user_auctions(String username,String type);
 	
-	public List<Auction> get_user_auctions(String username);
+	public List<Auction> get_user_auctions(String username, String type);
 	
 	public void submitRating(JSONArray data);
 	

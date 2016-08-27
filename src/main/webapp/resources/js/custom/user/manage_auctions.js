@@ -3,7 +3,7 @@ $(document).ready(function (){
 	/*test test*/
 	
 	getCategoryList();
-	countUserAuctions()
+	countUserAuctions("active");
 	getUserAuctions();
 	countryList('countries-list');
 	initListeners();
@@ -20,7 +20,7 @@ var geocoder;
 var location_marker;
 var lat;
 var lon;
-var user_auctions;
+var user_auctions,active_auctions;
 var countries = ["Afghanistan","Albania","Algeria","Andorra",
                     "Angola","Anguilla","Antigua &amp; Barbuda","Argentina",
                     "Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas",
@@ -286,14 +286,14 @@ function getAuctionDetails(auction_id,item_id) {
 
 
 
-function countUserAuctions() {
+function countUserAuctions(type) {
 	
 	var username = getUser();
 	$.ajax({
 		type : "GET",
 		dataType:'json',
 		url  : window.location.href + "/count-user-auctions",
-		data: {username:username},
+		data: {username:username,type:type},
 		success : function(data) {
 			$('#auctions-number').text("Your Auctions ( " + data.user_auctions_num + " ) ");
 			console.log("Auctions num: " + data.user_auctions_num)
@@ -302,10 +302,95 @@ function countUserAuctions() {
 }
 
 
+function auctionDetails(d){
+	
+	return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+    '<tr>'+
+        '<td>Full name:</td>'+
+        '<td>'+d.name+'</td>'+
+    '</tr>'+
+    '<tr>'+
+        '<td>Extension number:</td>'+
+        '<td>'+d.extn+'</td>'+
+    '</tr>'+
+    '<tr>'+
+        '<td>Extra info:</td>'+
+        '<td>And any further details here (images etc)...</td>'+
+    '</tr>'+
+'</table>';
+}
+
 function getUserAuctions() {
 	
 	console.log("get user auctions....");
 	var username = getUser();
+	var type = "active";
+	active_auctions = $('#active-user-auctions-grid').DataTable( {
+		"processing": true,
+	    "serverSide": true,
+	    "ajax": {
+	    	"url": window.location.href + "/get-user-auctions",
+	    	"data":{"username":username,"type":type} 
+	    },
+	  columns: [
+	            {
+	                "className":      'auction-details-control',
+	                "orderable":      false,
+	                "data":           null,
+	                "defaultContent": ''
+	            },
+	            { "data": "AuctionID" },
+	            { "data": "ItemID" },
+	            { "data": "Title" },
+	            { "data": "Seller" },
+	            { "data": "BuyPrice" },
+	            { "data": "EndTime" },
+	           /* {
+	                 title: "Options",
+	                //"className":      'edit-control delete-control',
+	                "orderable":      false,
+	                "data":           null,
+	                "defaultContent": '<button type=\"button\" id=\"view-button\" class=\"btn btn-primary btn-sm view-button\">View</button>'+
+	                '<button type=\"button\" id=\"edit-button\" class=\"btn btn-warning btn-sm edit-button\">Edit</button>'+
+	                '&nbsp<button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-sm delete-button\">Delete</button>'
+	            }*/
+	        ],
+	        "columnDefs": [
+	                       {
+	                           "targets": [ 1 ],
+	                           "visible": false,
+	                           "searchable": false
+	                       },
+	                       {
+	                           "targets": [ 2 ],
+	                           "visible": false,
+	                           "searchable": false
+	                       },
+	                       {"className": "dt-center", "targets": "_all"}
+	          ]             
+	
+    	});
+	$('#active-user-auctions').show();
+	$('#active-user-auctions-grid tbody').on('click', 'td.auction-details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+        	console.log(row.data());
+           // row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
+	
+	
+	
+	
 	user_auctions = $('#user-auctions-grid').DataTable( {
 		"processing": true,
 	    "serverSide": true,

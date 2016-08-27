@@ -130,11 +130,11 @@ public class UserController {
 	
 	@RequestMapping(value = "/{username}/manage-auctions/count-user-auctions", method = RequestMethod.GET)
 	@ResponseBody
-	public String countUserAuctions(@RequestParam String username){
+	public String countUserAuctions(@RequestParam String username, @RequestParam("type") String type){
 	
 			JSONObject answer = new JSONObject();
 			try {
-				user_auctions_num = userServices.count_user_auctions(username);
+				user_auctions_num = userServices.count_user_auctions(username,type);
 				answer.put("user_auctions_num",user_auctions_num);
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -226,7 +226,7 @@ public class UserController {
 	@RequestMapping(value = {"/{username}/manage-auctions/get-user-auctions"})
 	@ResponseBody
 	public String getUserAuctions(HttpServletRequest request, 
-			  HttpServletResponse response, @RequestParam String username) {
+			  HttpServletResponse response, @RequestParam String username, @RequestParam String type) {
 		
 		System.out.println("getUserAuctions ...");
 		int start = Integer.parseInt(request.getParameter("start"));
@@ -241,7 +241,7 @@ public class UserController {
 
 		JSONArray answer = new JSONArray();
 		JSONObject data = new JSONObject();
-		List<Auction> users_auctions = userServices.get_user_auctions(username);
+		List<Auction> users_auctions = userServices.get_user_auctions(username,type);
 		
 		for(Auction a : users_auctions){
 			JSONArray auctions = new JSONArray();
@@ -263,7 +263,12 @@ public class UserController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			auctions.put(auctionServices.auctionCanBeEdited(a.getAuctionID()));
+			JSONArray bidsHistory = auctionServices.getBidHistory(a.getAuctionID());
+			
+			auctions.put(bidsHistory);
+			int numOfBids = auctionServices.getNumOfBids(a.getAuctionID());
+			auctions.put(numOfBids);
+			//auctions.put(auctionServices.auctionCanBeEdited(a.getAuctionID()));
 			
 			answer.put(auctions);
 		}
