@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ted.auctionbay.dao.QueryItem;
 import com.ted.auctionbay.dao.QueryUser;
+import com.google.gson.Gson;
 import com.ted.auctionbay.dao.QueryCategory;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.services.AuctionServices;
@@ -78,7 +79,42 @@ public class MainController {
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ResponseBody
+	public String login( @RequestParam("username") String username,
+            								@RequestParam("password") String password,
+            								HttpServletRequest request,
+            								HttpServletResponse response) {
+		
+		
+		System.out.println("username: " + username + "password: " + password);
+		
+		if(username.equals("admin") && password.equals("admin")){
+			
+			log_status = "admin";			
+			return new Gson().toJson("administrator");
+			
+		} else {
+			
+			int status = userServices.Login(username,password);
+			if(status==0)
+			{
+				System.out.println("The user is pending");				
+				return new Gson().toJson("user/?status=pending");
+			}
+			else if(status==1){
+					System.out.println("user entered");					
+					return new Gson().toJson("user/"+username);
+			}
+			else {
+				
+				return new Gson().toJson("Problem");
+			}
+				
+		}
+	}
 	
+	
+	/*@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public void login( @RequestParam("username") String username,
             								@RequestParam("password") String password,
             								HttpServletRequest request,
@@ -109,19 +145,19 @@ public class MainController {
 			}
 				
 		}
-	}
+	}*/
 	
 	
 	
 	@RequestMapping(value = "/signup",method = RequestMethod.POST)
 	@ResponseBody
-	public void signup(@RequestParam("json") String params,
+	public String signup(@RequestParam("json") String params,
 							HttpServletRequest request,
 							HttpServletResponse response){
 		JSONObject jobj;
-		String username,password,firstname,lastname,email;
+		String username="",password="",firstname="",lastname="",email="";
 		
-		String trn, phonenumber, city, street, region, zipcode;
+		String trn="", phonenumber="", city="", street="", region="", zipcode="";
 		
 		try {
 			jobj = new JSONObject(params);
@@ -138,29 +174,33 @@ public class MainController {
 			region = jobj.getString("region").toString();
 			zipcode = jobj.getString("zipcode").toString();
 			
-			System.out.println("JSONObject ok");
 			
-			/*query returns true if user exists*/
-			boolean userExists = userServices.userExists(username);
-			
-			System.out.println("Get responce from userExists : "+userExists);
-			
-			if( userExists )
-				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			else{
-				
-				//UserServicesImpl us = new UserServicesImpl();
-				userServices.userRegistration(username, password, firstname,
-						lastname, email, trn, phonenumber, city, street, region, zipcode);
-
-				response.setStatus(HttpServletResponse.SC_OK);
-				//response.setHeader("Content-Location","user/?username="+username+"&status=pending");
-				response.setHeader("Content-Location","user/?status=pending");
-			}
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
-		}		
+		}	
+		
+		System.out.println("JSONObject ok");
+		
+		/*query returns true if user exists*/
+		boolean userExists = userServices.userExists(username);
+		
+		System.out.println("Get response from userExists : "+userExists);
+		
+		if( userExists ){
+			return new Gson().toJson("exists");
+		}
+		else{
+			
+			//UserServicesImpl us = new UserServicesImpl();
+			userServices.userRegistration(username, password, firstname,
+					lastname, email, trn, phonenumber, city, street, region, zipcode);
+
+			//response.setStatus(HttpServletResponse.SC_OK);
+			//response.setHeader("Content-Location","user/?username="+username+"&status=pending");
+			//response.setHeader("Content-Location","user/?status=pending");
+			return new Gson().toJson("user/?status=pending");
+		}
 	}
 	
 

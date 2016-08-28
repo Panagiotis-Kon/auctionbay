@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!--  <base href="https://localhost:8443/auctionbay/" />-->
+<base href="https://localhost:8443/auctionbay/" />
 <title>AuctionBay - Login & Register</title>
 <link href="resources/css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />-->
@@ -194,6 +194,28 @@
 		</div>	 
 	
 		 <div class="clearfix"> </div>
+		 
+		 <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
+  			<div class="modal-dialog" role="dialog">
+    			<div class="modal-content">
+      				<div class="modal-header" style="background-color:navy;">
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          					<span aria-hidden="true">&times;</span>
+        				</button>
+        				<h4 class="modal-title" id="warningLabel" style="color:#fff;">Warning</h4>
+      				</div>
+      				<div class="modal-body">
+     				<h4 id="warning-text"></h4>
+      				</div>
+      				<div class="modal-footer">
+        				<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        				
+      				</div>
+    			</div>
+  			</div>
+		</div>
+		 
+		 
       	 </div> <!-- Container -->
 	<!---->
 		<br><br>

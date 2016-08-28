@@ -130,7 +130,7 @@ function setListeners(){
 	} );
 	
 	
-	$('#pending-users-grid tbody').on('click', 'td.accept-button', function () {
+	$('#pending-users-grid tbody').on('click', 'button.accept-button', function () {
 		var tr = $(this).parents('tr');
 		var row = pending_table.row(tr);
 		pendingusers_matrix.push(row.data()[0]);
@@ -139,7 +139,7 @@ function setListeners(){
         var username = row.data()[0];
         accept_user(username);
         console.log('ACCEPTED USER');
-		pending_table.row( $(this).parents('tr') ).remove().draw();
+		
 		console.log('reached here');
     } );
 	
@@ -187,6 +187,7 @@ function createGrids(){
                        {"className": "dt-center", "targets": "_all"}
           ]          
     	});
+	
 	
 	registered_table = $('#registered-users-grid').DataTable( {
 		"processing": true,
@@ -255,12 +256,9 @@ function accept_user(username){
 		url  : "/auctionbay/administrator/accept-user",
 		success : function(response) {	
 			console.log("ok from ajax");
-			window.location.reload();
-		}/*,
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log('error', textStatus + " " + errorThrown);
-			alert('Application could not Accept the user');
-		}*/
+			pending_table.row( $(this).parents('tr') ).remove().draw();
+			//window.location.reload();
+		}
 		
 	});
 }
@@ -276,11 +274,7 @@ function ExportAll () {
 			$("#info-text").text("Your auction have been exported to AuctionBayXML folder");
 			$('#InfoModal').modal('show');
 			console.log("ok from ajax");
-		}/*,
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log('error', textStatus + " " + errorThrown);
-			alert('Application could not Accept the user');
-		}*/
+		}
 		
 	});
 }

@@ -304,7 +304,8 @@ function getAuctionDetails(auction_id,item_id) {
 			    
 			    
 			}
-			
+			$("#auctionID-edit").val(data.auctionID);
+			$("#itemID-edit").val(data.itemID);
 			$("#current-category").text(data.category);
 			$("#auction-name-edit").val(data.name);
 			$("#auction-description-edit").text(data.description);
@@ -344,6 +345,8 @@ function setEditListeners(){
 			
 			input["auction_name"] = auction_name;
 			input["auction_desc"] = auction_desc;
+			input["auctionID"] = $("#auctionID-edit").val();
+			input["itemID"] = $("#itemID-edit").val();
 			
 			if(auction_category == null) {
 				var new_auction_cat = [];
@@ -406,7 +409,7 @@ function updateAuction(input){
 	var auction_data = JSON.stringify(input);
 	var username = getUser();
 	console.log(auction_data);
-	$.ajax({
+	/*$.ajax({
 		type : "POST",
 		dataType:'json',
 		url  :window.location.href + "/update-auction",
@@ -415,7 +418,7 @@ function updateAuction(input){
 			console.log("Successssssssss ********** ********")
 			alert("the auction have changed")
 		}	
-	});
+	});*/
 }
 
 

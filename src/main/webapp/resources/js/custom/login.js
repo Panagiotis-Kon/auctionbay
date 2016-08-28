@@ -50,15 +50,19 @@ function Login(credentials){
 		type : "post",
 		url  : "login",
 		data : credentials,
-		success: function(output, status, xhr) { 
+		dataType:'json',
+		success: function(output) { 
             // console.log(xhr.status);
 			//window.location.replace(xhr.getResponseHeader("Content-Location"));
-			window.location = baseURL + "/" +  xhr.getResponseHeader("Content-Location");
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-        	alert('XHR ERROR ' + XMLHttpRequest.status);
-        },
-		dataType:'text'
+			//window.location = baseURL + "/" +  xhr.getResponseHeader("Content-Location");
+			if(output == "Problem"){
+				$("#warning-text").html("<h3 class=\"text-center\">Your Credentials are incorrect!</h3></br>")
+				$("#warningModal").modal('show');
+				//alert("Your Credentials are incorrect");
+			} else {
+				window.location = baseURL + "/" + output;
+			}
+        }
 	});
 	
 }
@@ -69,15 +73,17 @@ function Register(params){
 		type : "POST",
 		url  : "signup",
 		data : {json:params},
-		success: function(output, status, xhr) { 
-            console.log(xhr.status);
-            window.location.replace(xhr.getResponseHeader("Content-Location"));
+		success: function(output) { 
+            //console.log(xhr.status);
+            //window.location.replace(xhr.getResponseHeader("Content-Location"));
+			if(output == "exists"){
+				$("#warning-text").html("<h3 class=\"text-center\">Sorry, the username already exists</h3></br><h4 class=\"text-center\">Please try again</h4>")
+				$("#warningModal").modal('show');
+			}else {
+				window.location = baseURL + "/" + output;
+			}
           },
-          error: function(XMLHttpRequest, textStatus, errorThrown) {
-            alert("The Username Already exists");
-            
-          },
-		dataType:'text'
+		dataType:'json'
 	});
 	
 }

@@ -148,7 +148,7 @@ function advanced_search(start,end,input) {
 				for(var i=0;i<data.length;i++){
 					var panel = $("<div id=\"searchresults\"></div>");
 					panel.find('.item-listing-seller label').text(auctions[i].seller);
-					//panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id + "/"+auctions[i].name);
+					
 					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id);
 					panel.find('.item-listing-title a').text(auctions[i].name);
 					
@@ -161,7 +161,7 @@ function advanced_search(start,end,input) {
 					$("#available-auctions").append(html);
 					
 				}
-				//checkForUser();
+				
 			}
 		}
 	});

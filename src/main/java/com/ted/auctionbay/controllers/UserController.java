@@ -163,6 +163,32 @@ public class UserController {
 		return new Gson().toJson("Sorry an error occurred");
 	}
 	
+	
+	@RequestMapping(value = "/{username}/manage-auctions/update-auction", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateAuction(@RequestParam String username, @RequestParam String input){
+		
+		System.out.println("Updating...");
+		System.out.println("username: " + username);
+		System.out.println("Auction data: " + input);
+		int auctionID=0,itemID=0;
+		float buyprice, firstbid;
+		String title="";
+		try {
+			JSONObject auction_params = new JSONObject(input);
+			auctionID = Integer.parseInt(auction_params.getString("auctionID"));
+			
+		
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//auctionServices.updateAuction(auctionID, title, buyprice, firstbid, starttime, endtime, name, description, location, latitude, longitude)
+		return new Gson().toJson("problem");
+	}
+	
+	
 	@RequestMapping(value = "/{username}/manage-auctions/delete-auction", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteAuction(@RequestParam String username, @RequestParam String auctionID,
@@ -188,7 +214,8 @@ public class UserController {
 		JSONObject jsonDetails = new JSONObject();
 		try {
 			jsonDetails.put("name", item.getName());
-			jsonDetails.put("id", item.getItemID());
+			jsonDetails.put("itemID", item.getItemID());
+			jsonDetails.put("auctionID", auctionID);
 			jsonDetails.put("description",item.getDescription());
 			jsonDetails.put("location",item.getLocation());
 			jsonDetails.put("lat", item.getLatitude());

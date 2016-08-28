@@ -1,5 +1,6 @@
 package com.ted.auctionbay.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -180,20 +181,48 @@ public class AuctionsController {
 	public String advancedSearch(@RequestParam String start,@RequestParam String end,@RequestParam String search_data) {
 		int start_pag = Integer.parseInt(start);
 		int end_pag = Integer.parseInt(end);
+		System.out.println("Advanced Search");
+		String keywords = "",location = "", minBid="",maxBid = "";
+		List<String> categories = new ArrayList<String>();
 		try {
 			JSONObject search_params = new JSONObject(search_data);
-			/**
-			 * We need to find what to do next from here
-			 * 1) Get the result from the params given
-			 * 2) get the number of auctions for the pagination
-			 * 3) add the auctions
-			 */
+			keywords = search_params.getString("keywords");
+			location = search_params.getString("country");
+			minBid = search_params.getString("minBid");
+			maxBid = search_params.getString("maxBid");
+			JSONArray j = search_params.getJSONArray("categories");
+			for(int i=0;i<j.length();i++){
+				categories.add(j.getString(i));
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		List<Auction> auctions_list= auctionServices.advancedSearch(keywords, categories, location, minBid, maxBid);
+		JSONArray answer = new JSONArray();
+		for(Auction a: auctions_list){
+			JSONObject j = new JSONObject();
+			
+			String timeDiff = TimeUtilities.timeDiff(new Date(),a.getEndTime());
+			if(timeDiff != null ) {
+				try {
+					j.put("name", a.getTitle());
+					j.put("id", a.getItem().getItemID());
+					j.put("seller",a.getRegistereduser().getUsername());
+					//j.put("category", a.getItemID)
+					j.put("expires",timeDiff);
+					j.put("firstBid", a.getFirstBid());
+					j.put("numberOfBids",auctionServices.getNumOfBids(a.getAuctionID()));
+				}catch(JSONException e){
+					System.out.println("....... get auctions json error .....");
+				}
+				
+				answer.put(j);
+			}
+		}
 		
-		return "Could not find anything";
+		
+		return answer.toString();
 	}
 	
 }
