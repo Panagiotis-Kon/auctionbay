@@ -9,7 +9,7 @@
 		        			<div class="panel-body">
 		        				<div class="form-horizontal">
 		                			<div class="form-group">
-		                   				<label class="col-sm-3 control-label" for="Title">Name</label>
+		                   				<label class="col-sm-3 control-label" for="auction-name-edit">Name</label>
 		                       			<div class="col-sm-9">
 		                        			<input class="form-control" id="auction-name-edit" maxlength="80" name="Name" type="text" value="" />
 		                        		</div>
@@ -37,24 +37,28 @@
 		        					<div class="form-group">
 		        						<label class="col-sm-3 control-label" for="current-category">Category: </label>
 		        						<h5 class="col-sm-6" id="current-category"></h5>
-		        						<button type="button" class="btn btn-primary" id="change-cat-btn">Change</button>
+		        						<button type="button" class="btn btn-primary" id="change-cat-btn"><span class="glyphicon glyphicon-pencil"></span></button>
 		        					</div>
 		        					</div>
 		        					<div id="change-cat" style="display:none;">
 		                			 <div class="form-group">
-  										<label class="col-sm-3 control-label" for="category_list">Choose Category</label>
+  										<label class="col-sm-3 control-label" for="category-list-edit">Choose Category</label>
   										<div class="col-sm-9">
-  											<label class="label-danger" style="display:none;" id="no-categories">No Categories Available</label>
+  											<label class="label-danger" style="display:none;" id="no-categories-edit">No Categories Available</label>
   											<div class="col-md-4 col-sm-3">
-  											<select multiple="multiple" id="category_list-edit" class="form-control"></select>
+  											<select multiple="multiple" id="category-list-edit" class="form-control"></select>
   											</div>
   										</div>
 									</div>
 			                		<div class="form-group">
-			                			<label class="col-sm-4 control-label" for="new-category" id="add-cat-label">New Category <button type="button" onClick="return addCategoryInput(1);" class="btn btn-default btn-xs" aria-label="Left Align"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></label> 
-			                    		<label class="col-sm-4 control-label" for="new-category" id="remove-cat-label" style="display:none;">New Category <button type="button" onClick="return removeCategoryInput(1);" class="btn btn-default btn-xs" aria-label="Left Align"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button></label> 
-			                    		<div class="col-sm-6">
-			                    			<input class="form-control" id="new-category" style="display:none;" maxlength="80" placeholder="Add a New Category" name="New Category" type="text"/>
+			                			<label class="col-sm-4 control-label" for="new-edit-category" id="add-cat-edit-label">
+			                			New Category <button id="add-edit-cat-btn" type="button" onClick="return addCategoryInput(1);" class="btn btn-default btn-xs">
+			                			<span class="glyphicon glyphicon-plus"></span>
+			                			</button>
+			                			</label> 
+			                    		<label class="col-sm-4 control-label" for="new-edit-category" id="remove-cat-edit-label" style="display:none;">New Category <button type="button" onClick="return removeCategoryInput(1);" class="btn btn-default btn-xs" aria-label="Left Align"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button></label> 
+			                    		<div class="col-sm-6" id="new-cat-edit-area" style="display:none;">
+			                    			<input class="form-control" id="new-edit-category"  maxlength="80" placeholder="Add a New Category" name="New Category" type="text"/>
 			                    		</div>
 			                		</div>
 			                		</div>
@@ -72,7 +76,7 @@
 		        				<div class="form-horizontal">
 		                			 <div class="form-group">
   										<label class="col-sm-3 control-label" for="edit-countries-list">Select Country</label>
-  										<div class="col-sm-9" id="countries-area" style="display:none;">
+  										<div class="col-sm-9" id="edit-countries-area">
   											<select class="form control" id="edit-countries-list" name ="edit-countries-list"></select>
   										</div>
   										
@@ -80,7 +84,7 @@
 			                		<div class="form-group">
 			                			<label class="col-sm-3 control-label" for="location">Location</label> 
 			                    		<div class="col-sm-9">
-			                    			<div id="googleMap-edit"  style="width:500px;height:380px;"></div>
+			                    			<div id="googleMap-edit"  style="display:none;width:500px;height:380px;border: 4px solid #708090;"></div>
 			                    		</div>
 			                		</div>
 			        			</div>
@@ -95,10 +99,10 @@
 		        				<div class="form-horizontal">
 		                			
 									<div class="form-group required">
-									<label for="datetimepicker-create" class="col-sm-3 control-label">Select Duration:</label>
+									<label for="datetimepicker-edit" class="col-sm-3 control-label">Select Duration:</label>
 									<!--  <div class='form-group row'>-->
                   						
-                    					<div class='col-sm-6 input-group date' id='datetimepicker-create'>
+                    					<div class='col-sm-6 input-group date' id='datetimepicker-edit'>
                       						<div class="input-group"><input data-format="yyyy-MM-dd hh:mm:ss" type="text" id="datetime-field-edit" class="form-control" />
                       							<span class="input-group-addon">
                         						<span class="glyphicon glyphicon-calendar"></span>
@@ -137,6 +141,6 @@
 		         		
 		         		<div class="well">
 		              		<input type="button" class="btn btn-primary btn-lg pull-right" id="edit-auction-btn"  value="Save Changes" />
-		              		<input type="button" class="btn btn-default" id="reset"  value="Reset" />
+		              		<!--  <input type="button" class="btn btn-default" id="reset"  value="Reset" />-->
 		              	</div>
 					</form>

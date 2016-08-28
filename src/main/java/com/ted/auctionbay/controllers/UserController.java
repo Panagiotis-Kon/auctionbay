@@ -246,6 +246,10 @@ public class UserController {
 		
 		for(Auction a : users_auctions){
 			JSONObject auctions = new JSONObject();
+			boolean can_edit = auctionServices.auctionCanBeEdited(a.getAuctionID());
+			if(!can_edit){
+				continue;
+			}
 			try {
 				auctions.put("AuctionID",a.getAuctionID());
 				auctions.put("ItemID",a.getItem().getItemID());
@@ -254,16 +258,12 @@ public class UserController {
 				auctions.put("BuyPrice",a.getBuyPrice());
 				auctions.put("StartTime",a.getStartTime());
 				auctions.put("EndTime",a.getEndTime());
-				auctions.put("Can_Edit",auctionServices.auctionCanBeEdited(a.getAuctionID()));
+
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
-			
-			
+	
 			answer.put(auctions);
 		}
 		try {

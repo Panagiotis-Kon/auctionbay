@@ -16,10 +16,16 @@ $(document).ready(function (){
 /* --------- Global Variables ----------- */
 
 var map;
+var map_edit;
+var center_edit;
+var location_edit_marker;
+var lat_edit;
+var lon_edit;
 var geocoder;
 var location_marker;
 var lat;
 var lon;
+var allcategories;
 var user_auctions,active_auctions;
 var countries = ["Afghanistan","Albania","Algeria","Andorra",
                     "Angola","Anguilla","Antigua &amp; Barbuda","Argentina",
@@ -100,10 +106,10 @@ function initListeners() {
 		selectedList: 4
 	});
 	
-	$('#modify-tab').on('shown.bs.tab', function() {
+	/*$('#modify-tab').on('shown.bs.tab', function() {
 
 	  	$('#user-auctions').css("display","block");
-	});
+	});*/
 	
 	
 	
@@ -119,8 +125,9 @@ function initListeners() {
 	
 	$('#toAuctions-button').click(function(){
 		$('#edit-area').hide();
-		user_auctions.destroy();
-		getUserAuctions();
+		$('#user-auctions').show();
+		//user_auctions.destroy();
+		//getUserAuctions();
 		
 	});
 	
@@ -190,6 +197,8 @@ function initListeners() {
 		});
 	
 	
+	
+	
 }
 
 function isNumeric(n) {
@@ -240,7 +249,33 @@ function editAuctionModule(auction_id,item_id) {
 		var html = panel.html();
 		$("#auction-edit").append(html);
 		$('#edit-area').show();
-		
+		var nowTemp = new Date();
+	    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+	    $('#datetimepicker-edit').datetimepicker({
+	        minDate: now,
+	        format:"YYYY-MM-DD HH:mm:ss"
+	    });
+	    $("#googleMap-edit").css("display","block");
+	    initEditMap();
+	    $("#category-list-edit").multiselect({
+			selectedList: 4
+		});
+	    if(allcategories.length == 0){
+			$('#category-list-edit').css("display","none");
+			$('#no-categories-edit').css("display","block");
+			
+		} else {
+			for(var i = 0; i < allcategories.length; i++) {			
+				var category = allcategories[i].category;
+				var option = $('<option value="'+allcategories[i].category+'">');
+				option.text(category);
+				$("#category-list-edit").append(option);
+				
+				
+			}
+			$("#category-list-edit").multiselect("refresh");
+		}
+	    
 		getAuctionDetails(auction_id,item_id);
 	});
 }
@@ -253,13 +288,135 @@ function getAuctionDetails(auction_id,item_id) {
 		data :{auction_id:auction_id,item_id:item_id},
 		success : function(data) {
 			console.log(data);
+			setAuctionPosition(data.lat,data.lon);
+			
+			var sel = document.getElementById('edit-countries-list');
+			var existing = document.createElement('option');
+		    existing.innerHTML = data.location;
+		    existing.value = data.location;
+		    sel.appendChild(existing);
+		    
+			for(var i = 0; i < countries.length; i++) {
+			    var opt = document.createElement('option');
+			    opt.innerHTML = countries[i];
+				opt.value = countries[i];
+				sel.appendChild(opt);
+			    
+			    
+			}
+			
+			$("#current-category").text(data.category);
 			$("#auction-name-edit").val(data.name);
 			$("#auction-description-edit").text(data.description);
+			$("#edit-buy-price").val(data.buyprice);
+			$("#edit-first-bid").val(data.firstbid);
+			$("#datetime-field-edit").val(data.endTime);
 			
+			$("#change-cat-btn").click(function(event){
+				event.preventDefault();
+				$("#current-cat").css("display","none");
+				$("#change-cat").css("display","block");
+			});
+			
+			setEditListeners();
 		}	
 	}); 
+	
+	
 }
 
+function setEditListeners(){
+	
+	$("#edit-auction-btn").click(function(event){
+		event.preventDefault();
+		// start checking fields
+		
+		var input = {};
+		
+		var auction_name = $("#auction-name-edit").val();
+		if(auction_name == "") {
+			//alert("Please insert a name for your auction")
+			$('#warningModal').modal('show');
+			$('#warning-text').html("Please insert a name for your auction");
+		} else {
+			var auction_desc = $("#auction-description-edit").val();
+			var auction_category = $("#category-list-edit").val();
+			
+			input["auction_name"] = auction_name;
+			input["auction_desc"] = auction_desc;
+			
+			if(auction_category == null) {
+				var new_auction_cat = [];
+				var new_temp = $("#new-edit-category").val();
+				new_auction_cat.push(new_temp);
+				if(new_auction_cat == "") {
+					$('#warningModal').modal('show');
+					$('#warning-text').html("Please provide a category for your auction");
+				}
+				console.log(new_auction_cat)
+				input["auction_category"] = new_auction_cat;
+			} else {
+				
+				var new_auction_cat = $("#new-category").val();
+				if(new_auction_cat != "") {
+					auction_category.push(new_auction_cat);
+				}
+				input["auction_category"] = auction_category;
+				
+				var auction_country = $("#edit-countries-list").val();
+				var deadline = $("#datetime-field-edit").val();
+				var buyPrice = $("#edit-buy-price").val();
+				var first_bid = $("#edit-first-bid").val();
+				
+				if(first_bid == "" || buyPrice == "" || deadline == "" || auction_country=="") {
+					//alert("Please provide all the neccessary fields")
+					$('#warningModal').modal('show');
+					$('#warning-text').html("Please provide all the neccessary fields");
+				} else {
+					input["auction_country"] = auction_country;
+					input["deadline"] = deadline;
+					
+					if(isNumeric(buyPrice) && isNumeric(first_bid)){
+						input["buyPrice"] = buyPrice;
+						
+						input["first_bid"] = first_bid;
+						input["lon"] = lon_edit;
+						input["lat"] = lat_edit;
+						console.log(input);
+						$('#warningEditModal').modal('show');
+						$('#warningEdit-text').html("Are you sure that you want to apply these changes?");
+						$("#yes-edit").click(function(event){
+							updateAuction(input);
+						})
+						
+					} else {
+						$('#warningModal').modal('show');
+						$('#warning-text').html("Buy Price or First Bid are not numeric");
+					}
+					
+				}
+			}	
+		}
+		
+		
+	});
+}
+
+function updateAuction(input){
+	var auction_data = JSON.stringify(input);
+	var username = getUser();
+	console.log(auction_data);
+	$.ajax({
+		type : "POST",
+		dataType:'json',
+		url  :window.location.href + "/update-auction",
+		data :{username:username,input:auction_data},
+		success : function(data) {
+			console.log("Successssssssss ********** ********")
+			alert("the auction have changed")
+		}	
+	});
+}
 
 
 function countUserAuctions(type) {
@@ -402,14 +559,13 @@ function getUserAuctions() {
 	            { "data": "BuyPrice" },
 	            { "data": "StartTime" },
 	            { "data": "EndTime" },
-	            { "data": "Can_Edit"},
 	            {
 	                 title: "Options",
 	                //"className":      'edit-control delete-control',
 	                "orderable":      false,
 	                "data":           null,
-	                "defaultContent": '<button type=\"button\" id=\"edit-button\" class=\"btn btn-warning btn-sm edit-button\">Edit</button>'+
-	                '&nbsp<button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-sm delete-button\">Delete</button>'
+	                "defaultContent": '<button type=\"button\" id=\"edit-button\" class=\"btn btn-warning btn-sm edit-button\"><span class="glyphicon glyphicon-pencil"></span></button>'+
+	                '&nbsp<button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-sm delete-button\"><span class="glyphicon glyphicon-trash"></span></button>'
 	            }
 	        ],
 	        "columnDefs": [
@@ -423,31 +579,16 @@ function getUserAuctions() {
 	                           "visible": false,
 	                           "searchable": false
 	                       },
-	                       {
-	                           "targets": [ 7 ],
-	                           "visible": false,
-	                           "searchable": false
-	                       },
 	                       {"className": "dt-center", "targets": "_all"}
 	          ]             
 	
     	});
 	
 	
-	
-	
-	
 	$('#user-auctions').show();
 	
 
-	
-	/*$('#user-auctions-grid tr').each(function(i, row){
-		console.log("LOOPING NOW")
-		var $row = $(row);
-		console.log($row)
-		console.log("can_edit: " + $row.find('td:eq(1)').val());
-	})*/
-	
+
 	$('#user-auctions-grid tbody').on('click', 'button.edit-button', function () {
 		//alert("you clicked edit")
 		var tr = $(this).parents('tr');
@@ -456,13 +597,11 @@ function getUserAuctions() {
 		var auction_id = data.AuctionID;
 		//alert("auction_id: " + auction_id);
 		var item_id = data.ItemID;
-		alert("can_edit: " + data.Can_Edit );
 		
-		//$('#user-auctions').hide();
 		
-		//editAuctionModule(auction_id,item_id);
-        
-        
+		$('#user-auctions').fadeOut('1000');
+		
+		editAuctionModule(auction_id,item_id);
        
     } );
 	
@@ -482,6 +621,52 @@ function getUserAuctions() {
 	console.log("ENDING get user auctions....");
 }
 
+function setAuctionPosition(auction_lat,auction_lon){
+	
+	var position = new google.maps.LatLng(auction_lat,auction_lon);
+	location_edit_marker = new google.maps.Marker({
+        position: position,
+        draggable: true,
+        map: map_edit
+    });
+	
+	location_edit_marker.setMap(map_edit);
+	var latLng = location_edit_marker.getPosition(); // returns LatLng object
+	map_edit.setCenter(latLng);
+	
+	map_edit.addListener('click', function(e) {
+		
+		if(typeof location_edit_marker !== 'undefined')
+			location_edit_marker.setMap(null);
+		
+		location_edit_marker = new google.maps.Marker({
+	        position: e.latLng,
+	        draggable: true,
+	        map: map_edit
+	    });
+		
+		lat_edit = e.latLng.lat().toFixed(3);
+		lon_edit = e.latLng.lng().toFixed(3);
+		location_edit_marker.setMap(map_edit);
+		console.log("lat_edit: " + lat_edit);
+		console.log("lon_edit: " + lon_edit);
+	});
+}
+
+function initEditMap(){
+	
+	
+	
+	center_edit = new google.maps.LatLng(51.508742,-0.120850)
+	map_edit = new google.maps.Map(document.getElementById('googleMap-edit'), {
+	    center: center_edit,
+	    zoom: 8,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	});
+	
+	
+}
+
 
 function initGoogleMap(){
 	center = new google.maps.LatLng(51.508742,-0.120850)
@@ -490,6 +675,8 @@ function initGoogleMap(){
 	    zoom: 8,
 	    mapTypeId: google.maps.MapTypeId.ROADMAP
 	});
+	
+	
 	geocoder = new google.maps.Geocoder();
 
 	location_marker = new google.maps.Marker({
@@ -559,7 +746,7 @@ function getCategoryList(){
 		data : {type:type},
 		//url  : window.location.href + "/categories",
 		success : function(data) {
-			
+			allcategories = data;
 			if(data.length == 0){
 				$('#category_list').css("display","none");
 				$('#no-categories').css("display","block");
@@ -582,10 +769,7 @@ function getCategoryList(){
 	console.log("getting the categories ended");
 }
 
-function getAuctionCategory(auction_id) {
-	
-	
-}
+
 
 
 function addCategoryInput(option){
@@ -597,9 +781,16 @@ function addCategoryInput(option){
 	if(option == 0) {
 		//console.log("option: " + option)
 		$('#new-category').css("display","block");
+		$('#add-cat-btn').css("display","none");
 		$('#add-cat-label').css("display","none");
 		$('#remove-cat-label').css("display","block");
 	} else {
+		$('#add-cat-edit-label').css("display","none");
+		$('#remove-cat-edit-label').css("display","block");
+		$('#add-edit-cat-btn').css("display","none");
+		$('#new-cat-edit-area').css("display","block");
+		
+		
 		
 	}
 	
@@ -614,8 +805,15 @@ function removeCategoryInput(option){
 	if(option == 0) {
 		$('#new-category').css("display","none");
 		$('#remove-cat-label').css("display","none");
+		$('#add-cat-btn').css("display","block");
 		$('#add-cat-label').css("display","block");
 	} else {
+		$('#new-cat-edit-area').css("display","none");
+		$('#add-cat-edit-label').css("display","block");
+		
+		$('#add-edit-cat-btn').css("display","block");
+		$('#remove-cat-edit-label').css("display","none");
+		
 		
 	}
 	
