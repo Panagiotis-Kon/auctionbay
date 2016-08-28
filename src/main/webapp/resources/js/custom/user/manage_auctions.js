@@ -105,34 +105,7 @@ function initListeners() {
 	  	$('#user-auctions').css("display","block");
 	});
 	
-	$('#user-auctions-grid tbody').on('click', 'button.edit-button', function () {
-		//alert("you clicked edit")
-		var tr = $(this).parents('tr');
-		var row = user_auctions.row(tr);
-		
-		var auction_id = row.data()[0];
-		var item_id = row.data()[1];
-		console.log("item_id: " + row.data()[1])
-		$('#user-auctions').hide();
-		
-		editAuctionModule(auction_id,item_id);
-        console.log("auction_id: " + auction_id);
-        
-       
-    } );
 	
-	$('#user-auctions-grid tbody').on('click', 'button.delete-button', function () {
-		
-		var tr = $(this).parents('tr');
-		var row = user_auctions.row(tr);
-		
-		//var id = row.data()[0];
-		var name = row.data()[2];
-		
-		$("#auction-name-modal").html("<strong>" + name + " ?</strong>");
-		$('#deleteModal').modal('show');
-         
-    });
 	
 	$('#delete-auction-btn').click(function(){
 		var tr = $(this).parents('tr');
@@ -215,7 +188,8 @@ function initListeners() {
 		}
 		
 		});
-
+	
+	
 }
 
 function isNumeric(n) {
@@ -421,19 +395,20 @@ function getUserAuctions() {
 	    	"data":{"username":username,type:type} 
 	    },
 	  columns: [
-	            { title: "AuctionID" },
-	            { title: "ItemID" },
-	            { title: "Title" },
-	            { title: "Seller" },
-	            { title: "BuyPrice" },
-	            { title: "StartTime" },
-	            { title: "EndTime" },
+	            { "data": "AuctionID" },
+	            { "data": "ItemID" },
+	            { "data": "Title" },
+	            { "data": "Seller" },
+	            { "data": "BuyPrice" },
+	            { "data": "StartTime" },
+	            { "data": "EndTime" },
+	            { "data": "Can_Edit"},
 	            {
 	                 title: "Options",
 	                //"className":      'edit-control delete-control',
 	                "orderable":      false,
 	                "data":           null,
-	                "defaultContent":'<button type=\"button\" id=\"edit-button\" class=\"btn btn-warning btn-sm edit-button\">Edit</button>'+
+	                "defaultContent": '<button type=\"button\" id=\"edit-button\" class=\"btn btn-warning btn-sm edit-button\">Edit</button>'+
 	                '&nbsp<button type=\"button\" id=\"delete-button\" class=\"btn btn-danger btn-sm delete-button\">Delete</button>'
 	            }
 	        ],
@@ -448,11 +423,62 @@ function getUserAuctions() {
 	                           "visible": false,
 	                           "searchable": false
 	                       },
+	                       {
+	                           "targets": [ 7 ],
+	                           "visible": false,
+	                           "searchable": false
+	                       },
 	                       {"className": "dt-center", "targets": "_all"}
 	          ]             
 	
     	});
+	
+	
+	
+	
+	
 	$('#user-auctions').show();
+	
+
+	
+	/*$('#user-auctions-grid tr').each(function(i, row){
+		console.log("LOOPING NOW")
+		var $row = $(row);
+		console.log($row)
+		console.log("can_edit: " + $row.find('td:eq(1)').val());
+	})*/
+	
+	$('#user-auctions-grid tbody').on('click', 'button.edit-button', function () {
+		//alert("you clicked edit")
+		var tr = $(this).parents('tr');
+		var row = user_auctions.row(tr);
+		var data = row.data();
+		var auction_id = data.AuctionID;
+		//alert("auction_id: " + auction_id);
+		var item_id = data.ItemID;
+		alert("can_edit: " + data.Can_Edit );
+		
+		//$('#user-auctions').hide();
+		
+		//editAuctionModule(auction_id,item_id);
+        
+        
+       
+    } );
+	
+	$('#user-auctions-grid tbody').on('click', 'button.delete-button', function () {
+		
+		var tr = $(this).parents('tr');
+		var row = user_auctions.row(tr);
+		
+		//var id = row.data()[0];
+		var name = row.data()[2];
+		
+		$("#auction-name-modal").html("<strong>" + name + " ?</strong>");
+		$('#deleteModal').modal('show');
+         
+    });
+	
 	console.log("ENDING get user auctions....");
 }
 
@@ -523,11 +549,14 @@ function geocodeAddress(geocoder, resultsMap, country) {
 function getCategoryList(){
 	/* Make ajax call to receive the categories from the db */
 	console.log("getting the categories");
-
+	var user = getUser();
+	var url = baseURL + "/user/"+user+"/auctions/categories";
+	var type = "all";
 	$.ajax({
 		type : "GET",
 		dataType:'json',
-		url  : baseURL + "/auctions/categories",
+		url  : url,
+		data : {type:type},
 		//url  : window.location.href + "/categories",
 		success : function(data) {
 			

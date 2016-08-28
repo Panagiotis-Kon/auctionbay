@@ -245,28 +245,24 @@ public class UserController {
 		List<Auction> users_auctions = userServices.get_user_auctions(username,type);
 		
 		for(Auction a : users_auctions){
-			JSONArray auctions = new JSONArray();
-			auctions.put(a.getAuctionID());
-			auctions.put(a.getItem().getItemID());
-			auctions.put(a.getTitle());
-			auctions.put(a.getRegistereduser().getUsername());
+			JSONObject auctions = new JSONObject();
 			try {
-				auctions.put(a.getBuyPrice());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			auctions.put(a.getStartTime());
-			auctions.put(a.getEndTime());
-			try {
-				auctions.put(a.getFirstBid());
+				auctions.put("AuctionID",a.getAuctionID());
+				auctions.put("ItemID",a.getItem().getItemID());
+				auctions.put("Title",a.getTitle());
+				auctions.put("Seller",a.getRegistereduser().getUsername());
+				auctions.put("BuyPrice",a.getBuyPrice());
+				auctions.put("StartTime",a.getStartTime());
+				auctions.put("EndTime",a.getEndTime());
+				auctions.put("Can_Edit",auctionServices.auctionCanBeEdited(a.getAuctionID()));
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 			
-			auctions.put(auctionServices.auctionCanBeEdited(a.getAuctionID()));
+			
+			
 			
 			answer.put(auctions);
 		}
@@ -274,7 +270,7 @@ public class UserController {
 			data.put("draw",pageNumber);
 			data.put("iTotalRecords",user_auctions_num);
 			data.put("iTotalDisplayRecords", user_auctions_num);
-			data.put("aaData", answer);
+			data.put("data", answer);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
