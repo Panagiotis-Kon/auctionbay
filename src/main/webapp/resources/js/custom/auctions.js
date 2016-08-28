@@ -8,12 +8,40 @@ $(document).ready(function(){
 	console.log("base url: " + baseURL);
 	console.log("window.location.href: " + window.location.href)
 	var type = "active";
+	getAuctionsRecommendations();
 	total_pages = getNumOfAuctions(type);
 	
 	getCategories(type);
 	
 	
 });
+
+function getAuctionsRecommendations(){
+	var username = getUser();
+	var url = window.location.protocol+ "//" + window.location.hostname + ":" +window.location.port + "/auctionbay/user/";
+	if(username != ""){
+		console.log("getting unread messages");
+		$.ajax({
+			type : "GET",
+			dataType:'json',
+			data: {username:username},
+			url  : url + username + "/recommendations",
+			success:function(data){
+				
+				if(data.length == 0){
+					$("#rec-list").css("display","none");
+					$("#no-recommendations").css("display","block");
+				}
+				
+			}
+			
+			
+		});
+	}
+	
+}
+
+	
 
 
 function initListeners(){
