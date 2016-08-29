@@ -22,7 +22,7 @@ public interface QueryItem {
 	
 	public int maxItemID();
 	
-	public void deleteItem(int itemID);
+	public int deleteItem(int itemID);
 	
 	public List<Integer> getItemIDs();
 	

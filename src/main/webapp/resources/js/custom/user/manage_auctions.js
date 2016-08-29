@@ -206,7 +206,8 @@ function deleteAuction(auctionID,itemID){
 		url  :window.location.href + "/delete-auction",
 		data :{username:username,auctionID:auctionID,itemID:itemID},
 		success : function(data) {
-			alert("Deleted");
+			console.log("Deleted");
+			$('#deleteModal').modal('hide');
 		}	
 	});
 }
@@ -401,7 +402,7 @@ function updateAuction(input){
 	var auction_data = JSON.stringify(input);
 	var username = getUser();
 	console.log(auction_data);
-	/*$.ajax({
+	$.ajax({
 		type : "POST",
 		dataType:'json',
 		url  :window.location.href + "/update-auction",
@@ -410,7 +411,7 @@ function updateAuction(input){
 			console.log("Successssssssss ********** ********")
 			alert("the auction have changed")
 		}	
-	});*/
+	});
 }
 
 
@@ -607,20 +608,19 @@ function getUserAuctions() {
 		
 		//var id = row.data()[0];
 		var auction_id = row.data().AuctionID;
+		var item_id = row.data().ItemID;
 		var name = row.data().Title;
 		
 		console.log("auction_id: " + auction_id);
-		$("#auction-name-modal").html("<strong>" + name + " ?</strong>");
+		$("#auction-name-modal").html("<strong>" + name + " ?</strong><input id=\"auctionID\" class=\"hidden\" value=\""+auction_id+"\">" +
+				"<input id=\"itemID\" class=\"hidden\" value=\""+item_id+"\"> ");
 		$('#deleteModal').modal('show');
          
     });
 	
 	$('#delete-auction-btn').click(function(){
-		var tr = $(this).parents('tr');
-		var row = user_auctions.row(tr);
-		
-		var auction_id = row.data().AuctionID;
-		var item_id = row.data().ItemID;
+		var auction_id = $("#auctionID").val();
+		var item_id = $("#itemID").val();
 		console.log("auction_id: " + auction_id);
 		deleteAuction(auction_id, item_id);
 		user_auctions.row( $(this).parents('tr') ).remove().draw();

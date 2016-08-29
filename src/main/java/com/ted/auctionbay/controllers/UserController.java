@@ -196,9 +196,10 @@ public class UserController {
 		int auction_id = Integer.parseInt(auctionID);
 		int item_id = Integer.parseInt(itemID);
 		
+		if (auctionServices.deleteAuction(username, auction_id, item_id) == 0)
+			return new Gson().toJson("OK");
 		
-		
-		return new Gson().toJson("Cannot delete auction");
+		return new Gson().toJson("Problem in delete");
 	}
 	
 	@RequestMapping(value = {"/{username}/manage-auctions/auction-details"})

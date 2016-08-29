@@ -196,12 +196,7 @@ public class AuctionServicesImpl implements AuctionServices{
 		//queryUser.deleteBidderFromAuction(username, auctionID);
 		queryAuction.deleteAuction(username,itemID,auctionID);
 		Item item = queryItem.getDetails(itemID);
-		List<Category> categories_list = item.getCategories();
-		for(Category c:categories_list){
-			c.deleteItem(item);
-		}
-		queryItem.deleteItem(itemID);	
-		return 0;
+		return queryItem.deleteItem(itemID);	
 	}
 
 	@Override
