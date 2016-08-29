@@ -335,6 +335,7 @@ public class UserController {
 			JSONArray bidsHistory = auctionServices.getBidHistory(auction.getAuctionID());
 			int numOfBids = auctionServices.getNumOfBids(auction.getAuctionID());
 			float highestBid = auctionServices.getHighestBid(auction.getAuctionID());
+			
 			try {
 				aObj.put("AuctionID", auction.getAuctionID());
 				aObj.put("ItemID", auction.getItem().getItemID());

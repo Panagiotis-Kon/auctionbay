@@ -139,15 +139,47 @@ function initListeners() {
 			input["auction_desc"] = auction_desc;
 			
 			if(auction_category == null) {
-				var new_auction_cat = [];
-				var new_temp = $("#new-category").val();
-				new_auction_cat.push(new_temp);
-				if(new_auction_cat == "") {
+				
+				
+				var new_auction_cat = $("#new-category").val();
+				var new_auction_category = [];
+				if(new_auction_cat != "") {
+					new_auction_category.push(new_auction_cat);
+					input["auction_category"] = new_auction_category;
+					
+					var auction_country = $("#countries-list").val();
+					var deadline = $("#datetime-field").val();
+					var buyPrice = $("#buy-price").val();
+					var first_bid = $("#first-bid").val();
+					
+					if(first_bid == "" || buyPrice == "" || deadline == "" || auction_country=="") {
+						//alert("Please provide all the neccessary fields")
+						$('#warningModal').modal('show');
+						$('#warning-text').html("Please provide all the neccessary fields");
+					} else {
+						input["auction_country"] = auction_country;
+						input["deadline"] = deadline;
+						
+						if(isNumeric(buyPrice) && isNumeric(first_bid)){
+							input["buyPrice"] = buyPrice;
+							
+							input["first_bid"] = first_bid;
+							input["lon"] = lon;
+							input["lat"] = lat;
+							console.log(input);
+							createAuction(input);
+						} else {
+							$('#warningModal').modal('show');
+							$('#warning-text').html("Buy Price or First Bid are not numeric");
+						}
+						
+					}
+				} else {
 					$('#warningModal').modal('show');
 					$('#warning-text').html("Please provide a category for your auction");
 				}
-				console.log(new_auction_cat)
-				input["auction_category"] = new_auction_cat;
+				
+				
 			} else {
 				
 				var new_auction_cat = $("#new-category").val();
@@ -197,7 +229,7 @@ function isNumeric(n) {
 	  return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-function deleteAuction(auctionID,itemID){
+function deleteAuction(auctionID,itemID, index){
 	
 	var username = getUser();
 	$.ajax({
@@ -208,6 +240,7 @@ function deleteAuction(auctionID,itemID){
 		success : function(data) {
 			console.log("Deleted");
 			$('#deleteModal').modal('hide');
+			user_auctions.row( index ).remove().draw();
 		}	
 	});
 }
@@ -334,31 +367,40 @@ function setEditListeners(){
 			$('#warning-text').html("Please insert a name for your auction");
 		} else {
 			var auction_desc = $("#auction-description-edit").val();
-			var auction_category = $("#category-list-edit").val();
-			
 			input["auction_name"] = auction_name;
 			input["auction_desc"] = auction_desc;
 			input["auctionID"] = $("#auctionID-edit").val();
 			input["itemID"] = $("#itemID-edit").val();
-			
-			if(auction_category == null) {
-				var new_auction_cat = [];
-				var new_temp = $("#new-edit-category").val();
-				new_auction_cat.push(new_temp);
-				if(new_auction_cat == "") {
-					$('#warningModal').modal('show');
-					$('#warning-text').html("Please provide a category for your auction");
-				}
-				console.log(new_auction_cat)
-				input["auction_category"] = new_auction_cat;
+			var flag = 0;
+			if ($("#current-category").is(":visible")) {
+				input["auction_category"] = $("#current-category").text();  
+				flag = 0;
 			} else {
-				
-				var new_auction_cat = $("#new-category").val();
-				if(new_auction_cat != "") {
-					auction_category.push(new_auction_cat);
+				var auction_category = $("#category-list-edit").val();
+				if(auction_category == null){
+					var new_auction_cat = $("#new-edit-category").val(); 
+					if(new_auction_cat == ""){
+						flag = 1;
+						$('#warningModal').modal('show');
+						$('#warning-text').html("Please provide a category for your auction");
+						
+					} else {
+						var new_auction_category = [];
+						new_auction_category.push(new_auction_cat);
+						input["auction_category"] = new_auction_category;
+						flag = 0;
+					}
+				} else {
+					var new_auction_cat = $("#new-edit-category").val();
+					if(new_auction_cat != "") {
+						auction_category.push(new_auction_cat);
+					}
+					input["auction_category"] = auction_category;
+					flag=0;
 				}
-				input["auction_category"] = auction_category;
 				
+			}
+			if(flag != 1){
 				var auction_country = $("#edit-countries-list").val();
 				var deadline = $("#datetime-field-edit").val();
 				var buyPrice = $("#edit-buy-price").val();
@@ -370,7 +412,7 @@ function setEditListeners(){
 					$('#warning-text').html("Please provide all the neccessary fields");
 				} else {
 					input["auction_country"] = auction_country;
-					input["deadline"] = deadline;
+					input["deadline"] = deadline.slice(0,-2);
 					
 					if(isNumeric(buyPrice) && isNumeric(first_bid)){
 						input["buyPrice"] = buyPrice;
@@ -379,19 +421,16 @@ function setEditListeners(){
 						input["lon"] = lon_edit;
 						input["lat"] = lat_edit;
 						console.log(input);
-						$('#warningEditModal').modal('show');
-						$('#warningEdit-text').html("Are you sure that you want to apply these changes?");
-						$("#yes-edit").click(function(event){
-							updateAuction(input);
-						})
-						
+						createAuction(input);
 					} else {
 						$('#warningModal').modal('show');
 						$('#warning-text').html("Buy Price or First Bid are not numeric");
 					}
 					
 				}
-			}	
+			}
+			
+			
 		}
 		
 		
@@ -408,7 +447,7 @@ function updateAuction(input){
 		url  :window.location.href + "/update-auction",
 		data :{username:username,input:auction_data},
 		success : function(data) {
-			console.log("Successssssssss ********** ********")
+			console.log("Successssssssss ********** ********");
 			alert("the auction have changed")
 		}	
 	});
@@ -433,16 +472,18 @@ function countUserAuctions(type) {
 
 function auctionDetails(d){
 	
-	 var bidHistory = d.bidHistory;
+	 var BidsHistory = d.BidsHistory;
 	 var content = '<button class="btn btn-info" data-toggle="collapse" data-target="#demo">Bids</button>'+
 	 '<div id="demo" class="collapse">'+
 	 '<table><thead><tr><th>Bidder</th><th>Bid</th></tr></thead>';
-	 /*for(var i=0; i<bidHistory.length; i++){
-		 content += '<tr><td>' + bidHistory[0]'</td><td>'+ bidHistory[1] + '</td></tr>';
-	 }*/
-	 
-	 content += '<tr><td>' +'Magas' +'</td><td>'+ '18.88' + '</td></tr>';
-	 content += '<tr><td>' +'Magas2' +'</td><td>'+ '13.18' + '</td></tr>';
+	 for(var i=0; i<BidsHistory.length; i++){
+		 content += '<tr><td>' + BidsHistory[0] +'</td><td>'+ BidsHistory[1] + '</td></tr>';
+	 }
+	 if(BidsHistory.length == 0){
+		 content += '<tr><td>No Bid History available</td></tr>'; 
+	 }
+	// content += '<tr><td>' +'Magas' +'</td><td>'+ '18.88' + '</td></tr>';
+	 //content += '<tr><td>' +'Magas2' +'</td><td>'+ '13.18' + '</td></tr>';
 	 content +='</table></div>';
 	
 	
@@ -476,6 +517,7 @@ function getUserAuctions() {
 	
 	console.log("get user auctions....");
 	var username = getUser();
+	var hyperlink = baseURL + "/user/"+username+"/auctions/item/";
 	var type = "active";
 	active_auctions = $('#active-user-auctions-grid').DataTable( {
 		"processing": true,
@@ -492,8 +534,12 @@ function getUserAuctions() {
 	                "defaultContent": ''
 	            },
 	            { "data": "AuctionID" },
-	            { "data": "ItemID" },
-	            { "data": "Title" },
+	            { "data": "ItemID",},
+	            { "data": "Title",
+	            	"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+	                    $(nTd).html("<a href='"+hyperlink+oData.ItemID +"'>"+oData.Title+"</a>");
+	                }
+	            },
 	            { "data": "Seller" },
 	            { "data": "BuyPrice" },
 	            { "data": "EndTime" },
@@ -610,10 +656,12 @@ function getUserAuctions() {
 		var auction_id = row.data().AuctionID;
 		var item_id = row.data().ItemID;
 		var name = row.data().Title;
+		var index = row.index();
+		console.log("index: "+index);
 		
-		console.log("auction_id: " + auction_id);
+		//console.log("auction_id: " + auction_id);
 		$("#auction-name-modal").html("<strong>" + name + " ?</strong><input id=\"auctionID\" class=\"hidden\" value=\""+auction_id+"\">" +
-				"<input id=\"itemID\" class=\"hidden\" value=\""+item_id+"\"> ");
+				"<input id=\"itemID\" class=\"hidden\" value=\""+item_id+"\"><input id=\"rowID\" class=\"hidden\" value=\""+index+"\"> ");
 		$('#deleteModal').modal('show');
          
     });
@@ -622,8 +670,9 @@ function getUserAuctions() {
 		var auction_id = $("#auctionID").val();
 		var item_id = $("#itemID").val();
 		console.log("auction_id: " + auction_id);
-		deleteAuction(auction_id, item_id);
-		user_auctions.row( $(this).parents('tr') ).remove().draw();
+		var index = $("#rowID").val();
+		deleteAuction(auction_id, item_id, index);
+		
 	});
 	
 	console.log("ENDING get user auctions....");

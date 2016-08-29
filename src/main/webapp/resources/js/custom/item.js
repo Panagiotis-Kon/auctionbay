@@ -126,6 +126,8 @@ function getDetails(itemID, details_module) {
 				panel.find('#highest-bid').html(parseFloat(data.highest_bid).toFixed(2) + " $");
 				panel.find('#bids-num').text(data.numOfBids);
 				
+				
+				
 				if(parseFloat(data.buyprice).toFixed(2) != 0.00){
 					$("#buy-section").css("display","block");
 					
@@ -164,7 +166,12 @@ function getDetails(itemID, details_module) {
 						
 						});
 				}
-				
+				var username = getUser();
+				console.log("username: " + username + " --- seller: " + data.seller);
+				if(username == data.seller){
+					console.log("here")
+					$("#bid-section").css("display","none");
+				}
 				setListeners();
 				checkForUser();
 				
