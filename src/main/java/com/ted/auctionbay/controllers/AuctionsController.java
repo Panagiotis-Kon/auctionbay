@@ -198,7 +198,7 @@ public class AuctionsController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		List<Auction> auctions_list= auctionServices.advancedSearch(keywords, categories, location, minBid, maxBid);
+		List<Auction> auctions_list= auctionServices.advancedSearch(keywords, categories, location, minBid, maxBid, start_pag, end_pag);
 		JSONArray answer = new JSONArray();
 		for(Auction a: auctions_list){
 			JSONObject j = new JSONObject();

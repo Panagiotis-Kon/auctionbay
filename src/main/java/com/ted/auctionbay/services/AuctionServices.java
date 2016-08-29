@@ -34,17 +34,13 @@ public interface AuctionServices {
 	
 	public int deleteAuction(String username, int auctionID, int itemID);
 	
-	public int editAuction(String username, JSONObject params);
-	
 	public int submitBid(String username, int itemID, float bid_amount);
 	
 	public int buyItem(String username, int itemID);
 	
 	public JSONArray getBidHistory(int auctionID);
 	
-	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
-	
-	public int delAuction(String Username, int auctionID, int ItemID);
+	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid, int startpage, int endpage);
 	
 	public List<Auction> getExpiredAuctions();
 	
@@ -58,6 +54,6 @@ public interface AuctionServices {
 	
 	public List<Object[]> getAuctionsForExport(int startpage,int endpage);
 	
-	public int updateAuction(int auctionID, String title, float buyprice, float firstbid, Date starttime, Date endtime, String name, String description, String location, Double latitude, Double longitude);
+	public int updateAuction(int auctionID, String title, float buyprice, float firstbid, Date endtime, String name, String description, String location, Double latitude, Double longitude);
 	
 }

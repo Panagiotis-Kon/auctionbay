@@ -232,7 +232,7 @@ public class QueryAuctionImpl implements QueryAuction {
 	@Override
 	public List<Auction> advancedSearch(String keywords,
 			List<String> Categories, String Location, String minBid,
-			String maxBid) {
+			String maxBid, int startpage, int endpage) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em
 				.createNativeQuery(
@@ -280,17 +280,9 @@ public class QueryAuctionImpl implements QueryAuction {
 			query.setParameter(9, null);
 		else
 			query.setParameter(9, maxBid);
+		query.setFirstResult(startpage);
+		query.setMaxResults(endpage);
 		return query.getResultList();
-	}
-
-	@Override
-	public int delAuction(String Username, int auctionID, int ItemID) {
-		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("DELETE FROM auction WHERE Seller=? and AuctionID=? and ItemID=?");
-		query.setParameter(0, Username);
-		query.setParameter(1, auctionID);
-		query.setParameter(2, ItemID);
-		return query.executeUpdate();
 	}
 
 	@Override
@@ -384,15 +376,14 @@ public class QueryAuctionImpl implements QueryAuction {
 
 	@Override
 	public int  updateAuction(int auctionID, String title, float buyprice,
-			float firstbid, Date starttime, Date endtime) {
+			float firstbid, Date endtime) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("UPDATE auction set Title=?1, BuyPrice=?2, FirstBid=?3, StartTime=?4, EndTime=?5 WHERE AuctionID=?6");
+		Query query = em.createNativeQuery("UPDATE auction set Title=?1, BuyPrice=?2, FirstBid=?3, EndTime=?4 WHERE AuctionID=?5");
 		query.setParameter(1, title);
 		query.setParameter(2, buyprice);
 		query.setParameter(3, firstbid);
-		query.setParameter(4, starttime);
-		query.setParameter(5, endtime);
-		query.setParameter(6, auctionID);
+		query.setParameter(4, endtime);
+		query.setParameter(5, auctionID);
 		return query.executeUpdate();
 	}
 

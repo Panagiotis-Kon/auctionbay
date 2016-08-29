@@ -201,24 +201,6 @@ public class AuctionServicesImpl implements AuctionServices{
 			c.deleteItem(item);
 		}
 		queryItem.deleteItem(itemID);	
-		/*
-		 * Something more is needed...
-		 * */
-		categories_list = null;
-		categories_list = queryCategory.fetchCategories();
-		
-		for(Category c : categories_list){
-			if(c.getItems().size() == 0){
-				
-			}
-		}
-		
-		return 0;
-	}
-
-	@Override
-	public int editAuction(String username, JSONObject params) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -276,7 +258,6 @@ public class AuctionServicesImpl implements AuctionServices{
 				jobj.put("BidPrice", obj[1].toString());
 				bidsHistory.put(jobj);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -287,17 +268,9 @@ public class AuctionServicesImpl implements AuctionServices{
 	@Override
 	public List<Auction> advancedSearch(String keywords,
 			List<String> Categories, String Location, String minBid,
-			String maxBid) {
-		return queryAuction.advancedSearch(keywords, Categories, Location, minBid, maxBid);
+			String maxBid, int startpage, int endpage) {
+		return queryAuction.advancedSearch(keywords, Categories, Location, minBid, maxBid, startpage, endpage);
 	}
-
-	@Override
-	public int delAuction(String Username, int auctionID, int ItemID) {
-		queryAuction.delAuction(Username,auctionID,ItemID);
-		return 0;
-	}
-
-	
 
 	@Override
 	public List<Auction> getExpiredAuctions() {
@@ -342,7 +315,7 @@ public class AuctionServicesImpl implements AuctionServices{
 
 	@Override
 	public int updateAuction(int auctionID, String title, float buyprice,
-			float firstbid, Date starttime, Date endtime,
+			float firstbid,  Date endtime,
 			String name, String description, String location, Double latitude,
 			Double longitude) {
 		//Auction details
@@ -360,16 +333,12 @@ public class AuctionServicesImpl implements AuctionServices{
 			firstbid = queryAuction.getAuctionByID(auctionID).getFirstBid();
 			countofnull++;
 		}
-		if (starttime == null){
-			starttime = queryAuction.getAuctionByID(auctionID).getStartTime();
-			countofnull++;
-		}
 		if (endtime == null){
 			endtime = queryAuction.getAuctionByID(auctionID).getStartTime();
 			countofnull++;
 		}
-		if (countofnull < 5){
-			results = queryAuction.updateAuction(auctionID, title, buyprice, firstbid, starttime, endtime);
+		if (countofnull < 4){
+			results = queryAuction.updateAuction(auctionID, title, buyprice, firstbid, endtime);
 		}
 		//Item of the Auction details
 		countofnull=0;

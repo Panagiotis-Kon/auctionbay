@@ -88,9 +88,12 @@ public class QueryItemImpl implements QueryItem {
 	@Override
 	public void deleteItem(int itemID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("DELETE FROM item WHERE ItemID=?");
+		Query query = em.createNativeQuery("DELETE FROM item_has_category WHERE ItemID=?");
 		query.setParameter(1, itemID);
-		
+		query.executeUpdate();
+		query = em.createNativeQuery("DELETE FROM item WHERE ItemID=?");
+		query.setParameter(1, itemID);
+		query.executeUpdate();
 	}
 
 	@SuppressWarnings("unchecked")

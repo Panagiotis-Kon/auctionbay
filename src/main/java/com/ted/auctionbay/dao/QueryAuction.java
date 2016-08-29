@@ -45,9 +45,7 @@ public interface QueryAuction {
 	
 	public List<Object[]> getBidHistory(int auctionID);
 	
-	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
-	
-	public int delAuction(String Username, int auctionID, int ItemID);
+	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid, int startpage, int endpage);
 	
 	public List<Object[]> BidderExpiredAuction(String username);
 	
@@ -57,5 +55,5 @@ public interface QueryAuction {
 	
 	public boolean auctionCanBeEdited(int auctionID);
 	
-	public int updateAuction(int auctionID, String title, float buyprice, float firstbid, Date starttime, Date endtime);
+	public int updateAuction(int auctionID, String title, float buyprice, float firstbid, Date endtime);
 }
