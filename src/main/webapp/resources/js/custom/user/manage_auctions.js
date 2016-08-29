@@ -113,15 +113,7 @@ function initListeners() {
 	
 	
 	
-	$('#delete-auction-btn').click(function(){
-		var tr = $(this).parents('tr');
-		var row = user_auctions.row(tr);
-		
-		var auction_id = row.data()[0];
-		var item_id = row.data()[1];
-		console.log("auction_id: " + auction_id);
-		deleteAuction(auction_id, item_id);
-	});
+	
 	
 	$('#toAuctions-button').click(function(){
 		$('#edit-area').hide();
@@ -614,12 +606,25 @@ function getUserAuctions() {
 		var row = user_auctions.row(tr);
 		
 		//var id = row.data()[0];
-		var name = row.data()[2];
+		var auction_id = row.data().AuctionID;
+		var name = row.data().Title;
 		
+		console.log("auction_id: " + auction_id);
 		$("#auction-name-modal").html("<strong>" + name + " ?</strong>");
 		$('#deleteModal').modal('show');
          
     });
+	
+	$('#delete-auction-btn').click(function(){
+		var tr = $(this).parents('tr');
+		var row = user_auctions.row(tr);
+		
+		var auction_id = row.data().AuctionID;
+		var item_id = row.data().ItemID;
+		console.log("auction_id: " + auction_id);
+		deleteAuction(auction_id, item_id);
+		user_auctions.row( $(this).parents('tr') ).remove().draw();
+	});
 	
 	console.log("ENDING get user auctions....");
 }
@@ -788,9 +793,11 @@ function addCategoryInput(option){
 		$('#add-cat-label').css("display","none");
 		$('#remove-cat-label').css("display","block");
 	} else {
-		$('#add-cat-edit-label').css("display","none");
-		$('#remove-cat-edit-label').css("display","block");
+		//$('#add-cat-edit-label').css("display","none");
+		//$('#remove-cat-edit-label').css("display","block");
+		$("#remove-edit-cat-btn").css("display","block");
 		$('#add-edit-cat-btn').css("display","none");
+		
 		$('#new-cat-edit-area').css("display","block");
 		
 		
@@ -811,11 +818,11 @@ function removeCategoryInput(option){
 		$('#add-cat-btn').css("display","block");
 		$('#add-cat-label').css("display","block");
 	} else {
+		$('#remove-edit-cat-btn').css("display","none");
 		$('#new-cat-edit-area').css("display","none");
-		$('#add-cat-edit-label').css("display","block");
 		
 		$('#add-edit-cat-btn').css("display","block");
-		$('#remove-cat-edit-label').css("display","none");
+		//$('#remove-cat-edit-label').css("display","none");
 		
 		
 	}
