@@ -421,7 +421,7 @@ function setEditListeners(){
 						input["lon"] = lon_edit;
 						input["lat"] = lat_edit;
 						console.log(input);
-						createAuction(input);
+						updateAuction(input);
 					} else {
 						$('#warningModal').modal('show');
 						$('#warning-text').html("Buy Price or First Bid are not numeric");
