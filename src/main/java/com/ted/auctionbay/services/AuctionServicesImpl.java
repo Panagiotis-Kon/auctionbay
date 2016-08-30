@@ -332,7 +332,7 @@ public class AuctionServicesImpl implements AuctionServices{
 			endtime = queryAuction.getAuctionByID(auctionID).getStartTime();
 			countofnull++;
 		}
-		if (countofnull < 4){
+		if (countofnull == 4){
 			results = queryAuction.updateAuction(auctionID, title, buyprice, firstbid, endtime);
 		}
 		//Item of the Auction details
@@ -350,15 +350,7 @@ public class AuctionServicesImpl implements AuctionServices{
 			location = queryItem.getDetails(itemID).getLocation();
 			countofnull++;
 		}
-		if (latitude.isNaN()){
-			latitude = queryItem.getDetails(itemID).getLatitude();
-			countofnull++;
-		}
-		if (longitude.isNaN()){
-			longitude = queryItem.getDetails(itemID).getLongitute();
-			countofnull++;
-		}
-        if (countofnull < 5){
+        if (countofnull == 3){
 			results = results + queryItem.updateItem(itemID, name, description, location, latitude, longitude);
 		}
         //Item categories

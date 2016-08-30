@@ -143,7 +143,7 @@ public class QueryItemImpl implements QueryItem {
 	@Override
 	public List<Integer> getCategories_ID(int ItemID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query q = em.createNativeQuery("SELECT CategoryID FROM category, item_has_category WHERE item_has_category.CategoryID = category.CategoryID and item_has_category.ItemID=?");
+		Query q = em.createNativeQuery("SELECT category.CategoryID FROM category, item_has_category WHERE item_has_category.CategoryID = category.CategoryID and item_has_category.ItemID=?");
 		q.setParameter(1, ItemID);
 		List<Integer> resultSet = q.getResultList();
 		return resultSet;

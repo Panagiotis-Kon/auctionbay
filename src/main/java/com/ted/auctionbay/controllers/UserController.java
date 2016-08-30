@@ -195,7 +195,7 @@ public class UserController {
 	        org.joda.time.format.DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
 	        org.joda.time.DateTime dt = formatter.parseDateTime(deadline);
 	        endtime = dt.toDate();
-			name = auction_params.getString("Title");
+			name = auction_params.getString("auction_name");
 			description = auction_params.getString("auction_desc");
 			location = auction_params.getString("auction_country");
 			latitude = Double.parseDouble(auction_params.getString("lat"));
@@ -227,7 +227,7 @@ public class UserController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.print("Categories: "+categories);
 		auctionServices.updateAuction(auctionID, title, categories, buyprice, firstbid, endtime, name, description, location, latitude, longitude);
 		return new Gson().toJson("problem");
 	}
