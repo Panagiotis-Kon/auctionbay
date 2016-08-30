@@ -69,12 +69,18 @@ public class ItemController {
 			// make a string from all categories of the item
 			for (int i=0;i<categories.size();i++){
 				if (i==0){
-					allcategories = String.valueOf(categories.get(i)) + ", ";
+					allcategories = String.valueOf(categories.get(i));
 				}
 				else if (i==categories.size()-1){
+					if (i == 1){
+						allcategories = allcategories + ", ";
+					}
 					allcategories = allcategories + String.valueOf(categories.get(i));
 				}
 				else {
+					if (i == 1){
+						allcategories = allcategories + ", ";
+					}
 					allcategories = allcategories + String.valueOf(categories.get(i)) + ", ";
 				}
 				

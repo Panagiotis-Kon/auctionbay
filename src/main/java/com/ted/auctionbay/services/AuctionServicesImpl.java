@@ -1,6 +1,7 @@
 package com.ted.auctionbay.services;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -309,12 +310,82 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public int updateAuction(int auctionID, String title, List<Integer> categories, float buyprice,
-			float firstbid,  Date endtime,
-			String name, String description, String location, Double latitude,
-			Double longitude) {
+	public int updateAuction(int auctionID, JSONObject auction_params) {
+		float buyprice = -1, firstbid = -1;
+		String title="", name="", description="", location = "";
+		Double latitude = null, longitude = null;
+		Date endtime = null;
+		List<Integer> categories = new ArrayList<Integer>();
+		Auction auction = queryAuction.getAuctionByID(auctionID);
+		Item item = auction.getItem();
+		JSONArray categories_arr = null;
+		try {
+		auctionID = Integer.parseInt(auction_params.getString("auctionID"));
+		title = auction_params.getString("auction_name");
+		buyprice = Float.parseFloat(auction_params.getString("buyPrice"));
+		firstbid = Float.parseFloat(auction_params.getString("first_bid"));
+		String deadline = auction_params.getString("deadline");
+        org.joda.time.format.DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        org.joda.time.DateTime dt = formatter.parseDateTime(deadline);
+        endtime = dt.toDate();
+		name = auction_params.getString("auction_name");
+		description = auction_params.getString("auction_desc");
+		location = auction_params.getString("auction_country");
+		latitude = Double.parseDouble(auction_params.get("lat").toString());
+		longitude = Double.parseDouble(auction_params.get("lon").toString());
+		categories_arr = auction_params.getJSONArray("auction_category");
+		
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		List<Category> old_categories = item.getCategories();
+		
+		
+		int categoryID = queryCategory.maxCategoryID();
+		List<Category> cat_list = queryCategory.fetchCategories();
+		HashMap<String,Category> cat_map = new HashMap<String,Category>();
+		for(Category c:cat_list){
+			cat_map.put(c.getName(), c);
+		}
+		try {
+			for(int j=0; j<categories_arr.length(); j++) {
+				Category category = null;
+				String cat_name;
+			
+				cat_name = categories_arr.getString(j);
+			
+				if(cat_map.containsKey(cat_name)) {
+					category = cat_map.get(cat_name);
+				} else {
+					System.out.println("New category: " + cat_name);
+					System.out.println("Category ID: " + categoryID);
+					category = new Category();
+					category.setCategoryID(categoryID);
+					category.setName(cat_name);
+					categoryID++;
+				}
+				System.out.print(category.getCategoryID());
+				if (!old_categories.contains(category))
+					item.insertCategory(category);
+				categories.add(category.getCategoryID());
+			}
+			for (int i=0;i<old_categories.size();i++){
+				Category c = old_categories.get(i);
+				if (!categories.contains(c.getCategoryID())){
+					item.deleteCategory(c);
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		//Auction details
-		int results = 0;
+		auction.setAuctionID(auctionID);
+		auction.setBuyPrice(buyprice);
+		auction.setEndTime(endtime);
+		auction.setFirstBid(firstbid);
+		auction.setItem(item);
+		auction.setTitle(title);
+		/*int results = 0;
 		int countofnull = 0; //count null arguments if all are null, then don't update
 		if (title.equals("-1")){
 			title = queryAuction.getAuctionByID(auctionID).getTitle();
@@ -334,9 +405,18 @@ public class AuctionServicesImpl implements AuctionServices{
 		}
 		if (countofnull == 4){
 			results = queryAuction.updateAuction(auctionID, title, buyprice, firstbid, endtime);
-		}
+		}*/
 		//Item of the Auction details
-		countofnull=0;
+		item.setDescription(description);
+		item.setLatitude(latitude);
+		item.setLongitute(longitude);
+		item.setLocation(location);
+		item.setName(name);
+		if(queryAuction.submitAuction(auction) == -1){
+			System.out.println("Could not register auction");
+			return -2;
+		}
+		/*countofnull=0;
 		int itemID = queryAuction.getAuctionByID(auctionID).getItem().getItemID();
 		if (name.equals("-1")){
 			name = queryItem.getDetails(itemID).getName();
@@ -352,21 +432,23 @@ public class AuctionServicesImpl implements AuctionServices{
 		}
         if (countofnull == 3){
 			results = results + queryItem.updateItem(itemID, name, description, location, latitude, longitude);
-		}
+		}*/
         //Item categories
-        List<Integer> item_categories = queryItem.getCategories_ID(itemID);
+        /*List<Integer> item_categories = queryItem.getCategories_ID(itemID);
         for (Integer category: categories){
         	if (item_categories.contains(category)){
         		continue;
         	}
+        	System.out.print("Category "+category+" Item "+itemID);
         	queryItem.addCategory(category, itemID);
         }
         for (Integer category: item_categories){
         	if (categories.contains(category)){
         		continue;
         	}
+        	System.out.print("Category "+category+" Item "+itemID);
         	queryItem.removeCategory(category, itemID);
-        }
-        return results;
+        }*/
+        return 0;
 	}
 }

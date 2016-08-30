@@ -9,6 +9,8 @@ import javax.persistence.Query;
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
+import com.ted.auctionbay.entities.items.ItemHasCategory;
+import com.ted.auctionbay.entities.items.ItemHasCategoryPK;
 
 public class QueryItemImpl implements QueryItem {
 	
@@ -124,10 +126,11 @@ public class QueryItemImpl implements QueryItem {
 	@Override
 	public int addCategory(int categoryID, int itemID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("INSERT INTO item_has_category (CategoryID,ItemID) VALUES ('?1','?2')");
-		query.setParameter(1, categoryID);
-		query.setParameter(2, itemID);
-		return query.executeUpdate();
+		ItemHasCategory ihc = new ItemHasCategory();
+		ihc.getId().setCategoryID(categoryID);
+		ihc.getId().setItemID(itemID);
+		em.persist(ihc);
+		return 0;
 	}
 	
 	@Override

@@ -54,6 +54,6 @@ public interface AuctionServices {
 	
 	public List<Object[]> getAuctionsForExport(int startpage,int endpage);
 	
-	public int updateAuction(int auctionID, String title, List<Integer> categories, float buyprice, float firstbid, Date endtime, String name, String description, String location, Double latitude, Double longitude);
+	public int updateAuction(int auctionID, JSONObject auction_params);
 	
 }
