@@ -1,6 +1,6 @@
 
 
-
+/* Index will be used as a controller for the app */
 function checkForUser(){
 	/*
 	 * Check first the url. 
