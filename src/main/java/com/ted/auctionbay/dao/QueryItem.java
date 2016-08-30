@@ -13,6 +13,7 @@ public interface QueryItem {
 	public List<Double> getCoordinates(int ItemID);
 
 	public List<String> getCategories(int ItemID);
+	public List<Integer> getCategories_ID(int ItemID);
 	
 	public int getNumberofItems();
 	
@@ -27,5 +28,9 @@ public interface QueryItem {
 	public List<Integer> getItemIDs();
 	
 	public int updateItem(int itemID, String name, String description, String location, Double latitude, Double longitude);
+	
+	public int addCategory(int categoryID, int itemID);
+	
+	public int removeCategory(int categoryID, int itemID);
 
 }

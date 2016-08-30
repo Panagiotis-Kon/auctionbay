@@ -120,5 +120,33 @@ public class QueryItemImpl implements QueryItem {
 		query.setParameter(6, itemID);
 		return query.executeUpdate();
 	}
+
+	@Override
+	public int addCategory(int categoryID, int itemID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("INSERT INTO item_has_category (CategoryID,ItemID) VALUES ('?1','?2')");
+		query.setParameter(1, categoryID);
+		query.setParameter(2, itemID);
+		return query.executeUpdate();
+	}
+	
+	@Override
+	public int removeCategory(int categoryID, int itemID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("DELETE FROM item_has_category WHERE CategoryID=?1 and ItemID=?2");
+		query.setParameter(1, categoryID);
+		query.setParameter(2, itemID);
+		return query.executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Integer> getCategories_ID(int ItemID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query q = em.createNativeQuery("SELECT CategoryID FROM category, item_has_category WHERE item_has_category.CategoryID = category.CategoryID and item_has_category.ItemID=?");
+		q.setParameter(1, ItemID);
+		List<Integer> resultSet = q.getResultList();
+		return resultSet;
+	}
 	
 }

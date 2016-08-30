@@ -350,4 +350,9 @@ public class ItemServicesImpl  implements ItemServices{
 		}
 	}
 
+	@Override
+	public int addCategory(int categoryID,int itemID) {
+		return queryItem.addCategory(categoryID, itemID);
+	}
+
 }
