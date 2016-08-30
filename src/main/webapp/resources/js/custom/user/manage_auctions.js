@@ -375,7 +375,9 @@ function setEditListeners(){
 			input["itemID"] = $("#itemID-edit").val();
 			var flag = 0;
 			if ($("#current-category").is(":visible")) {
-				input["auction_category"] = $("#current-category").text();  
+				var cat_temp_array = [];
+				cat_temp_array.push($("#current-category").text());
+				input["auction_category"] = cat_temp_array;  
 				flag = 0;
 			} else {
 				var auction_category = $("#category-list-edit").val();
