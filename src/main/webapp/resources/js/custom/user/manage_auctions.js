@@ -26,7 +26,7 @@ var location_marker;
 var lat;
 var lon;
 var allcategories;
-var user_auctions,active_auctions;
+var user_auctions,active_auctions,myBids_table;
 var countries = ["Afghanistan","Albania","Algeria","Andorra",
                     "Angola","Anguilla","Antigua &amp; Barbuda","Argentina",
                     "Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas",
@@ -248,7 +248,7 @@ function deleteAuction(auctionID,itemID, index){
 
 function do_refresh() {
 	console.log("reloading location");
-	$('#createModal').modal('hide');
+	$('#successModal').modal('hide');
 	location.reload();
 }
 
@@ -264,7 +264,9 @@ function createAuction(input) {
 		data :{username:username,input:auction_data},
 		success : function(data) {
 			console.log("Successssssssss ********** ********")
-			$('#createModal').modal('show');
+			$('#success-text').html("Your auction was created successfully!!");
+			$('#successLabel').html("Create Auction");
+			$('#successModal').modal('show');
 		}	
 	});
 }
@@ -425,18 +427,17 @@ function setEditListeners(){
 					} else {
 						$('#warningModal').modal('show');
 						$('#warning-text').html("Buy Price or First Bid are not numeric");
-					}
-					
+					}		
 				}
-			}
-			
-			
+			}	
 		}
-		
-		
 	});
 }
 
+/**
+ * Call for updating the auction
+ * @param input : an object containing all the data for update
+ */
 function updateAuction(input){
 	var auction_data = JSON.stringify(input);
 	var username = getUser();
@@ -447,8 +448,12 @@ function updateAuction(input){
 		url  :window.location.href + "/update-auction",
 		data :{username:username,input:auction_data},
 		success : function(data) {
-			console.log("Successssssssss ********** ********");
-			alert("the auction have changed")
+			console.log("Successssssssss Updateee");
+			//alert("the auction have changed")
+			$('#success-text').html("Your auction is updated");
+			$('#successLabel').html("Update Auction");
+			$('#successModal').modal('show');
+			
 		}	
 	});
 }
@@ -674,6 +679,45 @@ function getUserAuctions() {
 		deleteAuction(auction_id, item_id, index);
 		
 	});
+	
+	
+	
+	myBids_table = $('#myBids-grid').DataTable( {
+		"processing": true,
+	    "serverSide": true,
+	    "ajax": {
+	    	"url": window.location.href + "/get-user-bids",
+	    	"data":{"username":username} 
+	    },
+	  columns: [
+	            { "data": "AuctionID" },
+	            { "data": "ItemID" },
+	            { "data": "Title" },
+	            { "data": "Seller" },
+	            { "data": "BuyPrice" },
+	            { "data": "EndTime" },
+	            { "data": "BuyPrice" },
+	            { "data": "HighestBid" },
+	            { "data": "myBid" },
+	        ],
+	        "columnDefs": [
+	                       {
+	                           "targets": [ 0 ],
+	                           "visible": false,
+	                           "searchable": false
+	                       },
+	                       {
+	                           "targets": [ 1 ],
+	                           "visible": false,
+	                           "searchable": false
+	                       },
+	                       {"className": "dt-center", "targets": "_all"}
+	          ]             
+	
+    	});
+	
+	
+	$('#user-bids').show();
 	
 	console.log("ENDING get user auctions....");
 }

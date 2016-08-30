@@ -64,13 +64,13 @@
      							 <!--  <a class="navbar-brand" href="#">Auctionbay</a>-->
     						</div>
     						<ul class="nav navbar-nav">
-      						<li class="active"><a href="#" class="index-link">Home</a></li>
+      						<li><a href="#" class="index-link">Home</a></li>
       						
-      						<li id="auctions1" style="display:block;"><a href="#" class="view-auctions-ref">Auctions</a></li>
-      						<li id="auctions2" style="display:none;"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Auctions <span class="caret"></span></a>
+      						<li  class="active" id="auctions1" style="display:block;"><a href="#" class="view-auctions-ref">Auctions</a></li>
+      						<li  class="active" id="auctions2" style="display:none;"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Auctions <span class="caret"></span></a>
       							<ul class="dropdown-menu">
       								<li><a href="#" class="view-auctions-ref" >View Auctions</a></li>
-      								<li><a href="#" class="create-auction-ref">Manage Auction</a></li>
+      								<li><a href="#" class="create-auction-ref">Manage Auctions</a></li>
       							</ul>			
       						</li>
       							
@@ -138,6 +138,7 @@
 			<li class="active"><a id="view-tab" data-toggle="tab" href="#view">My Auctions</a></li>
   			<li><a id="modify-tab" data-toggle="tab" href="#modify">Modify Auctions</a></li>
   			<li><a id="create-tab" data-toggle="tab" href="#create">Create Auctions</a></li>
+  			<li><a id="myBid-tab" data-toggle="tab" href="#myBids">My Bids</a></li>
 		</ul>
 
 		<div class="tab-content">
@@ -363,6 +364,40 @@
 				</div>
   			</div>
   			
+  			
+  			<div id="myBids" class="tab-pane fade">
+    			<div class="well">
+  					<h3 class="text-center">Check your bids</h3>
+  				</div>
+  				<div class="col-sm-12">
+  					<div id="user-bids" class="panel panel-default" style="display:none">
+	       				<div class="panel-heading text-center">
+		        			<h5 id="bidHeader" style="font-weight:bold;">My Bids</h5>
+		        			
+		    			</div>
+		    			<div class="panel-body">
+		    				<table id="myBids-grid" class="display" style="width:100%;">
+		    				<thead>
+            					<tr>
+                					<th>AuctionID</th>
+                					<th>ItemID</th>
+                					<th>Title</th>
+                					<th>Seller</th>
+                					<th>Deadline</th>
+                					<th>Buy Price</th>
+                					<th>Highest Bid</th>
+                					<th>My Bid</th>
+            					</tr>
+        					</thead>
+		    				
+		    				</table>
+						</div>
+	   				</div>	 
+  				</div>
+  			</div>
+  			
+  			
+  			
   				
 		</div>
 		</div>
@@ -389,17 +424,17 @@
   			</div>
 		</div>
 		
-		<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+		<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
   			<div class="modal-dialog" role="dialog">
     			<div class="modal-content">
       				<div class="modal-header" style="background-color:#00FF7F;">
         				<button type="button" class="close" onclick="do_refresh()" aria-label="Close">
           					<span aria-hidden="true">&times;</span>
         				</button>
-        				<h4 class="modal-title" id="deleteLabel" style="color:#000;">Create Auction</h4>
+        				<h4 class="modal-title" id="successLabel" style="color:#000;"></h4>
       				</div>
       				<div class="modal-body">
-     				Your auction was created successfully!!
+     					<h4 id="success-text"></h4>
       				</div>
       				<div class="modal-footer">
         				<button type="button" class="btn btn-success" onclick="do_refresh()">OK</button>
