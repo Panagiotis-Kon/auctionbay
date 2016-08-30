@@ -102,9 +102,7 @@ function initListeners() {
         geocodeAddress(geocoder, map, country);
 	});
 	
-	$("#category_list").multiselect({
-		selectedList: 4
-	});
+	
 	
 	/*$('#modify-tab').on('shown.bs.tab', function() {
 
@@ -221,7 +219,9 @@ function initListeners() {
 		});
 	
 	
-	
+	$("#category_list").multiselect({
+		selectedList: 4
+	});
 	
 }
 
@@ -682,7 +682,7 @@ function getUserAuctions() {
 	
 	
 	
-	myBids_table = $('#myBids-grid').DataTable( {
+	/*myBids_table = $('#myBids-grid').DataTable( {
 		"processing": true,
 	    "serverSide": true,
 	    "ajax": {
@@ -717,7 +717,7 @@ function getUserAuctions() {
     	});
 	
 	
-	$('#user-bids').show();
+	$('#user-bids').show();*/
 	
 	console.log("ENDING get user auctions....");
 }
@@ -725,6 +725,8 @@ function getUserAuctions() {
 function setAuctionPosition(auction_lat,auction_lon){
 	
 	var position = new google.maps.LatLng(auction_lat,auction_lon);
+	lat_edit = auction_lat;
+	lon_edit = auction_lon;
 	location_edit_marker = new google.maps.Marker({
         position: position,
         draggable: true,
