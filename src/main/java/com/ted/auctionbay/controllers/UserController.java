@@ -198,8 +198,8 @@ public class UserController {
 			name = auction_params.getString("auction_name");
 			description = auction_params.getString("auction_desc");
 			location = auction_params.getString("auction_country");
-			latitude = Double.parseDouble(auction_params.getString("lat"));
-			longitude = Double.parseDouble(auction_params.getString("lon"));
+			latitude = Double.parseDouble(auction_params.get("lat").toString());
+			longitude = Double.parseDouble(auction_params.get("lon").toString());
 			int categoryID = queryCategory.maxCategoryID();
 			List<Category> cat_list = queryCategory.fetchCategories();
 			HashMap<String,Category> cat_map = new HashMap<String,Category>();
