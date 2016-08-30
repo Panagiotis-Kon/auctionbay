@@ -30,4 +30,6 @@ public interface ItemServices {
 	
 	public void initializeRatingData() throws IOException;
 	
+	public int addCategory(int categoryID, int itemID);
+	
 }

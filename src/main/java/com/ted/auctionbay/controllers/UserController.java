@@ -1,13 +1,16 @@
 package com.ted.auctionbay.controllers;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.ted.auctionbay.dao.QueryCategory;
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.services.AuctionServices;
@@ -44,6 +49,9 @@ public class UserController {
 	
 	@Autowired
 	ItemServices itemServices;
+	
+	@Autowired
+	QueryCategory queryCategory;
 	
 	
 	private static int user_auctions_num;
@@ -171,20 +179,56 @@ public class UserController {
 		System.out.println("Updating...");
 		System.out.println("username: " + username);
 		System.out.println("Auction data: " + input);
-		int auctionID=0,itemID=0;
-		float buyprice, firstbid;
-		String title="";
+		int auctionID=0;
+		float buyprice = -1, firstbid = -1;
+		String title="", name="", description="", location = "";
+		Double latitude = null, longitude = null;
+		Date endtime = null;
+		List<Integer> categories = new ArrayList<Integer>();
 		try {
 			JSONObject auction_params = new JSONObject(input);
 			auctionID = Integer.parseInt(auction_params.getString("auctionID"));
-			
+			title = auction_params.getString("auction_name");
+			buyprice = Float.parseFloat(auction_params.getString("buyPrice"));
+			firstbid = Float.parseFloat(auction_params.getString("first_bid"));
+			String deadline = auction_params.getString("deadline");
+	        org.joda.time.format.DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+	        org.joda.time.DateTime dt = formatter.parseDateTime(deadline);
+	        endtime = dt.toDate();
+			name = auction_params.getString("Title");
+			description = auction_params.getString("auction_desc");
+			location = auction_params.getString("auction_country");
+			latitude = Double.parseDouble(auction_params.getString("lat"));
+			longitude = Double.parseDouble(auction_params.getString("lon"));
+			int categoryID = queryCategory.maxCategoryID();
+			List<Category> cat_list = queryCategory.fetchCategories();
+			HashMap<String,Category> cat_map = new HashMap<String,Category>();
+			for(Category c:cat_list){
+				cat_map.put(c.getName(), c);
+			}
+			JSONArray categories_arr = auction_params.getJSONArray("auction_category");
+			for(int j=0; j<categories_arr.length(); j++) {
+				Category category = null;
+				String cat_name = categories_arr.getString(j);
+				if(cat_map.containsKey(cat_name)) {
+					category = cat_map.get(cat_name);
+				} else {
+					System.out.println("New category: " + cat_name);
+					System.out.println("Category ID: " + categoryID);
+					category = new Category();
+					category.setCategoryID(categoryID);
+					category.setName(cat_name);
+					categoryID++;
+				}
+				System.out.print(category.getCategoryID());
+				categories.add(category.getCategoryID());
+			}
 		
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//auctionServices.updateAuction(auctionID, title, buyprice, firstbid, starttime, endtime, name, description, location, latitude, longitude)
+		auctionServices.updateAuction(auctionID, title, categories, buyprice, firstbid, endtime, name, description, location, latitude, longitude);
 		return new Gson().toJson("problem");
 	}
 	
@@ -349,7 +393,6 @@ public class UserController {
 				aObj.put("StartTime", auction.getStartTime());
 				aObj.put("EndTime", auction.getEndTime());
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			reply.put(aObj);

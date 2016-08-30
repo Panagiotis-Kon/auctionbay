@@ -309,7 +309,7 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public int updateAuction(int auctionID, String title, float buyprice,
+	public int updateAuction(int auctionID, String title, List<Integer> categories, float buyprice,
 			float firstbid,  Date endtime,
 			String name, String description, String location, Double latitude,
 			Double longitude) {
@@ -361,6 +361,20 @@ public class AuctionServicesImpl implements AuctionServices{
         if (countofnull < 5){
 			results = results + queryItem.updateItem(itemID, name, description, location, latitude, longitude);
 		}
+        //Item categories
+        List<Integer> item_categories = queryItem.getCategories_ID(itemID);
+        for (Integer category: categories){
+        	if (item_categories.contains(category)){
+        		continue;
+        	}
+        	queryItem.addCategory(category, itemID);
+        }
+        for (Integer category: item_categories){
+        	if (categories.contains(category)){
+        		continue;
+        	}
+        	queryItem.removeCategory(category, itemID);
+        }
         return results;
 	}
 }
