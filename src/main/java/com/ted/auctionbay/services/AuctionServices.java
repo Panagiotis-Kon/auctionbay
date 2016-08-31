@@ -42,6 +42,8 @@ public interface AuctionServices {
 	
 	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid, int startpage, int endpage);
 	
+	public int numOfadvancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
+	
 	public List<Auction> getExpiredAuctions();
 	
 	public List<Object[]> BidderExpiredAuctions(String username);

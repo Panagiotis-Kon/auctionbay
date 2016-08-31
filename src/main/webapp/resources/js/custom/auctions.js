@@ -197,19 +197,20 @@ function advanced_search(start,end,input,template_module) {
 		        if(limit == 0){
 		        	limit=1;
 		        }
-		        if(resp_size == 10){
-		        	limit = 1;
-		        }
+		        
+		        var amount = data[0].size; 
+		        console.log("amount: " + amount)
 		        search_pages=limit;
 		        console.log("limit: " + limit);
 		        $('#advSearch-paginator').bootpag({
-		            total: limit
+		            total: amount,
+		            maxVisible: 5
 		             }).on("page", function(event, num){
 		            	
 		            var start = (num-1)*end;
 		           
 		            // ... after content load -> change total to 10
-		            $(this).bootpag({total: limit});
+		            $(this).bootpag({total: limit,maxVisible: 5});
 		            $('html, body').animate({scrollTop : 0},800);
 		            getTemplateBySearch(start,end,search_data);
 		         
@@ -221,7 +222,7 @@ function advanced_search(start,end,input,template_module) {
 					var panel = $("<div id=\"searchresults\">" + template_module +"</div>");
 					panel.find('.item-listing-seller label').text(data[i].seller);
 					
-					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+data[i].id);
+					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+data[i].itemID);
 					panel.find('.item-listing-title a').text(data[i].name);
 					
 					panel.find("#elapseTime h4").text(data[i].expires+"remaining");

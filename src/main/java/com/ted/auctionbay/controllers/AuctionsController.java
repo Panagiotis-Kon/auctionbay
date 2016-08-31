@@ -198,7 +198,9 @@ public class AuctionsController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		int num = auctionServices.numOfadvancedSearch(keywords, categories, location, minBid, maxBid);
 		List<Auction> auctions_list= auctionServices.advancedSearch(keywords, categories, location, minBid, maxBid, start_pag, end_pag);
+		
 		JSONArray answer = new JSONArray();
 		for(Auction a: auctions_list){
 			JSONObject j = new JSONObject();
@@ -206,8 +208,9 @@ public class AuctionsController {
 			String timeDiff = TimeUtilities.timeDiff(new Date(),a.getEndTime());
 			if(timeDiff != null ) {
 				try {
+					j.put("size", num);
 					j.put("name", a.getTitle());
-					j.put("id", a.getItem().getItemID());
+					j.put("itemID", a.getItem().getItemID());
 					j.put("seller",a.getRegistereduser().getUsername());
 					//j.put("category", a.getItemID)
 					j.put("expires",timeDiff);

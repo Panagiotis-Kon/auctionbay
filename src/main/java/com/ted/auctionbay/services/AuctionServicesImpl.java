@@ -451,4 +451,11 @@ public class AuctionServicesImpl implements AuctionServices{
         }*/
         return 0;
 	}
+
+	@Override
+	public int numOfadvancedSearch(String keywords, List<String> Categories, String Location, String minBid,
+			String maxBid) {
+		
+		return queryAuction.numOfadvancedSearch(keywords, Categories, Location, minBid, maxBid);
+	}
 }

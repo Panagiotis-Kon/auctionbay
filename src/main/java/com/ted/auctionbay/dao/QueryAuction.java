@@ -47,6 +47,8 @@ public interface QueryAuction {
 	
 	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid, int startpage, int endpage);
 	
+	public int numOfadvancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
+	
 	public List<Object[]> BidderExpiredAuction(String username);
 	
 	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers();

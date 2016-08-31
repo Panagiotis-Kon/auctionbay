@@ -229,6 +229,47 @@ public class QueryAuctionImpl implements QueryAuction {
 		return query.getResultList();
 	}
 
+	
+	@Override
+	public int numOfadvancedSearch(String keywords, List<String> Categories, String Location, String minBid,
+			String maxBid) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		
+		String buildquery = "SELECT COUNT(DISTINCT(a.AuctionID)) "
+				+ "FROM auction a,category c,item_has_category ihc, item i "
+				+ "WHERE a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID and a.EndTime >=NOW() ";
+		if (!keywords.equals("")){
+			buildquery = buildquery + "and (a.Seller LIKE '%"+keywords+"%' or a.Title LIKE '%"+keywords+"%' or i.Description LIKE '%"+keywords+"%') ";
+		}
+		if (Categories.size()!=0){
+			buildquery = buildquery + "and (";
+			int count=0;
+			for (String category:Categories){
+				if (count==0)
+					buildquery = buildquery + "c.Name = '"+category+"' ";
+				else
+					buildquery = buildquery + "or c.Name = '"+category+"' ";
+				count++;
+			}
+			buildquery = buildquery + ") ";
+		}
+		if (!Location.equals(""))
+			buildquery = buildquery + "and i.Location = '"+Location+"' ";
+		if (!minBid.equals(""))
+			buildquery = buildquery + "and a.FirstBid >= '"+minBid+"' ";
+		if (!maxBid.equals(""))
+			buildquery = buildquery + "and a.FirstBid <= '"+maxBid+"' ";
+		Query query = em.createNativeQuery(buildquery);
+		
+		int number;
+		if(query.getResultList().get(0) == null){
+			number = 0;
+		} else {
+			number = Integer.parseInt(query.getResultList().get(0).toString());
+		}
+		return number;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Auction> advancedSearch(String keywords,
@@ -370,5 +411,7 @@ public class QueryAuctionImpl implements QueryAuction {
 		query.setParameter(5, auctionID);
 		return query.executeUpdate();
 	}
+
+
 
 }
