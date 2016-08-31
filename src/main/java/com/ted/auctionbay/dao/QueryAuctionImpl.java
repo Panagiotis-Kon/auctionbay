@@ -246,6 +246,43 @@ public class QueryAuctionImpl implements QueryAuction {
 								+ " and i.Location = IFNULL(?,i.Location)"
 								+ " and a.FirstBid >= IFNULL(?,(SELECT MAX(FirstBid) FROM auction)) and a.FirstBid <= IFNULL(?,(SELECT MAX(FirstBid) FROM auction))",
 						Auction.class);
+		String buildquery = "SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
+				+ "FROM auction a,category c,item_has_category ihc, item i"
+				+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID ";
+		/*if (!keywords.equals("")){
+			buildquery = bu
+		}
+		if (Categories.size()!=0){
+			if (Categories.get(0).isEmpty())
+				query.setParameter(4, null);
+			else
+				query.setParameter(4, Categories.get(0));
+			if (Categories.get(1).isEmpty())
+				query.setParameter(5, null);
+			else
+				query.setParameter(5, Categories.get(1));
+			if (Categories.get(2).isEmpty())
+				query.setParameter(6, null);
+			else
+				query.setParameter(6, Categories.get(2));
+		}
+		else{
+			query.setParameter(4, null);
+			query.setParameter(5, null);
+			query.setParameter(6, null);
+		}
+		if (Location.equals(""))
+			query.setParameter(7, null);
+		else
+			query.setParameter(7, Location);
+		if (minBid.equals(""))
+			query.setParameter(8, null);
+		else
+			query.setParameter(8, minBid);
+		if (maxBid.equals(""))
+			query.setParameter(9, null);
+		else
+			query.setParameter(9, maxBid);*/
 		if (keywords.equals(""))
 			query.setParameter(1, null);
 		else
