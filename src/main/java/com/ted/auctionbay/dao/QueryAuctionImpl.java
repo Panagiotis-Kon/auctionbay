@@ -234,6 +234,7 @@ public class QueryAuctionImpl implements QueryAuction {
 	public List<Auction> advancedSearch(String keywords,
 			List<String> Categories, String Location, String minBid,
 			String maxBid, int startpage, int endpage) {
+		System.out.print("Keyword: "+keywords+"\nCategories: "+Categories+"\nLocations: "+"\nminBid: "+minBid+"\nmaxBid: "+maxBid+"\n");
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em
 				.createNativeQuery(
@@ -257,18 +258,25 @@ public class QueryAuctionImpl implements QueryAuction {
 			query.setParameter(3, null);
 		else
 			query.setParameter(3, keywords);
-		if (Categories.get(0).isEmpty())
+		if (Categories.size()!=0){
+			if (Categories.get(0).isEmpty())
+				query.setParameter(4, null);
+			else
+				query.setParameter(4, Categories.get(0));
+			if (Categories.get(1).isEmpty())
+				query.setParameter(5, null);
+			else
+				query.setParameter(5, Categories.get(1));
+			if (Categories.get(2).isEmpty())
+				query.setParameter(6, null);
+			else
+				query.setParameter(6, Categories.get(2));
+		}
+		else{
 			query.setParameter(4, null);
-		else
-			query.setParameter(4, Categories.get(0));
-		if (Categories.get(1).isEmpty())
 			query.setParameter(5, null);
-		else
-			query.setParameter(5, Categories.get(1));
-		if (Categories.get(2).isEmpty())
 			query.setParameter(6, null);
-		else
-			query.setParameter(6, Categories.get(2));
+		}
 		if (Location.equals(""))
 			query.setParameter(7, null);
 		else

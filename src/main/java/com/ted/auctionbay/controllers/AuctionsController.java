@@ -176,7 +176,7 @@ public class AuctionsController {
 		return jarray.toString();
 	}
 	
-	@RequestMapping(value = "/advanced-search",method = RequestMethod.GET)
+	@RequestMapping(value = "/advanced-search",method = RequestMethod.POST)
 	@ResponseBody
 	public String advancedSearch(@RequestParam String start,@RequestParam String end,@RequestParam String search_data) {
 		int start_pag = Integer.parseInt(start);
@@ -220,8 +220,8 @@ public class AuctionsController {
 				answer.put(j);
 			}
 		}
-		
-		
+		System.out.print("Advanced Search returns:");
+		System.out.print(answer.toString());
 		return answer.toString();
 	}
 	

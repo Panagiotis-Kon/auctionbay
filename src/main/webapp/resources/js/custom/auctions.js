@@ -132,6 +132,7 @@ function initListeners(){
 function advSearchListeners(search_data){
 	
 	var end=10;
+	var limit=10;
 	$('#advSearch-paginator').bootpag({
         total: limit
          }).on("page", function(event, num){
