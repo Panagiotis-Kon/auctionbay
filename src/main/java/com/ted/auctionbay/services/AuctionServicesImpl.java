@@ -81,7 +81,7 @@ public class AuctionServicesImpl implements AuctionServices{
 	@Override
 	public List<Auction> getAuctionsByCategory(int start, int end, String Category, String type) {
 		if(type.equals("active")){
-			return queryAuction.getActiveAuctions(start, end);
+			return queryAuction.getActiveAuctionsByCategory(start, end, Category);
 		}
 		return queryAuction.getAuctionsByCategory(start,end,Category);
 	}

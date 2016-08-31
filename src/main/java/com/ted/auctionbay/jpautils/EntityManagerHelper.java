@@ -25,7 +25,7 @@ public class EntityManagerHelper {
         if (em == null) {
             em = emf.createEntityManager();
             threadLocal.set(em);
-            RecommendationEngine.run();
+            //RecommendationEngine.run();
         }
         return em;
     }
