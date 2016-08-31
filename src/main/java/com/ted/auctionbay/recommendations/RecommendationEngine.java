@@ -58,7 +58,41 @@ public class RecommendationEngine {
 		//System.out.println("auctions:"+auctions);
 		
 	}
-
+	
+	private static HashMap<String, Set<Integer>> getAuctionsPerUser() {
+		List<RegistereduserBidsinAuction> aucOfUsers = queryAuction.getAuctionsOfAllUsers();
+		System.out.println(aucOfUsers.size());
+		HashMap<String,Set<Integer>> map = new HashMap<String,Set<Integer>>();
+		for(RegistereduserBidsinAuction rec : aucOfUsers){
+			Set<Integer> set = new HashSet<Integer>();
+			if(map.containsKey(rec.getId().getBidder_Username())){
+				Set<Integer> s = map.get(rec.getId().getBidder_Username());
+				set.addAll(s);
+			}
+			set.add(rec.getId().getAuctionID());
+			
+			map.put(rec.getId().getBidder_Username(), set);
+		}
+		return map;
+	}
+	
+	private static TreeMap<Integer, String> createIntegerToUsernameMap() {
+		
+		TreeMap<Integer,String> map = new TreeMap<Integer,String>();
+		Iterator<String> it = auctions.keySet().iterator();
+		int k = 0;
+		while(it.hasNext()){
+			String username = it.next();
+			map.put(k,username );
+			/*if(username == null){
+				System.out.println(k);
+				System.exit(0);
+			}*/
+			k++;
+		}
+		
+		return map;
+	}
 	
 	private static Map<String, Integer> createUsernameToIntegerMap(Map<Integer, String> integerToUsernameMap) {
 		Map<String,Integer> map = new HashMap<String,Integer>();
@@ -69,17 +103,27 @@ public class RecommendationEngine {
 		}
 		return map;
 	}
-
-	public static Map<String,Set<Integer>> getRecommendationForAllUsers(){
+	
+	private static float computeSimilarity(int i, int j) {
 		
-		Iterator<String> it = usernameToIntegerMap.keySet().iterator();
-		Map<String,Set<Integer>> map = new HashMap<String,Set<Integer>>();
-		while(it.hasNext()){
-			String username = it.next();
-			Set<Integer> set = getRecommendationForUser(username);
-			map.put(username,set);
-		}
-		return map;
+		
+		String username_i = integerToUsernameMap.get(i);
+		String username_j = integerToUsernameMap.get(j);
+		
+		Set<Integer> auctions_i = auctions.get(username_i);
+		Set<Integer> auctions_j = auctions.get(username_j);
+		
+		/*if(auctions_i == null || auctions_j == null){
+			System.out.println("i = "+i);
+			System.out.println("j = "+j);
+			System.out.println("i = "+auctions_i+"/"+username_i);
+			System.out.println("j = "+auctions_j+"/"+username_j);
+			System.exit(0);
+		}*/
+		
+		
+		
+		return Sets.intersection(auctions_i, auctions_j).size();
 	}
 
 	public static Set<Integer> getRecommendationForUser(String username){
@@ -131,63 +175,16 @@ public class RecommendationEngine {
 		return  recSet;
 	}
 	
-	
-	private static float computeSimilarity(int i, int j) {
+	public static Map<String,Set<Integer>> getRecommendationForAllUsers(){
 		
-		
-		String username_i = integerToUsernameMap.get(i);
-		String username_j = integerToUsernameMap.get(j);
-		
-		Set<Integer> auctions_i = auctions.get(username_i);
-		Set<Integer> auctions_j = auctions.get(username_j);
-		
-		/*if(auctions_i == null || auctions_j == null){
-			System.out.println("i = "+i);
-			System.out.println("j = "+j);
-			System.out.println("i = "+auctions_i+"/"+username_i);
-			System.out.println("j = "+auctions_j+"/"+username_j);
-			System.exit(0);
-		}*/
-		
-		
-		
-		return Sets.intersection(auctions_i, auctions_j).size();
-	}
-
-	private static TreeMap<Integer, String> createIntegerToUsernameMap() {
-		
-		TreeMap<Integer,String> map = new TreeMap<Integer,String>();
-		Iterator<String> it = auctions.keySet().iterator();
-		int k = 0;
+		Iterator<String> it = usernameToIntegerMap.keySet().iterator();
+		Map<String,Set<Integer>> map = new HashMap<String,Set<Integer>>();
 		while(it.hasNext()){
 			String username = it.next();
-			map.put(k,username );
-			/*if(username == null){
-				System.out.println(k);
-				System.exit(0);
-			}*/
-			k++;
-		}
-		
-		return map;
-	}
-
-	private static HashMap<String, Set<Integer>> getAuctionsPerUser() {
-		List<RegistereduserBidsinAuction> aucOfUsers = queryAuction.getAuctionsOfAllUsers();
-		System.out.println(aucOfUsers.size());
-		HashMap<String,Set<Integer>> map = new HashMap<String,Set<Integer>>();
-		for(RegistereduserBidsinAuction rec : aucOfUsers){
-			Set<Integer> set = new HashSet<Integer>();
-			if(map.containsKey(rec.getId().getBidder_Username())){
-				Set<Integer> s = map.get(rec.getId().getBidder_Username());
-				set.addAll(s);
-			}
-			set.add(rec.getId().getAuctionID());
-			
-			map.put(rec.getId().getBidder_Username(), set);
+			Set<Integer> set = getRecommendationForUser(username);
+			map.put(username,set);
 		}
 		return map;
 	}
 
-	
 }
