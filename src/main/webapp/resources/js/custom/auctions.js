@@ -103,14 +103,23 @@ function initListeners(){
 		var search_data = {};
 		var keywords = $("#keywords").val();
 		var description = $("#search-desc").val();
-		var categories = $(".categories-search-list").val();
+		
 		var country = $("#country-search").val();
 		var minBid = $("#min-bid-price").val();
 		var maxBid = $("#max-bid-price").val();
 		
 		search_data["keywords"] = $("#keywords").val();
 		search_data["description"] = $("#search-desc").val();
-		search_data["categories"] = $(".categories-search-list").val();
+		if($(".categories-search-list").val() == null){
+			search_data["categories"] = [];
+		} else {
+			var categories = [];
+			categories.push($(".categories-search-list").val());
+			search_data["categories"] = categories;
+		}
+		console.log("categories adv SEARCH:::::");
+		console.log(search_data["categories"]);
+		
 		search_data["country"] = $("#country-search").val();
 		search_data["minBid"] = $("#min-bid-price").val();
 		search_data["maxBid"] = $("#max-bid-price").val();
