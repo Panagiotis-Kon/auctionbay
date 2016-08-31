@@ -239,7 +239,7 @@ public class QueryAuctionImpl implements QueryAuction {
 		
 		String buildquery = "SELECT COUNT(*) as Num,a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
 				+ "FROM auction a,category c,item_has_category ihc, item i "
-				+ "WHERE a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID ";
+				+ "WHERE a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID and a.EndTime >=NOW() ";
 		if (!keywords.equals("")){
 			buildquery = buildquery + "and (a.Seller LIKE '%"+keywords+"%' or a.Title LIKE '%"+keywords+"%' or i.Description LIKE '%"+keywords+"%') ";
 		}
