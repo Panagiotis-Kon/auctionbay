@@ -319,7 +319,9 @@ public class QueryAuctionImpl implements QueryAuction {
 	@Override
 	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
+		//Query query = em.createNativeQuery("SELECT * FROM registereduser_bidsin_auction", RegistereduserBidsinAuction.class);
 		return em.createNamedQuery("RegistereduserBidsinAuction.findAll").getResultList();
+		//return query.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
