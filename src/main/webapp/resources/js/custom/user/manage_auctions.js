@@ -684,7 +684,7 @@ function getUserAuctions() {
 	
 	
 	
-	/*myBids_table = $('#myBids-grid').DataTable( {
+	myBids_table = $('#myBids-grid').DataTable( {
 		"processing": true,
 	    "serverSide": true,
 	    "ajax": {
@@ -701,6 +701,7 @@ function getUserAuctions() {
 	            { "data": "BuyPrice" },
 	            { "data": "HighestBid" },
 	            { "data": "myBid" },
+	            { "data": "myBidTime" }
 	        ],
 	        "columnDefs": [
 	                       {
@@ -719,7 +720,7 @@ function getUserAuctions() {
     	});
 	
 	
-	$('#user-bids').show();*/
+	$('#user-bids').show();
 	
 	console.log("ENDING get user auctions....");
 }

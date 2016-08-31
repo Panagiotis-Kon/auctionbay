@@ -41,4 +41,5 @@ public interface UserServices {
 	
 	public void submitRating(JSONArray data);
 	
+	public List<Object> getUserBids(String username, int startpage, int endpage);
 }

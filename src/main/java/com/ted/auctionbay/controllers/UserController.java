@@ -425,4 +425,12 @@ public class UserController {
 		return new Gson().toJson("OK REC");
 	}
 	
+	@RequestMapping(value = "/{username}/get-user-bids",method = RequestMethod.GET)
+	@ResponseBody
+	public String getUserBids(@RequestParam String username) {
+		System.out.print("User bids");
+		
+		return new Gson().toJson("OK REC");
+	}
+	
 }

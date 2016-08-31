@@ -70,4 +70,6 @@ public interface QueryUser {
 	
 	public List<String> getSellersbyRate();
 	
+	public List<Object> getUserBids(String username, int startpage, int endpage);
+	
 }

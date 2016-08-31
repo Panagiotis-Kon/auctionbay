@@ -237,5 +237,11 @@ public class UserServicesImpl implements UserServices{
 		}
 
 	}
+
+
+	@Override
+	public List<Object> getUserBids(String username, int startpage, int endpage) {
+		return queryUser.getUserBids(username, startpage, endpage);
+	}
 	
 }

@@ -372,6 +372,21 @@ public class QueryUserImpl implements QueryUser{
 		query.setParameter(1, username);
 		return Integer.parseInt(query.getResultList().get(0).toString());
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object> getUserBids(String username, int startpage, int endpage) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT a.AuctionID, a.ItemID, a.Title, a.Seller, a.Endtime, a.BuyPrice,"
+				+ "(SELECT MAX(BidPrice) FROM registereduser_bidsin_auction WHERE Bidder_Username=?1) as Highset_Bid, rba.BidPrice, rba.BidTime "
+				+ "FROM auction as a, registereduser_bidsin_auction as rba WHERE a.AuctionID = rba.AuctionID and rba.Bidder_Username=?2 "
+				+ "and a.EndTime >= NOW()");
+		query.setParameter(1, username);
+		query.setParameter(2, username);
+		query.setFirstResult(startpage);
+		query.setMaxResults(endpage);
+		return query.getResultList();
+	}
 	
 	
 	
