@@ -223,46 +223,61 @@
 										</div>
 										
 									</div>
-									
+									<div style="margin-bottom:2%;border-bottom:2px dotted #fff"></div>
 									<div class="form-group">
-										<div class="col-sm-10">
-											<input type="button" id="search-button" class="btn btn-primary pull-right" value="Search"/>
+										
+										<div style="margin:0 auto;float:none;" class="col-sm-10">
+											<input type="button" id="reset-button" class="btn btn-secondary" value="Reset"/>
+											<input type="button" id="search-button" class="btn btn-primary" value="Search"/>
+											
+											
 										</div>
+									
+										
 									</div>
-       							
+       								
        						</form>
     					</div>
   					</div>
 				</div>
+				<div id="category-indicator" class="alert alert-warning" style="display:none;">
+					<h4 id="text" style="text-align:center;color:green;"></h4>
+				</div>
 			</div> 
 			
-		
+			
+				
+			
+			
 			<div id="available-auctions" class="col-xs-12 col-md-9">
 				<div class="alert alert-warning" id="no_auctions" style="display:none;"> 
 					<strong>No auctions available!</strong> 
 				</div>
-				
+							
 			</div>
-		
+			
+			
 		</div> <!--  1st row -->
 		
 		<div class="row">
 		
 			
 			
-			<div id="category-indicator" class="col-xs-12 col-md-9 alert alert-warning" style="display:none;">
-				<h4 id="text" style="text-align:center;color:green;"></h4>
-			</div>
+			
 			
 			
 			<div class="row">
     			<div id="auctions-paginator" class="col-md-6 pull-right"></div>
 			</div>
 			
+			<div class="row">
+				<div id="auctions-byCategory-paginator" class="col-md-6 pull-right"></div>
+			</div>
 			
-			<div id="auctions-byCategory-paginator" class="col-md-6 pull-right"></div>
+			<div class="row">
+				<div id="advSearch-paginator" class="col-md-6 pull-right"></div>
+			</div>
 			
-			<div id="advSearch-paginator" class="col-md-6 pull-right"></div>
 		</div>	<!--  2nd row -->
 			
 

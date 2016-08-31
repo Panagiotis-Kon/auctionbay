@@ -1,7 +1,7 @@
 /***** GLOBAL VARIABLES *****/
 var total_pages = 10;
 var category = "";
-
+var search_pages = 10;
 
 $(document).ready(function(){
 	
@@ -56,6 +56,7 @@ function initListeners(){
         
         category = $(this).find('a').attr("href");
         $('#auctions-paginator').css("display","none");
+        $('#advSearch-paginator').css("display","none");
 		$('#auctions-ByCategory-paginator').css("display","block");
 		$('#category-indicator').css("display","block");
 		$('#category-indicator h4').empty();
@@ -73,16 +74,18 @@ function initListeners(){
         if(limit == 0){
         	limit=1;
         }
+        var type="active";
         console.log("limit: " + limit);
         $('#auctions-byCategory-paginator').bootpag({
-        total: limit
+        total: limit,
+        maxVisible: limit
          }).on("page", function(event, num){
         
         console.log("category paging event!!!!!")
         var start = (num-1)*end;
        
         // ... after content load -> change total to 10
-        $(this).bootpag({total: limit});
+        $(this).bootpag({total: limit, maxVisible: limit});
         $('html, body').animate({scrollTop : 0},800);
         getTemplateModule(start,end,decodeURIComponent(category),type);
      
@@ -95,9 +98,18 @@ function initListeners(){
 		window.location = window.location.href;
 	});
 	
-	$("#search-button").click(function(event){
+	
+	$("#accordion").on('show.bs.collapse', function (e) {
+		
+		$("#category-indicator").css("display","none");
+		$('#auctions-byCategory-paginator').css("display","none");
 		$('#auctions-paginator').css("display","none");
-		$('#auctions-ByCategory-paginator').css("display","none");
+		
+	});
+	
+	$("#search-button").click(function(event){
+		
+		
 		$('#advSearch-paginator').css("display","block");
 		
 		var search_data = {};
@@ -141,31 +153,20 @@ function initListeners(){
 function advSearchListeners(search_data){
 	
 	var end=10;
-	var limit=10;
-	$('#advSearch-paginator').bootpag({
-        total: limit
-         }).on("page", function(event, num){
-        
-        console.log("adv search paging event!!!!!")
-        var start = (num-1)*end;
-       
-        // ... after content load -> change total to 10
-        $(this).bootpag({total: limit});
-        $('html, body').animate({scrollTop : 0},800);
-        getTemplateBySearch(start,end,search_data);
-     
-        });
+
+	console.log("search_pages begin: " + search_pages);
+	
         getTemplateBySearch(0,10,search_data);
 }
 
 function getTemplateBySearch(start,end,search_data){
 	$.get( window.location.href + "/template-module", function( template_module ) {
 		
-		advanced_search(start,end,search_data);
+		advanced_search(start,end,search_data,template_module);
 	});
 }
 
-function advanced_search(start,end,input) {
+function advanced_search(start,end,input,template_module) {
 	var search_data = JSON.stringify(input);
 	console.log(search_data);
 	$.ajax({
@@ -174,17 +175,50 @@ function advanced_search(start,end,input) {
 		url  :window.location.href + "/advanced-search",
 		data :{start:start,end:end,search_data:search_data},
 		success : function(data) {
-			console.log("Successssssssss ********** ********")
-			alert("GOOOODDDDD");
-			$("#search_data").empty();
+			console.log("ADVANCED SEARCH SUCCESS");
+			//$("#search_data").empty();
 			console.log("moving on formatting the page")
 			if(data.length == 0){
+				$('#advSearch-paginator').css("display","none");
 				alert("No data found");
+				
 			}else {
 				console.log(data)
-				
+				/* some login for the pagination */
+				var resp_size = data.length;
+				console.log("advanced search size: " + resp_size);
+				var end=10; 
+		        var quotient = Math.floor(resp_size/10);
+		        var remainder = resp_size/10;
+		        var limit=quotient;
+		        if(remainder > 0){
+		        	limit=quotient+1;;
+		        }
+		        if(limit == 0){
+		        	limit=1;
+		        }
+		        if(resp_size == 10){
+		        	limit = 1;
+		        }
+		        search_pages=limit;
+		        console.log("limit: " + limit);
+		        $('#advSearch-paginator').bootpag({
+		            total: limit
+		             }).on("page", function(event, num){
+		            	
+		            var start = (num-1)*end;
+		           
+		            // ... after content load -> change total to 10
+		            $(this).bootpag({total: limit});
+		            $('html, body').animate({scrollTop : 0},800);
+		            getTemplateBySearch(start,end,search_data);
+		         
+		            });
+		        
+		        
+		        
 				for(var i=0;i<data.length;i++){
-					var panel = $("<div id=\"searchresults\"></div>");
+					var panel = $("<div id=\"searchresults\">" + template_module +"</div>");
 					panel.find('.item-listing-seller label').text(data[i].seller);
 					
 					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+data[i].id);
