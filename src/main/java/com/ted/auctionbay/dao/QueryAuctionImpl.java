@@ -236,96 +236,25 @@ public class QueryAuctionImpl implements QueryAuction {
 			String maxBid, int startpage, int endpage) {
 		System.out.print("Keyword: "+keywords+"\nCategories: "+Categories+"\nLocations: "+"\nminBid: "+minBid+"\nmaxBid: "+maxBid+"\n");
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em
-				.createNativeQuery(
-						"SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
-								+ "FROM auction a,category c,item_has_category ihc, item i"
-								+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID"
-								+ " and (a.Seller LIKE '%?%' or a.Title LIKE '%?%' or i.Description LIKE '%?%'"
-								+ " and (c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name) or c.Name = IFNULL(?,c.Name))"
-								+ " and i.Location = IFNULL(?,i.Location)"
-								+ " and a.FirstBid >= IFNULL(?,(SELECT MAX(FirstBid) FROM auction)) and a.FirstBid <= IFNULL(?,(SELECT MAX(FirstBid) FROM auction))",
-						Auction.class);
+		
 		String buildquery = "SELECT a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
-				+ "FROM auction a,category c,item_has_category ihc, item i"
-				+ " where a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID ";
-		/*if (!keywords.equals("")){
-			buildquery = bu
+				+ "FROM auction a,category c,item_has_category ihc, item i "
+				+ "WHERE a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID ";
+		if (!keywords.equals("")){
+			buildquery = buildquery + "and (a.Seller LIKE '%"+keywords+"%' or a.Title LIKE '%"+keywords+"%' or i.Description LIKE '%"+keywords+"%') ";
 		}
 		if (Categories.size()!=0){
-			if (Categories.get(0).isEmpty())
-				query.setParameter(4, null);
-			else
-				query.setParameter(4, Categories.get(0));
-			if (Categories.get(1).isEmpty())
-				query.setParameter(5, null);
-			else
-				query.setParameter(5, Categories.get(1));
-			if (Categories.get(2).isEmpty())
-				query.setParameter(6, null);
-			else
-				query.setParameter(6, Categories.get(2));
+			for (String category:Categories){
+				buildquery = buildquery + "and c.Name = '"+category+"' ";
+			}
 		}
-		else{
-			query.setParameter(4, null);
-			query.setParameter(5, null);
-			query.setParameter(6, null);
-		}
-		if (Location.equals(""))
-			query.setParameter(7, null);
-		else
-			query.setParameter(7, Location);
-		if (minBid.equals(""))
-			query.setParameter(8, null);
-		else
-			query.setParameter(8, minBid);
-		if (maxBid.equals(""))
-			query.setParameter(9, null);
-		else
-			query.setParameter(9, maxBid);*/
-		if (keywords.equals(""))
-			query.setParameter(1, null);
-		else
-			query.setParameter(1, keywords);
-		if (keywords.equals(""))
-			query.setParameter(2, null);
-		else
-			query.setParameter(2, keywords);
-		if (keywords.equals(""))
-			query.setParameter(3, null);
-		else
-			query.setParameter(3, keywords);
-		if (Categories.size()!=0){
-			if (Categories.get(0).isEmpty())
-				query.setParameter(4, null);
-			else
-				query.setParameter(4, Categories.get(0));
-			if (Categories.get(1).isEmpty())
-				query.setParameter(5, null);
-			else
-				query.setParameter(5, Categories.get(1));
-			if (Categories.get(2).isEmpty())
-				query.setParameter(6, null);
-			else
-				query.setParameter(6, Categories.get(2));
-		}
-		else{
-			query.setParameter(4, null);
-			query.setParameter(5, null);
-			query.setParameter(6, null);
-		}
-		if (Location.equals(""))
-			query.setParameter(7, null);
-		else
-			query.setParameter(7, Location);
-		if (minBid.equals(""))
-			query.setParameter(8, null);
-		else
-			query.setParameter(8, minBid);
-		if (maxBid.equals(""))
-			query.setParameter(9, null);
-		else
-			query.setParameter(9, maxBid);
+		if (!Location.equals(""))
+			buildquery = buildquery + "and i.Location = '"+Location+"' ";
+		if (!minBid.equals(""))
+			buildquery = buildquery + "and a.FirstBid >= '"+minBid+"' ";
+		if (!maxBid.equals(""))
+			buildquery = buildquery + "and a.FirstBid <= '"+maxBid+"' ";
+		Query query = em.createNativeQuery(buildquery,Auction.class);
 		query.setFirstResult(startpage);
 		query.setMaxResults(endpage);
 		return query.getResultList();

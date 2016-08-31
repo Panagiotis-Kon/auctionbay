@@ -185,15 +185,15 @@ function advanced_search(start,end,input) {
 				
 				for(var i=0;i<data.length;i++){
 					var panel = $("<div id=\"searchresults\"></div>");
-					panel.find('.item-listing-seller label').text(auctions[i].seller);
+					panel.find('.item-listing-seller label').text(data[i].seller);
 					
-					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+auctions[i].id);
-					panel.find('.item-listing-title a').text(auctions[i].name);
+					panel.find('.item-listing-title a').attr('href',window.location.href + '/item/'+data[i].id);
+					panel.find('.item-listing-title a').text(data[i].name);
 					
-					panel.find("#elapseTime h4").text(auctions[i].expires+"remaining");
-					//panel.find("#category-listing h4").text(auctions[i].expires+"remaining");
-					panel.find("#firstBid").text("$"+parseFloat(auctions[i].firstBid).toFixed(2));
-					panel.find("#numberOfbids").text(auctions[i].numberOfBids + "     " + "Bids");
+					panel.find("#elapseTime h4").text(data[i].expires+"remaining");
+					//panel.find("#category-listing h4").text(data[i].expires+"remaining");
+					panel.find("#firstBid").text("$"+parseFloat(data[i].firstBid).toFixed(2));
+					panel.find("#numberOfbids").text(data[i].numberOfBids + "     " + "Bids");
 					html = panel.html();
 					
 					$("#available-auctions").append(html);
