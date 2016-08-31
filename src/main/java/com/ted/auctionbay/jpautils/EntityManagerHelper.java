@@ -5,6 +5,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import com.ted.auctionbay.recommendations.RecommendationEngine;
+
 public class EntityManagerHelper {
 
 	private static final EntityManagerFactory emf; 
@@ -14,6 +16,7 @@ public class EntityManagerHelper {
     	System.out.println("ENTITY MANAGER HELPER STARTS");
         emf = Persistence.createEntityManagerFactory("auctionbay");      
         threadLocal = new ThreadLocal<EntityManager>();
+        
     }
 
     public static EntityManager getEntityManager() {
@@ -22,6 +25,7 @@ public class EntityManagerHelper {
         if (em == null) {
             em = emf.createEntityManager();
             threadLocal.set(em);
+            RecommendationEngine.run();
         }
         return em;
     }

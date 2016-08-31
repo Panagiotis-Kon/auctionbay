@@ -5,8 +5,6 @@ import javax.servlet.ServletContextListener;
 
 import org.springframework.core.SpringVersion;
 
-import com.ted.auctionbay.recommendations.RecommendationEngine;
-
 public class EntityManagerFactoryListener implements ServletContextListener{
 
 	@Override
@@ -14,7 +12,6 @@ public class EntityManagerFactoryListener implements ServletContextListener{
 		// TODO Auto-generated method stub
 		System.out.println("CONTEXT INITIALIZED");
 		System.out.println("version: " + SpringVersion.getVersion());
-		RecommendationEngine.run();
 	}
 
 	@Override
