@@ -29,7 +29,7 @@ public interface UserServices {
 	
 	public int count_pending();
 	
-	public List<Pendinguser>  getPendingUsers();
+	public List<Pendinguser>  getPendingUsers(int startpage, int pagesize);
 	
 	public List<Registereduser> getGroupsOfUsers(int startpage, int pagesize);
 	
@@ -37,9 +37,11 @@ public interface UserServices {
 	
 	public int count_user_auctions(String username,String type);
 	
-	public List<Auction> get_user_auctions(String username, String type);
+	public List<Auction> get_user_auctions(String username, int startpage, int pagesize, String type);
 	
 	public void submitRating(JSONArray data);
 	
-	public List<Object> getUserBids(String username, int startpage, int endpage);
+	public List<Object[]> getUserBids(String username, int startpage, int endpage);
+	
+	public int getUserBidsNum(String username);
 }

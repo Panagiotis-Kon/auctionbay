@@ -241,6 +241,8 @@ function deleteAuction(auctionID,itemID, index){
 			console.log("Deleted");
 			$('#deleteModal').modal('hide');
 			user_auctions.row( index ).remove().draw();
+			countUserAuctions("active");
+			active_auctions.ajax.reload();
 		}	
 	});
 }
@@ -248,8 +250,43 @@ function deleteAuction(auctionID,itemID, index){
 
 function do_refresh() {
 	console.log("reloading location");
+	var activeTab = $('#auctions-tabs .active').text()
+	if(activeTab == "Create Auctions"){
+		console.log("activeTab create" )
+		/* Clear create fields */
+		$("#auction-name").val("");
+		$("#auction-description").val("");	
+		$("#category_list").multiselect("uncheckAll");
+		$("#new-category").val("");
+		$("#countries-list").val("");
+		$("#datetime-field").val("");
+		$("#buy-price").val("");
+		$("#first-bid").val("");
+		
+	} else {
+		/* Clear edit fields */
+		console.log("otherTab");
+		
+		$("#auction-name-edit").val("");
+		$("#auction-description-edit").val("");	
+		$("#category-list-edit").multiselect("uncheckAll");
+		$("#new-edit-category").val("");
+		$("#edit-countries-list").val("");
+		$("#datetime-field-edit").val("");
+		$("#edit-buy-price").val("");
+		$("#edit-first-bid").val("");
+		
+	}
 	$('#successModal').modal('hide');
-	location.reload();
+
+	
+	/* Reload contents of tabs */
+	
+	countUserAuctions("active");
+	user_auctions.ajax.reload();
+	active_auctions.ajax.reload();
+	$('#auctions-tabs a[href="#view"]').tab('show');
+	//location.reload();
 }
 
 
@@ -696,9 +733,8 @@ function getUserAuctions() {
 	            { "data": "ItemID" },
 	            { "data": "Title" },
 	            { "data": "Seller" },
-	            { "data": "BuyPrice" },
-	            { "data": "EndTime" },
-	            { "data": "BuyPrice" },
+	            { "data": "Deadline" },
+	            { "data": "BuyPrice" },	            
 	            { "data": "HighestBid" },
 	            { "data": "myBid" },
 	            { "data": "myBidTime" }
@@ -880,10 +916,7 @@ function getCategoryList(){
 
 function addCategoryInput(option){
 	console.log("you clicked")
-	/**
-	 * option 0 : for the create tab
-	 * option 1 : for the edit tab 
-	 */
+	
 	if(option == 0) {
 		//console.log("option: " + option)
 		$('#new-category').css("display","block");
@@ -906,10 +939,7 @@ function addCategoryInput(option){
 
 function removeCategoryInput(option){
 	console.log("removing category input");
-	/**
-	 * option 0 : for the create tab
-	 * option 1 : for the edit tab 
-	 */
+
 	if(option == 0) {
 		$('#new-category').css("display","none");
 		$('#remove-cat-label').css("display","none");

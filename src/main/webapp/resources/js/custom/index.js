@@ -222,6 +222,7 @@ function getRecommendations(){
 				// create carousel
 				if(data.length == 0){
 					$("#myCarousel").css("display","none");
+					$("#no-rec-available").html("Sorry, no recommendations available at the moment");
 					$("#no-rec-available").css("display","block");
 				}else {
 					for(var i=0 ; i< data.length ; i++) {

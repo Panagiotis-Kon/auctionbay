@@ -132,8 +132,8 @@ public class UserServicesImpl implements UserServices{
 	}
 	
 	@Override
-	public List<Pendinguser>  getPendingUsers(){		
-		return queryUser.getPendingUsers();
+	public List<Pendinguser>  getPendingUsers(int startpage, int pagesize){		
+		return queryUser.getPendingUsers(startpage, pagesize);
 	}
 	
 	@Override
@@ -155,13 +155,13 @@ public class UserServicesImpl implements UserServices{
 
 
 	@Override
-	public List<Auction> get_user_auctions(String username, String type) {
+	public List<Auction> get_user_auctions(String username, int startpage, int pagesize, String type) {
 		if(type.equals("active")){
-			return queryUser.get_active_user_auctions(username);
+			return queryUser.get_active_user_auctions(username,startpage,pagesize);
 		} else if(type.equals("expired")){
-			return queryUser.get_expired_user_auctions(username);
+			return queryUser.get_expired_user_auctions(username,startpage,pagesize);
 		} else {
-			return queryUser.get_all_user_auctions(username);
+			return queryUser.get_all_user_auctions(username,startpage,pagesize);
 		}
 		
 	}
@@ -240,8 +240,15 @@ public class UserServicesImpl implements UserServices{
 
 
 	@Override
-	public List<Object> getUserBids(String username, int startpage, int endpage) {
+	public List<Object[]> getUserBids(String username, int startpage, int endpage) {
 		return queryUser.getUserBids(username, startpage, endpage);
+	}
+
+
+	@Override
+	public int getUserBidsNum(String username) {
+		
+		return queryUser.getUserBidsNum(username);
 	}
 	
 }

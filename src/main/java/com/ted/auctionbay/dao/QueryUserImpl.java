@@ -82,10 +82,12 @@ public class QueryUserImpl implements QueryUser{
 	}
 	
 	@Override
-	public List<Pendinguser>  getPendingUsers(){		
+	public List<Pendinguser>  getPendingUsers(int startpage, int pagesize){		
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		List<Pendinguser> resultSet = em.createNativeQuery("SELECT * FROM pendinguser",Pendinguser.class).getResultList();
-		
+		Query query = em.createNativeQuery("SELECT * FROM pendinguser",Pendinguser.class);
+		query.setFirstResult(startpage);
+		query.setMaxResults(pagesize);
+		List<Pendinguser> resultSet = query.getResultList();
 		return resultSet;
 	}
 	
@@ -179,10 +181,11 @@ public class QueryUserImpl implements QueryUser{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Auction> get_all_user_auctions(String username) {
+	public List<Auction> get_all_user_auctions(String username,int startpage, int pagesize) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT * FROM auction WHERE Seller=?",Auction.class);
-		
+		query.setFirstResult(startpage);
+		query.setMaxResults(pagesize);
 		query.setParameter(1, username);
 		
 		return query.getResultList();
@@ -341,10 +344,11 @@ public class QueryUserImpl implements QueryUser{
 	}
 
 	@Override
-	public List<Auction> get_active_user_auctions(String username) {
+	public List<Auction> get_active_user_auctions(String username,int startpage, int pagesize) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT * FROM auction WHERE Seller=? AND EndTime >= NOW()",Auction.class);
-		
+		query.setFirstResult(startpage);
+		query.setMaxResults(pagesize);
 		query.setParameter(1, username);
 		
 		return query.getResultList();
@@ -352,7 +356,7 @@ public class QueryUserImpl implements QueryUser{
 	}
 
 	@Override
-	public List<Auction> get_expired_user_auctions(String username) {
+	public List<Auction> get_expired_user_auctions(String username,int startpage, int pagesize) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -375,7 +379,7 @@ public class QueryUserImpl implements QueryUser{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object> getUserBids(String username, int startpage, int endpage) {
+	public List<Object[]> getUserBids(String username, int startpage, int endpage) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT a.AuctionID, a.ItemID, a.Title, a.Seller, a.Endtime, a.BuyPrice,"
 				+ "(SELECT MAX(BidPrice) FROM registereduser_bidsin_auction WHERE Bidder_Username=?1) as Highset_Bid, rba.BidPrice, rba.BidTime "
@@ -386,6 +390,23 @@ public class QueryUserImpl implements QueryUser{
 		query.setFirstResult(startpage);
 		query.setMaxResults(endpage);
 		return query.getResultList();
+	}
+
+	@Override
+	public int getUserBidsNum(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT COUNT(*) FROM auction as a, registereduser_bidsin_auction as rba "
+				+ "WHERE a.AuctionID = rba.AuctionID and rba.Bidder_Username=?1 "
+				+ "and a.EndTime >= NOW()");
+		query.setParameter(1, username);
+		int num;
+		if( query.getResultList().get(0) == null){
+			
+			num= 0;
+		}else {
+			num = Integer.parseInt(query.getResultList().get(0).toString());
+		}
+		return num;
 	}
 	
 	

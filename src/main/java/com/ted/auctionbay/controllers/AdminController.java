@@ -95,7 +95,7 @@ public class AdminController {
 
 		JSONArray answer = new JSONArray();
 		JSONObject data = new JSONObject();
-		List<Pendinguser> pending_users = userServices.getPendingUsers();
+		List<Pendinguser> pending_users = userServices.getPendingUsers(start,pageSize);
 		
 		for(Pendinguser p : pending_users){
 			JSONArray puser_info = new JSONArray();

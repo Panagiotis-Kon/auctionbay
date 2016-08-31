@@ -24,7 +24,7 @@ public interface QueryUser {
 	
 	public boolean user_validator(String username, String password);
 	
-	public List<Pendinguser>  getPendingUsers();
+	public List<Pendinguser>  getPendingUsers(int startpage, int pagesize);
 	
 	public int getAddressMaxID();
 	
@@ -44,11 +44,11 @@ public interface QueryUser {
 	
 	public int count_expired_user_auctions(String username);
 	
-	public List<Auction> get_all_user_auctions(String username);
+	public List<Auction> get_all_user_auctions(String username,int startpage, int pagesize);
 	
-	public List<Auction> get_active_user_auctions(String username);
+	public List<Auction> get_active_user_auctions(String username,int startpage, int pagesize);
 	
-	public List<Auction> get_expired_user_auctions(String username);
+	public List<Auction> get_expired_user_auctions(String username,int startpage, int pagesize);
 	
 	public void deleteBidderFromAuction(String username, int auctionID);
 	
@@ -70,6 +70,8 @@ public interface QueryUser {
 	
 	public List<String> getSellersbyRate();
 	
-	public List<Object> getUserBids(String username, int startpage, int endpage);
+	public List<Object[]> getUserBids(String username, int startpage, int endpage);
+	
+	public int getUserBidsNum(String username);
 	
 }

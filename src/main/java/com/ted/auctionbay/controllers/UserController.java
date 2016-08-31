@@ -279,7 +279,7 @@ public class UserController {
 
 		JSONArray answer = new JSONArray();
 		JSONObject data = new JSONObject();
-		List<Auction> users_auctions = userServices.get_user_auctions(username,type);
+		List<Auction> users_auctions = userServices.get_user_auctions(username,start,pageSize,type);
 		
 		for(Auction a : users_auctions){
 			JSONObject auctions = new JSONObject();
@@ -337,7 +337,7 @@ public class UserController {
 
 		JSONArray reply = new JSONArray();
 		JSONObject data = new JSONObject();
-		List<Auction> users_auctions = userServices.get_user_auctions(username,type);
+		List<Auction> users_auctions = userServices.get_user_auctions(username,start,pageSize,type);
 		
 		for(Auction auction : users_auctions){
 			JSONObject aObj = new JSONObject();
@@ -380,6 +380,63 @@ public class UserController {
 		System.out.println("**********************************************");
 		return data.toString();
 	}
+	
+	
+	@RequestMapping(value = "/{username}/manage-auctions/get-user-bids",method = RequestMethod.GET)
+	@ResponseBody
+	public String getUserBids(HttpServletRequest request, 
+			  HttpServletResponse response,@RequestParam String username) {
+		
+		System.out.print("User bids");
+		int start = Integer.parseInt(request.getParameter("start"));
+		int pageSize = Integer.parseInt(request.getParameter("length"));
+		int pageNumber;
+
+		int user_bids_num = userServices.getUserBidsNum(username);
+			
+		if(start == 0)
+			pageNumber = 0;
+		else
+			pageNumber = start%pageSize;
+
+		JSONObject data = new JSONObject();
+		JSONArray reply = new JSONArray();
+		List<Object[]> bids = userServices.getUserBids(username, start, pageSize);
+		for(Object[] obj : bids){
+			
+			JSONObject jObj = new JSONObject();
+			try {
+				jObj.put("AuctionID", obj[0]);
+				jObj.put("ItemID",obj[1]);
+				jObj.put("Title",obj[2]);
+				jObj.put("Seller",obj[3]);
+				jObj.put("Deadline",obj[4]);
+				jObj.put("BuyPrice",obj[5]);
+				jObj.put("HighestBid",obj[6]);
+				jObj.put("myBid",obj[7]);
+				jObj.put("myBidTime",obj[8]);
+				reply.put(jObj);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			data.put("draw",pageNumber);
+			data.put("iTotalRecords",user_bids_num);
+			data.put("iTotalDisplayRecords", user_bids_num);
+			data.put("data", reply);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		System.out.println("----------- get user bids end ----------");
+		System.out.println("");
+		System.out.println(data.toString());
+		System.out.println("");
+		System.out.println("**********************************************");
+		return data.toString();
+	
+	}
+	
 	
 	@RequestMapping(value = {"/{username}/rates/submit-rates"})
 	@ResponseBody
@@ -425,12 +482,6 @@ public class UserController {
 		return new Gson().toJson("OK REC");
 	}
 	
-	@RequestMapping(value = "/{username}/get-user-bids",method = RequestMethod.GET)
-	@ResponseBody
-	public String getUserBids(@RequestParam String username) {
-		System.out.print("User bids");
-		
-		return new Gson().toJson("OK REC");
-	}
+	
 	
 }
