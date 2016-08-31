@@ -237,7 +237,7 @@ public class QueryAuctionImpl implements QueryAuction {
 		System.out.print("Keyword: "+keywords+"\nCategories: "+Categories+"\nLocations: "+"\nminBid: "+minBid+"\nmaxBid: "+maxBid+"\n");
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		
-		String buildquery = "SELECT COUNT(*) as Num,a.AuctionID,a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
+		String buildquery = "SELECT DISTINCT(a.AuctionID),a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "
 				+ "FROM auction a,category c,item_has_category ihc, item i "
 				+ "WHERE a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID and a.EndTime >=NOW() ";
 		if (!keywords.equals("")){
