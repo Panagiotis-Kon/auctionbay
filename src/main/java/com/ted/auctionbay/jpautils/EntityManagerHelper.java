@@ -11,6 +11,7 @@ public class EntityManagerHelper {
 
 	private static final EntityManagerFactory emf; 
     private static final ThreadLocal<EntityManager> threadLocal;
+    private static boolean initialize = true;
 
     static {
     	System.out.println("ENTITY MANAGER HELPER STARTS");
@@ -25,7 +26,12 @@ public class EntityManagerHelper {
         if (em == null) {
             em = emf.createEntityManager();
             threadLocal.set(em);
-            //RecommendationEngine.run();
+            System.out.print("if em == null");
+        }
+        if (initialize){
+        	RecommendationService.run();
+        	System.out.print("if initialize");
+        	initialize=false;
         }
         return em;
     }
