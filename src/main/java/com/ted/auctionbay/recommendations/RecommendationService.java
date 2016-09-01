@@ -57,6 +57,10 @@ public class RecommendationService{
 		usernameToIntegerMap = createUsernameToIntegerMap(integerToUsernameMap);
 		recommendationMap = new HashMap<String,Set<Integer>>();
 		
+		/*for (Integer key : integerToUsernameMap.keySet()) {
+		    System.out.println(key + " " + integerToUsernameMap.get(key));
+		}*/
+		
 		int j=0,i=0;
 		for( i = 0; i < N; i++){
 			for(j = 0; j < N; j++){
@@ -66,6 +70,7 @@ public class RecommendationService{
 				}*/
 			}
 		}
+		System.out.println("INITIALIZED NOW");
 		INITIALIZED = true;
 		//System.out.println("auctions:"+auctions);
 		
@@ -147,12 +152,27 @@ public class RecommendationService{
 
 	public Set<Integer> getRecommendationForUser(String username){
 		
-		if(!INITIALIZED) return null;
+		System.out.println("Initialized value: " + INITIALIZED);
+		if(!INITIALIZED) {
+			System.out.println("NOT INITIALIZED YET");
+			return null;
+		}
+		
+		System.out.println("USERNAME TO INTEGER MAP PRINT");
+		System.out.println("*****************************");
+		System.out.println("");
+		for (String key : usernameToIntegerMap.keySet()) {
+		    System.out.println(key + " " + usernameToIntegerMap.get(key));
+		}
+		System.out.println("");
 		
 		Integer i = usernameToIntegerMap.get(username);
 		
-		if(i == null)
+		if(i == null){
+			System.out.println("i is null");
 			return null;
+		}
+			
 		
 		
 		JSONObject[] array = new JSONObject[N];
@@ -191,6 +211,12 @@ public class RecommendationService{
 			
 			
 		}
+		System.out.println("Printing the SET for the user: " + username);
+		System.out.println("--------------------------------------");
+		for (int s : recSet) { 
+		    System.out.println(s);
+		}
+		System.out.println("--------------------------------------");
 		return  recSet;
 	}
 	
