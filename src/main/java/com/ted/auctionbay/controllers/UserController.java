@@ -34,7 +34,7 @@ import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.UserServices;
 import com.ted.auctionbay.timeutils.TimeUtilities;
-import com.ted.auctionbay.recommendations.RecommendationEngine;
+import com.ted.auctionbay.recommendations.RecommendationService;
 import com.ted.auctionbay.timeutils.TimeUtilities;
 
 @Controller
@@ -458,7 +458,7 @@ public class UserController {
 	@ResponseBody
 	public String recommendations(@PathVariable String username) {
 		System.out.print("Recommendations");
-		Set<Integer> auctionIDs = RecommendationEngine.getRecommendationForUser(username);
+		Set<Integer> auctionIDs = RecommendationService.getRecommendationForUser(username);
 		
 		if(auctionIDs == null)
 			return new JSONArray().toString();

@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import com.ted.auctionbay.recommendations.RecommendationEngine;
+import com.ted.auctionbay.recommendations.RecommendationService;
 
 public class EntityManagerHelper {
 
