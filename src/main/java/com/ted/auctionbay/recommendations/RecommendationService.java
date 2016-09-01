@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.hibernate.type.YesNoType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ import com.google.common.collect.Sets;
 import com.ted.auctionbay.dao.QueryAuction;
 import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 
-public class RecommendationService{
+public class RecommendationService extends TimerTask{
 	
 	@Autowired
 	static
@@ -36,7 +38,8 @@ public class RecommendationService{
 	
 	private static boolean INITIALIZED = false;
 	
-	public static void run(){
+	@Override
+	public void run(){
 		
 		auctions = getAuctionsPerUser();
 		N = auctions.size();
