@@ -218,9 +218,10 @@ function getRecommendations(){
 			data: {username:username},
 			url  : url + username + "/recommendations",
 			success:function(data){
+				console.log("Success in recommendations... ")
 				console.log(data);
 				// create carousel
-				if(data.length == 0){
+				if(data == "problem"){
 					$("#myCarousel").css("display","none");
 					$("#no-rec-available").html("Sorry, no recommendations available at the moment");
 					$("#no-rec-available").css("display","block");

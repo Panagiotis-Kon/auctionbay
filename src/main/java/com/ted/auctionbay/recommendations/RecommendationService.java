@@ -17,16 +17,21 @@ import org.hibernate.type.YesNoType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Sets;
 import com.ted.auctionbay.dao.QueryAuction;
+import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 
-public class RecommendationService extends TimerTask{
+//@Service
+@Component("recommendation")
+public class RecommendationService{
 	
 	@Autowired
-	static
-	QueryAuction queryAuction;
+	private QueryAuction queryAuction;
 
 	private static float[][] similarityMatrix;
 	private static int N;
@@ -38,9 +43,13 @@ public class RecommendationService extends TimerTask{
 	
 	private static boolean INITIALIZED = false;
 	
-	@Override
-	public void run(){
+	public void initRec(){
 		
+	}
+	
+
+	public void start(){
+		System.out.println("Scheduler called me");
 		auctions = getAuctionsPerUser();
 		N = auctions.size();
 		similarityMatrix = new float[N][N];
@@ -62,9 +71,16 @@ public class RecommendationService extends TimerTask{
 		
 	}
 	
-	private static HashMap<String, Set<Integer>> getAuctionsPerUser() {
+	private HashMap<String, Set<Integer>> getAuctionsPerUser() {
+		
+		if(queryAuction == null){
+			System.out.println("Getrunken");
+		}
 		List<RegistereduserBidsinAuction> aucOfUsers = queryAuction.getAuctionsOfAllUsers();
-		System.out.println(aucOfUsers.size());
+		if(aucOfUsers == null){
+			System.out.println("aucOfUsers == null");
+		}
+		System.out.println("SIZE OF REC USERS: " + aucOfUsers.size());
 		HashMap<String,Set<Integer>> map = new HashMap<String,Set<Integer>>();
 		for(RegistereduserBidsinAuction rec : aucOfUsers){
 			Set<Integer> set = new HashSet<Integer>();
@@ -79,7 +95,7 @@ public class RecommendationService extends TimerTask{
 		return map;
 	}
 	
-	private static TreeMap<Integer, String> createIntegerToUsernameMap() {
+	private TreeMap<Integer, String> createIntegerToUsernameMap() {
 		
 		TreeMap<Integer,String> map = new TreeMap<Integer,String>();
 		Iterator<String> it = auctions.keySet().iterator();
@@ -97,7 +113,7 @@ public class RecommendationService extends TimerTask{
 		return map;
 	}
 	
-	private static Map<String, Integer> createUsernameToIntegerMap(Map<Integer, String> integerToUsernameMap) {
+	private Map<String, Integer> createUsernameToIntegerMap(Map<Integer, String> integerToUsernameMap) {
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		Iterator<Entry<Integer, String>> it = integerToUsernameMap.entrySet().iterator();
 		while(it.hasNext()){
@@ -129,7 +145,7 @@ public class RecommendationService extends TimerTask{
 		return Sets.intersection(auctions_i, auctions_j).size();
 	}
 
-	public static Set<Integer> getRecommendationForUser(String username){
+	public Set<Integer> getRecommendationForUser(String username){
 		
 		if(!INITIALIZED) return null;
 		
@@ -178,7 +194,7 @@ public class RecommendationService extends TimerTask{
 		return  recSet;
 	}
 	
-	public static Map<String,Set<Integer>> getRecommendationForAllUsers(){
+	public Map<String,Set<Integer>> getRecommendationForAllUsers(){
 		
 		Iterator<String> it = usernameToIntegerMap.keySet().iterator();
 		Map<String,Set<Integer>> map = new HashMap<String,Set<Integer>>();
@@ -189,6 +205,8 @@ public class RecommendationService extends TimerTask{
 		}
 		return map;
 	}
+
+
 
 }
 

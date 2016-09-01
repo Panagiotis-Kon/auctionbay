@@ -25,6 +25,7 @@ import com.ted.auctionbay.dao.QueryUser;
 import com.google.gson.Gson;
 import com.ted.auctionbay.dao.QueryCategory;
 import com.ted.auctionbay.entities.items.Category;
+import com.ted.auctionbay.recommendations.RecommendationService;
 import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.UserServices;
 import com.ted.auctionbay.services.UserServicesImpl;
@@ -38,6 +39,7 @@ public class MainController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	private static String log_status = "offline";
+	private static boolean initialize = true;
 	
 	@Autowired
 	UserServices userServices;
@@ -45,11 +47,18 @@ public class MainController {
 	@Autowired
 	AuctionServices auctionServices;
 	
-	//@Autowired
-	//QueryUser queryUser;
+
+	
+	 
+	
 	
 	@RequestMapping(value = {"","/index"})
-	public static String indexRedirection() {
+	public String indexRedirection() {
+		/*if(initialize){
+			initialize=false;
+			recommendationServices.start();
+			
+		}*/
 		return "pages/index.html";
 	}
 	

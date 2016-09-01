@@ -9,28 +9,22 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.ted.auctionbay.recommendations.RecommendationService;
+import com.ted.auctionbay.recommendations.RecommendationsInit;
 
 public class EntityManagerHelper {
 
 	private static final EntityManagerFactory emf; 
     private static final ThreadLocal<EntityManager> threadLocal;
-    private static boolean initialize = true;
-	private static long delay = 5000;
-    private static long period = 1800000;
+   // private static boolean initialize = true;
 
     static {
     	System.out.println("ENTITY MANAGER HELPER STARTS");
         emf = Persistence.createEntityManagerFactory("auctionbay");      
         threadLocal = new ThreadLocal<EntityManager>();
-        if (initialize){
-        	TimerTask task = new RecommendationService();
-        	Timer time = new Timer();
-        	time.scheduleAtFixedRate(task, delay, period);
-        	
-        	System.out.println("if initialize");
-        	initialize=false;
-        }
+    
         
     }
 
@@ -40,8 +34,14 @@ public class EntityManagerHelper {
         if (em == null) {
             em = emf.createEntityManager();
             threadLocal.set(em);
-            System.out.print("if em == null");
+            //System.out.println("if em == null");
         }
+       /* if(initialize){
+        	RecommendationsInit ri = new RecommendationsInit();
+        	ri.initRec();
+        	initialize = false;
+        }*/
+       
         
         return em;
     }

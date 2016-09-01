@@ -365,7 +365,7 @@ public class QueryAuctionImpl implements QueryAuction {
 		//return em.createNamedQuery("RegistereduserBidsinAuction.findAll").getResultList();
 		List<RegistereduserBidsinAuction> rlist = query.getResultList();
 		System.out.print("\nafter query getauctionofallusers\n");
-		System.out.print(rlist);
+		
 		return rlist;
 	}
 

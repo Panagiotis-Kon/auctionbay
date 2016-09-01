@@ -53,6 +53,8 @@ public class UserController {
 	@Autowired
 	QueryCategory queryCategory;
 	
+	@Autowired
+	private RecommendationService recommendationServices;
 	
 	private static int user_auctions_num;
 	
@@ -456,17 +458,21 @@ public class UserController {
 	
 	@RequestMapping(value = "/{username}/recommendations",method = RequestMethod.GET)
 	@ResponseBody
-	public String recommendations(@PathVariable String username) {
-		System.out.print("Recommendations");
-		Set<Integer> auctionIDs = RecommendationService.getRecommendationForUser(username);
+	public String recommendations(@RequestParam("username") String username) {
+		System.out.println("Recommendations...");
+		Set<Integer> auctionIDs = recommendationServices.getRecommendationForUser(username);
 		
-		if(auctionIDs == null)
-			return new JSONArray().toString();
+		if(auctionIDs == null){
+			System.out.println("auctionIDs are null");
+			return new Gson().toJson("problem");
+		}
+		
 		
 		JSONArray a = new JSONArray();
 		for(int auctionID:auctionIDs){
 			JSONObject o = new JSONObject();
 			Auction auction = auctionServices.getAuctionByID(auctionID);
+			System.out.println("Auction: " + auction.getTitle());
 			try {
 				o.put("id", auction.getItem().getItemID());
 				o.put("name", auction.getItem().getName());
@@ -476,10 +482,10 @@ public class UserController {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			System.out.print("Auction: "+auction.getItem().getName()+" Item: "+auction.getItem().getItemID());
+			//System.out.print("Auction: "+auction.getItem().getName()+" Item: "+auction.getItem().getItemID());
 		}
-		//return a.toString();
-		return new Gson().toJson("OK REC");
+		return a.toString();
+		//return new Gson().toJson("OK REC");
 	}
 	
 	
