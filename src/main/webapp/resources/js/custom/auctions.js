@@ -2,12 +2,12 @@
 var total_pages = 10;
 var category = "";
 var search_pages = 10;
-
+var type;
 $(document).ready(function(){
 	
 	console.log("base url: " + baseURL);
 	console.log("window.location.href: " + window.location.href)
-	var type = "active";
+	type = "active";
 	getAuctionsRecommendations();
 	total_pages = getNumOfAuctions(type);
 	
@@ -79,7 +79,7 @@ function initListeners(){
         if(limit == 0){
         	limit=1;
         }
-        var type="active";
+        //var type="active";
         console.log("limit: " + limit);
         $('#auctions-byCategory-paginator').bootpag({
         total: limit,
@@ -149,7 +149,14 @@ function initListeners(){
 	
 	$('input:radio').change(function(){
 		$(this).prop('checked', true); 
-
+		var id = $(this).attr('id');
+		if(id=="all-auctions"){
+			console.log("fetch all auctions");
+			type="all";
+			total_pages = getNumOfAuctions(type);
+			
+			getCategories(type);
+		}
 	});
 	
 	

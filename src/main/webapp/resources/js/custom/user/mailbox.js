@@ -53,11 +53,12 @@ function initListeners() {
 		//$("#inbox-table").css("display","none");
 		//$("#sent-table").css("display","block");
 		$("#inbox-area").hide();
-		$("#sent-area").show();
+		
 		if(sentSize == 0){
 			$("#no-inbox-alert").css("display","block");
 		} else {
 			$("#no-inbox-alert").css("display","none");
+			$("#sent-area").show();
 		}
 		$("#active-area").text("Sent");
 		
@@ -80,7 +81,7 @@ function initListeners() {
 		//$("#sent-table").css("display","none");
 		//$("#inbox-table").css("display","block");
 		$("#sent-area").hide();
-		$("#inbox-area").show();
+		
 		$("#sent-item").removeClass("active");
 		$("#inbox-item").addClass("active");
 		
@@ -88,6 +89,7 @@ function initListeners() {
 			$("#no-inbox-alert").css("display","block");
 		} else {
 			$("#no-inbox-alert").css("display","none");
+			$("#inbox-area").show();
 		}
 		
 		$("#active-area").text("Inbox");
@@ -127,6 +129,33 @@ function initListeners() {
 		$("#message-body").val("");
 		$("#subject").val("");
 		$("#recipient").val("");
+	});
+	
+	$("#reply-message").click(function(){
+		
+		// get the neccessary fields 
+		var msgID = $("#view-inbox-msgID").val();
+		var sender = $("#sender-inbox-view").val();
+		var subj = $("#subject-inbox-view").val();
+		var initBody = $("#view-inbox-textarea").val();
+		
+		$("#reply-msgID").val(msgID);
+		$("#reply-msg-recipient").val(sender);
+		$("#reply-subject").val(subj);
+		$("#initial-message").val(initBody);
+		$("#initial-message").attr('readonly','readonly');
+		
+		$("#view-inbox-area").fadeOut();
+	
+		$("#reply-area").fadeIn();
+	});
+	
+	$("#send-reply-message").click(function(){
+		var message = {};
+		message["recipient"] = $("#reply-msg-recipient").val();
+		message["subject"] = $("#reply-subject").val();
+		message["message_body"] = $("#reply-textarea").val();
+		sendMessage(message);
 	});
 	
   

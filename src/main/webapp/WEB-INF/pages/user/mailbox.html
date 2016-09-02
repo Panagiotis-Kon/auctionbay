@@ -139,9 +139,6 @@
                               <a href="" class="sent-ref"><i class="fa fa-envelope-o"></i> Sent Mail</a>
                           </li>
                        
-                          <li>
-                              <a href="#"><i class=" fa fa-trash-o"></i> Trash</a>
-                          </li>
                       </ul>
                       
                    
@@ -210,6 +207,7 @@
   								</div>
   								
   								<textarea id="message-body" class="form-control" style="height:300px;"></textarea>
+  								
   				
   						</div>
   						<div class="panel-footer">
@@ -273,6 +271,10 @@
                           <div class="alert alert-info" style="display:none;" id="no-inbox-alert">
                          	<h4 class="text text-center" id="no-inbox-text"></h4>
                          </div>
+                         
+                         
+                         
+                         <!--  ************************ INBOX TABLE AREA ******************************* -->
                          <div id="inbox-area" style="height:200px;overflow-y:auto;">
                          <table class="table table-inbox table-hover" id="inbox-table">
                          	<thead>
@@ -302,8 +304,21 @@
                          </table>
                          </div>
                          
+                         
+                         <!--  ************************ SENT TABLE AREA ******************************* -->
+                         
                          <div id="sent-area" style="height:200px;overflow-y:auto;display:none;"> 
                          <table class="table table-inbox table-hover" id="sent-table">
+                         	<thead>
+                         		<tr>
+                         		<th></th>
+                         		<th></th>
+                         		<th>Recipient</th>
+                         		<th>Subject</th>
+                         		<th></th>
+                         		<th class="text-right" style="padding-right:50px;">Time</th>
+                         		</tr>
+                         	</thead>
                          	<tbody>
                           		<!--  <tr class="unread">
                                   <td class="inbox-small-cells">
@@ -319,6 +334,10 @@
                          </table>
                          </div>
                          
+                         
+                         
+                     <!-- *********************** VIEW INBOX MESSAGE AREA **************************************************  -->   
+                      
 					<div class="col-sm-10 col-md-12" id="view-inbox-area" style="display:none;padding:20px;">
         			   	<div class="panel panel-default">
   							<div class="panel-heading">
@@ -366,6 +385,9 @@
 						</div>
         			</div>
         			
+        			
+        			<!-- *********************************** VIEW SENT MESSAGE AREA **************************************************  -->
+        			
         				<div class="col-sm-10 col-md-12" id="view-sent-area" style="display:none;padding:20px;">
         					<div class="panel panel-default">
   								<div class="panel-heading">
@@ -408,6 +430,59 @@
   								</div>
 							</div>
         				</div>
+        				
+        				<!-- *********************** REPLY MESSAGE AREA **************************************************  -->
+        				
+        				<div class="col-sm-10 col-md-12" id="reply-area" style="display:none;padding:20px;">
+        			   	<div class="panel panel-default">
+  							<div class="panel-heading">
+  							<div class="row">
+  								<div class="col-sm-3 text-left">
+  									<strong>Message Reply</strong>
+  								</div>
+  									
+  								<div class="col-sm-6 text-center "></div>
+  								<div class="col-sm-3 text-right"> 
+  									<button type="button" id="hide-inbox-message" class="btn btn-default">
+  										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									</button>
+								</div>
+								</div>	
+  							</div>
+  							<div class="panel-body">
+  							<form class="form-horizontal">
+  								<div class="form-group">
+  									<label class="col-sm-2" for="sender-inbox-view">Re:</label>
+  									<div class="col-sm-8">
+  										<input class="hidden" id="reply-msgID"/>
+  										<input class="form-control" id="reply-msg-recipient"/>
+  									</div>
+  									
+  								</div>
+  								<div class="form-group">
+  									<label class="col-sm-2" for="subject-inbox-view">Subject:</label>
+  									<div class="col-sm-8">
+  										<input class="form-control" id="reply-subject"/>
+  									</div>
+  									
+  								</div>
+  							
+  								<textarea id="initial-message" class="form-control" style="height:300px;color:navy;"></textarea>
+  								<div style="margin-bottom:2%;"></div>
+  								<textarea id="reply-textarea" class="form-control" style="height:300px;"></textarea>
+  							</form>
+  							</div>
+  							<div class="panel-footer">
+  								<div class="pull-right">
+  									<button type="button" class="btn btn-primary" id="send-reply-message"><i class="fa fa-envelope-o"></i> Send</button>
+  								</div>
+  								<button type="button" class="btn btn-danger" id="reply-clean"><i class="fa fa-times"></i> Discard</button>
+  							</div>
+						</div>
+        			</div>
+        				
+        				
+        				
         			
                    </div>
                   </aside>
