@@ -57,5 +57,7 @@ public interface QueryAuction {
 	
 	public boolean auctionCanBeEdited(int auctionID);
 	
+	public int updateDeadline(int auctionID);
+	
 	public int updateAuction(int auctionID, String title, float buyprice, float firstbid, Date endtime);
 }

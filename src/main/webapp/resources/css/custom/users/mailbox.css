@@ -390,15 +390,19 @@ z-index: 100;
     height:35px;
 }
 
-#inbox-table tbody {
+/*#inbox-table {
 	height: 200px;
   	overflow-y: auto;
+  	overflow-x:hidden
 	
+}*/
+
+#inbox-table td{
+	max-height:30px;
 }
 
-#sent-table tbody {
-	height: 200px;
-  	overflow-y: auto;
+#sent-table td {
+	max-height:30px;
 	
 }
  

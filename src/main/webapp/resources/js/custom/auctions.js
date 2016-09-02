@@ -28,9 +28,14 @@ function getAuctionsRecommendations(){
 			url  : url + username + "/recommendations",
 			success:function(data){
 				
-				if(data.length == 0){
+				if(data == "problem"){
 					$("#rec-list").css("display","none");
 					$("#no-recommendations").css("display","block");
+				} else {
+					for(var i=0; i<data.length; i++){
+						$("#rec-list").append('<li><a href="' + window.location.href + '/item/'+data[i].itemID + '">'+ data[i].name +'</a></li>');
+					}
+					
 				}
 				
 			}
@@ -229,6 +234,7 @@ function advanced_search(start,end,input,template_module) {
 					//panel.find("#category-listing h4").text(data[i].expires+"remaining");
 					panel.find("#firstBid").text("$"+parseFloat(data[i].firstBid).toFixed(2));
 					panel.find("#numberOfbids").text(data[i].numberOfBids + "     " + "Bids");
+					panel.find('.item-details a').attr('href',window.location.href + '/item/'+data[i].itemID);
 					html = panel.html();
 					
 					$("#available-auctions").append(html);
@@ -379,6 +385,7 @@ function getAuctionsByCategory(start,end,template_module,category,type){
 					panel.find("#elapseTime h4").text(auctions[i].expires+"remaining");
 					panel.find("#firstBid").text("$"+parseFloat(auctions[i].firstBid).toFixed(2));
 					panel.find("#numberOfbids").text(auctions[i].numberOfBids + "     " + "Bids");
+					panel.find('.item-details a').attr('href',window.location.href + '/item/'+auctions[i].id);
 					html = panel.html();
 					$("#available-auctions").append(html);
 					
@@ -417,6 +424,7 @@ function getAuctions(start,end,template_module,type){
 					//panel.find("#category-listing h4").text(auctions[i].expires+"remaining");
 					panel.find("#firstBid").text("$"+parseFloat(auctions[i].firstBid).toFixed(2));
 					panel.find("#numberOfbids").text(auctions[i].numberOfBids + "     " + "Bids");
+					panel.find('.item-details a').attr('href',window.location.href + '/item/'+auctions[i].id);
 					html = panel.html();
 					$("#available-auctions").append(html);
 					

@@ -23,15 +23,11 @@ public class QueryMailboxImpl implements QueryMailbox{
 				+ " AND mb.RegisteredUser = ?1", Message.class);
 		
 		
-		Query queryTest = em.createNativeQuery("SELECT m.MessageID, m.FromUser, m.ToUser,"
-				+ " m.Subject, m.DateCreated, m.isRead, m.MessageText "
-				+ "FROM message m, mailbox mb"
-				+ " WHERE m.MessageID = mb.MessageID AND mb.type = 'Inbox'"
-				+ " AND mb.RegisteredUser = ?1"); 
+		
 		query.setParameter(1,username);
 		
 		List<Message> resultSet = query.getResultList();
-		List<Object[]> test = queryTest.getResultList();
+		
 		//List resultSet  =  em.createNamedQuery("Message.inbox").setParameter("username",username).getResultList();
 		return resultSet;
 	}
@@ -141,11 +137,15 @@ public class QueryMailboxImpl implements QueryMailbox{
 		Query query2 = em.createNativeQuery("SELECT * FROM mailbox WHERE MessageID=?1").setParameter(1, messageID);
 		List messages = query2.getResultList();
 		if(messages.size() == 0){
+			System.out.println("Going to delete message with id: " + messageID);
 			Query query3 = em.createNativeQuery("DELETE FROM message WHERE MessageID=?1").setParameter(1, messageID);
 			if(query3.executeUpdate() != 0){
+				System.out.println("Message with id: " + messageID + " deleted !!!");
+				System.out.println("");
 				return 0;
 			}
 		}
+		System.out.println("Returning 1");
 		return 1;
 	}
 

@@ -75,7 +75,7 @@ public class MessagesController {
 	@ResponseBody
 	public String getInbox(@RequestParam("username") String username){
 		System.out.println("getting inbox messages");
-		/*List<Message> messages = mailboxServices.getInboxMessages(username);
+		List<Message> messages = mailboxServices.getInboxMessages(username);
 		JSONArray inbox = new JSONArray();
 		for(Message m : messages){
 			JSONObject message = new JSONObject();
@@ -92,10 +92,10 @@ public class MessagesController {
 				e.printStackTrace();
 			}
 			inbox.put(message);
-		}*/
+		}
 		
 		
-		List<Object[]> messages = mailboxServices.inbox(username);
+		/*List<Object[]> messages = mailboxServices.inbox(username);
 		JSONArray inbox = new JSONArray();
 		
 		for(Object[] o :messages){
@@ -113,7 +113,7 @@ public class MessagesController {
 				e.printStackTrace();
 			}
 			inbox.put(jobj);
-		}
+		}*/
 		
 		return inbox.toString();
 	}
@@ -123,7 +123,7 @@ public class MessagesController {
 	@ResponseBody
 	public String getSent(@RequestParam("username") String username){
 		System.out.println("getting sent messages");
-		/*List<Message> messages = mailboxServices.getSentMessages(username);
+		List<Message> messages = mailboxServices.getSentMessages(username);
 	
 		JSONArray sent = new JSONArray();
 		for(Message m : messages){
@@ -142,9 +142,9 @@ public class MessagesController {
 				e.printStackTrace();
 			}
 			sent.put(message);
-		}*/
+		}
 		
-		List<Object[]> messages = mailboxServices.sent(username);
+		/*List<Object[]> messages = mailboxServices.sent(username);
 		JSONArray sent = new JSONArray();
 		
 		for(Object[] o :messages){
@@ -162,7 +162,7 @@ public class MessagesController {
 				e.printStackTrace();
 			}
 			sent.put(jobj);
-		}
+		}*/
 		
 		
 		
@@ -203,10 +203,11 @@ public class MessagesController {
 		return new Gson().toJson("Cannot mark as read");
 	}
 	
-	@RequestMapping(value = "/delete-message",method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete-messages",method = RequestMethod.POST)
 	@ResponseBody
-	public String deleteMessage(@RequestParam("username") String username,@RequestParam("messages") String messages){
-		
+	public String deleteMessage(@RequestParam("username") String username,
+			@RequestParam("messages") String messages){
+		System.out.println("Deleting Messages....");
 		try{
 			JSONArray jarray = new JSONArray(messages);
 			for(int i=0; i<jarray.length();i++){

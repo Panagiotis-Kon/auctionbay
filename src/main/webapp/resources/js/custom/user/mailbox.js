@@ -18,6 +18,9 @@ $(document).ready(function (){
 var recipientTags = [];
 var bodyMessageInboxHolder = {};
 var bodyMessageSentHolder = {};
+var inboxSize;
+var sentSize;
+
 
 function initListeners() {
 	
@@ -36,14 +39,26 @@ function initListeners() {
 		event.preventDefault();
 		$("#inbox-item").removeClass("active");
 		$("#sent-item").addClass("active");
-		if($("#no-inbox-alert").is(":visible")){
+		/*if($("#no-inbox-alert").is(":visible")){
 			console.log("here1")
 			$("#no-inbox-alert").css("display","none");
+			
+		}*/
+		if($("#compose-area").is(":visible")){
+			$("#compose-area").css("display","none");
+			$("#main-content-area").css("display","block");
+			$("#back-to-read").css("display","none");
+			$("#compose-button").css("display","block");
 		}
 		//$("#inbox-table").css("display","none");
 		//$("#sent-table").css("display","block");
-		$("#inbox-table").hide();
-		$("#sent-table").show();
+		$("#inbox-area").hide();
+		$("#sent-area").show();
+		if(sentSize == 0){
+			$("#no-inbox-alert").css("display","block");
+		} else {
+			$("#no-inbox-alert").css("display","none");
+		}
 		$("#active-area").text("Sent");
 		
 	});
@@ -51,17 +66,30 @@ function initListeners() {
 	$("a.inbox-ref").click(function(event){
 		event.preventDefault();
 		
-		if($("#no-sent-alert").is(":visible")){
+		/*if($("#no-sent-alert").is(":visible")){
 			console.log("here2")
 			$("#no-sent-alert").css("display","none");
+		}*/
+		if($("#compose-area").is(":visible")){
+			$("#compose-area").css("display","none");
+			$("#main-content-area").css("display","block");
+			$("#back-to-read").css("display","none");
+			$("#compose-button").css("display","block");
 		}
 		
 		//$("#sent-table").css("display","none");
 		//$("#inbox-table").css("display","block");
-		$("#sent-table").hide();
-		$("#inbox-table").show();
+		$("#sent-area").hide();
+		$("#inbox-area").show();
 		$("#sent-item").removeClass("active");
 		$("#inbox-item").addClass("active");
+		
+		if(inboxSize == 0){
+			$("#no-inbox-alert").css("display","block");
+		} else {
+			$("#no-inbox-alert").css("display","none");
+		}
+		
 		$("#active-area").text("Inbox");
 	});
 	
@@ -95,7 +123,11 @@ function initListeners() {
 	});
 	
 	
-	
+	$("#discard-compose").click(function(){
+		$("#message-body").val("");
+		$("#subject").val("");
+		$("#recipient").val("");
+	});
 	
   
 	
@@ -119,8 +151,8 @@ function inboxListeners(){
             	
             	if ( $( this ).hasClass( "unread" ) ) {
             		$(this).removeClass("unread");
-            		var inbox_num = ParseInt($("#inbox-counter").text());
-            		if(inbox_num == 0){
+            		var inbox_num = parseInt($("#inbox-counter").text());
+            		if(inbox_num == 1){
             			$("#inbox-counter").css("display","none");
             		} else {
             			inbox_num--;
@@ -128,16 +160,25 @@ function inboxListeners(){
             		}
             		markAsRead(message_id);
             	}
-            	
+            	$("#view-inbox-msgID").val(message_id);
             	$("#sender-inbox-view").val(from);
             	$("#subject-inbox-view").val(subject);
             	$("#view-inbox-textarea").text(message_body);
             	$("#view-inbox-area").css("display","block");
+            	
         	}
         	
         	
         }
     }
+    
+    $("#delete-msginbox-area").click(function(){
+    	var toDelete = [];
+    	var msgID = $("#view-inbox-msgID").val();
+    	toDelete.push(msgID);
+    	 deleteMessage(toDelete);
+    });
+    
     
     $("#trash-message").click(function(event){
     	var toDelete = [];
@@ -149,7 +190,8 @@ function inboxListeners(){
     	        }
     	    });
     	 //alert(toDelete);
-    	 deleteMessage(JSON.stringify(toDelete));
+    	// deleteMessage(JSON.stringify(toDelete));
+    	 deleteMessage(toDelete);
     	
     });
     
@@ -172,12 +214,14 @@ function sentListeners() {
         rows[i].onclick = function(e) {
         	
         	if(e.target.type == "checkbox"){
+        		$("#trash-message").css("display","block");
         		console.log("checkbox clicked")
         	} else {
         		var message_id = $(this).find("#messageID").val();
             	var message_body = bodyMessageSentHolder[message_id].messageBody;
             	var to = bodyMessageSentHolder[message_id].recipient;
             	var subject = bodyMessageSentHolder[message_id].subject;
+            	$("#view-sent-msgID").val(message_id);
             	$("#view-sent-textarea").text(message_body);
             	$("#recipient-sent-view").val(to);
             	$("#subject-sent-view").val(subject);
@@ -188,6 +232,29 @@ function sentListeners() {
         	//alert("sent message id: " + id)
         }
     }
+    
+    $("#delete-msgsent-area").click(function(){
+    	var toDelete = [];
+    	var msgID = $("#view-sent-msgID").val();
+    	toDelete.push(msgID);
+    	 deleteMessage(toDelete);
+    });
+    
+    $("#trash-message").click(function(event){
+    	var toDelete = [];
+    	 $('#sent-table').find('tr').each(function () {
+    	        var row = $(this);
+    	        if (row.find('input[type="checkbox"]').is(':checked')) {
+    	        	var m_id = row.find("#messageID").val();
+    	        	toDelete.push(m_id);
+    	        }
+    	    });
+    	 //alert(toDelete);
+    	// deleteMessage(JSON.stringify(toDelete));
+    	 deleteMessage(toDelete);
+    	
+    });
+    
     $("#hide-sent-message").click(function(event){
 		
 		$("#view-sent-area").css("display","none");
@@ -287,9 +354,9 @@ function getInboxMessages(data) {
 		dataType:'json',
 		data: {username:username},
 		success:function(inbox){
-			
+			inboxSize = inbox.length;
 			if(inbox.length == 0) {
-				$("#inbox-table").css("display","none");
+				$("#inbox-area").css("display","none");
 				$("#no-inbox-alert").css("display","block");
 				$("#no-inbox-text").text("You have no messages");
 			}	
@@ -333,7 +400,7 @@ function getSentMessages(sentModule) {
 		dataType:'json',
 		data: {username:username},
 		success:function(sent){
-			
+			sentSize = sent.length;
 			if(sent.length == 0) {
 				/*if(!$("#no-inbox-alert").is(":visible")){
 					$("#sent-table").css("display","none");
@@ -371,14 +438,16 @@ function getSentMessages(sentModule) {
 
 function deleteMessage(messages){
 	var username = getUser();
+	jmessages = JSON.stringify(messages);
+	console.log("url: " + window.location.href);
 	console.log(messages);
 	$.ajax({
-		type : "DELETE",
-		url  : window.location.href + "/delete-message",
-		data : {username:username,messages:messages},
+		type : "POST",
+		url  : window.location.href + "/delete-messages",
+		data : {username:username,messages:jmessages},
 		dataType:'json',
-		success:function(result){
-			console.log(result);
+		success:function(data){
+			console.log(data);
 			window.location.reload();
 			
 		}

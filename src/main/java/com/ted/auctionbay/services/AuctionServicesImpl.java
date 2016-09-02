@@ -276,7 +276,8 @@ public class AuctionServicesImpl implements AuctionServices{
 	@Override
 	public int buyItem(String username, int itemID) {
 		Auction a = queryAuction.getDetails(itemID);
-		queryAuction.deleteAuction(username, itemID, a.getAuctionID());
+		//queryAuction.deleteAuction(username, itemID, a.getAuctionID());
+		queryAuction.updateDeadline(a.getAuctionID());
 		if(queryUser.appendBuyerHistory(username, itemID) == 0){
 			return 0;	
 		}

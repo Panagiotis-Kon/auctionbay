@@ -51,7 +51,7 @@
       						<li id="auctions2" style="display:none;"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Auctions <span class="caret"></span></a>
       							<ul class="dropdown-menu">
       								<li><a href="#" class="view-auctions-ref" >View Auctions</a></li>
-      								<li><a href="#" class="create-auction-ref">Manage Auction</a></li>
+      								<li><a href="#" class="create-auction-ref">Manage Auctions</a></li>
       							</ul>			
       						</li>
       							
@@ -158,13 +158,35 @@
      				<h4 id="successModal-text"></h4>
       				</div>
       				<div class="modal-footer">
-      					<button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+      					<button type="button" class="btn btn-secondary" id="success-btn-ok">OK</button>
         				
         				
       				</div>
     			</div>
   			</div>
 		</div>	
+		
+		
+		<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+  			<div class="modal-dialog" role="dialog">
+    			<div class="modal-content">
+      				<div class="modal-header" style="background-color:green;">
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          					<span aria-hidden="true">&times;</span>
+        				</button>
+        				<h4 class="modal-title" id="errorModal-Label" style="color:#fff;"></h4>
+      				</div>
+      				<div class="modal-body">
+     				<h4 id="errorModal-text"></h4>
+      				</div>
+      				<div class="modal-footer">
+      					<button type="button" class="btn btn-secondary" id="error-btn-ok">OK</button>
+        				
+        				
+      				</div>
+    			</div>
+  			</div>
+		</div>
 		
 		
 	</div> <!-- Main container Ends -->

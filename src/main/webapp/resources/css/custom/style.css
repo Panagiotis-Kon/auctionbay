@@ -61,6 +61,15 @@
     overflow-x: hidden;
 }
 
+#rec-list.scrollable-menu {
+    height: auto;
+    max-height: 250px;
+    overflow-x: hidden;
+}
+
+.carousel-inner > .item > a >img {
+    margin: 0 auto;
+}
 /* Default Skin */
 .wmuSliderPagination {
 	z-index: 2;

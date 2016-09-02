@@ -227,7 +227,8 @@ function getRecommendations(){
 					$("#no-rec-available").css("display","block");
 				}else {
 					for(var i=0 ; i< data.length ; i++) {
-					    $('<div class="item"><img src="https://localhost:8443/auctionbay/resources/images/no-image.png"><div class="carousel-caption"></div>   </div>').appendTo('.carousel-inner');
+						
+					    $('<div class="item"><img src="https://localhost:8443/auctionbay/resources/images/no-image.png" class="img-responsive center-block"><div class="carousel-caption"><h4><a href="'+ window.location.href + '/auctions/item/'+data[i].itemID + '">'+ data[i].name + '</a></h4></div>   </div>').appendTo('.carousel-inner');
 					    $('<li data-target="#myCarousel" data-slide-to="'+i+'"></li>').appendTo('.carousel-indicators')
 
 					  }

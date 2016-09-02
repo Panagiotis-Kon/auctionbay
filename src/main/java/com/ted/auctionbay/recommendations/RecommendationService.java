@@ -158,12 +158,12 @@ public class RecommendationService{
 			return null;
 		}
 		
-		System.out.println("USERNAME TO INTEGER MAP PRINT");
+		/*System.out.println("USERNAME TO INTEGER MAP PRINT");
 		System.out.println("*****************************");
 		System.out.println("");
 		for (String key : usernameToIntegerMap.keySet()) {
 		    System.out.println(key + " " + usernameToIntegerMap.get(key));
-		}
+		}*/
 		System.out.println("");
 		
 		Integer i = usernameToIntegerMap.get(username);

@@ -85,6 +85,11 @@ public class ItemController {
 				}
 				
 			}
+			if(auction.getEndTime().before(new Date())){
+				jitem.put("closed","yes");
+			} else {
+				jitem.put("closed","no");
+			}
 			String timeDiff = TimeUtilities.timeDiff(new Date(),auction.getEndTime());
 			jitem.put("expires",timeDiff);
 			

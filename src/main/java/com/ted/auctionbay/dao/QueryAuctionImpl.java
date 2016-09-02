@@ -416,6 +416,14 @@ public class QueryAuctionImpl implements QueryAuction {
 		return query.executeUpdate();
 	}
 
+	@Override
+	public int updateDeadline(int auctionID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("UPDATE auction set EndTime=NOW() WHERE AuctionID=?1");
+		query.setParameter(1, auctionID);
+		return query.executeUpdate();
+	}
+
 
 
 }

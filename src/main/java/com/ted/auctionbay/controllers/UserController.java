@@ -127,14 +127,14 @@ public class UserController {
 	public String buyItem(@RequestParam("username") String username, 
 			@RequestParam("itemID") String ItemID){
 		int itemID = Integer.parseInt(ItemID);
-		
-		if(auctionServices.buyItem(username, itemID) == 0){
-			return new Gson().toJson("Your purchase was submitted");
-		}
 		System.out.println("Buying item");
+		if(auctionServices.buyItem(username, itemID) == 0){
+			return new Gson().toJson("success");
+		}
 		
 		
-		return new Gson().toJson("cannot buy the item");
+		
+		return new Gson().toJson("problem");
 	}
 	
 	
@@ -474,7 +474,7 @@ public class UserController {
 			Auction auction = auctionServices.getAuctionByID(auctionID);
 			System.out.println("Auction: " + auction.getTitle());
 			try {
-				o.put("id", auction.getItem().getItemID());
+				o.put("itemID", auction.getItem().getItemID());
 				o.put("name", auction.getItem().getName());
 				o.put("firstBid", auction.getFirstBid());
 				o.put("remainingTime", TimeUtilities.timeDiff(auction.getStartTime(), auction.getEndTime()));

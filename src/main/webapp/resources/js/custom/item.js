@@ -119,28 +119,16 @@ function getDetails(itemID, details_module) {
 				panel.find('#latitude').text(data.lat);
 				panel.find('#longtitude').text(data.lon);
 				panel.find('#allcategories').text(data.category);
-				panel.find('#buyprice').text(parseFloat(data.buyprice).toFixed(2));
+				panel.find('#buyprice').text(parseFloat(data.buyprice).toFixed(2) + " $");
 				panel.find('#seller').text(data.seller);
-				panel.find('#firstbid').text(parseFloat(data.firstbid).toFixed(2));
+				panel.find('#firstbid').text(parseFloat(data.firstbid).toFixed(2) + " $");
 				panel.find('#expire').text(data.expires);
 				panel.find('#highest-bid').html(parseFloat(data.highest_bid).toFixed(2) + " $");
 				panel.find('#bids-num').text(data.numOfBids);
 				
 				
+				console.log("buy price: " + parseFloat(data.buyprice).toFixed(2));
 				
-				if(parseFloat(data.buyprice).toFixed(2) != 0.00){
-					$("#buy-section").css("display","block");
-					
-					$("#buyNow").click(function(event){
-						$("#confirm-buy-btn").css("display","block");
-						$("#warningBid-text").html("Are you sure that you want to buy this item ?");
-						$("#warningBidModal").modal('show');
-						
-						$("#confirm-buy-btn").click(function(event){
-							buyCall();
-						});
-					});
-				}
 				latitude = data.lat;
 				longtitude = data.lon;
 				console.log("lat: " + latitude + " --- lon: " + longtitude);
@@ -166,12 +154,34 @@ function getDetails(itemID, details_module) {
 						
 						});
 				}
-				var username = getUser();
-				console.log("username: " + username + " --- seller: " + data.seller);
-				if(username == data.seller){
-					console.log("here")
+				if(data.closed == "yes"){
 					$("#bid-section").css("display","none");
+					$("#closed-auction-warning").css("display","block");
+				} else {
+					if(parseFloat(data.buyprice).toFixed(2) != 0.00){
+						console.log("I've entered....")
+						$("#buy-section").css("display","block");
+						
+						$("#buyNow").click(function(event){
+							$("#confirm-buy-btn").css("display","block");
+							$("#warningBid-text").html("Are you sure that you want to buy this item ?");
+							$("#warningBidModal").modal('show');
+							
+							$("#confirm-buy-btn").click(function(event){
+								$("#warningBidModal").modal('hide');
+								buyCall();
+							});
+						});
+					}
+					
+					var username = getUser();
+					console.log("username: " + username + " --- seller: " + data.seller);
+					if(username == data.seller){
+						console.log("here")
+						$("#bid-section").css("display","none");
+					}
 				}
+				
 				setListeners();
 				checkForUser();
 				
@@ -184,6 +194,7 @@ function getDetails(itemID, details_module) {
 
 function buyCall(){
 	var username = getUser();
+	var url = window.location.href;
 	var itemID = url.substring(url.lastIndexOf("/")+1);
 	$.ajax({
 		type : "POST",
@@ -191,10 +202,24 @@ function buyCall(){
 		url  :window.location.href + "/buy",
 		data :{username:username,itemID:itemID},
 		success : function(data) {
-			$("#successModal-Label").text("Successfull Buy")
-			$("#successModal-text").html(data);
-			$("#successModal").modal('show');
-			window.location.reload();
+			if(data == "success"){
+				$("#successModal-Label").text("Successfull Buy")
+				$("#successModal-text").html("Your purchase was submitted");
+				$("#successModal").modal('show');
+				
+				$("#success-btn-ok").click(function(){
+					window.location.replace(baseURL+"/user/"+username+"/auctions");
+				})
+			} else {
+				$("#errorModal-Label").text("Problem")
+				$("#errorModal-text").html("A problem occured during buy");
+				$("#errorModal").modal('show');
+				$("#error-btn-ok").click(function(){
+					window.location.reload();
+				})
+			}
+			
+			
 		}
 			
 		
