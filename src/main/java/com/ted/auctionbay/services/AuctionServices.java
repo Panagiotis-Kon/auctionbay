@@ -48,7 +48,7 @@ public interface AuctionServices {
 	
 	public List<Object[]> BidderExpiredAuctions(String username);
 	
-	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers();
+	public List<RegistereduserBidsinAuction> getBidsOfAllUsers();
 	
 	public Auction getAuctionByID(int AuctionID);
 	

@@ -51,7 +51,7 @@ public interface QueryAuction {
 	
 	public List<Object[]> BidderExpiredAuction(String username);
 	
-	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers();
+	public List<RegistereduserBidsinAuction> getBidsOfAllUsers();
 	
 	public List<Object[]> getAuctionsForExport(int startpage,int endpage);
 	

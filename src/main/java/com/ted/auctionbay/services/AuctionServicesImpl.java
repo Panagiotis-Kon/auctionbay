@@ -291,8 +291,8 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public List<RegistereduserBidsinAuction> getAuctionsOfAllUsers() {
-		return queryAuction.getAuctionsOfAllUsers();
+	public List<RegistereduserBidsinAuction> getBidsOfAllUsers() {
+		return queryAuction.getBidsOfAllUsers();
 	}
 
 	@Override
