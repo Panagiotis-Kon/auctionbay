@@ -28,7 +28,7 @@
 	
 	<beans:bean id="queryItem" class="com.ted.auctionbay.dao.QueryItemImpl"/>
 	
-	<beans:bean id="queryMail" class="com.ted.auctionbay.dao.QueryMailboxImpl"/>
+	<beans:bean id="queryConversation" class="com.ted.auctionbay.dao.QueryConversationImpl"/>
 	
 	<!-- Services' beans -->
 	<beans:bean id="userServices" class="com.ted.auctionbay.services.UserServicesImpl"/>
@@ -39,7 +39,7 @@
 	
 	<beans:bean id="itemServices" class="com.ted.auctionbay.services.ItemServicesImpl"/>
 	
-	<beans:bean id="mailboxServices" class="com.ted.auctionbay.services.MailboxServicesImpl"/>
+	<beans:bean id="conversationServices" class="com.ted.auctionbay.services.ConversationServicesImpl"/>
 	
 	
 	<task:scheduled-tasks scheduler="recommendationScheduler">

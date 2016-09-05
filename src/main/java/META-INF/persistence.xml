@@ -17,9 +17,8 @@
 		<class>com.ted.auctionbay.entities.users.Sellerrating</class>
 		<class>com.ted.auctionbay.entities.users.SellerratingPK</class>
 		<class>com.ted.auctionbay.entities.users.User</class>
-		<class>com.ted.auctionbay.entities.users.messages.Mailbox</class>
-		<class>com.ted.auctionbay.entities.users.messages.MailboxPK</class>
-		<class>com.ted.auctionbay.entities.users.messages.Message</class>
+		<class>com.ted.auctionbay.entities.users.messages.Conversation</class>
+		<class>com.ted.auctionbay.entities.users.messages.ConversationPK</class>
 		
 	
 	<properties>

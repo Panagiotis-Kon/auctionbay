@@ -2,24 +2,23 @@ package com.ted.auctionbay.dao;
 
 import java.util.List;
 
-import com.ted.auctionbay.entities.users.messages.Mailbox;
-import com.ted.auctionbay.entities.users.messages.Message;
+import com.ted.auctionbay.entities.users.messages.Conversation;
 
-public interface QueryMailbox {
+public interface QueryConversation {
 	
-	public List<Message> getInboxMessages(String username);
+	public List<Conversation> getInboxMessages(String username);
 	
-	public List<Message> getSentMessages(String username);
+	public List<Conversation> getSentMessages(String username);
 	
 	public int countNewMessages(String username);
 	
 	public int markAsRead(int messageID);
 	
-	public int getMaxMailboxID();
+	public int getMaxConversationID();
 	
 	public int getMaxMessageID();
 	
-	public int submitMessage(Message message, Mailbox from, Mailbox to);
+	public int submitMessage(Conversation conversation);
 	
 	public int deleteMessage(String username, int messageID);
 	

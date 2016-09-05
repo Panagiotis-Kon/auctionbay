@@ -2,13 +2,13 @@ package com.ted.auctionbay.services;
 
 import java.util.List;
 
-import com.ted.auctionbay.entities.users.messages.Message;
+import com.ted.auctionbay.entities.users.messages.Conversation;
 
-public interface MailboxServices {
+public interface ConversationServices {
 
-	public List<Message> getInboxMessages(String username);
+	public List<Conversation> getInboxMessages(String username);
 	
-	public List<Message> getSentMessages(String username);
+	public List<Conversation> getSentMessages(String username);
 	
 	public int countNewMessages(String username);
 	

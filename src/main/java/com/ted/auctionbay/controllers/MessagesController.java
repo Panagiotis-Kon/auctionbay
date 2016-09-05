@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.ted.auctionbay.entities.users.Registereduser;
-import com.ted.auctionbay.entities.users.messages.Message;
-import com.ted.auctionbay.services.MailboxServices;
+import com.ted.auctionbay.entities.users.messages.Conversation;
+import com.ted.auctionbay.services.ConversationServices;
 import com.ted.auctionbay.services.UserServices;
 
 @Controller
@@ -23,7 +23,7 @@ import com.ted.auctionbay.services.UserServices;
 public class MessagesController {
 	
 	@Autowired
-	MailboxServices mailboxServices;
+	ConversationServices conversationServices;
 	
 	@Autowired
 	UserServices userServices;
@@ -46,7 +46,7 @@ public class MessagesController {
 	@ResponseBody
 	public String unread_number(@RequestParam("username") String username){
 		
-		int num = mailboxServices.countNewMessages(username);
+		int num = conversationServices.countNewMessages(username);
 		if(num > 0) {
 			return new Gson().toJson(num);
 		}
@@ -58,13 +58,17 @@ public class MessagesController {
 	@ResponseBody
 	public String getRecipients(){
 		
+		//List<Object[]> reg_users = userServices.getRecipientsTest();
 		List<Registereduser> reg_users = userServices.getRecipients();
 		JSONArray recipients = new JSONArray();
+		//System.out.println(reg_users);
 		if(reg_users.size() != 0){
-			for(Registereduser reg : reg_users){
-				
-				recipients.put(reg.getUsername());
+			for(Registereduser r : reg_users){
+				recipients.put(r.getUsername());
 			}
+			/*for(int i=0;i<reg_users.size();i++){
+				recipients.put(reg_users.get(i));
+			}*/
 			return recipients.toString();
 		}
 		
@@ -75,18 +79,19 @@ public class MessagesController {
 	@ResponseBody
 	public String getInbox(@RequestParam("username") String username){
 		System.out.println("getting inbox messages");
-		List<Message> messages = mailboxServices.getInboxMessages(username);
+		
+		List<Conversation> messages = conversationServices.getInboxMessages(username);
 		JSONArray inbox = new JSONArray();
-		for(Message m : messages){
+		for(Conversation c : messages){
 			JSONObject message = new JSONObject();
 			try{
-				message.put("messageID", m.getMessageID());
-				message.put("sender", m.getSender().getUsername());
-				message.put("recipient", m.getRecipient().getUsername());
-				message.put("subject", m.getSubject());
-				message.put("dateCreated", m.getDateCreated());
-				message.put("isRead", m.getIsRead());
-				message.put("messageBody", m.getMessageText());
+				message.put("messageID", c.getId().getConversationID());
+				message.put("sender", c.getSender());
+				message.put("recipient", c.getRecipient().getUsername());
+				message.put("subject", c.getSubject());
+				message.put("dateCreated", c.getDateCreated());
+				message.put("isRead", c.getIsRead());
+				message.put("messageBody", c.getMessageText());
 				
 			} catch(JSONException e){
 				e.printStackTrace();
@@ -95,26 +100,28 @@ public class MessagesController {
 		}
 		
 		
-		/*List<Object[]> messages = mailboxServices.inbox(username);
+		/*List<Object[]> messages = conversationServices.inbox(username);
+		System.out.println(messages);
 		JSONArray inbox = new JSONArray();
 		
 		for(Object[] o :messages){
 			JSONObject jobj = new JSONObject();
 			try {
 				jobj.put("messageID", o[0]);
-				jobj.put("sender",o[1]);
-				jobj.put("recipient", o[2]);
-				jobj.put("subject", o[3]);
-				jobj.put("dateCreated", o[4]);
-				jobj.put("isRead", o[5]);
-				jobj.put("messageBody", o[6]);
+				//jobj.put("sender",o[1]);
+				//jobj.put("recipient", o[2]);
+				jobj.put("subject", o[1]);
+				jobj.put("dateCreated", o[2]);
+				jobj.put("isRead", o[3]);
+				jobj.put("messageBody", o[4]);
+				jobj.put("sender",o[5]);
 			} catch (JSONException e) {
 				System.out.println("Problem on json return --- inbox message");
 				e.printStackTrace();
 			}
 			inbox.put(jobj);
 		}*/
-		
+		System.out.println(inbox.toString());
 		return inbox.toString();
 	}
 	
@@ -123,20 +130,21 @@ public class MessagesController {
 	@ResponseBody
 	public String getSent(@RequestParam("username") String username){
 		System.out.println("getting sent messages");
-		List<Message> messages = mailboxServices.getSentMessages(username);
+		
+		List<Conversation> messages = conversationServices.getSentMessages(username);
 	
 		JSONArray sent = new JSONArray();
-		for(Message m : messages){
-			System.out.println("message: " + m.getSubject());
+		for(Conversation c : messages){
+			System.out.println("message: " + c.getSubject());
 			JSONObject message = new JSONObject();
 			try{
-				message.put("messageID", m.getMessageID());
-				message.put("sender", m.getSender().getUsername());
-				message.put("recipient", m.getRecipient().getUsername());
-				message.put("subject", m.getSubject());
-				message.put("dateCreated", m.getDateCreated());
-				message.put("isRead", m.getIsRead());
-				message.put("messageBody", m.getMessageText());
+				message.put("messageID", c.getId().getConversationID());
+				message.put("sender", c.getSender());
+				message.put("recipient", c.getRecipient().getUsername());
+				message.put("subject", c.getSubject());
+				message.put("dateCreated", c.getDateCreated());
+				message.put("isRead", c.getIsRead());
+				message.put("messageBody", c.getMessageText());
 				
 			} catch(JSONException e){
 				e.printStackTrace();
@@ -144,28 +152,28 @@ public class MessagesController {
 			sent.put(message);
 		}
 		
-		/*List<Object[]> messages = mailboxServices.sent(username);
+		/*List<Object[]> messages = conversationServices.sent(username);
+		System.out.println(messages);
 		JSONArray sent = new JSONArray();
 		
 		for(Object[] o :messages){
 			JSONObject jobj = new JSONObject();
 			try {
 				jobj.put("messageID", o[0]);
-				jobj.put("sender",o[1]);
-				jobj.put("recipient", o[2]);
-				jobj.put("subject", o[3]);
-				jobj.put("dateCreated", o[4]);
-				jobj.put("isRead", o[5]);
-				jobj.put("messageBody", o[6]);
+				jobj.put("subject", o[1]);
+				jobj.put("dateCreated", o[2]);
+				jobj.put("isRead", o[3]);
+				jobj.put("messageBody", o[4]);
+				jobj.put("recipient", o[5]);
 			} catch (JSONException e) {
 				System.out.println("Problem on json return --- sent message");
 				e.printStackTrace();
 			}
 			sent.put(jobj);
-		}*/
+		}
+		*/
 		
-		
-		
+		System.out.println(sent.toString());
 		return sent.toString();
 	}
 	
@@ -182,7 +190,8 @@ public class MessagesController {
 			recipient = message_json.get("recipient").toString();
 			subject = message_json.get("subject").toString();
 			message_body = message_json.get("message_body").toString();
-			if(mailboxServices.submitMessage(sender, recipient, subject, message_body) == 0){
+			System.out.println("Sender: " + sender + " ---- " + "recipient: " + recipient);
+			if(conversationServices.submitMessage(sender, recipient, subject, message_body) == 0){
 				return new Gson().toJson("Your message to " + recipient + " was sent");
 			}
 			
@@ -197,7 +206,7 @@ public class MessagesController {
 	@ResponseBody
 	public String markAsRead(@RequestParam("messageID") String messageID){
 		
-		if(mailboxServices.markAsRead(Integer.parseInt(messageID)) == 0){
+		if(conversationServices.markAsRead(Integer.parseInt(messageID)) == 0){
 			return new Gson().toJson("Marked as Read");
 		}
 		return new Gson().toJson("Cannot mark as read");
@@ -213,7 +222,7 @@ public class MessagesController {
 			for(int i=0; i<jarray.length();i++){
 				int m_id = Integer.parseInt(jarray.get(i).toString());
 				System.out.println("m_id to delete: " + m_id);
-				if(mailboxServices.deleteMessage(username, m_id) != 0){
+				if(conversationServices.deleteMessage(username, m_id) != 0){
 					//return new Gson().toJson("A problem occured");
 					System.out.println("Cannot delete message with id: " + m_id);
 				}

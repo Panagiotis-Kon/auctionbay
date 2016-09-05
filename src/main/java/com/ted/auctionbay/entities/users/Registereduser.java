@@ -4,8 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.ted.auctionbay.entities.auctions.Auction;
-import com.ted.auctionbay.entities.users.messages.Mailbox;
-import com.ted.auctionbay.entities.users.messages.Message;
+import com.ted.auctionbay.entities.users.messages.Conversation;
 
 import java.util.List;
 
@@ -26,25 +25,26 @@ public class Registereduser implements Serializable {
 	@OneToMany(mappedBy="registereduser")
 	private List<Bidderrating> bidderratings;
 
-	//bi-directional many-to-one association to Message
-	@OneToMany(mappedBy="recipient")
-	private List<Message> outBoxMessages;
-		
-	//bi-directional many-to-one association to Mailbox
-	@OneToOne(mappedBy="registereduser")
-	private Mailbox mailboxs;
-	
-	//@OneToOne(mappedBy="registereduser", cascade = CascadeType.ALL, orphanRemoval = true)
-	//private Mailbox mailboxs;
-	
-	//bi-directional many-to-one association to Message
-	@OneToMany(mappedBy="sender")
-	private List<Message> inboxMessages;
 
 	//bi-directional many-to-one association to Sellerrating
 	@OneToMany(mappedBy="registereduser")
 	private List<Sellerrating> sellerratings;
 	
+	
+	//bi-directional many-to-one association to Conversation
+	@OneToMany(mappedBy="recipient")
+	private List<Conversation> conversations;
+	
+	
+
+	public List<Conversation> getConversations() {
+		return conversations;
+	}
+
+	public void setConversations(List<Conversation> conversations) {
+		this.conversations = conversations;
+	}
+
 	//bi-directional many-to-one association to Auction
 	@OneToMany(mappedBy="registereduser")
 	private List<Auction> auctionsList;
@@ -65,7 +65,7 @@ public class Registereduser implements Serializable {
 		this.auctionsBids = auctionsBids;
 	}
 
-	public List<Message> getInboxMessages() {
+	/*public List<Message> getInboxMessages() {
 		return inboxMessages;
 	}
 
@@ -79,18 +79,11 @@ public class Registereduser implements Serializable {
 
 	public void setOutBoxMessages(List<Message> outBoxMessages) {
 		this.outBoxMessages = outBoxMessages;
-	}
+	}*/
 
 	
 	
-	public Mailbox getMailboxs() {
-		return mailboxs;
-	}
-
-	public void setMailboxs(Mailbox mailboxs) {
-		this.mailboxs = mailboxs;
-	}
-
+	
 	//bi-directional one-to-one association to User
 	@OneToOne
 	@PrimaryKeyJoinColumn(name="Username")
