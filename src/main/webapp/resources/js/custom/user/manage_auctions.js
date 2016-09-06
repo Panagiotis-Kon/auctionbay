@@ -9,6 +9,7 @@ $(document).ready(function (){
 	initListeners();
 	
 	checkForUser();
+	getUnreadMessages();
 	
 	
 });

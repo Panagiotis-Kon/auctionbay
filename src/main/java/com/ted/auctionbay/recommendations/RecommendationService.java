@@ -9,24 +9,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.hibernate.type.YesNoType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Sets;
 import com.ted.auctionbay.dao.QueryAuction;
-import com.ted.auctionbay.entities.auctions.Auction;
 import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 
-//@Service
 @Component("recommendation")
 public class RecommendationService{
 	
@@ -49,7 +43,7 @@ public class RecommendationService{
 	
 
 	public void start(){
-		System.out.println("Scheduler called me");
+		System.out.println("Scheduler called Recommendation Service");
 		auctions = getBidsPerUser();
 		N = auctions.size();
 		similarityMatrix = new float[N][N];

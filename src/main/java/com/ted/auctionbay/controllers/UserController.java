@@ -77,16 +77,22 @@ public class UserController {
 		return "/pages/item.html";
 	}
 	
-	@RequestMapping(value = {"/{username}/mailbox"})
+	@RequestMapping(value = {"/{username}/conversation"})
 	public static String mailRedirection() {
 		
-		return "/pages/user/mailbox.html";
+		return "/pages/user/conversation.html";
 	}
 	
 	@RequestMapping(value = {"/{username}/manage-auctions"})
 	public static String manageAuctionsRedirection() {
 		
 		return "/pages/user/manage_auctions.html";
+	}
+	
+	@RequestMapping(value = {"/{username}/contact"})
+	public static String contactRedirection() {
+		
+		return "/pages/blank.html";
 	}
 	
 	@RequestMapping(value = {"/{username}/manage-auctions/edit-module"})

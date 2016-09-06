@@ -7,6 +7,7 @@ $(document).ready(function(){
 	
 	console.log("base url: " + baseURL);
 	console.log("window.location.href: " + window.location.href)
+	
 	type = "active";
 	getAuctionsRecommendations();
 	total_pages = getNumOfAuctions(type);
@@ -398,6 +399,7 @@ function getAuctionsByCategory(start,end,template_module,category,type){
 					
 				}
 				checkForUser();
+				getUnreadMessages();
 			}
 		}	
 	}); 
@@ -437,6 +439,7 @@ function getAuctions(start,end,template_module,type){
 					
 				}
 				checkForUser();
+				getUnreadMessages();
 			}
 		}	
 	}); 

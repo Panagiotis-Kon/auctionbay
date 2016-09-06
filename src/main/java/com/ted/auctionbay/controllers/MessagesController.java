@@ -19,7 +19,7 @@ import com.ted.auctionbay.services.ConversationServices;
 import com.ted.auctionbay.services.UserServices;
 
 @Controller
-@RequestMapping(value={"/user/{username}/mailbox"})
+@RequestMapping(value={"/user/{username}/conversation"})
 public class MessagesController {
 	
 	@Autowired
@@ -31,13 +31,15 @@ public class MessagesController {
 	
 	@RequestMapping(value = "/inbox-module",method = RequestMethod.GET)
 	public String getInboxModule(){
-		System.out.println("getting inbox module");
+		//System.out.println("getting inbox module");
+		// Getting the inbox module
 		return "/pages/modules/inboxMessagesModule.html";
 	}
 	
 	@RequestMapping(value = "/sent-module",method = RequestMethod.GET)
 	public String getSentModule(){
-		System.out.println("getting sent module");
+		//System.out.println("getting sent module");
+		// Getting the sent module
 		return "/pages/modules/sentMessagesModule.html";
 	}
 	
@@ -45,7 +47,7 @@ public class MessagesController {
 	@RequestMapping(value = "/unread-number",method = RequestMethod.GET)
 	@ResponseBody
 	public String unread_number(@RequestParam("username") String username){
-		
+		// Reads the new messages for the user
 		int num = conversationServices.countNewMessages(username);
 		if(num > 0) {
 			return new Gson().toJson(num);
@@ -57,8 +59,8 @@ public class MessagesController {
 	@RequestMapping(value = "/recipients",method = RequestMethod.GET)
 	@ResponseBody
 	public String getRecipients(){
+		// Get the possible recipients to create the autocomplete input in ui
 		
-		//List<Object[]> reg_users = userServices.getRecipientsTest();
 		List<Registereduser> reg_users = userServices.getRecipients();
 		JSONArray recipients = new JSONArray();
 		//System.out.println(reg_users);
@@ -66,13 +68,11 @@ public class MessagesController {
 			for(Registereduser r : reg_users){
 				recipients.put(r.getUsername());
 			}
-			/*for(int i=0;i<reg_users.size();i++){
-				recipients.put(reg_users.get(i));
-			}*/
+			
 			return recipients.toString();
 		}
 		
-		return new Gson().toJson("No recipients found");
+		return new Gson().toJson("problem-recipients");
 	}
 	
 	@RequestMapping(value = "/inbox",method = RequestMethod.GET)

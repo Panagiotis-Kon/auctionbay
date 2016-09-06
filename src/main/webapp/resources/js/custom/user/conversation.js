@@ -1,11 +1,12 @@
 $(document).ready(function (){
 	
-	getUnreadMessages();
+
 	getRecipients();
 	getInboxMessagesModule();
 	getSentMessagesModule();
 	checkForUser();
-	
+	getUnreadMessages();
+	getUnreadConvMessages()
 	initListeners();
 	var username = getUser();
 	console.log("user: "+username);
@@ -304,7 +305,7 @@ function markAsRead(message_id){
 	});
 }
 
-function getUnreadMessages(){
+function getUnreadConvMessages(){
 	var username = getUser();
 	$.ajax({
 		type : "GET",

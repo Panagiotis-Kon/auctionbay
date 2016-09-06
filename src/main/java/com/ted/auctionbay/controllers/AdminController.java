@@ -70,10 +70,10 @@ public class AdminController {
 	public String accept_user(@RequestParam String username, HttpServletRequest request, HttpServletResponse response) 
 			throws IOException, ServletException{
 	
-		System.out.println("accepting");
+		//System.out.println("accepting");
 		userServices.accept_user(username);
 		//response.setStatus(HttpServletResponse.SC_OK);
-		System.out.println("accepted");
+		//System.out.println("accepted");
 		return "accepted";
 	}
 	
@@ -82,7 +82,7 @@ public class AdminController {
 	public String getPendingUsers(HttpServletRequest request, 
 			  HttpServletResponse response){
 
-		System.out.println("Pending...");
+		//System.out.println("Pending...");
 		int start = Integer.parseInt(request.getParameter("start"));
 		int pageSize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber;
@@ -120,7 +120,7 @@ public class AdminController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		System.out.println("getPendingUsers ends");
+		//System.out.println("getPendingUsers ends");
 		return data.toString();
 
 	}
@@ -130,7 +130,7 @@ public class AdminController {
 	public String getRegisteredUsers(HttpServletRequest request, 
 									  HttpServletResponse response){
 		
-		System.out.println("Registering...");
+		//System.out.println("Registering...");
 		int start = Integer.parseInt(request.getParameter("start"));
 		int pagesize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber;
@@ -165,7 +165,7 @@ public class AdminController {
 		
 			answer.put(user_data);
 		}
-		System.out.println("registeredUsersNumber: " + registeredUsersNumber);
+		//System.out.println("registeredUsersNumber: " + registeredUsersNumber);
 		try {
 			data.put("draw",pageNumber);
 			data.put("iTotalRecords",registeredUsersNumber);
@@ -222,8 +222,8 @@ public class AdminController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		System.out.println("---- Exporting -----");
-		System.out.println(data.toString());
+		//System.out.println("---- Exporting -----");
+		//System.out.println(data.toString());
 		return data.toString();
 	}
 	
@@ -237,9 +237,10 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/export-all-to-xml",method = RequestMethod.POST)
-	public void exportAllToXML(HttpServletResponse response) throws IOException {
+	@ResponseBody
+	public String exportAllToXML(HttpServletResponse response) throws IOException {
 		itemServices.exportAllToXML();
-		response.setStatus(HttpServletResponse.SC_OK);
+		return new Gson().toJson("Success");
 	}
 	
 }

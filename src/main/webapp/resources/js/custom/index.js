@@ -183,14 +183,14 @@ function getUnreadMessages(){
 			type : "GET",
 			dataType:'json',
 			data: {username:username},
-			url  : url + username + "/mailbox/unread-number",
+			url  : url + username + "/conversation/unread-number",
 			success:function(unread){
 				console.log("unread: " + unread);
 				if(unread != "0") {
 					// display on header 
 					console.log("We have messages....")
-					$("#header-unread-messages").text(unread);
-					$("#header-unread-messages").css("display","block");
+					$("#header-unread-messages").html(unread);
+					$("#header-unread-messages").css("display","inline-block");
 					$( "#user-icon" ).after( "<span class=\"badge badge-notify\">" + unread + "</span>" );
 					
 					// check if we are on mailbox and add the number to inbox

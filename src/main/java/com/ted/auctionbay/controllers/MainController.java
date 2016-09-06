@@ -27,6 +27,7 @@ import com.ted.auctionbay.dao.QueryCategory;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.recommendations.RecommendationService;
 import com.ted.auctionbay.services.AuctionServices;
+import com.ted.auctionbay.services.ConversationServices;
 import com.ted.auctionbay.services.UserServices;
 import com.ted.auctionbay.services.UserServicesImpl;
 
@@ -49,7 +50,8 @@ public class MainController {
 	
 
 	
-	 
+	@Autowired
+	ConversationServices conversationServices;
 	
 	
 	@RequestMapping(value = {"","/index"})
@@ -65,7 +67,7 @@ public class MainController {
 	@RequestMapping(value = {"/contact"})
 	public static String contactRedirection() {
 		
-		return "/pages/contact.html";
+		return "/pages/blank.html";
 	}
 	
 	@RequestMapping(value = {"/login-signup"})
@@ -122,42 +124,7 @@ public class MainController {
 		}
 	}
 	
-	
-	/*@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public void login( @RequestParam("username") String username,
-            								@RequestParam("password") String password,
-            								HttpServletRequest request,
-            								HttpServletResponse response) {
-		
-		
-		System.out.println("username: " + username + "password: " + password);
-		
-		if(username.equals("admin") && password.equals("admin")){
-			response.setStatus(HttpServletResponse.SC_OK); //Status code 200
-			log_status = "admin";
-			//result = "administrator";
-			response.setHeader("Content-Location","administrator");
-		} else {
-			
-			int status = userServices.Login(username,password);
-			if(status==0)
-			{
-				System.out.println("The user is pending");
-				response.setHeader("Content-Location","user/?status=pending");
-			}
-			else if(status==1){
-					System.out.println("user entered");
-					response.setHeader("Content-Location","user/"+username);
-			}
-			else {
-					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			}
-				
-		}
-	}*/
-	
-	
-	
+
 	@RequestMapping(value = "/signup",method = RequestMethod.POST)
 	@ResponseBody
 	public String signup(@RequestParam("json") String params,

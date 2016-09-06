@@ -12,13 +12,11 @@ import javax.persistence.Persistence;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ted.auctionbay.recommendations.RecommendationService;
-import com.ted.auctionbay.recommendations.RecommendationsInit;
 
 public class EntityManagerHelper {
 
 	private static final EntityManagerFactory emf; 
     private static final ThreadLocal<EntityManager> threadLocal;
-   // private static boolean initialize = true;
 
     static {
     	System.out.println("ENTITY MANAGER HELPER STARTS");
@@ -34,15 +32,8 @@ public class EntityManagerHelper {
         if (em == null) {
             em = emf.createEntityManager();
             threadLocal.set(em);
-            //System.out.println("if em == null");
+            
         }
-       /* if(initialize){
-        	RecommendationsInit ri = new RecommendationsInit();
-        	ri.initRec();
-        	initialize = false;
-        }*/
-       
-        
         return em;
     }
 

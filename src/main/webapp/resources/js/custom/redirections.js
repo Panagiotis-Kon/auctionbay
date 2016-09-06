@@ -110,7 +110,7 @@ $(document).ready(function(){
     	
    });
 	
-	$("#contactRef").on("click",function(event){
+	$("a.contact-ref").on("click",function(event){
     	
 		console.log("contact btn");
 		event.preventDefault();
@@ -135,10 +135,31 @@ $(document).ready(function(){
 		window.location = baseURL+"/login-signup";		
 	});
 	
+	$('a.contact-link').click(function(event){
+		event.preventDefault();
+		console.log("window.location.href: " + window.location.href)
+		console.log("baseURL: " + baseURL)
+		var location = window.location.href;
+		var patharray = window.location.pathname.split( '/' );
+		if(patharray.length >= 4) {
+			console.log("path: " + patharray)
+			location = baseURL + "/" + patharray[2] + "/" + patharray[3] + "/contact";
+			window.location = location;
+		} else {
+			window.location = baseURL + "/contact";
+		}
+	})
+	
 	$('a.contact-panel-link').click(function(event){
 		
 		event.preventDefault();
-		window.location = baseURL+"/contact";
+		var result = checkUser();
+		if(result == 0){
+			window.location = baseURL+"/contact"
+		} else {
+			var user = getUser();
+			window.location = baseURL + "/user/"+user+"/contact"; 
+		}
 		
 	});
 	
