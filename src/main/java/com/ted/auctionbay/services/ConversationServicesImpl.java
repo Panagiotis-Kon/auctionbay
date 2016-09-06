@@ -6,9 +6,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ted.auctionbay.dao.QueryAuction;
 import com.ted.auctionbay.dao.QueryConversation;
+import com.ted.auctionbay.dao.QueryItem;
 import com.ted.auctionbay.dao.QueryUser;
 import com.ted.auctionbay.dao.QueryUserImpl;
+import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.messages.Conversation;
 import com.ted.auctionbay.entities.users.messages.ConversationPK;
 
@@ -19,6 +23,9 @@ public class ConversationServicesImpl implements ConversationServices{
 	
 	@Autowired
 	QueryUser queryUser;
+	
+	@Autowired
+	QueryAuction queryAuction;
 	
 	@Override
 	public List<Conversation> getInboxMessages(String username) {
@@ -145,8 +152,24 @@ public class ConversationServicesImpl implements ConversationServices{
 
 	@Override
 	public List<Object[]> sent(String username) {
-		// TODO Auto-generated method stub
+		
 		return queryConversation.sent(username);
+	}
+
+	@Override
+	public int notifyUser(int itemID, String buyer) {
+		Auction auction = queryAuction.getDetails(itemID);
+		String seller = auction.getRegistereduser().getUsername();
+	
+		//String recipient = buyer;
+		String subject = "Item bought";
+		String messageBody = "Your product with id: " + itemID + " has been purchased from " + buyer +
+				 "\nDo not reply to this message!!";
+		
+		if(submitMessage("system", seller, subject, messageBody) == 0){
+			return 0;
+		}
+		return 1;
 	}
 
 }

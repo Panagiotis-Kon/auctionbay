@@ -23,6 +23,7 @@ var inboxSize;
 var sentSize;
 
 
+
 function initListeners() {
 	
 	$("#recipient").click(function(event){
@@ -184,15 +185,23 @@ function inboxListeners(){
             		var inbox_num = parseInt($("#inbox-counter").text());
             		if(inbox_num == 1){
             			$("#inbox-counter").css("display","none");
+            			$("#header-unread-messages").css("display","none");
+            			$('#notify').css("display","none");
+            			
             		} else {
             			inbox_num--;
             			$("#inbox-counter").text(inbox_num);
+            			$("#header-unread-messages").text(inbox_num);
+            			$('#notify').text(inbox_num);
             		}
             		markAsRead(message_id);
             	}
             	$("#view-inbox-msgID").val(message_id);
             	$("#sender-inbox-view").val(from);
             	$("#subject-inbox-view").val(subject);
+            	if(from == "system"){
+            		$("#reply-message").css("display","none");
+            	}
             	$("#view-inbox-textarea").text(message_body);
             	$("#view-inbox-area").css("display","block");
             	
@@ -206,7 +215,7 @@ function inboxListeners(){
     	var toDelete = [];
     	var msgID = $("#view-inbox-msgID").val();
     	toDelete.push(msgID);
-    	 deleteMessage(toDelete);
+    	deleteMessage(toDelete);
     });
     
     
@@ -221,7 +230,12 @@ function inboxListeners(){
     	    });
     	 //alert(toDelete);
     	// deleteMessage(JSON.stringify(toDelete));
-    	 deleteMessage(toDelete);
+    	 if(toDelete.length == 0){
+    		 alert("Please choose an email to delete")
+    	 } else {
+    		 deleteMessage(toDelete);
+    	 }
+    	 
     	
     });
     
@@ -258,8 +272,6 @@ function sentListeners() {
             	$("#view-sent-area").css("display","block");
         	}
         	
-        	
-        	//alert("sent message id: " + id)
         }
     }
     
@@ -281,7 +293,12 @@ function sentListeners() {
     	    });
     	 //alert(toDelete);
     	// deleteMessage(JSON.stringify(toDelete));
-    	 deleteMessage(toDelete);
+    	 if(toDelete.length == 0){
+    		 alert("Please choose an email to delete")
+    	 } else {
+    		 deleteMessage(toDelete);
+    	 }
+    	 
     	
     });
     

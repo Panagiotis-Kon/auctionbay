@@ -204,7 +204,8 @@ function buyCall(){
 		success : function(data) {
 			if(data == "success"){
 				$("#successModal-Label").text("Successfull Buy")
-				$("#successModal-text").html("Your purchase was submitted");
+				$("#successModal-text").html("Your purchase was submitted!<br>The seller has been notified and" +
+						" he will contact you soon.");
 				$("#successModal").modal('show');
 				
 				$("#success-btn-ok").click(function(){
@@ -216,7 +217,7 @@ function buyCall(){
 				$("#errorModal").modal('show');
 				$("#error-btn-ok").click(function(){
 					window.location.reload();
-				})
+				});
 			}
 			
 			

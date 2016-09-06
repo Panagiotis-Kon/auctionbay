@@ -31,6 +31,7 @@ import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.services.AuctionServices;
+import com.ted.auctionbay.services.ConversationServices;
 import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.UserServices;
 import com.ted.auctionbay.timeutils.TimeUtilities;
@@ -48,10 +49,14 @@ public class UserController {
 	AuctionServices auctionServices;
 	
 	@Autowired
+	ConversationServices conversationServices;
+	
+	@Autowired
 	ItemServices itemServices;
 	
 	@Autowired
 	QueryCategory queryCategory;
+	
 	
 	@Autowired
 	private RecommendationService recommendationServices;
@@ -91,6 +96,12 @@ public class UserController {
 	
 	@RequestMapping(value = {"/{username}/contact"})
 	public static String contactRedirection() {
+		
+		return "/pages/blank.html";
+	}
+	
+	@RequestMapping(value = {"/{username}/profile"})
+	public static String profileRedirection() {
 		
 		return "/pages/blank.html";
 	}
@@ -135,7 +146,10 @@ public class UserController {
 		int itemID = Integer.parseInt(ItemID);
 		System.out.println("Buying item");
 		if(auctionServices.buyItem(username, itemID) == 0){
-			return new Gson().toJson("success");
+			if(conversationServices.notifyUser(itemID, username) == 0){
+				return new Gson().toJson("success");
+			}
+			
 		}
 		
 		

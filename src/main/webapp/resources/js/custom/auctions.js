@@ -5,8 +5,8 @@ var search_pages = 10;
 var type;
 $(document).ready(function(){
 	
-	console.log("base url: " + baseURL);
-	console.log("window.location.href: " + window.location.href)
+	//console.log("base url: " + baseURL);
+	//console.log("window.location.href: " + window.location.href)
 	
 	type = "active";
 	getAuctionsRecommendations();
@@ -84,14 +84,14 @@ function initListeners(){
         console.log("limit: " + limit);
         $('#auctions-byCategory-paginator').bootpag({
         total: limit,
-        maxVisible: limit
+        maxVisible: 5
          }).on("page", function(event, num){
         
         console.log("category paging event!!!!!")
         var start = (num-1)*end;
        
         // ... after content load -> change total to 10
-        $(this).bootpag({total: limit, maxVisible: limit});
+        $(this).bootpag({total: limit, maxVisible: 5});
         $('html, body').animate({scrollTop : 0},800);
         getTemplateModule(start,end,decodeURIComponent(category),type);
      

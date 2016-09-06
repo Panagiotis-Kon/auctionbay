@@ -10,9 +10,20 @@ $(document).ready(function(){
 	
 	$("a.login-link").on("click",function(event){
     	
-		console.log("login btn");
+		//console.log("login btn");
 		event.preventDefault();
 		window.location = baseURL+"/login-signup";
+    	
+   });
+	
+	$("a.profile-link").on("click",function(event){
+    	
+		//console.log("login btn");
+		event.preventDefault();
+		var patharray = window.location.pathname.split( '/' );
+		var location = baseURL + "/" + patharray[2] + "/" + patharray[3] + "/profile";
+		window.location = location;
+		
     	
    });
 	
@@ -79,10 +90,10 @@ $(document).ready(function(){
 		var patharray = window.location.pathname.split( '/' );
 		if(patharray.length >= 4) {
 			console.log("path: " + patharray)
-			location = baseURL + "/" + patharray[2] + "/" + patharray[3] + "/mailbox";
+			location = baseURL + "/" + patharray[2] + "/" + patharray[3] + "/conversation";
 			window.location = location;
 		} else {
-			window.location = baseURL + "/mailbox";
+			window.location = baseURL + "/conversation";
 		}
 	});
 	
@@ -171,9 +182,9 @@ $(document).ready(function(){
 		var location = window.location.href;
 		var lastChar = location.substr(location.length - 1);
 		if(lastChar == "/"){
-			window.location = window.location.href+"mailbox";
+			window.location = window.location.href+"conversation";
 		} else {
-			window.location = window.location.href+"/mailbox";
+			window.location = window.location.href+"/conversation";
 		}
 			
 		

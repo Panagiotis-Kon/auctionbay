@@ -2,6 +2,7 @@ package com.ted.auctionbay.services;
 
 import java.util.List;
 
+import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.messages.Conversation;
 
 public interface ConversationServices {
@@ -17,6 +18,8 @@ public interface ConversationServices {
 	public int markAsRead(int messageID);
 	
 	public int deleteMessage(String username, int messageID);
+	
+	public int notifyUser(int itemID, String buyer);
 	
 	public List<Object[]> inbox(String username);
 	
