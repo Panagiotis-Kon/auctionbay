@@ -192,10 +192,10 @@ function getUnreadMessages(){
 					$("#header-unread-messages").html(unread);
 					$("#header-unread-messages").css("display","inline-block");
 					$( "#user-icon" ).after( "<span class=\"badge badge-notify\" id=\"notify\">" + unread + "</span>" );
-					
+					$("#user-messages-nubmer").text(unread)
 					// check if we are on mailbox and add the number to inbox
 				} else {
-					
+					$("#user-messages-nubmer").css("display","inline-block");
 				}
 			}
 			
@@ -225,6 +225,7 @@ function getRecommendations(){
 					$("#myCarousel").css("display","none");
 					$("#no-rec-available").html("Sorry, no recommendations available at the moment");
 					$("#no-rec-available").css("display","block");
+					
 				}else {
 					for(var i=0 ; i< data.length ; i++) {
 						

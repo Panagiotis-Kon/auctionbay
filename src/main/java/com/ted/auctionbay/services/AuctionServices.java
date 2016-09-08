@@ -58,4 +58,6 @@ public interface AuctionServices {
 	
 	public int updateAuction(int auctionID, JSONObject auction_params);
 	
+	public List<Object[]> checkUserClosedAuctions(String username, int startpage, int endpage);
+	
 }

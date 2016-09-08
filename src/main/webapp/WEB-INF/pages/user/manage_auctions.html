@@ -137,6 +137,7 @@
 			<li class="active"><a id="view-tab" data-toggle="tab" href="#view">My Auctions</a></li>
   			<li><a id="modify-tab" data-toggle="tab" href="#modify">Modify Auctions</a></li>
   			<li><a id="create-tab" data-toggle="tab" href="#create">Create Auctions</a></li>
+  			<li><a id="closedAuctions-tab" data-toggle="tab" href="#closedAuctions">Closed Auctions</a></li>
   			<li><a id="myBid-tab" data-toggle="tab" href="#myBids">My Bids</a></li>
 		</ul>
 
@@ -145,7 +146,7 @@
   			
   			<div id="view" class="tab-pane fade in active">
     			<div class="well">
-  					<h3 class="text-center">View the Status of your Auctions</h3>
+  					<h3 class="text-center">View the Status of your <strong>Active</strong> Auctions</h3>
   				</div>
   				<div class="col-sm-12">
   					<div id="active-user-auctions" class="panel panel-default" style="display:none">
@@ -364,6 +365,42 @@
   			</div>
   			
   			
+  			<div id="closedAuctions" class="tab-pane fade in active">
+    			<div class="well">
+  					<h3 class="text-center">Your <strong>Closed</strong> Auctions</h3>
+  				</div>
+  				<div class="col-sm-12">
+  					<div id="user-closed-auctions" class="panel panel-default" style="display:none">
+	       				<div class="panel-heading text-center">
+		        			<h5 id="closed-auctions-number" style="font-weight:bold;"></h5>
+		        			
+		    			</div>
+		    			<div class="panel-body">
+		    				<table id="closed-user-auctions-grid" class="display" style="width:100%;">
+		    				<thead>
+            					<tr>
+                					<th></th>
+                					<th>AuctionID</th>
+                					<th>ItemID</th>
+                					<th>Title</th>
+                					<th>Buyer</th>
+                					<th>Buy Price</th>
+                					<th>EndTime</th>
+                					
+            					</tr>
+        					</thead>
+		    				
+		    				
+		    				</table>
+						</div>
+	   				</div>
+	   				
+	   				 
+  				</div>
+  			</div>
+  			
+  			
+  			
   			<div id="myBids" class="tab-pane fade">
     			<div class="well">
   					<h3 class="text-center">Check your bids</h3>
@@ -396,6 +433,39 @@
   				</div>
   			</div>
   			
+  			
+  			<div id="expiredAuctions" class="tab-pane fade in active">
+    			<div class="well">
+  					<h3 class="text-center">Your <strong>Closed</strong> Auctions</h3>
+  				</div>
+  				<div class="col-sm-12">
+  					<div id="user-expired-auctions" class="panel panel-default" style="display:none">
+	       				<div class="panel-heading text-center">
+		        			<h5 id="expired-auctions-number" style="font-weight:bold;"></h5>
+		        			
+		    			</div>
+		    			<div class="panel-body">
+		    				<table id="expired-user-auctions-grid" class="display" style="width:100%;">
+		    				<thead>
+            					<tr>
+                					<th>AuctionID</th>
+                					<th>ItemID</th>
+                					<th>Title</th>
+                					<th>BuyPrice</th>
+                					<th>First Bid</th>
+                					<th>EndTime</th>
+                					
+            					</tr>
+        					</thead>
+		    				
+		    				
+		    				</table>
+						</div>
+	   				</div>
+	   				
+	   				 
+  				</div>
+  			</div>
   			
   			
   				

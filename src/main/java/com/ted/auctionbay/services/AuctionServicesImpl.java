@@ -386,27 +386,7 @@ public class AuctionServicesImpl implements AuctionServices{
 		auction.setFirstBid(firstbid);
 		auction.setItem(item);
 		auction.setTitle(title);
-		/*int results = 0;
-		int countofnull = 0; //count null arguments if all are null, then don't update
-		if (title.equals("-1")){
-			title = queryAuction.getAuctionByID(auctionID).getTitle();
-			countofnull++;
-		}
-		if (buyprice == -1){
-			buyprice = queryAuction.getAuctionByID(auctionID).getBuyPrice();
-			countofnull++;
-		}
-		if (firstbid == -1){
-			firstbid = queryAuction.getAuctionByID(auctionID).getFirstBid();
-			countofnull++;
-		}
-		if (endtime == null){
-			endtime = queryAuction.getAuctionByID(auctionID).getStartTime();
-			countofnull++;
-		}
-		if (countofnull == 4){
-			results = queryAuction.updateAuction(auctionID, title, buyprice, firstbid, endtime);
-		}*/
+	
 		//Item of the Auction details
 		item.setDescription(description);
 		item.setLatitude(latitude);
@@ -417,39 +397,7 @@ public class AuctionServicesImpl implements AuctionServices{
 			System.out.println("Could not register auction");
 			return -2;
 		}
-		/*countofnull=0;
-		int itemID = queryAuction.getAuctionByID(auctionID).getItem().getItemID();
-		if (name.equals("-1")){
-			name = queryItem.getDetails(itemID).getName();
-			countofnull++;
-		}
-		if (description.equals("-1")){
-			description = queryItem.getDetails(itemID).getDescription();
-			countofnull++;
-		}
-		if (location.equals("-1")){
-			location = queryItem.getDetails(itemID).getLocation();
-			countofnull++;
-		}
-        if (countofnull == 3){
-			results = results + queryItem.updateItem(itemID, name, description, location, latitude, longitude);
-		}*/
-        //Item categories
-        /*List<Integer> item_categories = queryItem.getCategories_ID(itemID);
-        for (Integer category: categories){
-        	if (item_categories.contains(category)){
-        		continue;
-        	}
-        	System.out.print("Category "+category+" Item "+itemID);
-        	queryItem.addCategory(category, itemID);
-        }
-        for (Integer category: item_categories){
-        	if (categories.contains(category)){
-        		continue;
-        	}
-        	System.out.print("Category "+category+" Item "+itemID);
-        	queryItem.removeCategory(category, itemID);
-        }*/
+		
         return 0;
 	}
 
@@ -458,5 +406,11 @@ public class AuctionServicesImpl implements AuctionServices{
 			String maxBid) {
 		
 		return queryAuction.numOfadvancedSearch(keywords, Categories, Location, minBid, maxBid);
+	}
+
+	@Override
+	public List<Object[]> checkUserClosedAuctions(String username, int startpage, int endpage) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

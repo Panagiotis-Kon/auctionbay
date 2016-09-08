@@ -27,7 +27,7 @@ var location_marker;
 var lat;
 var lon;
 var allcategories;
-var user_auctions,active_auctions,myBids_table;
+var user_auctions,active_auctions,myBids_table,closed_auctions;
 var countries = ["Afghanistan","Albania","Algeria","Andorra",
                     "Angola","Anguilla","Antigua &amp; Barbuda","Argentina",
                     "Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas",
@@ -719,6 +719,40 @@ function getUserAuctions() {
 		deleteAuction(auction_id, item_id, index);
 		
 	});
+	
+	closed_auctions = $('#closed-user-auctions-grid').DataTable( {
+		"processing": true,
+	    "serverSide": true,
+	    "ajax": {
+	    	"url": window.location.href + "/closed-user-auctions",
+	    	"data":{"username":username} 
+	    },
+	  columns: [
+	            { "data": "AuctionID" },
+	            { "data": "ItemID" },
+	            { "data": "Title" },
+	            { "data": "Buyer" },
+	            { "data": "BuyPrice" },	            
+	            { "data": "Deadline" },
+	        ],
+	        "columnDefs": [
+	                       {
+	                           "targets": [ 0 ],
+	                           "visible": false,
+	                           "searchable": false
+	                       },
+	                       {
+	                           "targets": [ 1 ],
+	                           "visible": false,
+	                           "searchable": false
+	                       },
+	                       {"className": "dt-center", "targets": "_all"}
+	          ]             
+	
+    	});
+	
+	
+	$('#user-closed-auctions').show();
 	
 	
 	

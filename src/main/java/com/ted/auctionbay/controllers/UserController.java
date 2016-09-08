@@ -460,6 +460,63 @@ public class UserController {
 	}
 	
 	
+	@RequestMapping(value = "/{username}/manage-auctions/closed-user-auctions",method = RequestMethod.GET)
+	@ResponseBody
+	public String getUserClosedAuctions(HttpServletRequest request, 
+			  HttpServletResponse response,@RequestParam String username) {
+		
+		System.out.print("User bids");
+		int start = Integer.parseInt(request.getParameter("start"));
+		int pageSize = Integer.parseInt(request.getParameter("length"));
+		int pageNumber;
+
+		int closedNum = auctionServices.numOfAuctions("expired");
+			
+		if(start == 0)
+			pageNumber = 0;
+		else
+			pageNumber = start%pageSize;
+
+		JSONObject data = new JSONObject();
+		JSONArray reply = new JSONArray();
+		List<Object[]> bids = userServices.getUserBids(username, start, pageSize);
+		for(Object[] obj : bids){
+			
+			JSONObject jObj = new JSONObject();
+			try {
+				jObj.put("AuctionID", obj[0]);
+				jObj.put("ItemID",obj[1]);
+				jObj.put("Title",obj[2]);
+				jObj.put("Buyer",obj[3]);
+				jObj.put("BuyPrice",obj[4]);
+				jObj.put("Deadline",obj[4]);
+				
+				reply.put(jObj);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			data.put("draw",pageNumber);
+			data.put("iTotalRecords",closedNum);
+			data.put("iTotalDisplayRecords", closedNum);
+			data.put("data", reply);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		System.out.println("----------- get user closed auctions ----------");
+		System.out.println("");
+		System.out.println(data.toString());
+		System.out.println("");
+		System.out.println("**********************************************");
+		return data.toString();
+	
+	}
+	
+	
+	
+	
+	
 	@RequestMapping(value = {"/{username}/rates/submit-rates"})
 	@ResponseBody
 	public String submitRatings(@RequestParam("ratings") String ratings){
