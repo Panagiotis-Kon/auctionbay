@@ -42,6 +42,8 @@ public interface QueryUser {
 	
 	public int count_active_user_auctions(String username);
 	
+	public int countClosedAuctions(String username);
+	
 	public int count_expired_user_auctions(String username);
 	
 	public List<Auction> get_all_user_auctions(String username,int startpage, int pagesize);

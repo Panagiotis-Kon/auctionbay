@@ -465,22 +465,23 @@ public class UserController {
 	public String getUserClosedAuctions(HttpServletRequest request, 
 			  HttpServletResponse response,@RequestParam String username) {
 		
-		System.out.print("User bids");
+		System.out.print("getUserClosedAuctions");
 		int start = Integer.parseInt(request.getParameter("start"));
 		int pageSize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber;
 
-		int closedNum = auctionServices.numOfAuctions("expired");
+		int closedNum = userServices.count_user_auctions(username, "closed");
 			
 		if(start == 0)
 			pageNumber = 0;
 		else
 			pageNumber = start%pageSize;
 
+		
 		JSONObject data = new JSONObject();
 		JSONArray reply = new JSONArray();
-		List<Object[]> bids = userServices.getUserBids(username, start, pageSize);
-		for(Object[] obj : bids){
+		List<Object[]> closedAuctions = auctionServices.checkUserClosedAuctions(username, start, pageSize);
+		for(Object[] obj : closedAuctions){
 			
 			JSONObject jObj = new JSONObject();
 			try {
@@ -489,7 +490,7 @@ public class UserController {
 				jObj.put("Title",obj[2]);
 				jObj.put("Buyer",obj[3]);
 				jObj.put("BuyPrice",obj[4]);
-				jObj.put("Deadline",obj[4]);
+				jObj.put("Deadline",obj[5]);
 				
 				reply.put(jObj);
 			} catch (JSONException e) {
@@ -514,7 +515,59 @@ public class UserController {
 	}
 	
 	
+	@RequestMapping(value = "/{username}/manage-auctions/expired-user-auctions",method = RequestMethod.GET)
+	@ResponseBody
+	public String getUserExpiredAuctions(HttpServletRequest request, 
+			HttpServletResponse response,@RequestParam String username) {
+		
+		System.out.print("get User Expired Auctions");
+		int start = Integer.parseInt(request.getParameter("start"));
+		int pageSize = Integer.parseInt(request.getParameter("length"));
+		int pageNumber;
+
+		int expiredNum = userServices.count_user_auctions(username, "expired");
+		System.out.println("expired number of " + username + " auctions: " + expiredNum);	
+		if(start == 0)
+			pageNumber = 0;
+		else
+			pageNumber = start%pageSize;
+
+		JSONObject data = new JSONObject();
+		JSONArray reply = new JSONArray();
+		List<Auction> expiredAuctions = userServices.get_user_auctions(username, start, pageSize, "expired");
+		System.out.println(expiredAuctions.toString());
+		for(Auction a : expiredAuctions){
+			
+			JSONObject jObj = new JSONObject();
+			try {
+				jObj.put("AuctionID", a.getAuctionID());
+				jObj.put("ItemID",a.getItem().getItemID());
+				jObj.put("Title",a.getTitle());
+				jObj.put("FirstBid",a.getFirstBid());
+				jObj.put("BuyPrice",a.getBuyPrice());
+				jObj.put("Deadline",a.getEndTime());
+				
+				reply.put(jObj);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			data.put("draw",pageNumber);
+			data.put("iTotalRecords",expiredNum);
+			data.put("iTotalDisplayRecords", expiredNum);
+			data.put("data", reply);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		System.out.println("----------- get user expired auctions ----------");
+		System.out.println("");
+		System.out.println(data.toString());
+		System.out.println("");
+		System.out.println("**********************************************");
+		return data.toString();
 	
+	}
 	
 	
 	@RequestMapping(value = {"/{username}/rates/submit-rates"})

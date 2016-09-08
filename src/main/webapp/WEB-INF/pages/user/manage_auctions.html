@@ -139,6 +139,7 @@
   			<li><a id="create-tab" data-toggle="tab" href="#create">Create Auctions</a></li>
   			<li><a id="closedAuctions-tab" data-toggle="tab" href="#closedAuctions">Closed Auctions</a></li>
   			<li><a id="myBid-tab" data-toggle="tab" href="#myBids">My Bids</a></li>
+  			<li><a id="expiredAuctions-tab" data-toggle="tab" href="#expiredAuctions">Expired Auctions</a></li>
 		</ul>
 
 		<div class="tab-content">
@@ -163,7 +164,7 @@
                 					<th>ItemID</th>
                 					<th>Title</th>
                 					<th>Seller</th>
-                					<th>BuyPrice</th>
+                					<th>Buy Price ($)</th>
                 					<th>EndTime</th>
                 					
             					</tr>
@@ -198,7 +199,7 @@
                 					<th>ItemID</th>
                 					<th>Title</th>
                 					<th>Seller</th>
-                					<th>Buy Price</th>
+                					<th>Buy Price ($)</th>
                 					<th>StartTime</th>
                 					<th>EndTime</th>
                 					<th></th>
@@ -365,7 +366,7 @@
   			</div>
   			
   			
-  			<div id="closedAuctions" class="tab-pane fade in active">
+  			<div id="closedAuctions" class="tab-pane fade">
     			<div class="well">
   					<h3 class="text-center">Your <strong>Closed</strong> Auctions</h3>
   				</div>
@@ -379,12 +380,12 @@
 		    				<table id="closed-user-auctions-grid" class="display" style="width:100%;">
 		    				<thead>
             					<tr>
-                					<th></th>
+                				
                 					<th>AuctionID</th>
                 					<th>ItemID</th>
                 					<th>Title</th>
                 					<th>Buyer</th>
-                					<th>Buy Price</th>
+                					<th>Buy Price ($)</th>
                 					<th>EndTime</th>
                 					
             					</tr>
@@ -420,7 +421,7 @@
                 					<th>Title</th>
                 					<th>Seller</th>
                 					<th>Deadline</th>
-                					<th>Buy Price</th>
+                					<th>Buy Price($)</th>
                 					<th>Highest Bid</th>
                 					<th>My Bid</th>
                 					<th>Bid Time</th>
@@ -434,9 +435,9 @@
   			</div>
   			
   			
-  			<div id="expiredAuctions" class="tab-pane fade in active">
+  			<div id="expiredAuctions" class="tab-pane fade">
     			<div class="well">
-  					<h3 class="text-center">Your <strong>Closed</strong> Auctions</h3>
+  					<h3 class="text-center">Your <strong>Expired</strong> Auctions</h3>
   				</div>
   				<div class="col-sm-12">
   					<div id="user-expired-auctions" class="panel panel-default" style="display:none">
@@ -451,8 +452,8 @@
                 					<th>AuctionID</th>
                 					<th>ItemID</th>
                 					<th>Title</th>
+                					<th>First Bid ($)</th>
                 					<th>BuyPrice</th>
-                					<th>First Bid</th>
                 					<th>EndTime</th>
                 					
             					</tr>

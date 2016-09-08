@@ -421,7 +421,7 @@ public class AuctionServicesImpl implements AuctionServices{
 			int startpage, int endpage) {
 		List<Object[]> auctionlist = queryAuction.getUserClosedAuctions(username, startpage, endpage);
 		for (Object[] auction : auctionlist){
-			int found = queryAuction.auctionInHistory(Integer.parseInt(auction[0].toString()));
+			int found = queryAuction.auctionInHistory(Integer.parseInt(auction[1].toString()));
 			if (found == 0){
 				Auctionhistory ah = new Auctionhistory();
 				ah.setUsername(auction[3].toString());
@@ -429,12 +429,14 @@ public class AuctionServicesImpl implements AuctionServices{
 				queryAuction.updateAuctionHistory(ah);
 				String buyer, seller, bsubject, ssubject, bbody, sbody;
 				buyer = auction[3].toString();
-				bsubject = "Auction "+ auction[2].toString() +" Won!!!";
-				bbody = "Congratulations you have won item: "+auction[1].toString()+" !!!\n\nDo not reply to this message.";
+				bsubject = "Auction "+ auction[0].toString() +" Won!!!";
+				bbody = "Dear " + buyer+ ", \n\nCongratulations you have won item: "+auction[2].toString()+
+						" !!!\n\nDo not reply to this message.\n\nYours truly\nAuctionbay Team";
 				
 				seller = username;
-				ssubject = "Auction "+ auction[2].toString() +" Closed!!!";
-				sbody = "Auction: "+auction[0].toString()+" closed with final price "+auction[4].toString()+"\nPlease contact the winner "+auction[3].toString()+"\n\nDo not reply to this message.";
+				ssubject = "Auction "+ auction[0].toString() +" Closed!!!";
+				sbody = "Dear " + seller +",\n\nAuction: "+auction[2].toString()+" closed with final price "+auction[4].toString()+"\nPlease contact the winner "+auction[3].toString()+
+						"\n\nDo not reply to this message.\n\nYours truly\nAuctionbay Team";
 				
 				conversationServices.submitMessage("system", seller, ssubject, sbody);
 				conversationServices.submitMessage("system", buyer, bsubject, bbody);

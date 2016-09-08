@@ -357,8 +357,17 @@ public class QueryUserImpl implements QueryUser{
 
 	@Override
 	public List<Auction> get_expired_user_auctions(String username,int startpage, int pagesize) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em
+				.createNativeQuery(
+						"SELECT a.* FROM auction as a"
+                        + " WHERE a.AuctionID NOT IN (SELECT rba.AuctionID FROM registereduser_bidsin_auction as rba)"
+                        + " and a.Seller = ? and a.EndTime <= NOW()",Auction.class);
+
+		query.setParameter(1, username);
+		query.setFirstResult(startpage);
+		query.setMaxResults(pagesize);
+		return query.getResultList();
 	}
 
 	@Override
@@ -407,6 +416,22 @@ public class QueryUserImpl implements QueryUser{
 			num = Integer.parseInt(query.getResultList().get(0).toString());
 		}
 		return num;
+	}
+
+	@Override
+	public int countClosedAuctions(String username) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT count(*) FROM auction WHERE Seller=?1 and EndTime <= NOW() and AuctionID IN (SELECT rba.AuctionID FROM registereduser_bidsin_auction as rba)");
+		query.setParameter(1, username);
+		int num;
+		if(query.getResultList().get(0) == null){
+			num = 0;
+		} else {
+			num = Integer.parseInt(query.getResultList().get(0).toString());
+		}
+	
+		return num;
+		
 	}
 	
 	

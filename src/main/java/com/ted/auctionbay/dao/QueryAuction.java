@@ -66,9 +66,9 @@ public interface QueryAuction {
 	
 	public List<Object[]> getUserClosedAuctions(String username, int startpage, int endpage);
 	
-	public List<Object[]> getUserExpiredAuctions(String username, int startpage, int endpage);
+	public List<Auction> getUserExpiredAuctions(String username, int startpage, int endpage);
 	
-	public int auctionInHistory(int auctionID);
+	public int auctionInHistory(int itemID);
 	
 	public int updateAuctionHistory(Auctionhistory ah);
 }

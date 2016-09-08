@@ -462,14 +462,14 @@ public class QueryAuctionImpl implements QueryAuction {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> getUserExpiredAuctions(String username,
+	public List<Auction> getUserExpiredAuctions(String username,
 			int startpage, int endpage) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em
 				.createNativeQuery(
 						"SELECT a.* FROM auction as a"
                         + " WHERE a.AuctionID NOT IN (SELECT rba.AuctionID FROM registereduser_bidsin_auction as rba)"
-                        + " and a.Seller = ?");
+                        + " and a.Seller = ? and a.EndTime <= NOW()",Auction.class);
 
 		query.setParameter(1, username);
 		query.setFirstResult(startpage);
@@ -478,13 +478,13 @@ public class QueryAuctionImpl implements QueryAuction {
 	}
 
 	@Override
-	public int auctionInHistory(int auctionID) {
+	public int auctionInHistory(int itemID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em
 				.createNativeQuery(
-						"SELECT IFNULL( (SELECT '1' FROM auction as a, auctionhistory as ah WHERE a.AuctionID=ah.AuctionID and a.AuctionID=? ),'0') as Found");
+						"SELECT IFNULL( (SELECT '1' FROM auction as a, auctionhistory as ah WHERE a.ItemID=ah.ItemID and a.ItemID=? ),'0') as Found");
 
-		query.setParameter(1, auctionID);
+		query.setParameter(1, itemID);
 		int found = Integer.parseInt(query.getResultList().get(0).toString());
 		return found;
 	}

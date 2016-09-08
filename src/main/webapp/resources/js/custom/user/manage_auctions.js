@@ -27,7 +27,7 @@ var location_marker;
 var lat;
 var lon;
 var allcategories;
-var user_auctions,active_auctions,myBids_table,closed_auctions;
+var user_auctions,active_auctions,myBids_table,closed_auctions, expired_auctions;
 var countries = ["Afghanistan","Albania","Algeria","Andorra",
                     "Angola","Anguilla","Antigua &amp; Barbuda","Argentina",
                     "Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas",
@@ -544,11 +544,11 @@ function auctionDetails(d){
     '</tr>'+
     '<tr>'+
         '<td>First Bid:</td>'+
-        '<td>'+ d.FirstBid + '</td>'+
+        '<td>'+ parseFloat(d.FirstBid).toFixed(3) + ' $</td>'+
     '</tr>'+
     '<tr>'+
     '<td>Highest Bid:</td>'+
-    '<td>'+ d.HighestBid + '</td>'+
+    '<td>'+ parseFloat(d.HighestBid).toFixed(3) + ' $</td>'+
     '</tr>'+
     '<tr>'+
     '<td>'+ content +'</td>'+
@@ -753,6 +753,42 @@ function getUserAuctions() {
 	
 	
 	$('#user-closed-auctions').show();
+	
+	
+	
+	expired_auctions = $('#expired-user-auctions-grid').DataTable( {
+		"processing": true,
+	    "serverSide": true,
+	    "ajax": {
+	    	"url": window.location.href + "/expired-user-auctions",
+	    	"data":{"username":username} 
+	    },
+	  columns: [
+	            { "data": "AuctionID" },
+	            { "data": "ItemID" },
+	            { "data": "Title" },
+	            { "data": "FirstBid" },
+	            { "data": "BuyPrice" },	            
+	            { "data": "Deadline" },
+	        ],
+	        "columnDefs": [
+	                       {
+	                           "targets": [ 0 ],
+	                           "visible": false,
+	                           "searchable": false
+	                       },
+	                       {
+	                           "targets": [ 1 ],
+	                           "visible": false,
+	                           "searchable": false
+	                       },
+	                       {"className": "dt-center", "targets": "_all"}
+	          ]             
+	
+    	});
+	
+	
+	$('#user-expired-auctions').show();
 	
 	
 	

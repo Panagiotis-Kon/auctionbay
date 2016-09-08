@@ -146,7 +146,10 @@ public class UserServicesImpl implements UserServices{
 	public int count_user_auctions(String username, String type) {
 		if(type.equals("active")){
 			return queryUser.count_active_user_auctions(username);
-		} else if(type.equals("expired")){
+		}else if(type.equals("closed")){
+			return queryUser.countClosedAuctions(username);
+		} 
+		else if(type.equals("expired")){
 			return queryUser.count_expired_user_auctions(username);
 		} else {
 			return queryUser.count_all_user_auctions(username);
@@ -160,7 +163,8 @@ public class UserServicesImpl implements UserServices{
 			return queryUser.get_active_user_auctions(username,startpage,pagesize);
 		} else if(type.equals("expired")){
 			return queryUser.get_expired_user_auctions(username,startpage,pagesize);
-		} else {
+		}
+		else {
 			return queryUser.get_all_user_auctions(username,startpage,pagesize);
 		}
 		
