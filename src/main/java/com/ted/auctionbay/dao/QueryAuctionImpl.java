@@ -10,6 +10,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.auctions.Auctionhistory;
 import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
@@ -29,6 +30,21 @@ public class QueryAuctionImpl implements QueryAuction {
 	public int numOfActiveAuctions() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT count(*) FROM auction WHERE EndTime >= NOW()");
+		int num;
+		if(query.getResultList().get(0) == null){
+			num = 0;
+		} else {
+			num = Integer.parseInt(query.getResultList().get(0).toString());
+		}
+		
+
+		return num;
+	}
+	
+	@Override
+	public int numOfClosedAuctions() {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT count(*) FROM auction WHERE EndTime <= NOW() and AuctionID IN (SELECT rba.AuctionID FROM registereduser_bidsin_auction as rba)");
 		int num;
 		if(query.getResultList().get(0) == null){
 			num = 0;
@@ -424,6 +440,65 @@ public class QueryAuctionImpl implements QueryAuction {
 		return query.executeUpdate();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getUserClosedAuctions(String username,
+			int startpage, int endpage) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em
+				.createNativeQuery(
+						"SELECT a.AuctionID, a.ItemID, a.Title, rba.Bidder_Username, rba.BidPrice, a.EndTime FROM auction as a, registereduser_bidsin_auction as rba"
+                        + " WHERE a.AuctionID = rba.AuctionID"
+                        + " and rba.BidPrice = (SELECT MAX(rba1.BidPrice) FROM registereduser_bidsin_auction as rba1 WHERE rba1.AuctionID=a.AuctionID)"
+                        + " and a.EndTime <= NOW()"
+                        + " and a.Seller = ?"
+                        + " ORDER BY a.EndTime DESC");
 
+		query.setParameter(1, username);
+		query.setFirstResult(startpage);
+		query.setMaxResults(endpage);
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getUserExpiredAuctions(String username,
+			int startpage, int endpage) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em
+				.createNativeQuery(
+						"SELECT a.* FROM auction as a"
+                        + " WHERE a.AuctionID NOT IN (SELECT rba.AuctionID FROM registereduser_bidsin_auction as rba)"
+                        + " and a.Seller = ?");
+
+		query.setParameter(1, username);
+		query.setFirstResult(startpage);
+		query.setMaxResults(endpage);
+		return query.getResultList();
+	}
+
+	@Override
+	public int auctionInHistory(int auctionID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em
+				.createNativeQuery(
+						"SELECT IFNULL( (SELECT '1' FROM auction as a, auctionhistory as ah WHERE a.AuctionID=ah.AuctionID and a.AuctionID=? ),'0') as Found");
+
+		query.setParameter(1, auctionID);
+		int found = Integer.parseInt(query.getResultList().get(0).toString());
+		return found;
+	}
+
+	@Override
+	public int updateAuctionHistory(Auctionhistory ah) {
+		try {
+			EntityManager em = EntityManagerHelper.getEntityManager();
+			em.persist(ah);
+		} catch (PersistenceException pe) {
+			pe.printStackTrace();
+			return -1;
+		}
+		return 0;
+	}
 
 }

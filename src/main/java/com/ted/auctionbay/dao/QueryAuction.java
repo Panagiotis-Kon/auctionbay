@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.auctions.Auctionhistory;
 import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 
 public interface QueryAuction {
@@ -12,6 +13,8 @@ public interface QueryAuction {
 	public int numOfAuctions();
 	
 	public int numOfActiveAuctions();
+	
+	public int numOfClosedAuctions();
 	
 	public List<Auction> getAuctions();
 	
@@ -60,4 +63,12 @@ public interface QueryAuction {
 	public int updateDeadline(int auctionID);
 	
 	public int updateAuction(int auctionID, String title, float buyprice, float firstbid, Date endtime);
+	
+	public List<Object[]> getUserClosedAuctions(String username, int startpage, int endpage);
+	
+	public List<Object[]> getUserExpiredAuctions(String username, int startpage, int endpage);
+	
+	public int auctionInHistory(int auctionID);
+	
+	public int updateAuctionHistory(Auctionhistory ah);
 }

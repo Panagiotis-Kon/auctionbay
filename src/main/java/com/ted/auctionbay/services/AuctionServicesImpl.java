@@ -17,9 +17,11 @@ import org.springframework.stereotype.Service;
 
 import com.ted.auctionbay.dao.QueryAuction;
 import com.ted.auctionbay.dao.QueryCategory;
+import com.ted.auctionbay.dao.QueryConversation;
 import com.ted.auctionbay.dao.QueryItem;
 import com.ted.auctionbay.dao.QueryUser;
 import com.ted.auctionbay.entities.auctions.Auction;
+import com.ted.auctionbay.entities.auctions.Auctionhistory;
 import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.Registereduser;
@@ -42,6 +44,9 @@ public class AuctionServicesImpl implements AuctionServices{
 	@Autowired
 	QueryUser queryUser;
 	
+	@Autowired
+	ConversationServices conversationServices;
+	
 	private static int auctionID;
 	private static int itemID;
 	private static int categoryID;
@@ -59,6 +64,9 @@ public class AuctionServicesImpl implements AuctionServices{
 	public int numOfAuctions(String type) {
 		if(type.equals("active")){
 			return queryAuction.numOfActiveAuctions();
+		}
+		else if(type.equals("closed")){
+			return queryAuction.numOfClosedAuctions();
 		}
 		return queryAuction.numOfAuctions();
 	}
@@ -409,8 +417,33 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public List<Object[]> checkUserClosedAuctions(String username, int startpage, int endpage) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Object[]> checkUserClosedAuctions(String username,
+			int startpage, int endpage) {
+		List<Object[]> auctionlist = queryAuction.getUserClosedAuctions(username, startpage, endpage);
+		for (Object[] auction : auctionlist){
+			int found = queryAuction.auctionInHistory(Integer.parseInt(auction[0].toString()));
+			if (found == 0){
+				Auctionhistory ah = new Auctionhistory();
+				ah.setUsername(auction[3].toString());
+				ah.setItemID(Integer.parseInt(auction[1].toString()));
+				queryAuction.updateAuctionHistory(ah);
+				String buyer, seller, bsubject, ssubject, bbody, sbody;
+				buyer = auction[3].toString();
+				bsubject = "Auction "+ auction[2].toString() +" Won!!!";
+				bbody = "Congratulations you have won item: "+auction[1].toString()+" !!!\n\nDo not reply to this message.";
+				
+				seller = username;
+				ssubject = "Auction "+ auction[2].toString() +" Closed!!!";
+				sbody = "Auction: "+auction[0].toString()+" closed with final price "+auction[4].toString()+"\nPlease contact the winner "+auction[3].toString()+"\n\nDo not reply to this message.";
+				
+				conversationServices.submitMessage("system", seller, ssubject, sbody);
+				conversationServices.submitMessage("system", buyer, bsubject, bbody);
+				System.out.println("Messages to buyer and seller were sent!!");
+
+			}
+			else
+				break;
+		}
+		return auctionlist;
 	}
 }
