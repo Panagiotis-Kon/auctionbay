@@ -103,3 +103,8 @@ padding-top:50px;
 	background-color: #1CA347;
 	border-color: #1CA347;
 }
+
+.form-group.required .form-control:after {
+  content:"*" !important; 
+  color:red !important; 
+}

@@ -130,29 +130,7 @@ public class AuctionsController {
 		return numObject.toString();
 	}
 	
-	@RequestMapping(value = "/user-expired-auctions", method = RequestMethod.GET)
-	@ResponseBody
-	public String UserExpiredAuctions(@RequestParam("username") String username){
-		System.out.println("...... Expired Auctions ......");
-		List<Object[]> expired = auctionServices.BidderExpiredAuctions(username);
-		JSONArray expArray = new JSONArray();
-		
-		for(Object[] obj : expired){
-			JSONObject jobj = new JSONObject();
-			try {
-				jobj.put("auctionID", obj[0]);
-				jobj.put("seller",obj[1]);
-				jobj.put("item_title", obj[2]);
-				jobj.put("bidder", obj[3]);
-			} catch (JSONException e) {
-				System.out.println("Problem on json return --- user-expired-auctions");
-				e.printStackTrace();
-			}
-			expArray.put(jobj);
-		}
-		System.out.println("UserExpiredAuctions: " + expArray.toString());
-		return expArray.toString();
-	}
+	
 	
 	@RequestMapping(value = "/categories",method = RequestMethod.GET)
 	@ResponseBody

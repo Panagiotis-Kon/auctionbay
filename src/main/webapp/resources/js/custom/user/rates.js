@@ -29,11 +29,15 @@ function initListeners(){
 			//alert("username: " + username + " --- role: " + role + " --- rate: " + rate);
 			
 		});
+		if(dataArray.length == 0){
+			alert("Sorry there is no bid")
+		} else {
+			var jsonArray = JSON.stringify(dataArray);
+			console.log("JSON TO SEND")
+			console.log(jsonArray)
+			submitRate(jsonArray);
+		}
 		
-		var jsonArray = JSON.stringify(dataArray);
-		console.log("JSON TO SEND")
-		console.log(jsonArray)
-		submitRate(jsonArray);
 	});
 	
 }
@@ -57,7 +61,7 @@ function initRatingModule(counterRow){
 function getExpiredAuctions(){
 	
 	var patharray = window.location.pathname.split( '/' );
-	var location = baseURL+"/"+patharray[2]+"/"+patharray[3]+"/auctions";
+	var location = baseURL+"/"+patharray[2]+"/"+patharray[3];
 	
 	var username = getUser();
 	var dest = location + "/user-expired-auctions";
@@ -69,67 +73,70 @@ function getExpiredAuctions(){
 		data : {username:username},
 		success:function(expired){
 			
-			console.log(expired)
-			var counterRow = 0;
-			$.each(expired, function(i, item) {
-				
-				
-				
-			    var auctionID = item.auctionID;
-			    var seller = item.seller;
-			    var bidder = item.bidder;
-			    var item_title = item.item_title;
-			    
-			    var starRateModule = "<div class=\"rate\" style=\"margin:0 auto;font-size:24px;\"></div>" +
-			    		"<div class=\"col-xs-3\" style=\"float:none; margin:0 auto;\">"+"<input name=\"score\" class=\"form-control input-sm\" id='"+ counterRow + "' "+"type=\"text\"></div>";
-			    
-			    
-			    
-			    if(bidder == username){
-			    	var row =  "<tr id=' " + auctionID+"-"+seller + '-seller'+  "'> " +
-			    	 "<td class=\"user\">" + 
-					seller            
-					+ "</td> " 
-					+ "<td class=\"role\">" +
-					"Seller" 
-					+ "</td>" 
-					+ " <td class=\"title\"> " +
-					item_title
-					+ "</td> "
-					+ "<td>" +
-					"<div id=\"wrapper\" style=\"text-align: center\">" +
-					starRateModule 
-					+ "</div></td> </tr>";
-			    	
-			    	$("#rating-table").find('tbody').append(row);
-			    	/*data["username"] = seller;
-			    	data["role"] = "seller";
-			    	data["auctionID"] = auctionID;*/
-			    	 
-			    } else {
-			    	var row =  "<tr id=' " + auctionID+"-"+bidder + '-bidder'+  "'> <td class=\"user\">" + 
-					bidder               
-					+ "</td> " 
-					+ "<td class=\"role\">" +
-					"Bidder" 
-					+ "</td>" 
-					+ " <td class=\"title\"> " +
-					item_title
-					+ "</td> "
-					+ "<td>" + 
-					starRateModule 
-					+ "</td> </tr>";
+			console.log(expired);
+			if(expired.length == 0){
+				$("#rating-table").css("display","none");
+				$("#btn-area").css("display","none");
+				$("#no-rateData").css("display","block");
+			} else {
+				var counterRow = 0;
+				$.each(expired, function(i, item) {
+			
+				    var auctionID = item.auctionID;
+				    var seller = item.seller;
+				    var bidder = item.bidder;
+				    var item_title = item.item_title;
+				    
+				    var starRateModule = "<div class=\"rate\" style=\"margin:0 auto;font-size:24px;\"></div>" +
+				    		"<div class=\"col-xs-3\" style=\"float:none; margin:0 auto;\">"+"<input name=\"score\" class=\"form-control input-sm\" id='"+ counterRow + "' "+"type=\"text\"></div>";
+				    			    
+				    if(bidder == username){
+				    	var row =  "<tr id=' " + auctionID+"-"+seller + '-seller'+  "'> " +
+				    	 "<td class=\"user\">" + 
+						seller            
+						+ "</td> " 
+						+ "<td class=\"role\">" +
+						"Seller" 
+						+ "</td>" 
+						+ " <td class=\"title\"> " +
+						item_title
+						+ "</td> "
+						+ "<td>" +
+						"<div id=\"wrapper\" style=\"text-align: center\">" +
+						starRateModule 
+						+ "</div></td> </tr>";
+				    	
+				    	$("#rating-table").find('tbody').append(row);
+				    	/*data["username"] = seller;
+				    	data["role"] = "seller";
+				    	data["auctionID"] = auctionID;*/
+				    	 
+				    } else {
+				    	var row =  "<tr id=' " + auctionID+"-"+bidder + '-bidder'+  "'> <td class=\"user\">" + 
+						bidder               
+						+ "</td> " 
+						+ "<td class=\"role\">" +
+						"Bidder" 
+						+ "</td>" 
+						+ " <td class=\"title\"> " +
+						item_title
+						+ "</td> "
+						+ "<td>" + 
+						starRateModule 
+						+ "</td> </tr>";
 
-			    	$("#rating-table").find('tbody').append(row);
-			    	/*data["username"] = bidder;
-			    	data["role"] = "bidder"; 
-			    	data["auctionID"] = auctionID;*/
-			    }
-			    
-			    initRatingModule(counterRow);
-			    counterRow++;
-			    
-			});
+				    	$("#rating-table").find('tbody').append(row);
+				    	/*data["username"] = bidder;
+				    	data["role"] = "bidder"; 
+				    	data["auctionID"] = auctionID;*/
+				    }
+				    
+				    initRatingModule(counterRow);
+				    counterRow++;
+				    
+				});
+				
+			}
 			
 			
 		}

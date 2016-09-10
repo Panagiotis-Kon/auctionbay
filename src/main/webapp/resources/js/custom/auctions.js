@@ -153,6 +153,17 @@ function initListeners(){
 		//advanced_search(search_data);
 	});
 	
+	$("#reset-button").click(function(e){
+		e.preventDefault();
+		$("#keywords").val("");
+		$("#search-desc").val("");
+		var $select_cat = $(".categories-search-list").select2();
+		$select_cat.val(null).trigger("change");
+		$("#country-search").val("");
+		$("#min-bid-price").val("");
+		$("#max-bid-price").val("");
+	});
+	
 	$('input:radio').change(function(){
 		$(this).prop('checked', true); 
 		var id = $(this).attr('id');

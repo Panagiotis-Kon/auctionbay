@@ -170,6 +170,7 @@ public class AdminController {
 			data.put("draw",pageNumber);
 			data.put("iTotalRecords",registeredUsersNumber);
 			data.put("iTotalDisplayRecords", registeredUsersNumber);
+			data.put("recordsFiltered", registeredUsersNumber);
 			data.put("aaData", answer);
 		} catch (JSONException e) {
 			e.printStackTrace();

@@ -247,9 +247,9 @@ function getRecommendations(){
 			success:function(data){
 				//console.log("Success in recommendations... ")
 				//console.log(data);
-				
+				console.log("index recommendations: " + data)
 				// create carousel
-				if(data == "problem"){
+				if(data == "problem" || data.length == 0){
 					$("#myCarousel").css("display","none");
 					$("#no-rec-available").html("Sorry, no recommendations available at the moment");
 					$("#no-rec-available").css("display","block");

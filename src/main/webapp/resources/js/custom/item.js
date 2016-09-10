@@ -33,7 +33,7 @@ var longtitude;
 function setListeners(){
 	console.log("Setting listeners")
 	$('#bidNow').click( function(event){
-		console.log("clicked")
+		console.log("clicked bid now")
 		
 		var bid_amount = $("#bid-amount").val();
 		var first_bid = $("#firstbid").text();
@@ -56,16 +56,17 @@ function setListeners(){
 	
 	$('#confirm-bid-btn').click(function(){
 		
-		console.log("confirm");
+		console.log("confirm bid button");
 		var bid_amount = $("#bid-amount").val();
+		submitOffer(bid_amount);
 		$("#warningBidModal").modal('hide');
-		submitOffer(bid_amount)
+		
 	});
 }
 
 
 function submitOffer(bid_amount){
-	//var url = window.location.href;
+	var url = window.location.href;
 	var itemID = url.substring(url.lastIndexOf("/")+1);
 	var username = getUser();
 	console.log("Sending: " + itemID + " bid: " + bid_amount);
@@ -75,10 +76,23 @@ function submitOffer(bid_amount){
 		url  :window.location.href + "/submit-bid",
 		data :{username:username,itemID:itemID,bid_amount:bid_amount},
 		success : function(data) {
-			$("#successModal-Label").text("Successfull Bid")
-			$("#successModal-text").html(data);
-			$("#successModal").modal('show');
-			window.location.reload();
+			if(data != "problem-bid"){
+				$("#successBidModal-Label").text("Successfull Bid")
+				$("#successBidModal-text").html(data);
+				$("#successBidModal").modal('show');
+				$("#successBid-btn-ok").click(function(){
+					window.location.reload();
+				});
+			} else {
+				$("#errorModal-Label").text("Error on Bid")
+				$("#errorModal-text").html("Sorry a problem occured with your offer.<br>Please contact the administrator");
+				$("#errorModal").modal('show');
+				$("#error-btn-ok").click(function(){
+					window.location.reload();
+				});
+			}
+			
+			
 		}
 			
 		
@@ -210,7 +224,7 @@ function buyCall(){
 				
 				$("#success-btn-ok").click(function(){
 					window.location.replace(baseURL+"/user/"+username+"/auctions");
-				})
+				});
 			} else {
 				$("#errorModal-Label").text("Problem")
 				$("#errorModal-text").html("A problem occured during buy");

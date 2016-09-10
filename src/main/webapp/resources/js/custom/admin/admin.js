@@ -129,19 +129,17 @@ function setListeners(){
 		console.log("hi pen users");
 		event.preventDefault();
 		document.getElementById('registered-users').style.display = "none";
+		document.getElementById('export-options').style.display = "none";
 		document.getElementById('pending-users').style.display = "block";
-		//console.log($('#pending-users-grid tbody tr').data());
-		//$('registered-users').css("display","none");
-		//$('pending-users').css("display","block");
 	});
 	
 	$("#registered-users-link").click(function(event){
 		console.log("hi reg users");
 		event.preventDefault();
-		document.getElementById('registered-users').style.display = "block";
+		document.getElementById('export-options').style.display = "none";
 		document.getElementById('pending-users').style.display = "none";
-		//$('registered-users').css("display","block");
-		//$('pending-users').css("display","none");
+		document.getElementById('registered-users').style.display = "block";
+
 		
 	});
 	
@@ -228,7 +226,7 @@ function createGrids(){
             { title: "Street" },
             { title: "Zip Code" }    
             
-        ]
+        ] 
     	});
 	
 	auctions_table = $('#auctions-grid').DataTable( {
