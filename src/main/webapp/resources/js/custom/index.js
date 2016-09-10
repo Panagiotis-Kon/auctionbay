@@ -1,5 +1,5 @@
 
-var anchor;
+var anchor; // saves the current page for global purposes
 /* Index will be used as a controller for the app */
 function checkForUser(){
 	/*
@@ -10,24 +10,24 @@ function checkForUser(){
 	 * */
 	var user="user";
 	var urlpath = window.location.href;
-	console.log(window.location.pathname);
+	//console.log(window.location.pathname);
 	if(urlpath.indexOf(user) == -1){
 		// if not found then it returns -1 
 		// then it is a guest 
 		// call default modules
-		console.log("the url DOES NOT contains the user: " + window.location.pathname)
+		//console.log("the url DOES NOT contains the user: " + window.location.pathname)
 		var patharray = window.location.pathname.split( '/' );
-		console.log("patharray: " + patharray)
-		console.log("patharray length: " + patharray.length)
+		//console.log("patharray: " + patharray)
+		//console.log("patharray length: " + patharray.length)
 		var page;
 		if(patharray.length > 3) {
 			page = patharray[3];
-			console.log("page: " + page);
+			//console.log("page: " + page);
 		} else {
 			if(patharray.length == 3){
 				if(patharray[2] != "" && typeof patharray[2] != 'undefined') {
 					page = patharray[2];
-					console.log("page1: " + page);
+					//console.log("page1: " + page);
 				} else {
 					page = "index";
 				}				
@@ -39,10 +39,10 @@ function checkForUser(){
 		modulesController(page,"");
 		
 	} else {
-		// it is registered user, call userModulesInit()
+		// it is registered user, call the modulesController for the username
 		var patharray = window.location.pathname.split( '/' );
-		console.log("patharray: " + patharray)
-		console.log("patharray length: " + patharray.length)
+		//console.log("patharray: " + patharray)
+		//console.log("patharray length: " + patharray.length)
 		var page;
 		if(patharray.length > 4) {
 			page = patharray[4]
@@ -50,15 +50,18 @@ function checkForUser(){
 			page = "index";
 		}
 		
-		console.log(page)
+		//console.log(page)
 		var username = patharray[3];
-		console.log("username: " + username);
+		
 		modulesController(page,username)
 		
 	}
 }
 
-
+/**
+ * Returns the name of the user on success
+ * On fail it returns an empty string
+ */
 function getUser() {
 	var patharray = window.location.pathname.split( '/' );
 	var username = patharray[3];
@@ -67,6 +70,11 @@ function getUser() {
 	return username;
 }
 
+
+/*
+ * Modules controller is enables or disables modules depending on 
+ * the page that is currently viewed and the user role (registered or guest)
+ */
 function modulesController(page,username){
 	anchor=page;
 	if(username == "") {
@@ -84,7 +92,7 @@ function modulesController(page,username){
 			var modules = [];
 			
 			modules.push("button.bid");
-			console.log("auctions without user")
+			//console.log("auctions without user")
 			$("#recommended-module").css("display","none");
 			changeClass("#advanced-search-module","col-xs-12 col-md-9","col-xs-12 col-md-9 pull-right");
 			disableModules(modules);
@@ -104,24 +112,17 @@ function modulesController(page,username){
 					+ "</br><h4 class=\"text-center\">Here are some recomendations for you: </h4>");
 			
 			enable_modules.push("#sidebar-recommended");
-		
 			enable_modules.push("#manage-auction-panel");
 			enable_modules.push("#user-recommedations");
-			 
 			enableModules(enable_modules);
 			
 			disable_modules.push("#guest-text");
 			disable_modules.push("#login-panel");
 			disableModules(disable_modules);
-			
-			
-			//changeClass("#main-info-header","col-lg-12","col-md-10");
-			//changeClass("#va-panel","col-lg-3 col-md-6","col-xs-3 col-xs-offset-2");
-			
+		
 		} 
 		if(page == "auctions") {
 			var enable_modules = [];
-		
 			enable_modules.push("#recommended-module");
 			enable_modules.push("#categories-sidebar");
 			enableModules(enable_modules);
@@ -131,8 +132,11 @@ function modulesController(page,username){
 	}
 }
 
+/*
+ * Edits the Main menu depending on the user role
+ */
 function menuBarEdit(username){
-	console.log("Menu bar ")
+	//console.log("Menu bar ")
 	var enable_modules = [];
 	var disable_modules = [];
 	enable_modules.push("#auctions2");
@@ -146,6 +150,9 @@ function menuBarEdit(username){
 	disableModules(disable_modules);
 }
 
+/*
+ * Enables the modules depending on the parameter given
+ */
 function enableModules(modules){
 	console.log(modules)
 	for(var module in modules) {
@@ -155,6 +162,9 @@ function enableModules(modules){
 	}		
 }
 
+/*
+ * Disables the modules depending on the parameter given
+ */
 function disableModules(modules) {
 	console.log(modules)
 	for(var module in modules) {
@@ -164,30 +174,40 @@ function disableModules(modules) {
 	}	
 }
 
+/*
+ * General function for changing the class on divs
+ */
 function changeClass(module,oldClass,newClass) {
 	$(module).removeClass(oldClass);
 	$(module).addClass(newClass);
 }
 
+/*
+ * Adds the user icon on the upper right side for the user
+ */
 function editText(module,text) {
 	
 	$(module).html("<span id=\"user-icon\" class=\"glyphicon glyphicon-user\"></span>" 
 			+ "&nbsp" +text + " <span class=\"caret\"></span>");
 }
 
-
+/*
+ * Ajax call for retrieving user unread messages
+ * On success it notifies the user in viewable spots 
+ * about his messages
+ */
 function getUnreadMessages(){
 	var username = getUser();
 	var url = window.location.protocol+ "//" + window.location.hostname + ":" +window.location.port + "/auctionbay/user/";
 	if(username != ""){
-		console.log("getting unread messages");
+		//console.log("getting unread messages");
 		$.ajax({
 			type : "GET",
 			dataType:'json',
 			data: {username:username},
 			url  : url + username + "/conversation/unread-number",
 			success:function(unread){
-				console.log("unread: " + unread);
+				//console.log("unread: " + unread);
 				if(unread != "0") {
 					// display on header 
 					console.log("We have messages....")
@@ -198,8 +218,7 @@ function getUnreadMessages(){
 						$("#user-messages-nubmer").text("3");
 						$("#user-messages-nubmer").css("display","inline-block");
 					}
-					
-					// check if we are on mailbox and add the number to inbox
+				
 				} 
 			}
 			
@@ -208,22 +227,27 @@ function getUnreadMessages(){
 	}
 }
 
+
+/*
+ * Ajax call for retrieving user recomendations
+ * On success it presents a carousel on index page
+ * On failure it presents a warning message
+ */
 function getRecommendations(){
 	var username = getUser();
 	var url = window.location.protocol+ "//" + window.location.hostname + ":" +window.location.port + "/auctionbay/user/";
-	/*$('#myCarousel').carousel({
-	    interval: 10000
-	});*/
+	
 	if(username != ""){
-		console.log("getting unread messages");
+		//console.log("getting recommendations for the user");
 		$.ajax({
 			type : "GET",
 			dataType:'json',
 			data: {username:username},
 			url  : url + username + "/recommendations",
 			success:function(data){
-				console.log("Success in recommendations... ")
-				console.log(data);
+				//console.log("Success in recommendations... ")
+				//console.log(data);
+				
 				// create carousel
 				if(data == "problem"){
 					$("#myCarousel").css("display","none");
@@ -240,10 +264,7 @@ function getRecommendations(){
 					  $('.item').first().addClass('active');
 					  $('.carousel-indicators > li').first().addClass('active');
 					  $('#myCarousel').carousel();
-				}
-				
-				
-				
+				}	
 			}
 			
 		});

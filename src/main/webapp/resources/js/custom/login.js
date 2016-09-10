@@ -1,3 +1,9 @@
+/*
+ * This file is responsible for handling the login and the registration
+ * services for the user
+ * It also has a validator system before sending the request to the backend
+ */
+
 $(document).ready(function(){
 	
 	createForm();
@@ -36,11 +42,6 @@ function setListeners(){
     	Login(credentials);
     });
 	
-	/*$("#register-submit").on("click",function(event){
-		event.preventDefault();
-		alert("Under Contruction");	
-	});*/
-	
 }
 
 
@@ -52,9 +53,7 @@ function Login(credentials){
 		data : credentials,
 		dataType:'json',
 		success: function(output) { 
-            // console.log(xhr.status);
-			//window.location.replace(xhr.getResponseHeader("Content-Location"));
-			//window.location = baseURL + "/" +  xhr.getResponseHeader("Content-Location");
+          
 			if(output == "Problem"){
 				$("#warning-text").html("<h3 class=\"text-center\">Your Credentials are incorrect!</h3></br>")
 				$("#warningModal").modal('show');
@@ -74,8 +73,7 @@ function Register(params){
 		url  : "signup",
 		data : {json:params},
 		success: function(output) { 
-            //console.log(xhr.status);
-            //window.location.replace(xhr.getResponseHeader("Content-Location"));
+			
 			if(output == "exists"){
 				$("#warning-text").html("<h3 class=\"text-center\">Sorry, the username already exists</h3></br><h4 class=\"text-center\">Please try again</h4>")
 				$("#warningModal").modal('show');
@@ -183,8 +181,7 @@ function setValidators(){
 		}
 	
 	});
-	
-	
+
 }
 
 
