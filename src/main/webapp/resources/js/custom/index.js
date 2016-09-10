@@ -1,5 +1,5 @@
 
-
+var anchor;
 /* Index will be used as a controller for the app */
 function checkForUser(){
 	/*
@@ -68,6 +68,7 @@ function getUser() {
 }
 
 function modulesController(page,username){
+	anchor=page;
 	if(username == "") {
 		if(page == "index") {
 			var modules = [];
@@ -77,6 +78,7 @@ function modulesController(page,username){
 			modules.push("#sidebar-recommended");
 			modules.push("#sidebar-categories-module");
 			disableModules(modules);
+			
 		} 
 		if(page == "auctions") {
 			var modules = [];
@@ -192,11 +194,13 @@ function getUnreadMessages(){
 					$("#header-unread-messages").html(unread);
 					$("#header-unread-messages").css("display","inline-block");
 					$( "#user-icon" ).after( "<span class=\"badge badge-notify\" id=\"notify\">" + unread + "</span>" );
-					$("#user-messages-nubmer").text(unread)
+					if(anchor=="index"){
+						$("#user-messages-nubmer").text("3");
+						$("#user-messages-nubmer").css("display","inline-block");
+					}
+					
 					// check if we are on mailbox and add the number to inbox
-				} else {
-					$("#user-messages-nubmer").css("display","inline-block");
-				}
+				} 
 			}
 			
 		});
