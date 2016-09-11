@@ -65,7 +65,7 @@ public class Category implements Serializable {
 	
 	public void deleteItem(Item item) {
 		this.items.remove(item);
-		//return item;
+		
 	}
 	
 }

@@ -1,7 +1,5 @@
 $(document).ready(function (){
 	
-	/*test test*/
-	
 	getCategoryList();
 	countUserAuctions("active");
 	getUserAuctions();
@@ -64,7 +62,7 @@ var countries = ["Afghanistan","Albania","Algeria","Andorra",
 /* --------- Global Variables ----------- */
 
 function countryList(divName) {
-	console.log("countries!!!")
+	//console.log("countries!!!")
 	var sel = document.getElementById(divName);
 	var empty = document.createElement('option');
     empty.innerHTML = "";
@@ -94,31 +92,21 @@ function initListeners() {
 	
 	$("#create-tab").on('shown.bs.tab', function() {
 
-	  	console.log("resizing map...")
+	  	//console.log("resizing map...")
 		google.maps.event.trigger(map, 'resize');
 	});
 	$('#countries-list').change(function(){
         var country = $(this).val();
-        console.log("country: " + country)
+        //console.log("country: " + country)
         geocodeAddress(geocoder, map, country);
 	});
-	
-	
-	
-	/*$('#modify-tab').on('shown.bs.tab', function() {
-
-	  	$('#user-auctions').css("display","block");
-	});*/
-	
-	
 	
 	
 	
 	$('#toAuctions-button').click(function(){
 		$('#edit-area').hide();
 		$('#user-auctions').show();
-		//user_auctions.destroy();
-		//getUserAuctions();
+		
 		
 	});
 	
@@ -239,7 +227,7 @@ function deleteAuction(auctionID,itemID, index){
 		url  :window.location.href + "/delete-auction",
 		data :{username:username,auctionID:auctionID,itemID:itemID},
 		success : function(data) {
-			console.log("Deleted");
+			//console.log("Deleted");
 			$('#deleteModal').modal('hide');
 			user_auctions.row( index ).remove().draw();
 			countUserAuctions("active");
@@ -250,7 +238,7 @@ function deleteAuction(auctionID,itemID, index){
 
 
 function do_refresh() {
-	console.log("reloading location");
+	//console.log("reloading location");
 	var activeTab = $('#auctions-tabs .active').text()
 	if(activeTab == "Create Auctions"){
 		console.log("activeTab create" )
@@ -266,7 +254,7 @@ function do_refresh() {
 		
 	} else {
 		/* Clear edit fields */
-		console.log("otherTab");
+		//console.log("otherTab");
 		
 		$("#auction-name-edit").val("");
 		$("#auction-description-edit").val("");	
@@ -294,14 +282,14 @@ function do_refresh() {
 function createAuction(input) {
 	var auction_data = JSON.stringify(input);
 	var username = getUser();
-	console.log(auction_data);
+	//console.log(auction_data);
 	$.ajax({
 		type : "POST",
 		dataType:'json',
 		url  :window.location.href + "/create-auction",
 		data :{username:username,input:auction_data},
 		success : function(data) {
-			console.log("Successssssssss ********** ********")
+			
 			$('#success-text').html("Your auction was created successfully!!");
 			$('#successLabel').html("Create Auction");
 			$('#successModal').modal('show');
@@ -353,7 +341,7 @@ function getAuctionDetails(auction_id,item_id) {
 		url  :window.location.href + "/auction-details",
 		data :{auction_id:auction_id,item_id:item_id},
 		success : function(data) {
-			console.log(data);
+			//console.log(data);
 			setAuctionPosition(data.lat,data.lon);
 			
 			var sel = document.getElementById('edit-countries-list');
@@ -481,7 +469,7 @@ function setEditListeners(){
 function updateAuction(input){
 	var auction_data = JSON.stringify(input);
 	var username = getUser();
-	console.log(auction_data);
+	//console.log(auction_data);
 	$.ajax({
 		type : "POST",
 		dataType:'json',
@@ -509,7 +497,7 @@ function countUserAuctions(type) {
 		data: {username:username,type:type},
 		success : function(data) {
 			$('#auctions-number').text("Your Auctions ( " + data.user_auctions_num + " ) ");
-			console.log("Auctions num: " + data.user_auctions_num)
+			//console.log("Auctions num: " + data.user_auctions_num)
 		}	
 	});
 }
@@ -527,8 +515,7 @@ function auctionDetails(d){
 	 if(BidsHistory.length == 0){
 		 content += '<tr><td>No Bid History available</td></tr>'; 
 	 }
-	// content += '<tr><td>' +'Magas' +'</td><td>'+ '18.88' + '</td></tr>';
-	 //content += '<tr><td>' +'Magas2' +'</td><td>'+ '13.18' + '</td></tr>';
+	
 	 content +='</table></div>';
 	
 	
@@ -560,7 +547,7 @@ function auctionDetails(d){
 
 function getUserAuctions() {
 	
-	console.log("get user auctions....");
+	//console.log("get user auctions....");
 	var username = getUser();
 	var hyperlink = baseURL + "/user/"+username+"/auctions/item/";
 	var type = "active";
@@ -620,7 +607,7 @@ function getUserAuctions() {
         }
         else {
             // Open this row
-        	console.log(row.data());
+        	//console.log(row.data());
         	row.child( auctionDetails(row.data()), 'no-padding' ).show();
         	
             tr.addClass('shown');
@@ -677,12 +664,11 @@ function getUserAuctions() {
 
 
 	$('#user-auctions-grid tbody').on('click', 'button.edit-button', function () {
-		//alert("you clicked edit")
+	
 		var tr = $(this).parents('tr');
 		var row = user_auctions.row(tr);
 		var data = row.data();
 		var auction_id = data.AuctionID;
-		//alert("auction_id: " + auction_id);
 		var item_id = data.ItemID;
 		
 		
@@ -697,14 +683,11 @@ function getUserAuctions() {
 		var tr = $(this).parents('tr');
 		var row = user_auctions.row(tr);
 		
-		//var id = row.data()[0];
 		var auction_id = row.data().AuctionID;
 		var item_id = row.data().ItemID;
 		var name = row.data().Title;
 		var index = row.index();
-		console.log("index: "+index);
 		
-		//console.log("auction_id: " + auction_id);
 		$("#auction-name-modal").html("<strong>" + name + " ?</strong><input id=\"auctionID\" class=\"hidden\" value=\""+auction_id+"\">" +
 				"<input id=\"itemID\" class=\"hidden\" value=\""+item_id+"\"><input id=\"rowID\" class=\"hidden\" value=\""+index+"\"> ");
 		$('#deleteModal').modal('show');
@@ -714,7 +697,7 @@ function getUserAuctions() {
 	$('#delete-auction-btn').click(function(){
 		var auction_id = $("#auctionID").val();
 		var item_id = $("#itemID").val();
-		console.log("auction_id: " + auction_id);
+		//console.log("auction_id: " + auction_id);
 		var index = $("#rowID").val();
 		deleteAuction(auction_id, item_id, index);
 		
@@ -829,7 +812,7 @@ function getUserAuctions() {
 	
 	$('#user-bids').show();
 	
-	console.log("ENDING get user auctions....");
+	//console.log("ENDING get user auctions....");
 }
 
 function setAuctionPosition(auction_lat,auction_lon){
@@ -861,8 +844,8 @@ function setAuctionPosition(auction_lat,auction_lon){
 		lat_edit = e.latLng.lat().toFixed(3);
 		lon_edit = e.latLng.lng().toFixed(3);
 		location_edit_marker.setMap(map_edit);
-		console.log("lat_edit: " + lat_edit);
-		console.log("lon_edit: " + lon_edit);
+		//console.log("lat_edit: " + lat_edit);
+		//console.log("lon_edit: " + lon_edit);
 	});
 }
 
@@ -914,21 +897,16 @@ function initGoogleMap(){
 		lat = e.latLng.lat().toFixed(3);
 		lon = e.latLng.lng().toFixed(3);
 		location_marker.setMap(map);
-		console.log("lat: " + lat);
-		console.log("lon: " + lon);
+		//console.log("lat: " + lat);
+		//console.log("lon: " + lon);
 	});
 	
-	/*google.maps.event.addListener(location_marker,'dragend', function(a) {
-		 alert("yaaay")
-		 lat = a.latLng.lat().toFixed(4);
-		 lon = a.latLng.lng().toFixed(4);
-		 console.log("Drag --- lat: " + lat + " **** " + " lon: " + lon)
-	 });*/
+	
 	 
 	 google.maps.event.addListener(location_marker, 'click', function(a) {
 		 lat = a.latLng.lat().toFixed(4);
 		 lon = a.latLng.lng().toFixed(4);
-		 console.log("Click --- lat: " + lat + " **** " + " lon: " + lon)
+		// console.log("Click --- lat: " + lat + " **** " + " lon: " + lon)
 	 });
 	     
 }
@@ -948,7 +926,7 @@ function geocodeAddress(geocoder, resultsMap, country) {
 
 function getCategoryList(){
 	/* Make ajax call to receive the categories from the db */
-	console.log("getting the categories");
+	//console.log("getting the categories");
 	var user = getUser();
 	var url = baseURL + "/user/"+user+"/auctions/categories";
 	var type = "all";
@@ -957,7 +935,6 @@ function getCategoryList(){
 		dataType:'json',
 		url  : url,
 		data : {type:type},
-		//url  : window.location.href + "/categories",
 		success : function(data) {
 			allcategories = data;
 			if(data.length == 0){
@@ -970,8 +947,7 @@ function getCategoryList(){
 					var option = $('<option value="'+data[i].category+'">');
 					option.text(category);
 					$("#category_list").append(option);
-					
-					
+				
 				}
 				$("#category_list").multiselect("refresh");
 			}
@@ -979,14 +955,14 @@ function getCategoryList(){
 		}	
 	}); 
 	
-	console.log("getting the categories ended");
+	//console.log("getting the categories ended");
 }
 
 
 
 
 function addCategoryInput(option){
-	console.log("you clicked")
+	
 	
 	if(option == 0) {
 		//console.log("option: " + option)

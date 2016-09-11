@@ -105,7 +105,9 @@ public class Item implements Serializable {
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
-	
+	/*
+	 * Inserts a new category to the item
+	 */
 	public void insertCategory(Category category) {
 		if(this.categories == null) {
 			this.categories = new ArrayList<Category>();
@@ -118,7 +120,7 @@ public class Item implements Serializable {
 	public void deleteCategory(Category category) {
 		this.categories.remove(category);
 		category.deleteItem(null);
-		//return category;
+		
 	}
 
 }

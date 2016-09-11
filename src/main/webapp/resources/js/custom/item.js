@@ -2,27 +2,25 @@
 
 $(document).ready(function(){
 	
-	console.log("base url: " + baseURL);
-	console.log("window.location.href: " + window.location.href)
+	//console.log("base url: " + baseURL);
+	//console.log("window.location.href: " + window.location.href)
 	
 	var url = window.location.href;
 	var itemID = url.substring(url.lastIndexOf("/")+1); 
 	console.log("item ID: " + itemID);
 	if(url.indexOf("item") == -1){
 		console.log("item not requested yet")
+		window.location = baseURL+"/user/" + getUser();
 	} else {
 		getItemModule(itemID);
 	}
-	
-	
-	
-	
+
 });
 
 /* --------- Global Variables ----------- */
 
 var map;
-var geocoder;
+var geocoder; // setting the map to the country selected
 var location_marker;
 var user_auctions;
 var latitude;
@@ -31,32 +29,50 @@ var longtitude;
 /* --------- Global Variables ----------- */
 
 function setListeners(){
-	console.log("Setting listeners")
+	//console.log("Setting listeners")
 	$('#bidNow').click( function(event){
-		console.log("clicked bid now")
+		//console.log("clicked bid now")
 		
 		var bid_amount = $("#bid-amount").val();
 		var first_bid = $("#firstbid").text();
+		var current_highBid = $("#highest-bid").text();
+		//console.log("current highest: " + parseFloat(current_highBid));
 		if(bid_amount == "") {
-			alert("Please enter an amount")
+			$("#warningBid-text").html("Please offer a bid first!");
+			$("#warningBidModal").modal('show');
 		} else {
-			console.log("first_bid: " + first_bid + " and bid_amount: " + bid_amount);
-			if(parseFloat(bid_amount) >= parseFloat(first_bid)){
-				console.log(">=")
-				$("#confirm-bid-btn").css("display","block");
-				$("#warningBid-text").html("Are you sure that you want to bid " + bid_amount + " $ ?");
-				$("#warningBidModal").modal('show');
+			//console.log("first_bid: " + first_bid + " and bid_amount: " + bid_amount);
+			if(parseFloat(current_highBid) == 0){
+				//console.log("There is no current bid");
+				if(parseFloat(bid_amount) >= parseFloat(first_bid)){
+					//console.log("bid amount given is greater than first bid");
+					$("#confirm-bid-btn").css("display","block");
+					$("#warningBid-text").html("Are you sure that you want to bid " + bid_amount + " $ ?");
+					$("#warningBidModal").modal('show');
+				} else {
+					$("#warningBid-text").html("Sorry but your bid must be greater or equal than the first bid");
+					$("#warningBidModal").modal('show');
+				}
 			} else {
-				$("#warningBid-text").html("Sorry but your bid must be greater or equal than the first bid");
-				$("#warningBidModal").modal('show');
+				//console.log("Checking the current bid");
+				if(parseFloat(bid_amount) > parseFloat(current_highBid)){
+					//console.log("bid amount given is greater than current bid");
+					$("#confirm-bid-btn").css("display","block");
+					$("#warningBid-text").html("Are you sure that you want to bid " + bid_amount + " $ ?");
+					$("#warningBidModal").modal('show');
+				} else {
+					$("#warningBid-text").html("Sorry but your bid must be greater or equal than the current highest bid (" + current_highBid +")");
+					$("#warningBidModal").modal('show');
+				}
 			}
+			
 		}
 		
 	});
 	
 	$('#confirm-bid-btn').click(function(){
 		
-		console.log("confirm bid button");
+		//console.log("confirm bid button");
 		var bid_amount = $("#bid-amount").val();
 		submitOffer(bid_amount);
 		$("#warningBidModal").modal('hide');
@@ -69,7 +85,7 @@ function submitOffer(bid_amount){
 	var url = window.location.href;
 	var itemID = url.substring(url.lastIndexOf("/")+1);
 	var username = getUser();
-	console.log("Sending: " + itemID + " bid: " + bid_amount);
+	//console.log("Sending: " + itemID + " bid: " + bid_amount);
 	$.ajax({
 		type : "POST",
 		dataType:'json',
@@ -101,7 +117,7 @@ function submitOffer(bid_amount){
 
 function getItemModule(itemID) {
 	
-	console.log("getting the item module ");
+	//console.log("getting the item module ");
 	$.get( window.location.href + "/details-module", function( details_module ) {
 		getDetails(itemID,details_module);
 		
@@ -111,7 +127,7 @@ function getItemModule(itemID) {
 
 function getDetails(itemID, details_module) {
 	
-	console.log("getting item details");
+	//console.log("getting item details");
 	$.ajax({
 		type : "GET",
 		dataType:'json',
@@ -119,11 +135,11 @@ function getDetails(itemID, details_module) {
 		data :{itemID:itemID},
 		success : function(data) {
 			$("#item-details").empty();
-			console.log("moving on formatting the page")
+			//console.log("moving on formatting the page")
 			if(data.length == 0){
 				alert("No data found");
 			}else {
-				console.log(data)
+				//console.log(data)
 				
 				var panel = $("<div>" + details_module + "</div>");
 				panel.find('#Title').text(data.name);
@@ -141,18 +157,18 @@ function getDetails(itemID, details_module) {
 				panel.find('#bids-num').text(data.numOfBids);
 				
 				
-				console.log("buy price: " + parseFloat(data.buyprice).toFixed(2));
+				//console.log("buy price: " + parseFloat(data.buyprice).toFixed(2));
 				
 				latitude = data.lat;
 				longtitude = data.lon;
-				console.log("lat: " + latitude + " --- lon: " + longtitude);
+				//console.log("lat: " + latitude + " --- lon: " + longtitude);
 				var bidsHistory = data.bidsHistory;
 					
 				html = panel.html();
 				$("#item-details").append(html);
 				
 				if(bidsHistory.length == 0) {
-					console.log("No data");
+					//console.log("No data for history");
 					$("#history-table").css("display","none");
 					$("#no-history-warning").css("display","block");
 				} else {
@@ -163,7 +179,7 @@ function getDetails(itemID, details_module) {
 							bidder + "</td>" 
 						+ " <td> " + parseFloat(bidPrice).toFixed(2) + " $"
 						+ "</td></tr>";
-						  console.log("bidder: " + bidder + " bidPrice: " + bidPrice);
+						  //console.log("bidder: " + bidder + " bidPrice: " + bidPrice);
 						  $("#history-table").find('tbody').append(html);
 						
 						});
@@ -173,7 +189,7 @@ function getDetails(itemID, details_module) {
 					$("#closed-auction-warning").css("display","block");
 				} else {
 					if(parseFloat(data.buyprice).toFixed(2) != 0.00){
-						console.log("I've entered....")
+						
 						$("#buy-section").css("display","block");
 						
 						$("#buyNow").click(function(event){
@@ -189,10 +205,14 @@ function getDetails(itemID, details_module) {
 					}
 					
 					var username = getUser();
-					console.log("username: " + username + " --- seller: " + data.seller);
+					//console.log("username: " + username + " --- seller: " + data.seller);
+					// if the user is also the seller don't let him 
 					if(username == data.seller){
-						console.log("here")
+						
 						$("#bid-section").css("display","none");
+						if($("#buy-section").is(":visible")){
+							$("#buy-section").css("display","none");
+						}
 					}
 				}
 				
@@ -203,7 +223,7 @@ function getDetails(itemID, details_module) {
 		}	
 	}); 
 	
-	console.log("end of getting item details")
+	//console.log("end of getting item details")
 }
 
 function buyCall(){
@@ -232,18 +252,14 @@ function buyCall(){
 				$("#error-btn-ok").click(function(){
 					window.location.reload();
 				});
-			}
-			
-			
-		}
-			
-		
+			}	
+		}		
 	});
 }
 
 
 function initMap(){
-	console.log("Creating google maps")
+	//console.log("Creating google maps")
 	var center = new google.maps.LatLng(latitude,longtitude);
 	var mapDiv = document.getElementById('itemMap');
 	map = new google.maps.Map(mapDiv, {
@@ -253,7 +269,7 @@ function initMap(){
 	});
 	
 	//var position = new google.maps.LatLng(latitude,longtitude);
-	console.log("center: " + center)
+	//console.log("center: " + center)
 	
 	location_marker = new google.maps.Marker({
         position: center,
@@ -261,18 +277,7 @@ function initMap(){
     });
 	location_marker.setMap(map);
 
+
 	
-	/*map.addListener('click', function(e) {
-		
-		if(typeof location_marker !== 'undefined')
-			location_marker.setMap(null);
-		
-		location_marker = new google.maps.Marker({
-	        position: e.latLng,
-	        map: map
-	    });
-		location_marker.setMap(map);
-	});*/
-	
-	console.log("end of creation")
+	//console.log("end of creation")
 }

@@ -1,31 +1,29 @@
 package com.ted.auctionbay.controllers;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.ted.auctionbay.entities.auctions.Auction;
-import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.timeutils.TimeUtilities;
+
+
+/*
+ * Controller for handling the item details requests
+ */
 
 @Controller
 @RequestMapping(value={"/auctions/item/{item_id}", "/user/{username}/auctions/item/{item_id}"})
@@ -37,20 +35,18 @@ public class ItemController {
 	@Autowired
 	AuctionServices auctionServices;
 	
-	
+	/* Returns the module for showing the details of the item */
 	@RequestMapping(value = "/details-module",method = RequestMethod.GET)
 	public String getAuctionsModule(){
-		System.out.println("getting details module");
+		//System.out.println("getting details module");
 		return "/pages/modules/itemDetailsModule.html";
 	}
-	
-	
-	
-	//Return details of item with given ID
+
+	/* Returns details of item with given ID */
 	@RequestMapping(value = "/details",method = RequestMethod.GET)
 	@ResponseBody
 	public String getItemDetails(@RequestParam("itemID") String ItemID){
-		System.out.println("...... Get item details Controller ......");
+		//System.out.println("...... Get item details Controller ......");
 		int itemID = Integer.parseInt(ItemID);
 		Item item = itemServices.getDetails(itemID);
 		List<String> categories = itemServices.getCategories(itemID);
@@ -85,6 +81,9 @@ public class ItemController {
 				}
 				
 			}
+			/* Check also if the auction is closed or not 
+			 * Closed means that the item has been purchased by the higher bidder
+			 * */
 			if(auction.getEndTime().before(new Date())){
 				jitem.put("closed","yes");
 			} else {

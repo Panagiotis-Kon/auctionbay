@@ -8,11 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ted.auctionbay.dao.QueryAuction;
 import com.ted.auctionbay.dao.QueryConversation;
-import com.ted.auctionbay.dao.QueryItem;
 import com.ted.auctionbay.dao.QueryUser;
-import com.ted.auctionbay.dao.QueryUserImpl;
 import com.ted.auctionbay.entities.auctions.Auction;
-import com.ted.auctionbay.entities.items.Item;
 import com.ted.auctionbay.entities.users.messages.Conversation;
 import com.ted.auctionbay.entities.users.messages.ConversationPK;
 
@@ -56,8 +53,14 @@ public class ConversationServicesImpl implements ConversationServices{
 		
 		int conversationID = queryConversation.getMaxConversationID();
 		
-		System.out.println("Message body: " + message_body);
-		
+		//System.out.println("Message body: " + message_body);
+		/*
+		 * Submit message method:
+		 * 1) Create an instance for the conversation embedded key
+		 * 2) Create an instance for the conversation and add the embedded key reference
+		 * 3) Set the neccessary fields
+		 * 3) Call the dao class for persisting the object
+		 */
 		ConversationPK convpk = new ConversationPK();
 		convpk.setConversationID(conversationID);
 		convpk.setRecipient(recipient);
@@ -83,56 +86,6 @@ public class ConversationServicesImpl implements ConversationServices{
 			return 0;
 		}
 		return -1;
-		
-		/*Message m = new Message();
-		m.setMessageID(messageID);
-		m.setSubject(subject);
-		m.setMessageText(message_body);
-		m.setIsRead(Byte.parseByte("0".toString()));
-		Calendar calendar = Calendar.getInstance();
-        Date date =  calendar.getTime();
-		m.setDateCreated(date);
-		*/
-		
-		/* conversation pk set , one for sender one for recipient*/
-		//System.out.println("Setting the sender PK");
-		/* For the sender */
-		/*ConversationPK convpk_sender = new ConversationPK();
-		convpk_sender.setId(mailboxID);
-		convpk_sender.setMessageID(messageID);
-		convpk_sender.setRegisteredUser(sender);
-		
-		System.out.println("Setting the sender");
-		Conversation conv_sender = new Conversation();
-		conv_sender.setId(convpk_sender);
-		conv_sender.setMessage(m);
-		
-		conv_sender.setRegistereduser(queryUser.getUser(sender).getRegistereduser());
-		conv_sender.setType("Sent");
-		System.out.println("Sender ----> Setting conversation id: " + mailboxID);
-		mailboxID++;*/
-		
-		/* For the recipient*/
-		/*System.out.println("Setting the recipient PK");
-		ConversationPK convpk_recipient = new ConversationPK();
-		convpk_recipient.setId(mailboxID);
-		convpk_recipient.setMessageID(messageID);
-		convpk_recipient.setRegisteredUser(sender);
-		
-		System.out.println("Setting the recipient");
-		Conversation conv_recipient = new Conversation();
-		conv_recipient.setId(convpk_recipient);
-		conv_recipient.setMessage(m);
-		
-		conv_recipient.setRegistereduser(queryUser.getUser(recipient).getRegistereduser());
-		conv_recipient.setType("Inbox");
-		System.out.println("Recipient ----> Setting conversation id: " + mailboxID);
-		mailboxID++;*/
-		
-		
-		
-		
-		
 		
 	}
 
@@ -161,7 +114,6 @@ public class ConversationServicesImpl implements ConversationServices{
 		Auction auction = queryAuction.getDetails(itemID);
 		String seller = auction.getRegistereduser().getUsername();
 	
-		//String recipient = buyer;
 		String subject = "Item bought";
 		String messageBody = "Your product with id: " + itemID + " has been purchased from " + buyer +
 				 "\nDo not reply to this message!!";

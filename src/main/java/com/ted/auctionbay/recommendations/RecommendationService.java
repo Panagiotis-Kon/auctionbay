@@ -37,10 +37,6 @@ public class RecommendationService{
 	
 	private static boolean INITIALIZED = false;
 	
-	public void initRec(){
-		
-	}
-	
 
 	public void start(){
 		System.out.println("Scheduler called Recommendation Service");

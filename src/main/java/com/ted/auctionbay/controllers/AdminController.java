@@ -6,14 +6,12 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.PathParam;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +23,10 @@ import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.UserServices;
 import com.google.gson.Gson;
-import com.ted.auctionbay.dao.QueryUser;
+
+/*
+ * Controller for handling the administrator services
+ */
 
 @Controller
 @RequestMapping("/administrator")
@@ -48,6 +49,7 @@ public class AdminController {
 		return "/pages/administrator/administrator.html";
 	}
 	
+	/* Returns the number of registered and pending users */
 	@RequestMapping(value = "/count-users", method = RequestMethod.GET)
 	@ResponseBody
 	public String countUsers(){
@@ -65,24 +67,25 @@ public class AdminController {
 	
 	}
 	
+	/* Returns if the user was accepted from the system*/
 	@RequestMapping(value = "/accept-user", method = RequestMethod.GET)
 	@ResponseBody
 	public String accept_user(@RequestParam String username, HttpServletRequest request, HttpServletResponse response) 
 			throws IOException, ServletException{
 	
-		//System.out.println("accepting");
 		userServices.accept_user(username);
-		//response.setStatus(HttpServletResponse.SC_OK);
-		//System.out.println("accepted");
 		return "accepted";
 	}
 	
+	
+	/* Returns a JSON with the pending users */
 	@RequestMapping(value = "/pending-users",method = RequestMethod.GET)
 	@ResponseBody
 	public String getPendingUsers(HttpServletRequest request, 
 			  HttpServletResponse response){
 
 		//System.out.println("Pending...");
+		/* Pagination from the server side */
 		int start = Integer.parseInt(request.getParameter("start"));
 		int pageSize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber;
@@ -125,6 +128,8 @@ public class AdminController {
 
 	}
 	
+	
+	/* Returns a JSON with the registered users */
 	@RequestMapping(value = "/registered-users", method = RequestMethod.GET)
 	@ResponseBody
 	public String getRegisteredUsers(HttpServletRequest request, 
@@ -178,7 +183,7 @@ public class AdminController {
 		return data.toString();
 	}
 	
-	
+	/* Returns a JSON with the available auctions for export */
 	@RequestMapping(value="/auctions-to-export",method = RequestMethod.GET)
 	@ResponseBody
 	public String auctionsToExport(HttpServletRequest request, 
@@ -209,12 +214,9 @@ public class AdminController {
 			jarray.put(obj[1].toString());
 			jarray.put(obj[2]);
 			jarray.put(obj[3]);
-				
-			
+
 			auctionsArray.put(jarray);
 		}
-		
-		
 		try {
 			data.put("draw",pageNumber);
 			data.put("iTotalRecords",numOfAuctions);
@@ -229,7 +231,10 @@ public class AdminController {
 	}
 	
 	
-	
+	/* Requests the service for exporting the requested auction 
+	 * which is referenced from the itemID
+	 * 
+	 */
 	@RequestMapping(value = "/export-to-xml",method = RequestMethod.POST)
 	@ResponseBody
 	public String exportToXML(@RequestParam("itemID") String itemID) throws IOException {
@@ -237,6 +242,8 @@ public class AdminController {
 		return new Gson().toJson("Export of Auction completed");
 	}
 	
+	
+	/* Requests the service for exporting every auction to xml*/
 	@RequestMapping(value = "/export-all-to-xml",method = RequestMethod.POST)
 	@ResponseBody
 	public String exportAllToXML(HttpServletResponse response) throws IOException {

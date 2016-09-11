@@ -1,18 +1,14 @@
 package com.ted.auctionbay.jpautils;
 
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.ted.auctionbay.recommendations.RecommendationService;
-
+/*
+ * The class for the Entity Manager where the connection with the database is generated
+ */
 public class EntityManagerHelper {
 
 	private static final EntityManagerFactory emf; 
@@ -22,8 +18,6 @@ public class EntityManagerHelper {
     	System.out.println("ENTITY MANAGER HELPER STARTS");
         emf = Persistence.createEntityManagerFactory("auctionbay");      
         threadLocal = new ThreadLocal<EntityManager>();
-    
-        
     }
 
     public static EntityManager getEntityManager() {

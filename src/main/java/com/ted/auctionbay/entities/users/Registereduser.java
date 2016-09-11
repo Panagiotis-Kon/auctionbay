@@ -65,21 +65,7 @@ public class Registereduser implements Serializable {
 		this.auctionsBids = auctionsBids;
 	}
 
-	/*public List<Message> getInboxMessages() {
-		return inboxMessages;
-	}
-
-	public void setInboxMessages(List<Message> inboxMessages) {
-		this.inboxMessages = inboxMessages;
-	}
-
-	public List<Message> getOutBoxMessages() {
-		return outBoxMessages;
-	}
-
-	public void setOutBoxMessages(List<Message> outBoxMessages) {
-		this.outBoxMessages = outBoxMessages;
-	}*/
+	
 
 	
 	
@@ -108,10 +94,6 @@ public class Registereduser implements Serializable {
 		)
 	private List<Auction> auctionsBids;
 	
-	//bi-directional many-to-one association to RegistereduserBidsinAuction
-	//@OneToMany(mappedBy="registereduser")
-	//private List<RegistereduserBidsinAuction> registereduserBidsinAuctions;
-
 	
 
 	public Registereduser() {
@@ -155,27 +137,7 @@ public class Registereduser implements Serializable {
 		this.user = user;
 	}
 
-	/*public List<RegistereduserBidsinAuction> getRegistereduserBidsinAuctions() {
-		return this.registereduserBidsinAuctions;
-	}
-
-	public void setRegistereduserBidsinAuctions(List<RegistereduserBidsinAuction> registereduserBidsinAuctions) {
-		this.registereduserBidsinAuctions = registereduserBidsinAuctions;
-	}*/
-
-	/*public RegistereduserBidsinAuction addRegistereduserBidsinAuction(RegistereduserBidsinAuction registereduserBidsinAuction) {
-		getRegistereduserBidsinAuctions().add(registereduserBidsinAuction);
-		registereduserBidsinAuction.setRegistereduser(this);
-
-		return registereduserBidsinAuction;
-	}
-
-	public RegistereduserBidsinAuction removeRegistereduserBidsinAuction(RegistereduserBidsinAuction registereduserBidsinAuction) {
-		getRegistereduserBidsinAuctions().remove(registereduserBidsinAuction);
-		registereduserBidsinAuction.setRegistereduser(null);
-
-		return registereduserBidsinAuction;
-	}*/
+	
 
 	public List<Sellerrating> getSellerratings() {
 		return this.sellerratings;

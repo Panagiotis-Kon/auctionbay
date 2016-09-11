@@ -1,16 +1,13 @@
 package com.ted.auctionbay.controllers;
 
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.joda.time.format.DateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,16 +24,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.ted.auctionbay.dao.QueryCategory;
 import com.ted.auctionbay.entities.auctions.Auction;
-import com.ted.auctionbay.entities.items.Category;
 import com.ted.auctionbay.entities.items.Item;
-import com.ted.auctionbay.entities.users.Pendinguser;
 import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.ConversationServices;
 import com.ted.auctionbay.services.ItemServices;
 import com.ted.auctionbay.services.UserServices;
 import com.ted.auctionbay.timeutils.TimeUtilities;
 import com.ted.auctionbay.recommendations.RecommendationService;
-import com.ted.auctionbay.timeutils.TimeUtilities;
+
+/*
+ * Controller for handling the user requests
+ */
+
 
 @Controller
 @RequestMapping("/user")
@@ -124,14 +123,16 @@ public class UserController {
 		return "/pages/user/pending.html";
 	}
 	
-	
+	/*
+	 * Submits the requested bid to the service in order to save it to the backend
+	 */
 	@RequestMapping(value = "/{username}/auctions/item/{item_id}/submit-bid",method = RequestMethod.POST)
 	@ResponseBody
 	public String submitBid(@RequestParam("username") String username, 
 			@RequestParam("itemID") String ItemID, @RequestParam("bid_amount") String bid_amount){
 		int itemID = Integer.parseInt(ItemID);
 		float bidAmount = Float.parseFloat(bid_amount);
-		System.out.println("Making the bid with: " + itemID + " --- " + bidAmount);
+		//System.out.println("Making the bid with: " + itemID + " --- " + bidAmount);
 		if(auctionServices.submitBid(username, itemID, bidAmount) == 0){
 			return new Gson().toJson("Your offer ( " + bidAmount + " $ ) has been submitted");
 		}
@@ -139,25 +140,29 @@ public class UserController {
 		return new Gson().toJson("problem-bid");
 	}
 	
+	/*
+	 * Submits the buy offer to the backend
+	 */
 	@RequestMapping(value = "/{username}/auctions/item/{item_id}/buy",method = RequestMethod.POST)
 	@ResponseBody
 	public String buyItem(@RequestParam("username") String username, 
 			@RequestParam("itemID") String ItemID){
 		int itemID = Integer.parseInt(ItemID);
-		System.out.println("Buying item");
+		//System.out.println("Buying item");
 		if(auctionServices.buyItem(username, itemID) == 0){
 			if(conversationServices.notifyUser(itemID, username) == 0){
 				return new Gson().toJson("success");
 			}
 			
 		}
-		
-		
-		
 		return new Gson().toJson("problem");
 	}
 	
-	
+	/*
+	 * Returns the number of auctions of the giver user
+	 * The parameter type indicates whether the request is for 
+	 * active, expired or every auction
+	 */
 	@RequestMapping(value = "/{username}/manage-auctions/count-user-auctions", method = RequestMethod.GET)
 	@ResponseBody
 	public String countUserAuctions(@RequestParam String username, @RequestParam("type") String type){
@@ -173,11 +178,14 @@ public class UserController {
 	
 	}
 	
+	/*
+	 * Requests the service for auction creation
+	 */
 	@RequestMapping(value = "/{username}/manage-auctions/create-auction", method = RequestMethod.POST)
 	@ResponseBody
 	public String createAuction(@RequestParam String username, @RequestParam String input){
-		System.out.println("username: " + username);
-		System.out.println("Auction data: " + input);
+		//System.out.println("username: " + username);
+		//System.out.println("Auction data: " + input);
 		int res = 1;
 		try {
 			JSONObject auction_params = new JSONObject(input);
@@ -186,20 +194,21 @@ public class UserController {
 			e.printStackTrace();
 		}
 		if(res == 0) {
-			System.out.println("yiiiiihaaaaa");
 			return new Gson().toJson("The auction was created");
 		}
 		return new Gson().toJson("Sorry an error occurred");
 	}
 	
-	
+	/*
+	 * Requests the service for the auction update
+	 */
 	@RequestMapping(value = "/{username}/manage-auctions/update-auction", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateAuction(@RequestParam String username, @RequestParam String input){
 		
-		System.out.println("Updating...");
+		/*System.out.println("Updating...");
 		System.out.println("username: " + username);
-		System.out.println("Auction data: " + input);
+		System.out.println("Auction data: " + input);*/
 		try {
 			JSONObject auction_params = new JSONObject(input);
 			int auctionID=0;
@@ -227,6 +236,9 @@ public class UserController {
 		return new Gson().toJson("Problem in delete");
 	}
 	
+	/*
+	 * Returns the details of an auction give it's id
+	 */
 	@RequestMapping(value = {"/{username}/manage-auctions/auction-details"})
 	@ResponseBody
 	public String auctionDetails(@RequestParam String auction_id, @RequestParam String item_id){
@@ -276,19 +288,24 @@ public class UserController {
 			System.out.println("....... get details json error .....");
 		}
 		if(jsonDetails.length() != 0) {
-			System.out.println(".... Returning the Details ....");
-			System.out.println(jsonDetails.toString());
+			/*System.out.println(".... Returning the Details ....");
+			System.out.println(jsonDetails.toString());*/
 			return jsonDetails.toString();
 		}
 		return new Gson().toJson("Cannot edit auction");
 	}
 	
+	/*
+	 * Returns the user auctions for the editing
+	 * Type parameter indicates whether active, expired or all auctions will be returned
+	 * It is for the third tab in the ui
+	 */
 	@RequestMapping(value = {"/{username}/manage-auctions/get-user-auctions"})
 	@ResponseBody
 	public String getUserAuctions(HttpServletRequest request, 
 			  HttpServletResponse response, @RequestParam String username, @RequestParam String type) {
 		
-		System.out.println("getUserAuctions ...");
+		//System.out.println("getUserAuctions ...");
 		int start = Integer.parseInt(request.getParameter("start"));
 		int pageSize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber;
@@ -333,20 +350,24 @@ public class UserController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		System.out.println("----------- get user auctions end ----------");
+		/*System.out.println("----------- get user auctions end ----------");
 		System.out.println("");
 		System.out.println(data.toString());
-		System.out.println("");
+		System.out.println("");*/
 		return data.toString();
 	}
 	
-	
+	/*
+	 * Returns the user auctions
+	 * Type parameter indicates whether active, expired or all auctions will be returned
+	 * It is for the first tab in the ui
+	 */
 	@RequestMapping(value = {"/{username}/manage-auctions/view-user-auctions"})
 	@ResponseBody
 	public String viewUserAuctions(HttpServletRequest request, 
 			  HttpServletResponse response, @RequestParam String username, @RequestParam String type) {
 		
-		System.out.println("viewUserAuctions ...");
+		//System.out.println("viewUserAuctions ...");
 		int start = Integer.parseInt(request.getParameter("start"));
 		int pageSize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber;
@@ -395,21 +416,24 @@ public class UserController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		System.out.println("----------- view user's auctions end ----------");
+		/*System.out.println("----------- view user's auctions end ----------");
 		System.out.println("");
 		System.out.println(data.toString());
 		System.out.println("");
-		System.out.println("**********************************************");
+		System.out.println("**********************************************");*/
 		return data.toString();
 	}
 	
 	
+	/*
+	 * Returns the bids for the current user
+	 */
 	@RequestMapping(value = "/{username}/manage-auctions/get-user-bids",method = RequestMethod.GET)
 	@ResponseBody
 	public String getUserBids(HttpServletRequest request, 
 			  HttpServletResponse response,@RequestParam String username) {
 		
-		System.out.print("User bids");
+		//System.out.print("User bids");
 		int start = Integer.parseInt(request.getParameter("start"));
 		int pageSize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber;
@@ -450,22 +474,25 @@ public class UserController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		System.out.println("----------- get user bids end ----------");
+		/*System.out.println("----------- get user bids end ----------");
 		System.out.println("");
 		System.out.println(data.toString());
 		System.out.println("");
-		System.out.println("**********************************************");
+		System.out.println("**********************************************");*/
 		return data.toString();
 	
 	}
 	
-	
+	/*
+	 * Returns the closed auctions for the current user
+	 * Closed means that an auction has been purchased
+	 */
 	@RequestMapping(value = "/{username}/manage-auctions/closed-user-auctions",method = RequestMethod.GET)
 	@ResponseBody
 	public String getUserClosedAuctions(HttpServletRequest request, 
 			  HttpServletResponse response,@RequestParam String username) {
 		
-		System.out.print("getUserClosedAuctions");
+		//System.out.print("getUserClosedAuctions");
 		int start = Integer.parseInt(request.getParameter("start"));
 		int pageSize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber;
@@ -505,28 +532,30 @@ public class UserController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		System.out.println("----------- get user closed auctions ----------");
+		/*System.out.println("----------- get user closed auctions ----------");
 		System.out.println("");
 		System.out.println(data.toString());
 		System.out.println("");
-		System.out.println("**********************************************");
+		System.out.println("**********************************************");*/
 		return data.toString();
 	
 	}
 	
-	
+	/*
+	 * Returns the expired auctions for the given user
+	 */
 	@RequestMapping(value = "/{username}/manage-auctions/expired-user-auctions",method = RequestMethod.GET)
 	@ResponseBody
 	public String getUserExpiredAuctions(HttpServletRequest request, 
 			HttpServletResponse response,@RequestParam String username) {
 		
-		System.out.print("get User Expired Auctions");
+		//System.out.print("get User Expired Auctions");
 		int start = Integer.parseInt(request.getParameter("start"));
 		int pageSize = Integer.parseInt(request.getParameter("length"));
 		int pageNumber;
 
 		int expiredNum = userServices.count_user_auctions(username, "expired");
-		System.out.println("expired number of " + username + " auctions: " + expiredNum);	
+		//System.out.println("expired number of " + username + " auctions: " + expiredNum);	
 		if(start == 0)
 			pageNumber = 0;
 		else
@@ -535,7 +564,7 @@ public class UserController {
 		JSONObject data = new JSONObject();
 		JSONArray reply = new JSONArray();
 		List<Auction> expiredAuctions = userServices.get_user_auctions(username, start, pageSize, "expired");
-		System.out.println(expiredAuctions.toString());
+		//System.out.println(expiredAuctions.toString());
 		for(Auction a : expiredAuctions){
 			
 			JSONObject jObj = new JSONObject();
@@ -560,11 +589,11 @@ public class UserController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		System.out.println("----------- get user expired auctions ----------");
+		/*System.out.println("----------- get user expired auctions ----------");
 		System.out.println("");
 		System.out.println(data.toString());
 		System.out.println("");
-		System.out.println("**********************************************");
+		System.out.println("**********************************************");*/
 		return data.toString();
 	
 	}
@@ -572,7 +601,7 @@ public class UserController {
 	@RequestMapping(value = "/{username}/user-expired-auctions", method = RequestMethod.GET)
 	@ResponseBody
 	public String UserExpiredAuctions(@RequestParam("username") String username){
-		System.out.println("...... Expired Auctions ......");
+		//System.out.println("...... Expired Auctions ......");
 		List<Object[]> expired = auctionServices.BidderExpiredAuctions(username);
 		JSONArray expArray = new JSONArray();
 		
@@ -589,11 +618,13 @@ public class UserController {
 			}
 			expArray.put(jobj);
 		}
-		System.out.println("UserExpiredAuctions: " + expArray.toString());
+		//System.out.println("UserExpiredAuctions: " + expArray.toString());
 		return expArray.toString();
 	}
 	
-	
+	/*
+	 * Handling the rates request
+	 */
 	@RequestMapping(value = {"/{username}/rates/submit-rates"})
 	@ResponseBody
 	public String submitRatings(@RequestParam("ratings") String ratings){
@@ -610,14 +641,17 @@ public class UserController {
 		return new Gson().toJson("A problem on submitting ratings");
 	}
 	
+	/*
+	 * Returns the recommendations for the specific user
+	 */
 	@RequestMapping(value = "/{username}/recommendations",method = RequestMethod.GET)
 	@ResponseBody
 	public String recommendations(@RequestParam("username") String username) {
-		System.out.println("Recommendations...");
+		//System.out.println("Recommendations...");
 		Set<Integer> auctionIDs = recommendationServices.getRecommendationForUser(username);
 		
 		if(auctionIDs == null){
-			System.out.println("auctionIDs are null");
+			//System.out.println("auctionIDs are null");
 			return new Gson().toJson("problem");
 		}
 		
@@ -627,11 +661,11 @@ public class UserController {
 			JSONObject o = new JSONObject();
 			Auction auction = auctionServices.getAuctionByID(auctionID);
 			//Return only the active auctions
-			System.out.println("Auction: "+auction.getTitle()+" | "+auction.getEndTime());
+			//System.out.println("Auction: "+auction.getTitle()+" | "+auction.getEndTime());
 			if (auction.getEndTime().before(new Date())){
 				continue;
 			}
-			System.out.println("Auction: " + auction.getTitle());
+			//System.out.println("Auction: " + auction.getTitle());
 			try {
 				o.put("itemID", auction.getItem().getItemID());
 				o.put("name", auction.getItem().getName());

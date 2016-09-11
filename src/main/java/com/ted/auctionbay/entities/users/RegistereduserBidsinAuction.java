@@ -51,12 +51,6 @@ public class RegistereduserBidsinAuction implements Serializable {
 		this.bidTime = bidTime;
 	}
 
-	/*public Registereduser getRegistereduser() {
-		return this.registereduser;
-	}
-
-	public void setRegistereduser(Registereduser registereduser) {
-		this.registereduser = registereduser;
-	}*/
+	
 
 }

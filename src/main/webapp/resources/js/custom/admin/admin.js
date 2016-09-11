@@ -1,7 +1,4 @@
 
-
-
-
 $(document).ready(function () {
     initialize();
 });
@@ -33,7 +30,7 @@ function collapse(){
 
 
 function getNumberOfUsers(){
-	console.log("getting the num of users");
+	//console.log("getting the num of users");
 	$.ajax({
 		type : "GET",
 		dataType:'json',
@@ -48,11 +45,6 @@ function getNumberOfUsers(){
 }
 
 
-/* The function getNumberOfUsers might cut to the below functions */
-
-function countPendingUsers(){}
-
-function countRegisteredUsers(){}
 
 function setListeners(){
 	
@@ -67,20 +59,15 @@ function setListeners(){
 	});
 	
 	$("a.admin-logout").click(function(event){
-		console.log("logout from admin");
+		//console.log("logout from admin");
 		event.preventDefault();
-		/*$.ajax({
-			type : "GET",
-			url  : "/auctionbay/administrator/accept-user"
-		});*/
+		
 		document.location.href="/auctionbay/";
-		//document.location.href="/auctionbay/logout";
-		//window.location.replace("https://localhost:8443/auctionbay/");
 		
 		});
 	
 	$('a.export-link').click(function(event){
-		console.log("export clicked");
+		//console.log("export clicked");
 		event.preventDefault();
 		document.getElementById('registered-users').style.display = "none";
 		document.getElementById('pending-users').style.display = "none";
@@ -90,7 +77,7 @@ function setListeners(){
 	} );
 	
 	$('a.export-nav').click(function(event){
-		console.log("export clicked");
+		//console.log("export clicked");
 		event.preventDefault();
 		document.getElementById('registered-users').style.display = "none";
 		document.getElementById('pending-users').style.display = "none";
@@ -100,7 +87,7 @@ function setListeners(){
 	} );
 	
 	$('a.pen-nav').click(function(event){
-		console.log("export clicked");
+		//console.log("export clicked");
 		event.preventDefault();
 		document.getElementById('registered-users').style.display = "none";
 		document.getElementById('export-options').style.display = "none";
@@ -109,7 +96,7 @@ function setListeners(){
 	} );
 	
 	$('a.reg-nav').click(function(event){
-		console.log("export clicked");
+		//console.log("export clicked");
 		event.preventDefault();	
 		document.getElementById('export-options').style.display = "none";
 		document.getElementById('pending-users').style.display = "none";
@@ -120,13 +107,13 @@ function setListeners(){
 	
 	
 	$('#export-all-btn').click(function(event){
-		console.log("export all clicked");
+		//console.log("export all clicked");
 		event.preventDefault();
 		ExportAll();
 	} );
 	
 	$("#pending-users-link").click(function(event){
-		console.log("hi pen users");
+		//console.log("hi pen users");
 		event.preventDefault();
 		document.getElementById('registered-users').style.display = "none";
 		document.getElementById('export-options').style.display = "none";
@@ -134,7 +121,7 @@ function setListeners(){
 	});
 	
 	$("#registered-users-link").click(function(event){
-		console.log("hi reg users");
+		//console.log("hi reg users");
 		event.preventDefault();
 		document.getElementById('export-options').style.display = "none";
 		document.getElementById('pending-users').style.display = "none";
@@ -145,7 +132,7 @@ function setListeners(){
 	
 
 	$('#registered-users-grid tbody').on( 'click', 'tr', function () {
-		console.log("i am clicked");
+		//console.log("i am clicked");
 	    console.log( registered_table.row( this ).data() );
 	} );
 	
@@ -155,10 +142,10 @@ function setListeners(){
 		var row = pending_table.row(tr);
 		pendingusers_matrix.push(row.data()[0]);
         
-        console.log(row.data()[0]);
+       // console.log(row.data()[0]);
         var username = row.data()[0];
         accept_user(username);
-        console.log('ACCEPTED USER');
+        //console.log('ACCEPTED USER');
 		
 		console.log('reached here');
     } );
@@ -168,7 +155,7 @@ function setListeners(){
 		var row = auctions_table.row(tr);
 		
         
-        console.log("auctionID: " + row.data()[0] + " and Name: " + row.data()[1]);
+        //console.log("auctionID: " + row.data()[0] + " and Name: " + row.data()[1]);
         var auctionID = row.data()[0];
         var itemID = row.data()[1];
         exportAuction(itemID);
@@ -275,7 +262,7 @@ function accept_user(username){
 		datatype: 'json',
 		url  : "/auctionbay/administrator/accept-user",
 		success : function(response) {	
-			console.log("ok from ajax");
+			
 			pending_table.row( $(this).parents('tr') ).remove().draw();
 			//window.location.reload();
 		}
@@ -294,7 +281,7 @@ function ExportAll () {
 				$("#loading-image").fadeOut(500);
 				$("#info-text").text("All auctions have been exported to AuctionBayXML folder");
 				$('#InfoModal').modal('show');
-				console.log("ok from ajax");
+				
 			} else {
 				$("#loading-image").fadeOut(500);
 				$("#info-text").text("An error occurred during export");
@@ -319,12 +306,8 @@ function exportAuction(itemID) {
 			$("#loading-image").fadeOut(500);
 			$("#info-text").text(response);
 			$('#InfoModal').modal('show');
-			//alert(response);
-		}/*,
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log('error', textStatus + " " + errorThrown);
-			alert('Application could not Accept the user');
-		}*/
+			
+		}
 		
 	});
 }

@@ -2,7 +2,13 @@ package com.ted.auctionbay.timeutils;
 
 import java.util.Date;
 
+/*
+ * TimeUtilities class for defining time functions
+ */
 public class TimeUtilities {
+	/*
+	 * Static function for returning the time difference between two given dates
+	 */
 	public static String timeDiff(Date startedTime, Date expirationDate) {
 		long diff = expirationDate.getTime() - startedTime.getTime();
 

@@ -34,9 +34,7 @@ public class Auction implements Serializable {
 
 	private float firstBid;
 
-	//private int itemID;
-
-	//private String seller;
+	
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date startTime;
@@ -108,22 +106,6 @@ public class Auction implements Serializable {
 	public void setFirstBid(float firstBid) {
 		this.firstBid = firstBid;
 	}
-
-	/*public int getItemID() {
-		return this.itemID;
-	}
-
-	public void setItemID(int itemID) {
-		this.itemID = itemID;
-	}*/
-
-	/*public String getSeller() {
-		return this.seller;
-	}
-
-	public void setSeller(String seller) {
-		this.seller = seller;
-	}*/
 
 	public Date getStartTime() {
 		return this.startTime;

@@ -2,8 +2,6 @@
  * This file holds all the redirections services 
  * 
  */
-
-
 var baseURL; // holds the base url of the website
 $(document).ready(function(){
 	
@@ -11,8 +9,6 @@ $(document).ready(function(){
 	baseURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
 	//baseURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1] + "/auctionbay";
 	 
-
-	
 	$("a.login-link").on("click",function(event){
     	
 		//console.log("login btn");
@@ -224,7 +220,6 @@ $(document).ready(function(){
 			/* if not found then it return -1 
 			 then it is a guest 
 			  */
-			console.log("the url DOES NOT contains the user")
 			return 0;
 		} else {
 			// it is registered user

@@ -9,7 +9,7 @@ $(document).ready(function (){
 	getUnreadConvMessages()
 	initListeners();
 	var username = getUser();
-	console.log("user: "+username);
+	//console.log("user: "+username);
 	$("#username-upright").append(username);
 	
 	
@@ -69,10 +69,7 @@ function initListeners() {
 	$("a.inbox-ref").click(function(event){
 		event.preventDefault();
 		
-		/*if($("#no-sent-alert").is(":visible")){
-			console.log("here2")
-			$("#no-sent-alert").css("display","none");
-		}*/
+		
 		if($("#compose-area").is(":visible")){
 			$("#compose-area").css("display","none");
 			$("#main-content-area").css("display","block");
@@ -80,8 +77,6 @@ function initListeners() {
 			$("#compose-button").css("display","block");
 		}
 		
-		//$("#sent-table").css("display","none");
-		//$("#inbox-table").css("display","block");
 		$("#sent-area").hide();
 		
 		$("#sent-item").removeClass("active");
@@ -170,12 +165,12 @@ function inboxListeners(){
     for (i = 0; i < rows.length; i++) {
         rows[i].onclick = function(e) {
         	if(e.target.type == "checkbox"){
-        		console.log("checkbox clicked")
+        		//console.log("checkbox clicked")
         		$("#trash-message").css("display","block");
         		
         	} else {
         		var message_id = $(this).find("#messageID").val();
-        		console.log("message_id: " + message_id)
+        		//console.log("message_id: " + message_id)
             	var message_body = bodyMessageInboxHolder[message_id].messageBody;
             	var from = bodyMessageInboxHolder[message_id].sender;
             	var subject = bodyMessageInboxHolder[message_id].subject;
@@ -259,7 +254,7 @@ function sentListeners() {
         	
         	if(e.target.type == "checkbox"){
         		$("#trash-message").css("display","block");
-        		console.log("checkbox clicked")
+        		//console.log("checkbox clicked")
         	} else {
         		var message_id = $(this).find("#messageID").val();
             	var message_body = bodyMessageSentHolder[message_id].messageBody;
@@ -315,8 +310,8 @@ function markAsRead(message_id){
 		data: {messageID:message_id},
 		url  : window.location.href + "/markAsRead",
 		success:function(data){
-			console.log(data);
-			console.log("message with id: " + message_id + " marked as read");
+			//console.log(data);
+			//console.log("message with id: " + message_id + " marked as read");
 		}
 		
 	});
@@ -330,7 +325,7 @@ function getUnreadConvMessages(){
 		data: {username:username},
 		url  : window.location.href + "/unread-number",
 		success:function(unread){
-			console.log("unread: " + unread);
+			//console.log("unread: " + unread);
 			if(unread != "0") {
 				$("#inbox-counter").css("display","block");
 				$("#inbox-counter").text(unread);
@@ -374,12 +369,12 @@ function sendMessage(data){
 
 
 function getInboxMessagesModule(){
-	console.log("module get...")
+	//console.log("module get...")
 
 	$.get( window.location.href+"/inbox-module", function( inboxModule ) {
 		getInboxMessages(inboxModule);
 	});
-	console.log("module get end...")
+	//console.log("module get end...")
 }
 
 function getSentMessagesModule(){
@@ -392,7 +387,7 @@ function getSentMessagesModule(){
 
 
 function getInboxMessages(data) {
-	console.log("getting inbox messages")
+	//console.log("getting inbox messages")
 	var inboxModule = data;
 	var username = getUser();
 	$.ajax({
@@ -429,7 +424,7 @@ function getInboxMessages(data) {
 				}
 				inboxListeners();
 			}
-			console.log("end of getting inbox messages")
+			//console.log("end of getting inbox messages")
 			
 		}
 		
@@ -438,7 +433,7 @@ function getInboxMessages(data) {
 
 
 function getSentMessages(sentModule) {
-	console.log("getting sent messages")
+	//console.log("getting sent messages")
 	
 	var username = getUser();
 	$.ajax({
@@ -458,7 +453,7 @@ function getSentMessages(sentModule) {
 				
 			}	
 			else{
-				console.log(sent);
+				//console.log(sent);
 				for(var i=0; i<sent.length; i++){
 					
 					bodyMessageSentHolder[sent[i].messageID] = sent[i];
@@ -494,7 +489,7 @@ function deleteMessage(messages){
 		data : {username:username,messages:jmessages},
 		dataType:'json',
 		success:function(data){
-			console.log(data);
+			//console.log(data);
 			window.location.reload();
 			
 		}

@@ -33,8 +33,8 @@ function initListeners(){
 			alert("Sorry there is no bid")
 		} else {
 			var jsonArray = JSON.stringify(dataArray);
-			console.log("JSON TO SEND")
-			console.log(jsonArray)
+			//console.log("JSON TO SEND")
+			//console.log(jsonArray)
 			submitRate(jsonArray);
 		}
 		
@@ -44,7 +44,7 @@ function initListeners(){
 
 function initRatingModule(counterRow){
 	 var elem = "#"+counterRow;
-	 console.log(elem)
+	 //console.log(elem)
 	 var options = {
              max_value: 6,
              step_size: 0.5,
@@ -53,9 +53,9 @@ function initRatingModule(counterRow){
          }
 	 $(".rate").rate(options);
 	 $(".rate").on("change", function(ev, data){
-         console.log("data to: " + data.to)
+         //console.log("data to: " + data.to)
      });
-	 console.log("here")
+	
 }
 
 function getExpiredAuctions(){
@@ -65,7 +65,7 @@ function getExpiredAuctions(){
 	
 	var username = getUser();
 	var dest = location + "/user-expired-auctions";
-	console.log("dest= "+dest);
+	
 	$.ajax({
 		type : "GET",
 		url  : dest,
@@ -73,7 +73,7 @@ function getExpiredAuctions(){
 		data : {username:username},
 		success:function(expired){
 			
-			console.log(expired);
+			//console.log(expired);
 			if(expired.length == 0){
 				$("#rating-table").css("display","none");
 				$("#btn-area").css("display","none");
@@ -150,7 +150,11 @@ function submitRate(ratings){
 		url  : window.location.href + "/submit-rates",
 		data : {ratings:ratings},
 		success:function(result){
-			alert(result)
+			$("#rate-text").html("Thank you for your rating");
+			$("#ratesModal").modal('show');
+			$("#rates-btn").click(function(){
+				window.location.reload();
+			});
 		},
 		
 	});

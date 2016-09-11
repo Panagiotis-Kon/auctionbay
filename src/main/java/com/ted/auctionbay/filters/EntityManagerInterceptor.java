@@ -1,7 +1,5 @@
 package com.ted.auctionbay.filters;
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.persistence.EntityTransaction;
 import javax.servlet.Filter;
@@ -12,23 +10,18 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ted.auctionbay.jpautils.EntityManagerHelper;
-import com.ted.auctionbay.recommendations.RecommendationService;
 
 /**
  * Servlet Filter implementation class EntityManagerInterceptor
+ * This class intercepts the requests for the DB utilities
+ * Auctomatically begins the transactions requested with the database
  */
 @WebFilter("/EntityManagerInterceptor")
 public class EntityManagerInterceptor implements Filter {
 
-    /**
-     * Default constructor. 
-     */
-	
-	
-	 
+
 	    
     public EntityManagerInterceptor() {
        // System.out.println("<<<<< EntityManagerInterceptor Constructor >>>>");
@@ -58,10 +51,7 @@ public class EntityManagerInterceptor implements Filter {
 			if (tx != null && tx.isActive()) 
 				EntityManagerHelper.rollback();
 		    throw e;
-		    
-			 /* if ( EntityManagerHelper.getEntityManager() != null && EntityManagerHelper.getEntityManager().isOpen()) 
-                  EntityManagerHelper.rollback();
-              throw e;*/
+
 			
 		} 
 		finally {

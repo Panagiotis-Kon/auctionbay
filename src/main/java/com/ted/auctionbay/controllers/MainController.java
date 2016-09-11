@@ -1,14 +1,9 @@
 package com.ted.auctionbay.controllers;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -20,16 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ted.auctionbay.dao.QueryItem;
-import com.ted.auctionbay.dao.QueryUser;
 import com.google.gson.Gson;
-import com.ted.auctionbay.dao.QueryCategory;
-import com.ted.auctionbay.entities.items.Category;
-import com.ted.auctionbay.recommendations.RecommendationService;
 import com.ted.auctionbay.services.AuctionServices;
 import com.ted.auctionbay.services.ConversationServices;
 import com.ted.auctionbay.services.UserServices;
-import com.ted.auctionbay.services.UserServicesImpl;
 
 
 /**
@@ -164,10 +153,7 @@ public class MainController {
 			return new Gson().toJson("user/?status=pending");
 		}
 	}
-	
 
-	
-	
 	@RequestMapping(value = "/logout")
 	public void logout(HttpServletRequest request,
 			HttpServletResponse response) {

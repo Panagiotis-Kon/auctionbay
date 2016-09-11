@@ -2,16 +2,10 @@ package com.ted.auctionbay.services;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
-import javax.servlet.http.HttpServletResponse;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.ted.auctionbay.entities.auctions.Auction;
@@ -24,7 +18,6 @@ import com.ted.auctionbay.entities.users.Sellerrating;
 import com.ted.auctionbay.entities.users.SellerratingPK;
 import com.ted.auctionbay.entities.users.User;
 import com.ted.auctionbay.dao.QueryUser;
-import com.ted.auctionbay.jpautils.EntityManagerHelper;
 
 @Service("userServices")
 public class UserServicesImpl implements UserServices{
@@ -32,7 +25,7 @@ public class UserServicesImpl implements UserServices{
 	@Autowired
 	QueryUser queryUser;
 
-	//private int AddressID = queryUser.getAddressMaxID()+1;
+
 	private static int AddressID;
 
 	public static void setAddressID(int addressID) {
@@ -51,7 +44,14 @@ public class UserServicesImpl implements UserServices{
 			, String lastname, String email, String trn, String phonenumber, 
 			String city, String street, String region, String zipcode){
 		
-		System.out.println("UserRegistration starts");
+		//System.out.println("UserRegistration starts");
+		/*
+		 * User registration method:
+		 * 1) Create the address object ( User has an address relationship )
+		 * 2) Setting the necessary fields
+		 * 3) Setting the addresse's user
+		 * 4) Persists the user with the dao calss
+		 */
 		getAddressID();
 		Address address = new Address();
 		address.setAddressID(AddressID);
@@ -80,7 +80,7 @@ public class UserServicesImpl implements UserServices{
 		user.setPendinguser(penUser);
 		
 		if (queryUser.registerUser(user)==0){
-			System.out.println("Ending UserRegistration");
+			//System.out.println("Ending UserRegistration");
 			AddressID++;
 		}
 		else
