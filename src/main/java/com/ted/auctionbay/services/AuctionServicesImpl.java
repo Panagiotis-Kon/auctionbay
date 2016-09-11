@@ -347,12 +347,14 @@ public class AuctionServicesImpl implements AuctionServices{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		//Get all categories of the item
 		List<Category> old_categories = item.getCategories();
-		
 		
 		int categoryID = queryCategory.maxCategoryID();
 		List<Category> cat_list = queryCategory.fetchCategories();
 		HashMap<String,Category> cat_map = new HashMap<String,Category>();
+		
+		//For every category given, add new categories to item and database, if not exists.
 		for(Category c:cat_list){
 			cat_map.put(c.getName(), c);
 		}
@@ -378,11 +380,20 @@ public class AuctionServicesImpl implements AuctionServices{
 					item.insertCategory(category);
 				categories.add(category.getCategoryID());
 			}
+			
+			//Check if old item categories exists in new categories list. If does not exists, then delete.
+			List<Category> temp = new ArrayList<Category>();
 			for (int i=0;i<old_categories.size();i++){
 				Category c = old_categories.get(i);
+				System.out.println("Checking Category: "+c.getCategoryID()+" | "+c.getName());
 				if (!categories.contains(c.getCategoryID())){
-					item.deleteCategory(c);
+					System.out.println("Deleting Category: "+c.getCategoryID()+" | "+c.getName());
+					temp.add(c);
 				}
+			}
+			//For every category in temp delete from item
+			for (Category c : temp){
+				item.deleteCategory(c);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

@@ -626,6 +626,10 @@ public class UserController {
 		for(int auctionID:auctionIDs){
 			JSONObject o = new JSONObject();
 			Auction auction = auctionServices.getAuctionByID(auctionID);
+			//Return only the active auctions
+			if (auction.getEndTime().before(new Date())){
+				continue;
+			}
 			System.out.println("Auction: " + auction.getTitle());
 			try {
 				o.put("itemID", auction.getItem().getItemID());

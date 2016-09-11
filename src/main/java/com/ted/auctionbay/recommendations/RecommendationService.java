@@ -93,14 +93,11 @@ public class RecommendationService{
 	
 	private HashMap<String, Set<Integer>> getBidsPerUser() {
 		
-		if(queryAuction == null){
-			System.out.println("Getrunken");
-		}
 		List<RegistereduserBidsinAuction> bidsOfUsers = queryAuction.getBidsOfAllUsers();
 		if(bidsOfUsers == null){
 			System.out.println("aucOfUsers == null");
 		}
-		System.out.println("SIZE OF REC USERS: " + bidsOfUsers.size());
+		System.out.println("SIZE OF USERS' BIDS: " + bidsOfUsers.size());
 		HashMap<String,Set<Integer>> bidmap = new HashMap<String,Set<Integer>>();
 		for(RegistereduserBidsinAuction bid : bidsOfUsers){
 			Set<Integer> set = new HashSet<Integer>();
