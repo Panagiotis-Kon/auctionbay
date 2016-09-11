@@ -33,22 +33,21 @@ import com.ted.auctionbay.services.UserServicesImpl;
 
 
 /**
- * Handles requests for the application home page.
+ * Handles requests for the application home page 
+ * and for the login / register services.
  */
 @Controller
 public class MainController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	private static String log_status = "offline";
-	private static boolean initialize = true;
-	
+
+	/* Some dependency injection with the help of autowiring */
 	@Autowired
 	UserServices userServices;
 	
 	@Autowired
 	AuctionServices auctionServices;
-	
-
 	
 	@Autowired
 	ConversationServices conversationServices;
@@ -56,11 +55,7 @@ public class MainController {
 	
 	@RequestMapping(value = {"","/index"})
 	public String indexRedirection() {
-		/*if(initialize){
-			initialize=false;
-			recommendationServices.start();
-			
-		}*/
+	
 		return "pages/index.html";
 	}
 	
@@ -97,7 +92,7 @@ public class MainController {
             								HttpServletResponse response) {
 		
 		
-		System.out.println("username: " + username + "password: " + password);
+		//System.out.println("username: " + username + "password: " + password);
 		
 		if(username.equals("admin") && password.equals("admin")){
 			
@@ -109,11 +104,11 @@ public class MainController {
 			int status = userServices.Login(username,password);
 			if(status==0)
 			{
-				System.out.println("The user is pending");				
+				//System.out.println("The user is pending");				
 				return new Gson().toJson("user/?status=pending");
 			}
 			else if(status==1){
-					System.out.println("user entered");					
+					//System.out.println("user entered");					
 					return new Gson().toJson("user/"+username);
 			}
 			else {
@@ -149,32 +144,23 @@ public class MainController {
 			street = jobj.getString("street").toString();
 			region = jobj.getString("region").toString();
 			zipcode = jobj.getString("zipcode").toString();
-			
-			
-			
+				
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}	
 		
-		System.out.println("JSONObject ok");
-		
 		/*query returns true if user exists*/
 		boolean userExists = userServices.userExists(username);
-		
-		System.out.println("Get response from userExists : "+userExists);
+		//System.out.println("Get response from userExists : "+userExists);
 		
 		if( userExists ){
 			return new Gson().toJson("exists");
 		}
 		else{
-			
-			//UserServicesImpl us = new UserServicesImpl();
+		
 			userServices.userRegistration(username, password, firstname,
 					lastname, email, trn, phonenumber, city, street, region, zipcode);
 
-			//response.setStatus(HttpServletResponse.SC_OK);
-			//response.setHeader("Content-Location","user/?username="+username+"&status=pending");
-			//response.setHeader("Content-Location","user/?status=pending");
 			return new Gson().toJson("user/?status=pending");
 		}
 	}
