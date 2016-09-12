@@ -51,6 +51,11 @@ public interface QueryAuction {
 	public Auction getAuctionByID(int AuctionID);
 	
 	/*
+	 * Return auction of the given item ID
+	 */
+	public int getAuctionIDByItem(int ItemID);
+	
+	/*
 	 * Return list of auctions of the given category with use of pagination
 	 */
 	public List<Auction> getAuctionsByCategory(int startpage, int endpage, String category);

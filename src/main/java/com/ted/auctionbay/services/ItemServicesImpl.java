@@ -165,7 +165,7 @@ public class ItemServicesImpl  implements ItemServices{
 					e.printStackTrace();
 				}		
 			}
-			//System.out.println("store product "+i+ "to file "+i/500);
+			//System.out.println("store item "+i+ "to file "+i/100);
 			doc = XMLExporter(itemIDs.get(i).toString());
 		    Element e = doc.getDocumentElement();
 		    Node n = (Node) doc.getChildNodes().item(0);
@@ -206,20 +206,14 @@ public class ItemServicesImpl  implements ItemServices{
 			
 			Element currently = doc.createElement("Currently");
 			
-			/**************fix me*******************************/
 			currently.appendChild(doc.createTextNode("$" + queryAuction.getHighestBid(auction.getAuctionID())));
 			rootElement.appendChild(currently);
-			/**************fix me*******************************/
-			
 			
 			Element fb = doc.createElement("First_Bid");
 			fb.appendChild(doc.createTextNode("$" +auction.getFirstBid()));
 			rootElement.appendChild(fb);
 			
-			
-			/********************** fix me **********************************/
 			int numberOfBids = queryAuction.getNumOfBids(auction.getAuctionID());
-			/********************** fix me **********************************/
 			
 			Element nb = doc.createElement("Number_of_Bids");
 			nb.appendChild(doc.createTextNode(""+numberOfBids));

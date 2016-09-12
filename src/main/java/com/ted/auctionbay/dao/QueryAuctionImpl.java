@@ -378,6 +378,16 @@ public class QueryAuctionImpl implements QueryAuction {
 		List<Auction> set = query.getResultList();
 		return set.get(0);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public int getAuctionIDByItem(int ItemID) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createNativeQuery("SELECT AuctionID FROM auction WHERE ItemID=?");
+		query.setParameter(1, ItemID);
+		List<String> set = query.getResultList();
+		return Integer.parseInt(set.get(0).toString());
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

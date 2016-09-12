@@ -147,8 +147,8 @@ public class AuctionServicesImpl implements AuctionServices{
 				if(cat_map.containsKey(cat_name)) {
 					category = cat_map.get(cat_name);
 				} else {
-					System.out.println("New category: " + cat_name);
-					System.out.println("Category ID: " + categoryID);
+					//System.out.println("New category: " + cat_name);
+					//System.out.println("Category ID: " + categoryID);
 					category = new Category();
 					category.setCategoryID(categoryID);
 					category.setName(cat_name);
@@ -170,7 +170,6 @@ public class AuctionServicesImpl implements AuctionServices{
 			float firstBid = Float.parseFloat(auction_params.get("first_bid").toString());
 			auction.setBuyPrice(buyPrice);
 			auction.setFirstBid(firstBid);
-			//auction.setSeller(username);
 			auction.setItem(i);
 			
 			
@@ -183,10 +182,9 @@ public class AuctionServicesImpl implements AuctionServices{
 	        org.joda.time.DateTime dt = formatter.parseDateTime(deadline);
 	        Date endDate = dt.toDate();
 	        auction.setEndTime(endDate);
-	        System.out.println("startTime: " + start + " --- EndTime: " + endDate);
+	        //System.out.println("startTime: " + start + " --- EndTime: " + endDate);
 	        
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -202,7 +200,6 @@ public class AuctionServicesImpl implements AuctionServices{
 	@Override
 	public int deleteAuction(String username, int auctionID, int itemID) {
 		
-		//queryUser.deleteBidderFromAuction(username, auctionID);
 		queryAuction.deleteAuction(username,itemID,auctionID);
 		Item item = queryItem.getDetails(itemID);
 		return queryItem.deleteItem(itemID);	
@@ -210,8 +207,7 @@ public class AuctionServicesImpl implements AuctionServices{
 
 	@Override
 	public int getAuctionIDByItem(int item_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return queryAuction.getAuctionIDByItem(item_id);
 	}
 
 	@Override
@@ -228,8 +224,8 @@ public class AuctionServicesImpl implements AuctionServices{
 			
 			Auction auction = queryAuction.getDetails(itemID);
 			Registereduser reg_user = queryUser.getUser(username).getRegistereduser();
-			System.out.println("Registered user: " + reg_user.getUsername() + " bids for auction with id: "+auction.getAuctionID() +
-					" and item: " + auction.getItem().getItemID()+"/" + itemID);
+			//System.out.println("Registered user: " + reg_user.getUsername() + " bids for auction with id: "+auction.getAuctionID() +
+			//		" and item: " + auction.getItem().getItemID()+"/" + itemID);
 			
 			RegistereduserBidsinAuctionPK rbaPK = new RegistereduserBidsinAuctionPK();
 			rbaPK.setBidder_Username(username);
@@ -284,7 +280,6 @@ public class AuctionServicesImpl implements AuctionServices{
 	@Override
 	public int buyItem(String username, int itemID) {
 		Auction a = queryAuction.getDetails(itemID);
-		//queryAuction.deleteAuction(username, itemID, a.getAuctionID());
 		queryAuction.updateDeadline(a.getAuctionID());
 		if(queryUser.appendBuyerHistory(username, itemID) == 0){
 			return 0;	
