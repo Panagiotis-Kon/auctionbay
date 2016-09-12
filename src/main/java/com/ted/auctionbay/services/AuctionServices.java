@@ -14,8 +14,14 @@ import com.ted.auctionbay.entities.users.RegistereduserBidsinAuction;
 
 public interface AuctionServices {
 
+	/*
+	 * Return list of auctions depending on type (active, closed, all) with use of pagination
+	 */
 	public List<Auction> getAuctions(int startpage, int endpage, String type);
 	
+	/*
+	 * Return list of categories of auctions depending on type (active, closed, all)
+	 */
 	public List<Object[]> getCategories(String type);
 	
 	public int numOfAuctions(String type);
