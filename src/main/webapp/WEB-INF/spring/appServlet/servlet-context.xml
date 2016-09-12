@@ -43,7 +43,7 @@
 	
 	
 	<task:scheduled-tasks scheduler="recommendationScheduler">
-        <task:scheduled ref="recommendation" method="start" fixed-delay="300000" />
+        <task:scheduled ref="recommendation" method="start" fixed-delay="900000" />
     </task:scheduled-tasks>
  
     <task:scheduler id="recommendationScheduler"/>
