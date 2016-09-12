@@ -51,10 +51,6 @@ public class RecommendationService{
 		while(iteratoruser.hasNext()){
 			String username = iteratoruser.next();
 			idToUserMap.put(k,username );
-			/*if(username == null){
-				System.out.println(k);
-				System.exit(0);
-			}*/
 			k++;
 		}
 		
@@ -68,17 +64,10 @@ public class RecommendationService{
 		
 		recommendationMap = new HashMap<String,Set<Integer>>();
 		
-		/*for (Integer key : integerToUsernameMap.keySet()) {
-		    System.out.println(key + " " + integerToUsernameMap.get(key));
-		}*/
-		
 		int j=0,i=0;
 		for( i = 0; i < N; i++){
 			for(j = 0; j < N; j++){
 				similarityMatrix[i][j] = computeSimilarity(i,j);
-				/*if(similarityMatrix[i][j] > 0){
-					System.out.println(similarityMatrix[i][j]);
-				}*/
 			}
 		}
 		System.out.println("INITIALIZED NOW");
@@ -91,9 +80,9 @@ public class RecommendationService{
 		
 		List<RegistereduserBidsinAuction> bidsOfUsers = queryAuction.getBidsOfAllUsers();
 		if(bidsOfUsers == null){
-			System.out.println("aucOfUsers == null");
+			System.out.println("bidsOfUsers == null");
 		}
-		System.out.println("SIZE OF USERS' BIDS: " + bidsOfUsers.size());
+		//System.out.println("SIZE OF USERS' BIDS: " + bidsOfUsers.size());
 		HashMap<String,Set<Integer>> bidmap = new HashMap<String,Set<Integer>>();
 		for(RegistereduserBidsinAuction bid : bidsOfUsers){
 			Set<Integer> set = new HashSet<Integer>();
@@ -142,13 +131,11 @@ public class RecommendationService{
 			try {
 				array[j] = new JSONObject().put("user", j).put("similarity", similarityMatrix[i][j]);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
 		Comparator<JSONObject> comparator = new SimilarityComparator();
 		Arrays.sort(array, comparator);
-		//String username_i = integerToUsernameMap.get(i);
 		Set<Integer> auctions_i = auctions.get(username);
 		
 		for(int j = 0; j < MAX_NEIGHBORS; j++){
