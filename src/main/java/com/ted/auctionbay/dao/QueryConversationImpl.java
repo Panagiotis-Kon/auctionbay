@@ -19,14 +19,9 @@ public class QueryConversationImpl implements QueryConversation{
 				+ " c.Subject, c.DateCreated, c.isRead, c.MessageText "
 				+ "FROM conversation c"
 				+ " WHERE c.Recipient = ?1", Conversation.class);
-		
-		
-		
+
 		query.setParameter(1,username);
-		
 		List<Conversation> resultSet = query.getResultList();
-		
-		//List resultSet  =  em.createNamedQuery("Message.inbox").setParameter("username",username).getResultList();
 		return resultSet;
 	}
 
@@ -41,7 +36,6 @@ public class QueryConversationImpl implements QueryConversation{
 		
 		query.setParameter(1,username);
 		List<Conversation> resultSet = query.getResultList();
-		//List resultSet  =  em.createNamedQuery("Message.sent").setParameter("username",username).getResultList();
 		return resultSet;
 	}
 
@@ -66,21 +60,10 @@ public class QueryConversationImpl implements QueryConversation{
 	@Override
 	public int markAsRead(int messageID) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		//Query query = em.createNativeQuery("SELECT * FROM message WHERE MessageID=?1",Message.class);
-		System.out.println("markAsRead");
+		//System.out.println("markAsRead");
 		Query query = em.createNativeQuery("UPDATE conversation SET isRead=1 WHERE conversationID=?1");
 		query.setParameter(1, messageID);
 		query.executeUpdate();
-		//Message m = (Message) query.getResultList().get(0);
-		//m.setIsRead(Byte.parseByte("1".toString()));
-		
-		/*try {
-			em.persist(m);
-		}catch (PersistenceException pe) {
-			pe.printStackTrace();
-			return 1;
-		}*/
-		
 		return 0;
 	}
 
@@ -123,31 +106,6 @@ public class QueryConversationImpl implements QueryConversation{
 		return 0;
 		
 	}
-
-
-	/*@Override
-	public int deleteMessage(String username, int messageID) {
-		EntityManager em = EntityManagerHelper.getEntityManager();
-		Query query = em.createNativeQuery("DELETE FROM conversation WHERE MessageID=?1 AND RegisteredUser=?2");
-		query.setParameter(1, messageID);
-		query.setParameter(2, username);
-		query.executeUpdate();
-		
-		Query query2 = em.createNativeQuery("SELECT * FROM conversation WHERE MessageID=?1").setParameter(1, messageID);
-		List messages = query2.getResultList();
-		if(messages.size() == 0){
-			System.out.println("Going to delete message with id: " + messageID);
-			Query query3 = em.createNativeQuery("DELETE FROM conversation WHERE MessageID=?1").setParameter(1, messageID);
-			if(query3.executeUpdate() != 0){
-				System.out.println("Message with id: " + messageID + " deleted !!!");
-				System.out.println("");
-				return 0;
-			}
-		}
-		System.out.println("Returning 1");
-		return 1;
-	}*/
-
 	
 	@Override
 	public int deleteMessage(String username, int conversationID) {
@@ -175,7 +133,6 @@ public class QueryConversationImpl implements QueryConversation{
 				+ " WHERE c.Recipient = ?1");
 		
 		query.setParameter(1, username);
-		//List<Object[]> res = query.getResultList();
 		return query.getResultList();
 	}
 
@@ -190,8 +147,6 @@ public class QueryConversationImpl implements QueryConversation{
 		
 		
 		query.setParameter(1, username);
-		//List<Object[]> res = query.getResultList();
-		//System.out.println(query.getResultList());
 		return query.getResultList();
 	}
 

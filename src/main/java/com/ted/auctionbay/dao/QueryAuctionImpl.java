@@ -60,16 +60,8 @@ public class QueryAuctionImpl implements QueryAuction {
 	@Override
 	public List<Auction> getAuctions() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		/*
-		 * String sql =
-		 * "SELECT a.AuctionID, a.ItemID, a.Seller, a.Title, a.BuyPrice, a.FirstBid, a.StartTime, a.EndTime, c.Name"
-		 * + " FROM auction a, aitem_has_category ihc, category c" +
-		 * " WHERE a.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID";
-		 */
 		Query query = em.createNativeQuery("SELECT * FROM auction",
 				Auction.class);
-		// Query query = em.createNativeQuery(sql,Auction.class);
-
 		return query.getResultList();
 	}
 
@@ -77,15 +69,8 @@ public class QueryAuctionImpl implements QueryAuction {
 	@Override
 	public List<Auction> getAuctions(int startpage, int endpage) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		/*
-		 * String sql =
-		 * "SELECT a.AuctionID, a.ItemID, a.Seller, a.Title, a.BuyPrice, a.FirstBid, a.StartTime, a.EndTime, c.Name"
-		 * + " FROM auction a, aitem_has_category ihc, category c" +
-		 * " WHERE a.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID";
-		 */
 		Query query = em.createNativeQuery("SELECT * FROM auction",
 				Auction.class);
-		// Query query = em.createNativeQuery(sql,Auction.class);
 		query.setFirstResult(startpage);
 		query.setMaxResults(endpage);
 
@@ -378,7 +363,6 @@ public class QueryAuctionImpl implements QueryAuction {
 		System.out.print("\nenterd getauctionofallusers\n");
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("SELECT * FROM registereduser_bidsin_auction", RegistereduserBidsinAuction.class);
-		//return em.createNamedQuery("RegistereduserBidsinAuction.findAll").getResultList();
 		List<RegistereduserBidsinAuction> rlist = query.getResultList();
 		System.out.print("\nafter query getauctionofallusers\n");
 		

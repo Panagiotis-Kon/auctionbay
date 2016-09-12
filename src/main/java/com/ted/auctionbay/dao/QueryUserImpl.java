@@ -32,8 +32,7 @@ public class QueryUserImpl implements QueryUser{
 		Query query = em.createNativeQuery("SELECT Username FROM user WHERE Username =?");
 		query.setParameter(1, username); 
 		boolean res = !query.getResultList().isEmpty(); //then user exists already
-		
-		System.out.println("user exist: " + res);
+		//System.out.println("user exist: " + res);
 		return res;
 	}
 	
@@ -93,7 +92,7 @@ public class QueryUserImpl implements QueryUser{
 	
 	@Override
 	public int getAddressMaxID(){
-		System.out.println("address Max");
+		//System.out.println("address Max");
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		List<?> resultSet  =  em.createNamedQuery("Address.maxID").getResultList();
 		int id;
@@ -112,8 +111,7 @@ public class QueryUserImpl implements QueryUser{
 	public List<Registereduser> getGroupsOfUsers(int startpage, int pagesize){
 		
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		System.out.println("Registered -> startpage: " + startpage + " pagesize: " + pagesize);
-		//Query query = em.createNativeQuery("SELECT * FROM registereduser",Registereduser.class);
+		//System.out.println("Registered -> startpage: " + startpage + " pagesize: " + pagesize);
 		Query query = em.createQuery("SELECT r FROM Registereduser r");
 		query.setFirstResult(startpage);
 		query.setMaxResults(pagesize);
@@ -138,12 +136,10 @@ public class QueryUserImpl implements QueryUser{
 	@Override
 	public void accept_user(String username) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
-		//System.out.println(username);
-		System.out.println("EM is Open = "+em.isOpen());
+		//System.out.println("EM is Open = "+em.isOpen());
 		
 		// Check with native query if it exists
 		
-		//Pendinguser penUser = (Pendinguser) em.createNamedQuery("Pendinguser.findUser").setParameter("username",username).getResultList().get(0);
 		Pendinguser penUser = (Pendinguser) em.createNativeQuery("SELECT Username FROM pendinguser WHERE Username=?",Pendinguser.class).setParameter(1, username).getResultList().get(0);
 		System.out.println("penUser username: " + penUser.getUsername());
 		Registereduser regUser = new Registereduser();
@@ -151,10 +147,8 @@ public class QueryUserImpl implements QueryUser{
 		penUser.getUser().setRegistereduser(regUser);
 		regUser.setUser(penUser.getUser());
 		
-		
 		em.createNativeQuery("DELETE FROM pendinguser WHERE Username=?",Pendinguser.class).setParameter(1, username).executeUpdate();
-		//em.createNamedQuery("Pendinguser.delete").setParameter("username",username).executeUpdate();
-		System.out.println("regUser: " + regUser.getUsername());
+		//System.out.println("regUser: " + regUser.getUsername());
 		em.persist(regUser);
 		
 	}
@@ -433,8 +427,5 @@ public class QueryUserImpl implements QueryUser{
 		return num;
 		
 	}
-	
-	
-	
 	
 }
