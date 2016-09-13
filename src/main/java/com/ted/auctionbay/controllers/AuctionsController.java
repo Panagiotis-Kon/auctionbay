@@ -34,7 +34,7 @@ public class AuctionsController {
 	/* Returns the module for the auctions list */
 	@RequestMapping(value = "/template-module",method = RequestMethod.GET)
 	public String getAuctionsModule(){
-		System.out.println("get auctions module");
+		//System.out.println("get auctions module");
 		return "/pages/modules/AuctionsListModule.html";
 	}
 	

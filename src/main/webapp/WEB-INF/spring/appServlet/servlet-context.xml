@@ -41,7 +41,7 @@
 	
 	<beans:bean id="conversationServices" class="com.ted.auctionbay.services.ConversationServicesImpl"/>
 	
-	
+	<!-- Recommendations task scheduler. Runs every 15 minutes -->
 	<task:scheduled-tasks scheduler="recommendationScheduler">
         <task:scheduled ref="recommendation" method="start" fixed-delay="900000" />
     </task:scheduled-tasks>
@@ -58,25 +58,10 @@
 	        <beans:property name="useCacheControlNoStore" value="true" />
 	    </beans:bean>
   	</mvc:interceptors>
-  	
-	
-	<!--<context:component-scan base-package="com.ted.auctionbay">
-     <context:include-filter type="aspectj" expression="com.ted.auctionbay.*" />
-	</context:component-scan> -->
-	
-	
-	
-	
 
-	
-	
 	
 	<mvc:resources mapping="/resources/**" location="resources/" />
 	<mvc:resources mapping="/pages/**" location="/WEB-INF/pages/" />
 	<context:component-scan base-package="com.ted.auctionbay" />
-	<!-- <tx:annotation-driven /> -->
-	
-	
-	
 	
 </beans:beans>

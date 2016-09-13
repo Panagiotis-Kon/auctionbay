@@ -154,9 +154,9 @@ function menuBarEdit(username){
  * Enables the modules depending on the parameter given
  */
 function enableModules(modules){
-	console.log(modules)
+	//console.log(modules)
 	for(var module in modules) {
-		console.log(modules[module])
+		//console.log(modules[module])
 		var module_name = modules[module];
 		$(module_name).css("display","block");
 	}		
@@ -166,9 +166,9 @@ function enableModules(modules){
  * Disables the modules depending on the parameter given
  */
 function disableModules(modules) {
-	console.log(modules)
+	//console.log(modules)
 	for(var module in modules) {
-		console.log(modules[module])
+		//console.log(modules[module])
 		var module_name = modules[module];
 		$(module_name).css("display","none");
 	}	
@@ -210,7 +210,7 @@ function getUnreadMessages(){
 				//console.log("unread: " + unread);
 				if(unread != "0") {
 					// display on header 
-					console.log("We have messages....")
+					//console.log("We have messages....")
 					$("#header-unread-messages").html(unread);
 					$("#header-unread-messages").css("display","inline-block");
 					$( "#user-icon" ).after( "<span class=\"badge badge-notify\" id=\"notify\">" + unread + "</span>" );
@@ -247,7 +247,7 @@ function getRecommendations(){
 			success:function(data){
 				//console.log("Success in recommendations... ")
 				//console.log(data);
-				console.log("index recommendations: " + data)
+				//console.log("index recommendations: " + data)
 				// create carousel
 				if(data == "problem" || data.length == 0){
 					$("#myCarousel").css("display","none");

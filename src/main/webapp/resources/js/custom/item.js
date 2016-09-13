@@ -7,11 +7,12 @@ $(document).ready(function(){
 	
 	var url = window.location.href;
 	var itemID = url.substring(url.lastIndexOf("/")+1); 
-	console.log("item ID: " + itemID);
+	
 	if(url.indexOf("item") == -1){
 		console.log("item not requested yet")
-		window.location = baseURL+"/user/" + getUser();
+		
 	} else {
+		
 		getItemModule(itemID);
 	}
 

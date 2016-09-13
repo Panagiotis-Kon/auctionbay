@@ -9,7 +9,13 @@ $(document).ready(function(){
 	//console.log("window.location.href: " + window.location.href)
 	
 	type = "active";
-	getAuctionsRecommendations();
+	var username = getUser();
+	if(username == null || username == ""){
+		console.log("guest entered");
+	} else {
+		getAuctionsRecommendations(username);
+	}
+	
 	total_pages = getNumOfAuctions(type);
 	
 	getCategories(type);
@@ -17,16 +23,18 @@ $(document).ready(function(){
 	
 });
 
-function getAuctionsRecommendations(){
-	var username = getUser();
+function getAuctionsRecommendations(username){
+	
 	var url = window.location.protocol+ "//" + window.location.hostname + ":" +window.location.port + "/auctionbay/user/";
+	var destination = url + username + "/recommendations";
+	//alert("destination: " + destination);
 	if(username != ""){
 		//console.log("getting unread messages");
 		$.ajax({
 			type : "GET",
 			dataType:'json',
 			data: {username:username},
-			url  : url + username + "/recommendations",
+			url  : destination,
 			success:function(data){
 				
 				if(data == "problem"){
@@ -53,7 +61,7 @@ function getAuctionsRecommendations(){
 function initListeners(){
 	
 	/*** Initializing Listeners after loading the contents of the page ***/
-	//console.log("Listeners Init");
+	//alert("Listeners Init");
 	
 	$(".categories-search-list").select2({ width: '100%' });
 	
@@ -180,7 +188,7 @@ function initListeners(){
 			getCategories(type);
 		}
 	});
-	
+	//alert("Listeners Init end");
 	
 }
 
