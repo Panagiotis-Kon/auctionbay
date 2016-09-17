@@ -100,18 +100,18 @@ public class ItemServicesImpl  implements ItemServices{
 		    transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 		    DOMSource source = new DOMSource(doc);
 
-		    File myFile = new File("C:\\AuctionBayXML\\item"+filename+".xml");
+		    File exportFile = new File("C:\\AuctionBayXML\\item"+filename+".xml");
 			try {
-				myFile.getParentFile().mkdirs();
-				myFile.createNewFile();
+				exportFile.getParentFile().mkdirs();
+				exportFile.createNewFile();
 				System.out.print("File: C:\\AuctionBayXML\\item"+filename+".xml exported.");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		    try {
 				try {
-					transformer.transform(new DOMSource(doc), 
-					     new StreamResult(new FileWriter(myFile)));
+					transformer.transform(source, 
+					     new StreamResult(new FileWriter(exportFile)));
 				} catch (TransformerException e) {
 					e.printStackTrace();
 				}
@@ -182,7 +182,7 @@ public class ItemServicesImpl  implements ItemServices{
 					
 		try {
 			Auction auction = queryAuction.getDetails(Integer.parseInt(ItemID));
-			Item item = queryItem.getDetails(Integer.parseInt(ItemID));//AuctionQueries.details(ItemID);
+			Item item = queryItem.getDetails(Integer.parseInt(ItemID));
 			
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -227,7 +227,7 @@ public class ItemServicesImpl  implements ItemServices{
 				for(Object[] r:resultSet){
 					Element bid = doc.createElement("Bid");
 					
-					User u = queryUser.getUser(r[0].toString());//UserQueries.findByUsername(r[0].toString());
+					User u = queryUser.getUser(r[0].toString());
 					Element bidder = doc.createElement("Bidder");
 					
 					int rating;
@@ -310,35 +310,35 @@ public class ItemServicesImpl  implements ItemServices{
 
 	@Override
 	public void initializeRatingData() throws IOException {
-        List<Auction> aucs = (List<Auction>)queryAuction.getAuctions();
+        List<Auction> auctionslist = queryAuction.getAuctions();
 		
 		auctions = new HashMap<Integer,Auction>();
-		for(Auction a:aucs){
+		for(Auction a:auctionslist){
 			auctions.put(a.getItem().getItemID(), a);
 		}
 		
-		System.out.println("auctions = "+auctions.size());
-		List<User> us = (List<User>)queryUser.getUsers();
+		//System.out.println("auctions = "+auctions.size());
+		List<User> userslist = (List<User>)queryUser.getUsers();
 		users = new HashMap<String,User>();
-		for(User u:us){
-			users.put(u.getUsername(), u);
+		for(User user:userslist){
+			users.put(user.getUsername(), user);
 		}
-		System.out.println("users = "+users.size());
+		//System.out.println("users = "+users.size());
 		
-		List<String> rs = queryUser.getBiddersbyRate(); 		
+		List<String> bidders = queryUser.getBiddersbyRate(); 		
 		
 		bidderRanking = new HashMap<String,Integer>();
 		int rankPos = 1;
-		for(String user:rs){
+		for(String user:bidders){
 			bidderRanking.put(user, rankPos);
 			rankPos++;
 		}
 			
 		
-		rs = queryUser.getSellersbyRate(); 		
+		List<String> sellers = queryUser.getSellersbyRate(); 		
 		sellerRanking = new HashMap<String,Integer>();
 		rankPos = 1;
-		for(String user:rs){
+		for(String user:sellers){
 			sellerRanking.put(user, rankPos);
 			rankPos++;
 		}
