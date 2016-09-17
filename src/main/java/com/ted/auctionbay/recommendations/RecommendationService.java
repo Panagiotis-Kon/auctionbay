@@ -70,7 +70,7 @@ public class RecommendationService{
 				similarityMatrix[i][j] = computeSimilarity(i,j);
 			}
 		}
-		System.out.println("INITIALIZED NOW");
+		System.out.println("RECOMMENDATIONS INITIALIZED NOW");
 		INITIALIZED = true;
 		//System.out.println("auctions:"+auctions);
 		

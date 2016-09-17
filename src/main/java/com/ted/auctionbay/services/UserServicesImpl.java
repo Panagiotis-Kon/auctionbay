@@ -214,8 +214,8 @@ public class UserServicesImpl implements UserServices{
 				BidderratingPK brpk = new BidderratingPK();
 				brpk.setBidderRatingID(bidderRatingID);
 				brpk.setUsername(username);
-				System.out.println("Bidder: " + username);
-				System.out.println("Bidder ID: " + bidderRatingID);
+				//System.out.println("Bidder: " + username);
+				//System.out.println("Bidder ID: " + bidderRatingID);
 				Bidderrating br = new Bidderrating();
 				br.setId(brpk);
 				br.setRate(rate);
@@ -228,8 +228,8 @@ public class UserServicesImpl implements UserServices{
 				SellerratingPK srpk = new SellerratingPK();
 				srpk.setSellerRatingID(sellerRatingID);
 				srpk.setUsername(username);
-				System.out.println("Seller: " + username);
-				System.out.println("Seller ID: " + sellerRatingID);
+				//System.out.println("Seller: " + username);
+				//System.out.println("Seller ID: " + sellerRatingID);
 				Sellerrating sr = new Sellerrating();
 				sr.setId(srpk);
 				sr.setRate(rate);

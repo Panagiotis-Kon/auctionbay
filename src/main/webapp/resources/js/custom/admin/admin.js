@@ -147,7 +147,6 @@ function setListeners(){
         accept_user(username);
         //console.log('ACCEPTED USER');
 		
-		console.log('reached here');
     } );
 	
 	$('#auctions-grid tbody').on('click', 'button.export-button', function () {
@@ -262,9 +261,17 @@ function accept_user(username){
 		datatype: 'json',
 		url  : "/auctionbay/administrator/accept-user",
 		success : function(response) {	
+			if(response == "accepted"){
+				$("#infopen-text").html("User: <strong>" + username + "</strong> was accepted!");
+				$('#InfoPenModal').modal('show');
+				$("#infopen-btn").click(function(){
+					getNumberOfUsers();
+					pending_table.ajax.reload();
+					$('#InfoPenModal').modal('hide');
+				});
+				
+			}
 			
-			pending_table.row( $(this).parents('tr') ).remove().draw();
-			//window.location.reload();
 		}
 		
 	});

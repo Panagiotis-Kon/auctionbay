@@ -141,7 +141,7 @@ public class QueryUserImpl implements QueryUser{
 		// Check with native query if it exists
 		
 		Pendinguser penUser = (Pendinguser) em.createNativeQuery("SELECT Username FROM pendinguser WHERE Username=?",Pendinguser.class).setParameter(1, username).getResultList().get(0);
-		System.out.println("penUser username: " + penUser.getUsername());
+		//System.out.println("penUser username: " + penUser.getUsername());
 		Registereduser regUser = new Registereduser();
 		regUser.setUsername(username);
 		penUser.getUser().setRegistereduser(regUser);
