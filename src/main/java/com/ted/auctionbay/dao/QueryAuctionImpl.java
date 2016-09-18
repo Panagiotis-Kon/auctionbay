@@ -152,7 +152,7 @@ public class QueryAuctionImpl implements QueryAuction {
 
 	@Override
 	public int deleteAuction(String username, int itemID, int auctionID) {
-		System.out.print("Ready to delete auction: " +auctionID);
+		//System.out.print("Ready to delete auction: " +auctionID);
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery("DELETE FROM auction WHERE Seller=?1 and AuctionID=?2 and ItemID=?3");
 		query.setParameter(1, username);
@@ -171,7 +171,7 @@ public class QueryAuctionImpl implements QueryAuction {
 
 		float highestBid;
 		List bidList = query.getResultList();
-		System.out.println(bidList.get(0));
+		//System.out.println(bidList.get(0));
 		if (bidList.get(0) == null || bidList.isEmpty()) {
 			highestBid = 0;
 		} else {
@@ -276,7 +276,7 @@ public class QueryAuctionImpl implements QueryAuction {
 	public List<Auction> advancedSearch(String keywords,
 			List<String> Categories, String Location, String minBid,
 			String maxBid, int startpage, int endpage) {
-		System.out.print("Keyword: "+keywords+"\nCategories: "+Categories+"\nLocations: "+"\nminBid: "+minBid+"\nmaxBid: "+maxBid+"\n");
+		//System.out.print("Keyword: "+keywords+"\nCategories: "+Categories+"\nLocations: "+"\nminBid: "+minBid+"\nmaxBid: "+maxBid+"\n");
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		
 		String buildquery = "SELECT DISTINCT(a.AuctionID),a.ItemID,a.Seller,a.Title,a.BuyPrice,a.FirstBid,a.StartTime,a.EndTime "

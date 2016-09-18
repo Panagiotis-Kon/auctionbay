@@ -103,9 +103,9 @@ public class QueryItemImpl implements QueryItem {
 	public List<Integer> getItemIDs() {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		List<Integer> resultSet = em.createNativeQuery("SELECT ItemID FROM item").getResultList();
-		for (int i=0;i<resultSet.size();i++){
+		/*for (int i=0;i<resultSet.size();i++){
 			System.out.print(resultSet.get(i).toString());
-		}
+		}*/
 		return resultSet;
 	}
 

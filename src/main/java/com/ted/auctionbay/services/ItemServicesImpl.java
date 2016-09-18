@@ -128,7 +128,7 @@ public class ItemServicesImpl  implements ItemServices{
 	public void exportAllToXML() throws IOException {
 		
 		List<Integer> itemIDs = queryItem.getItemIDs();
-		System.out.print("Size of list: "+itemIDs.size()+"\n");
+		//System.out.print("Size of list: "+itemIDs.size()+"\n");
 		if (itemIDs.size() == 0){
 			return;
 		}
@@ -150,7 +150,7 @@ public class ItemServicesImpl  implements ItemServices{
 			if( i%100 == 0){
 				if(i != 0){
 					WriteToXMLFile(fileDoc,Integer.toString(fileNumber));
-					System.out.println("writing file "+fileNumber);
+					//System.out.println("writing file "+fileNumber);
 					fileNumber++;
 				}
 					
@@ -173,7 +173,7 @@ public class ItemServicesImpl  implements ItemServices{
 		    rootElement.appendChild(newNode);
 		}
 		WriteToXMLFile(fileDoc,Integer.toString(fileNumber));
-		System.out.println("writing file "+fileNumber);
+		//System.out.println("writing file "+fileNumber);
 	}
 	
 	
@@ -285,7 +285,7 @@ public class ItemServicesImpl  implements ItemServices{
 			
 			int rating;
 			if(sellerRanking.containsKey( auction.getRegistereduser().getUsername()) ){
-				System.out.println(item.getItemID() + "/" +auction.getRegistereduser().getUsername() );
+				//System.out.println(item.getItemID() + "/" +auction.getRegistereduser().getUsername() );
 				rating = sellerRanking.get( auction.getRegistereduser().getUsername());
 			}else
 				rating = 0;
