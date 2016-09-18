@@ -110,17 +110,17 @@ public class RecommendationService{
 	public Set<Integer> getRecommendationForUser(String username){
 		
 		//If maps are initialized create a sorted array using similarity matrix and comparator, then create recommendations set using the neighbors algorithm
-		System.out.println("Initialized value: " + INITIALIZED);
+		//System.out.println("Initialized value: " + INITIALIZED);
 		if(!INITIALIZED) {
 			System.out.println("NOT INITIALIZED YET");
 			return null;
 		}
-		System.out.println("");
+		//System.out.println("");
 		
 		Integer i = userToIDrMap.get(username);
 		
 		if(i == null){
-			System.out.println("i is null");
+			//System.out.println("i is null");
 			return null;
 		}
 		
