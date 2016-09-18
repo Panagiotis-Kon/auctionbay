@@ -510,7 +510,7 @@ function auctionDetails(d){
 	 '<div id="demo" class="collapse">'+
 	 '<table><thead><tr><th>Bidder</th><th>Bid</th></tr></thead>';
 	 for(var i=0; i<BidsHistory.length; i++){
-		 content += '<tr><td>' + BidsHistory[0] +'</td><td>'+ BidsHistory[1] + '</td></tr>';
+		 content += '<tr><td>' + BidsHistory[i].Bidder +'</td><td>'+ BidsHistory[i].BidPrice + '</td></tr>';
 	 }
 	 if(BidsHistory.length == 0){
 		 content += '<tr><td>No Bid History available</td></tr>'; 
