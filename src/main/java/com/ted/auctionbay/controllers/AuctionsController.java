@@ -176,11 +176,12 @@ public class AuctionsController {
 		int start_pag = Integer.parseInt(start);
 		int end_pag = Integer.parseInt(end);
 		//System.out.println("Advanced Search");
-		String keywords = "",location = "", minBid="",maxBid = "";
+		String keywords = "", description = "", location = "", minBid="",maxBid = "";
 		List<String> categories = new ArrayList<String>();
 		try {
 			JSONObject search_params = new JSONObject(search_data);
 			keywords = search_params.getString("keywords");
+			description = search_params.getString("description");
 			location = search_params.getString("country");
 			minBid = search_params.getString("minBid");
 			maxBid = search_params.getString("maxBid");
@@ -192,8 +193,8 @@ public class AuctionsController {
 			System.out.println("Json decoding problem in advanced search");
 			e.printStackTrace();
 		}
-		int num = auctionServices.numOfadvancedSearch(keywords, categories, location, minBid, maxBid);
-		List<Auction> auctions_list= auctionServices.advancedSearch(keywords, categories, location, minBid, maxBid, start_pag, end_pag);
+		int num = auctionServices.numOfadvancedSearch(keywords, description, categories, location, minBid, maxBid);
+		List<Auction> auctions_list= auctionServices.advancedSearch(keywords, description, categories, location, minBid, maxBid, start_pag, end_pag);
 		
 		JSONArray answer = new JSONArray();
 		for(Auction a: auctions_list){

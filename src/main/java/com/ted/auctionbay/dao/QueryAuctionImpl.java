@@ -232,7 +232,7 @@ public class QueryAuctionImpl implements QueryAuction {
 
 	
 	@Override
-	public int numOfadvancedSearch(String keywords, List<String> Categories, String Location, String minBid,
+	public int numOfadvancedSearch(String keywords, String description, List<String> Categories, String Location, String minBid,
 			String maxBid) {
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		
@@ -240,7 +240,10 @@ public class QueryAuctionImpl implements QueryAuction {
 				+ "FROM auction a,category c,item_has_category ihc, item i "
 				+ "WHERE a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID and a.EndTime >=NOW() ";
 		if (!keywords.equals("")){
-			buildquery = buildquery + "and (a.Seller LIKE '%"+keywords+"%' or a.Title LIKE '%"+keywords+"%' or i.Description LIKE '%"+keywords+"%') ";
+			buildquery = buildquery + "and (a.Seller LIKE '%"+keywords+"%' or a.Title LIKE '%"+keywords+"%') ";
+		}
+		if (!description.equals("")){
+			buildquery = buildquery + "and i.Description LIKE '%"+description+"%' ";
 		}
 		if (Categories.size()!=0){
 			buildquery = buildquery + "and (";
@@ -273,7 +276,7 @@ public class QueryAuctionImpl implements QueryAuction {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Auction> advancedSearch(String keywords,
+	public List<Auction> advancedSearch(String keywords, String description,
 			List<String> Categories, String Location, String minBid,
 			String maxBid, int startpage, int endpage) {
 		//System.out.print("Keyword: "+keywords+"\nCategories: "+Categories+"\nLocations: "+"\nminBid: "+minBid+"\nmaxBid: "+maxBid+"\n");
@@ -283,7 +286,10 @@ public class QueryAuctionImpl implements QueryAuction {
 				+ "FROM auction a,category c,item_has_category ihc, item i "
 				+ "WHERE a.ItemID = i.ItemID and i.ItemID = ihc.ItemID and ihc.CategoryID = c.CategoryID and a.EndTime >=NOW() ";
 		if (!keywords.equals("")){
-			buildquery = buildquery + "and (a.Seller LIKE '%"+keywords+"%' or a.Title LIKE '%"+keywords+"%' or i.Description LIKE '%"+keywords+"%') ";
+			buildquery = buildquery + "and (a.Seller LIKE '%"+keywords+"%' or a.Title LIKE '%"+keywords+"%') ";
+		}
+		if (!description.equals("")){
+			buildquery = buildquery + "and i.Description LIKE '%"+description+"%' ";
 		}
 		if (Categories.size()!=0){
 			buildquery = buildquery + "and (";

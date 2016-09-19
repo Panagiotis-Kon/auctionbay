@@ -266,10 +266,10 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public List<Auction> advancedSearch(String keywords,
+	public List<Auction> advancedSearch(String keywords, String description,
 			List<String> Categories, String Location, String minBid,
 			String maxBid, int startpage, int endpage) {
-		return queryAuction.advancedSearch(keywords, Categories, Location, minBid, maxBid, startpage, endpage);
+		return queryAuction.advancedSearch(keywords, description, Categories, Location, minBid, maxBid, startpage, endpage);
 	}
 
 	@Override
@@ -416,10 +416,10 @@ public class AuctionServicesImpl implements AuctionServices{
 	}
 
 	@Override
-	public int numOfadvancedSearch(String keywords, List<String> Categories, String Location, String minBid,
+	public int numOfadvancedSearch(String keywords, String description, List<String> Categories, String Location, String minBid,
 			String maxBid) {
 		
-		return queryAuction.numOfadvancedSearch(keywords, Categories, Location, minBid, maxBid);
+		return queryAuction.numOfadvancedSearch(keywords, description, Categories, Location, minBid, maxBid);
 	}
 
 	@Override

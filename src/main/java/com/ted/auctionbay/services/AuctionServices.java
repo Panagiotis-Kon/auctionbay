@@ -82,12 +82,12 @@ public interface AuctionServices {
 	/*
 	 * Return list of auction that fit given criteria
 	 */
-	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid, int startpage, int endpage);
+	public List<Auction> advancedSearch(String keywords, String description, List<String> Categories, String Location, String minBid, String maxBid, int startpage, int endpage);
 	
 	/*
 	 * Return number of auctions that fit given criteria
 	 */
-	public int numOfadvancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
+	public int numOfadvancedSearch(String keywords, String description, List<String> Categories, String Location, String minBid, String maxBid);
 	
 	/*
 	 * Return list of auctions that end time < current and have no bid

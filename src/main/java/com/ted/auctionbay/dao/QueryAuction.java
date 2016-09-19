@@ -113,12 +113,12 @@ public interface QueryAuction {
 	/*
 	 * Return list of auctions that fit the given criteria
 	 */
-	public List<Auction> advancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid, int startpage, int endpage);
+	public List<Auction> advancedSearch(String keywords, String description, List<String> Categories, String Location, String minBid, String maxBid, int startpage, int endpage);
 	
 	/*
 	 * Return number of auctions that fit the given criteria
 	 */
-	public int numOfadvancedSearch(String keywords, List<String> Categories, String Location, String minBid, String maxBid);
+	public int numOfadvancedSearch(String keywords, String description, List<String> Categories, String Location, String minBid, String maxBid);
 	
 	/*
 	 * Return auction details in which user made a bid or was the seller
