@@ -127,6 +127,7 @@ public class RecommendationService{
 		JSONObject[] array = new JSONObject[N];
 		Set<Integer> recommendationsSet = new TreeSet<Integer>();
 		
+		//Find and keep to an array all similarities of the given user
 		for(int j = 0; j < N; j++)
 			try {
 				array[j] = new JSONObject().put("user", j).put("similarity", similarityMatrix[i][j]);
@@ -134,10 +135,12 @@ public class RecommendationService{
 				e.printStackTrace();
 			}
 		
+		//Sort the array with ascending order and get the auctions of given user
 		Comparator<JSONObject> comparator = new SimilarityComparator();
 		Arrays.sort(array, comparator);
 		Set<Integer> auctions_i = auctions.get(username);
 		
+		//for the 'Max neighbors' users get their auctions and store which auctions the given user has not made a bid wet
 		for(int j = 0; j < MAX_NEIGHBORS; j++){
 			try {
 				if( array[j].getDouble("similarity") > 0 ){
