@@ -295,8 +295,10 @@ public class QueryAuctionImpl implements QueryAuction {
 			buildquery = buildquery + "and (";
 			int count=0;
 			for (String category:Categories){
-				if (count==0)
+				//System.out.print("\nCategory: "+category+"\n");
+				if (count==0){
 					buildquery = buildquery + "c.Name = '"+category+"' ";
+				}
 				else
 					buildquery = buildquery + "or c.Name = '"+category+"' ";
 				count++;
@@ -309,6 +311,7 @@ public class QueryAuctionImpl implements QueryAuction {
 			buildquery = buildquery + "and a.FirstBid >= '"+minBid+"' ";
 		if (!maxBid.equals(""))
 			buildquery = buildquery + "and a.FirstBid <= '"+maxBid+"' ";
+		//System.out.print("\nQuery: "+buildquery+"\n");
 		Query query = em.createNativeQuery(buildquery,Auction.class);
 		query.setFirstResult(startpage);
 		query.setMaxResults(endpage);

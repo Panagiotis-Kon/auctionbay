@@ -187,7 +187,9 @@ public class AuctionsController {
 			maxBid = search_params.getString("maxBid");
 			JSONArray j = search_params.getJSONArray("categories");
 			for(int i=0;i<j.length();i++){
-				categories.add(j.getString(i));
+				//System.out.println("\nCategory addition: "+j.get(i).toString());
+				categories.add(j.get(i).toString());
+				
 			}
 		} catch (JSONException e) {
 			System.out.println("Json decoding problem in advanced search");

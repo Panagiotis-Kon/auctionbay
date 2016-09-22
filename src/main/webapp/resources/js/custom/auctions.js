@@ -140,8 +140,7 @@ function initListeners(){
 			search_data["categories"] = [];
 		} else {
 			var categories = [];
-			categories.push($(".categories-search-list").val());
-			search_data["categories"] = categories;
+			search_data["categories"] = $(".categories-search-list").val();
 		}
 		//console.log("categories adv SEARCH:::::");
 		//console.log(search_data["categories"]);
