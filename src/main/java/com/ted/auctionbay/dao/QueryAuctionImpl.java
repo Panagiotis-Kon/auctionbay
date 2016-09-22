@@ -342,7 +342,8 @@ public class QueryAuctionImpl implements QueryAuction {
 		Query query = em.createNativeQuery("SELECT a.AuctionID, a.Seller, a.Title, ruba.Bidder_Username"
 				+ " FROM auction a, registereduser_bidsin_auction ruba"
 				+ " WHERE EndTime < NOW() AND a.AuctionID = ruba.AuctionID"
-				+ " AND(a.Seller = ?1 OR ruba.Bidder_Username = ?2)");
+				+ " AND(a.Seller = ?1 OR ruba.Bidder_Username = ?2)"
+				+ " AND (a.Seller NOT IN (SELECT Username FROM sellerrating WHERE Rate > 0) or ruba.Bidder_Username NOT IN (SELECT Username FROM bidderrating WHERE Rate > 0))");
 		query.setParameter(1, username);
 		query.setParameter(2, username);
 		return query.getResultList();
