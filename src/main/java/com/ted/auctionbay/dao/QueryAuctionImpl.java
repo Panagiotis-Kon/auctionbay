@@ -114,7 +114,7 @@ public class QueryAuctionImpl implements QueryAuction {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Auction getDetails(int ItemID) {
-		System.out.println("getting auction details with id: " + ItemID);
+		//System.out.println("getting auction details with id: " + ItemID);
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery(
 				"SELECT * FROM auction WHERE ItemID=?", Auction.class);
@@ -200,7 +200,7 @@ public class QueryAuctionImpl implements QueryAuction {
 
 	@Override
 	public void updateBid(String username, int itemID, float bid_amount) {
-		System.out.print("updateBid");
+		//System.out.print("updateBid");
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		Query query = em.createNativeQuery(
 				"Select rba.Bidder_Username, rba.auctionID, rba.BidPrice, rba.BidTime "

@@ -215,7 +215,7 @@ public class AuctionServicesImpl implements AuctionServices{
 		// Check if the user has already bidded on the product, then update it
 		if(queryAuction.alreadyBidded(username, itemID)) {
 			// update row
-			System.out.println("Updating " + username + " Auction!! ");
+			//System.out.println("Updating " + username + " Auction!! ");
 			queryAuction.updateBid(username, itemID, bid_amount);
 			return 0;
 		} else {
@@ -238,7 +238,7 @@ public class AuctionServicesImpl implements AuctionServices{
 			rba.setBidTime(current_time);
 			
 			if(queryUser.createBidInUser(rba) == 0){
-				System.out.println("Bid created");
+				//System.out.println("Bid created");
 				return 0;
 			}
 				

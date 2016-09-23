@@ -92,7 +92,7 @@ public class AuctionsController {
 		
 		List<Auction> auctions_list = auctionServices.getAuctionsByCategory(startpage, endpage, category, type);
 		if(auctions_list.isEmpty()){
-			System.out.println("empty list");
+			//System.out.println("empty list");
 			return new Gson().toJson("empty list");
 		}
 		JSONArray answer = new JSONArray();

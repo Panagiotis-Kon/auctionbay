@@ -252,7 +252,7 @@ public class QueryUserImpl implements QueryUser{
 		List result  =  query.getResultList();
 		int maxID;
 		if( result.get(0) == null){
-			System.out.println("null id");
+			//System.out.println("null id");
 			maxID = 0;
 		}else {
 			maxID = Integer.parseInt(result.get(0).toString())+1;

@@ -154,12 +154,12 @@ public class RecommendationService{
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Printing the SET for the user: " + username);
-		System.out.println("--------------------------------------");
-		for (int s : recommendationsSet) { 
+		//System.out.println("Printing the SET for the user: " + username);
+		//System.out.println("--------------------------------------");
+		/*for (int s : recommendationsSet) { 
 		    System.out.println(s);
 		}
-		System.out.println("--------------------------------------");
+		System.out.println("--------------------------------------");*/
 		return  recommendationsSet;
 	}
 	
